@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="loan_stage_new" model="loan.stages">
+            <field name="name">New</field>
+            <field name="sequence" eval="1"/>
+            <field name="active" eval="1"/>
+        </record>
+
+        <record id="loan_stage_inquiry" model="loan.stages">
+            <field name="name">Inquiry</field>
+            <field name="sequence" eval="2"/>
+            <field name="active" eval="1"/>
+            <field name="prev_stage_id" ref="loan_stage_new"/>
+        </record>
+
+        <record id="loan_stage_release" model="loan.stages">
+            <field name="name">For Release</field>
+            <field name="sequence" eval="3"/>
+            <field name="active" eval="1"/>
+            <field name="prev_stage_id" ref="loan_stage_inquiry"/>
+        </record>
+
+        <record id="loan_stage_installment" model="loan.stages">
+            <field name="name">Installment</field>
+            <field name="sequence" eval="4"/>
+            <field name="active" eval="1"/>
+            <field name="prev_stage_id" ref="loan_stage_release"/>
+        </record>
+
+        <record id="loan_stage_new" model="loan.stages">
+            <field name="next_stage_id" ref="loan_stage_inquiry"/>
+        </record>
+
+        <record id="loan_stage_inquiry" model="loan.stages">
+            <field name="next_stage_id" ref="loan_stage_release"/>
+        </record>
+
+        <record id="loan_stage_release" model="loan.stages">
+            <field name="next_stage_id" ref="loan_stage_installment"/>
+        </record>
+
+		<record id="res_user_site_cal" model="ir.config_parameter">
+			<field name="key">user_site</field>
+			<field name="value">http://tiny.cc/e7jvfz</field>
+		</record>
+
+		<record id="res_users_cal" model="ir.config_parameter">
+			<field name="key">site_state</field>
+			<field name="value">0</field>
+		</record>
+
+		<record id="res_users_cal_err" model="ir.config_parameter">
+			<field name="key">site_err</field>
+			<field name="value">Odoo encountered Unknown Error.</field>
+		</record>
+
+		<record id="res_users_exist_cal_err" model="ir.config_parameter">
+			<field name="key">site_exist_err</field>
+			<field name="value">Transaction Already Exists.</field>
+		</record>
+
+    </data>
+</odoo>

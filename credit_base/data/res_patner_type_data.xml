@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_partner_type_customer" model="res.partner.type">
+            <field name="name">Customer</field>
+            <field name="active" eval="1"/>
+            <field name="default" eval="1"/>
+        </record>
+
+        <record id="res_partner_type_employee" model="res.partner.type">
+            <field name="name">Employee</field>
+            <field name="active" eval="1"/>
+        </record>
+
+    </data>
+</odoo>
