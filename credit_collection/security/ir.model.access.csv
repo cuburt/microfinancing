@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_credit_collection_credit_collection,credit_collection.credit_collection,model_credit_collection_credit_collection,,1,0,0,0

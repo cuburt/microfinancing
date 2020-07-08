@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_credit_investigation_credit_investigation,credit_investigation.credit_investigation,model_credit_investigation_credit_investigation,,1,0,0,0
