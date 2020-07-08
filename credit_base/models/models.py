@@ -156,7 +156,7 @@ class LoanClient(models.Model):
                                      "Use this field anywhere a small image is required.")
     company_id = fields.Many2one(comodel_name="res.company", string="Company", required=True,
                                  default=lambda self: self.env.user.company_id)
-    loan_ids = fields.One2many(comodel_name="loan.financing", inverse_name="client_id", string="Client", required=False)
+    loan_id = fields.Many2one("micro.loan.financing", "Loans", required=False)
     user_id = fields.Many2one('res.users', string='User',
                               help='Related user name for the resource to manage its access.',
                               track_visibilty='onchange')
@@ -409,8 +409,10 @@ class LoanFinancing(models.Model):
 
     name = fields.Char(string="Name", required=False, store=True, default='New Customer',
                        readonly=True, track_visibility='onchange')
-    client_ids = fields.Many2Many('micro.loan.client', 'Customer', required=True)
+    client_ids = fields.One2Many('micro.loan.client', 'Clients', required=True)
     is_lone_borrower = fields.Boolean(default=lambda self:self._is_lone_borrower())
+    # loan_applications = fields.One2many(comodel_name="micro.loan.application", inverse_name="financing_id", string="Source", required=False)
+    transaction_date = fields.Datetime(default=fields.Datetime.now())
 
     @api.model
     def _is_lone_borrower(self):
@@ -421,42 +423,6 @@ class LoanFinancing(models.Model):
 class RepaymentCapacity(models.Model):
     _name = 'micro.repayment.capacity'
 
-class LoanApplication(models.Model):
-    _name = 'micro.loan.application'
-
-    # APPLICATION FORM
-    state = fields.Selection(string="Status", selection=[('draft', 'Draft'),
-                                                         ('confirm', 'Confirmed'), ], required=True,
-                             default='draft', track_visibility='onchange')
-
-class ClientInvestigation(models.Model):
-    _name = 'micro.client.investigation'
-
-class CIQuestionnaire(models.Model):
-    _name = 'micro.client.investigation.questionnaire'
-
-class CIScore(models.Model):
-    _name = 'micro.client.investigation.score'
-
-class LoanRecommendation(models.Model):
-    _inherit = 'micro.loan.application'
-
-    # RECOMMENDATION FORM
-    # CI/BI FORM
-    # COSIGNER PROFILE
-    # PROOF OF PAYMENTS
-    # ETC
-
-class LoanEndorsement(models.Model):
-    _inherit = 'micro.loan.endorsement'
-
-    # CREDIT MEMO/CC
-    # SIGNATURE CARDS
-    # PROMISORRY NOTE
-    # COSIGNER STATEMENT
-    # DISCLOSURE STATEMENT
-    # DEED OF ASSIGN. OF DEP.
-    # SECURITY AGREEMENT
 
 class CreditTicket(models.Model):
     _name = 'micro.credit.ticket'

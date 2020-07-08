@@ -2,14 +2,18 @@
 
 from odoo import models, fields, api
 
-# class credit_investigation(models.Model):
-#     _name = 'credit_investigation.credit_investigation'
+class CIAssessment(models.Model):
+    _inherit = 'micro.loan.application'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100
+    state = fields.Selection(string="Status", selection_add=[('investigate','Investigation')], required=True,
+                             track_visibility='onchange')
+    investigation_date = fields.Datetime('Investigation Date', default=fields.Datetime.now(), required_if_state='investigate')
+
+class ClientInvestigation(models.Model):
+    _name = 'micro.client.investigation'
+
+class CIQuestionnaire(models.Model):
+    _name = 'micro.client.investigation.questionnaire'
+
+class CIScore(models.Model):
+    _name = 'micro.client.investigation.score'
