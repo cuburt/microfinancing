@@ -2,14 +2,12 @@
 
 from odoo import models, fields, api
 
-# class credit_disbursement(models.Model):
-#     _name = 'credit_disbursement.credit_disbursement'
+class LoanDisbursement(models.Model):
+    _inherit = 'micro.loan.application'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100
+
+state = fields.Selection(string="Status", selection_add=[('disburse', 'Disbursement')], required=True,
+                         track_visibility='onchange')
+release_date = fields.Datetime('Release Date', default=fields.Datetime.now(),
+                                     required_if_state='disburse')
+credit_ticket = fields.Char('Credit Ticket',required_if_state='disburse')

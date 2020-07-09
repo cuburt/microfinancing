@@ -420,8 +420,8 @@ class LoanFinancing(models.Model):
             return False
         else: return False
 
-class RepaymentCapacity(models.Model):
-    _name = 'micro.repayment.capacity'
+class CapacityAssesssment(models.Model):
+    _name = 'micro.capacity.assessment'
 
 
 class CreditTicket(models.Model):
