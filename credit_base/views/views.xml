@@ -40,21 +40,318 @@
     </record>
     -->
 
-    <!-- Top menu item -->
-    <!--
-    <menuitem name="mgc_credit" id="mgc_credit.menu_root"/>
-    -->
-    <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="mgc_credit.menu_1" parent="mgc_credit.menu_root"/>
-    <menuitem name="Menu 2" id="mgc_credit.menu_2" parent="mgc_credit.menu_root"/>
-    -->
-    <!-- actions -->
-    <!--
-    <menuitem name="List" id="mgc_credit.menu_1_list" parent="mgc_credit.menu_1"
-              action="mgc_credit.action_window"/>
-    <menuitem name="Server to list" id="mgc_credit" parent="mgc_credit.menu_2"
-              action="mgc_credit.action_server"/>
-    -->
+      <!-- Top menu item -->
+      <menuitem name="Microfinancing"
+                id="mgc_credit.menu_root"
+                sequence="1"/>
+
+      <!-- menu categories -->
+      <menuitem name="System"
+                id="mgc_credit.system"
+                parent="mgc_credit.menu_root"
+                sequence="2"/>
+
+      <menuitem name="Transactions"
+                id="mgc_credit.transactions"
+                parent="mgc_credit.menu_root"
+                sequence="3"/>
+
+      <menuitem name="Reports"
+                id="mgc_credit.reports"
+                parent="mgc_credit.menu_root"
+                sequence="4"/>
+
+      <menuitem name="Lists"
+                id="mgc_credit.lists"
+                parent="mgc_credit.menu_root"
+                sequence="5"/>
+
+      <menuitem name="BLCL"
+                id="mgc_credit.blcl"
+                parent="mgc_credit.menu_root"
+                sequence="6"/>
+
+      <!--system actions -->
+
+      <menuitem name="Switch to Single User Mode" id="mgc_credit.single_user_mode" parent="mgc_credit.system"
+                action="mgc_credit.action_single_user_mode"/>
+
+      <menuitem name="Unlock" id="mgc_credit.unlock" parent="mgc_credit.system"
+                action="mgc_credit.unlock"/>
+
+      <menuitem name="Preferences" id="mgc_credit.preferences" parent="mgc_credit.system"
+                action="mgc_credit.action_window_preferences"/>
+
+      <menuitem name="Users" id="mgc_credit.users" parent="mgc_credit.system"
+                action="mgc_credit.action_window_users"/>
+
+      <menuitem name="Change Access Code" id="mgc_credit.change_access_code" parent="mgc_credit.system"
+                action="mgc_credit.change_access_code"/>
+
+      <menuitem name="Periods" id="mgc_credit.periods" parent="mgc_credit.system"
+                action="mgc_credit.action_window_periods"/>
+
+      <menuitem name="End of Day" id="mgc_credit.end_of_day" parent="mgc_credit.system"
+                action="mgc_credit.action_window_end_of_day"/>
+
+      <menuitem name="Close Periods" id="mgc_credit.close_periods" parent="mgc_credit.system"
+                action="mgc_credit.action_window_close_periods"/>
+
+      <menuitem name="Re-open Closed Periods" id="mgc_credit.reopen_closed_periods" parent="mgc_credit.system"
+                action="mgc_credit.action_window_reopen_closed_periods"/>
+
+      <menuitem name="End of Year" id="mgc_credit.end_of_year" parent="mgc_credit.system"
+                action="mgc_credit.action_window_end_of_year"/>
+
+      <menuitem name="Data File Cleaner" id="mgc_credit.data_file_cleaner" parent="mgc_credit.system"
+                action="mgc_credit.action_window_data_file_cleaner"/>
+
+      <menuitem name="Data Integrity Checker" id="mgc_credit.data_integrity_checker" parent="mgc_credit.system"
+                action="mgc_credit.action_window_data_integrity_checker"/>
+
+      <menuitem name="Backup" id="mgc_credit.backup" parent="mgc_credit.system"
+                action="mgc_credit.action_window_backup"/>
+
+      <menuitem name="About..." id="mgc_credit.about" parent="mgc_credit.system"
+                action="mgc_credit.action_window_about"/>
+
+  <!--    <menuitem name="Close" id="mgc_credit.journal_entry" parent="mgc_credit.system"-->
+  <!--              action="mgc_credit.action_window_journal_entry"/>-->
+
+      <!--transactions actions -->
+
+      <menuitem name="Cash Receipt" id="mgc_credit.cash_receipt" parent="mgc_credit.transactions"
+                action="mgc_credit.action_window_cash_receipt"/>
+
+      <menuitem name="Cash Payment" id="mgc_credit.cash_payment" parent="mgc_credit.transactions"
+                action="mgc_credit.action_window_cash_payment"/>
+
+      <menuitem name="Journal Entry" id="mgc_credit.journal_entry" parent="mgc_credit.transactions"
+                action="mgc_credit.action_window_journal_entry"/>
+
+      <!--reports actions -->
+
+      <menuitem name="Accounting System" id="mgc_credit.accounting_system" parent="mgc_credit.reports"
+                action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Journals" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="General Ledger" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Trial Balance" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Balance Sheet" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Income Statement" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Subsidiary ledger" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Schedule of Subsidiary Account" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Schedule of Detail Accounts" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Ledger Account Details" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Ledger Account Periodic Changes" id="mgc_credit.daily_reports" parent="mgc_credit.accounting_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+      <menuitem name="Loan System" id="mgc_credit.loan_system" parent="mgc_credit.reports"
+                action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Journals" id="mgc_credit.daily_reports" parent="mgc_credit.loan_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Ledgers" id="mgc_credit.daily_reports" parent="mgc_credit.loan_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Schedules" id="mgc_credit.daily_reports" parent="mgc_credit.loan_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Aging of Loan Accounts" id="mgc_credit.daily_reports" parent="mgc_credit.loan_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Collectibles" id="mgc_credit.daily_reports" parent="mgc_credit.loan_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Account Details" id="mgc_credit.daily_reports" parent="mgc_credit.loan_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Transaction Code Details" id="mgc_credit.daily_reports" parent="mgc_credit.loan_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+      <menuitem name="Savings System" id="mgc_credit.savings_system" parent="mgc_credit.reports"
+                action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Journal" id="mgc_credit.daily_reports" parent="mgc_credit.savings_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Ledgers" id="mgc_credit.daily_reports" parent="mgc_credit.savings_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Schedules" id="mgc_credit.daily_reports" parent="mgc_credit.savings_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Account Details" id="mgc_credit.daily_reports" parent="mgc_credit.savings_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Transaction Code Details" id="mgc_credit.daily_reports" parent="mgc_credit.savings_system"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+      <menuitem name="Daily Reports" id="mgc_credit.daily_reports" parent="mgc_credit.reports"
+                action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Cash position for the Day" id="mgc_credit.journal_entry" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Journal for the Day" id="mgc_credit.daily_journal" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="General Ledger for the Day" id="mgc_credit.daily_general_ledger" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Trial Balance for the Day" id="mgc_credit.daily_trial_balance" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Journal for the Day" id="mgc_credit.daily_loan_journal" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Ledgers for the Day" id="mgc_credit.daily_loan_ledger" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Loan Schedules for the Day" id="mgc_credit.daily_loan_schedules" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Journal for the Day" id="mgc_credit.daily_savings_journal" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Ledgers for the Day" id="mgc_credit.daily_savings_ledger" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+          <menuitem name="Savings Schedules for the Day" id="mgc_credit.daily_savings_schedules" parent="mgc_credit.daily_reports"
+                  action="mgc_credit.action_window_journal_entry"/>
+
+      <!--lists actions -->
+
+      <menuitem name="Documents" id="mgc_credit.documents" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_documents"/>
+
+      <menuitem name="References" id="mgc_credit.references" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_references"/>
+
+          <menuitem name="Cash Receipt Transactions" id="mgc_credit.receipt_transactions" parent="mgc_credit.references"
+                  action="mgc_credit.action_window_cash_receipt_transactions"/>
+
+          <menuitem name="Cash Payment Transactions" id="mgc_credit.payment_transactions" parent="mgc_credit.references"
+                  action="mgc_credit.action_window_cash_payment_transactions"/>
+
+          <menuitem name="Journal Entry Transactions" id="mgc_credit.entry_transactions" parent="mgc_credit.references"
+                  action="mgc_credit.action_window_journal_entry_transactions"/>
+
+      <menuitem name="Checking Accounts" id="mgc_credit.checking_acounts" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_checking_accounts"/>
+
+      <menuitem name="Checks" id="mgc_credit.checks" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_checks"/>
+
+      <menuitem name="Names" id="mgc_credit.names" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_names"/>
+
+      <menuitem name="DOAs/DOs" id="mgc_credit.doas_dos" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_doas_dos"/>
+
+      <menuitem name="CARE Groups" id="mgc_credit.care_groups" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_care_groups"/>
+
+      <menuitem name="CARE Group Batches" id="mgc_credit.care_group_batches" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_care_group_batches"/>
+
+      <menuitem name="Members" id="mgc_credit.members" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_members"/>
+
+      <menuitem name="Members - Other Information" id="mgc_credit.members_oi" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_members_oi"/>
+
+      <menuitem name="Accounting System" id="mgc_credit.lists_accounting_system" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_lists_accounting_system"/>
+
+          <menuitem name="Chart of Accounts" id="mgc_credit.chart_of_accounts" parent="mgc_credit.lists_accounting_system"
+                  action="mgc_credit.action_window_chart_of_accounts"/>
+
+          <menuitem name="Subsidiary Accounts" id="mgc_credit.subsidiary_accounts" parent="mgc_credit.lists_accounting_system"
+                  action="mgc_credit.action_window_subsidiary_accounts"/>
+
+      <menuitem name="Loan System" id="mgc_credit.lists_loan_system" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_lists_loan_system"/>
+
+          <menuitem name="Loan Accounts" id="mgc_credit.loan_accounts" parent="mgc_credit.lists_loan_system"
+                  action="mgc_credit.action_window_loan_accounts"/>
+
+          <menuitem name="Loan Accounts - Other Information" id="mgc_credit.loan_accounts_oi" parent="mgc_credit.lists_loan_system"
+                  action="mgc_credit.action_window_loan_accounts_oi"/>
+
+          <menuitem name="Loan Account Details and Schedules" id="mgc_credit.loan_account_details_schedules" parent="mgc_credit.lists_loan_system"
+                  action="mgc_credit.action_window_loan_account_details_schedules"/>
+
+          <menuitem name="Loan Account Data" id="mgc_credit.loan_account_data" parent="mgc_credit.lists_loan_system"
+                  action="mgc_credit.action_window_loan_account_data"/>
+
+              <menuitem name="Loan Account Classifications" id="mgc_credit.loan_account_classifications" parent="mgc_credit.loan_account_data"
+                  action="mgc_credit.action_window_loan_account_classifications"/>
+
+              <menuitem name="Loan Products" id="mgc_credit.loan_products" parent="mgc_credit.loan_account_data"
+                  action="mgc_credit.action_window_loan_products"/>
+
+              <menuitem name="Finance Charge Rates for Penalty" id="mgc_credit.charge_rates_penalty" parent="mgc_credit.loan_account_data"
+                  action="mgc_credit.action_window_charge_rates_penalty"/>
+
+              <menuitem name="Finance Charge Rates for Surcharge" id="mgc_credit.charge_rates_surcharge" parent="mgc_credit.loan_account_data"
+                  action="mgc_credit.action_window_charge_rates_surcharge"/>
+
+              <menuitem name="Loan Funds" id="mgc_credit.funds" parent="mgc_credit.loan_account_data"
+                  action="mgc_credit.action_window_funds"/>
+
+              <menuitem name="Loan Collaterals" id="mgc_credit.collaterals" parent="mgc_credit.loan_account_data"
+                  action="mgc_credit.action_window_collaterals"/>
+
+              <menuitem name="Co-makers" id="mgc_credit.co_makers" parent="mgc_credit.loan_account_data"
+                  action="mgc_credit.action_window_co_makers"/>
+
+          <menuitem name="Loan Transaction Codes" id="mgc_credit.transaction_codes" parent="mgc_credit.lists_loan_system"
+                  action="mgc_credit.action_window_transaction_codes"/>
+
+          <menuitem name="No Collection Dates and Loan Accounts" id="mgc_credit.no_dates_accounts" parent="mgc_credit.lists_loan_system"
+                  action="mgc_credit.action_window_no_dates_accounts"/>
+
+      <menuitem name="Savings System" id="mgc_credit.lists_savings_system" parent="mgc_credit.lists"
+                  action="mgc_credit.action_window_lists_savings_system"/>
+
+          <menuitem name="Savings Accounts" id="mgc_credit.savings_accounts" parent="mgc_credit.lists_savings_system"
+                  action="mgc_credit.action_window_savings_accounts"/>
+
+          <menuitem name="Savings Account Data" id="mgc_credit.savings_account_data" parent="mgc_credit.lists_savings_system"
+                  action="mgc_credit.action_window_savings_account_data"/>
+
+              <menuitem name="Savings Account Classifications" id="mgc_credit.savings_account_classifications" parent="mgc_credit.savings_account_data"
+                  action="mgc_credit.action_window_savings_account_classifications"/>
+
+              <menuitem name="Savings Products" id="mgc_credit.savings_products" parent="mgc_credit.savings_account_data"
+                  action="mgc_credit.action_window_savings_products"/>
+
+          <menuitem name="Savings Transaction Codes" id="mgc_credit.savings_transaction_codes" parent="mgc_credit.lists_savings_system"
+                  action="mgc_credit.action_window_savings_transaction_codes"/>
+
+      <!--blcl actions -->
+
+      <menuitem name="Batch Loan and CBU Ledger" id="mgc_credit.batch_loan_cbu_ledger" parent="mgc_credit.blcl"
+                  action="mgc_credit.action_window_batch_loan_cbu_ledger"/>
   </data>
 </odoo>
