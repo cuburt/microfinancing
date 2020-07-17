@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--================LOAN ACCOUNTS===========================================-->
+
+        <record id="credit_base.action_window_loan_accounts" model="ir.actions.act_window">
+            <field name="name">Loan Accounts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_loan_accounts_oi" model="ir.actions.act_window">
+            <field name="name">Loan Accounts - Other Information</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_loan_account_details_schedules" model="ir.actions.act_window">
+            <field name="name">Loan Accounts - Details &amp; Schedules</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================LOAN ACCOUNT DATA===========================================-->
+
+        <record id="credit_base.action_window_loan_account_classifications" model="ir.actions.act_window">
+            <field name="name">Loan Account Classifications</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.account.classification</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_loan_products" model="ir.actions.act_window">
+            <field name="name">Loan Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.product</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_charge_rates_penalty" model="ir.actions.act_window">
+            <field name="name">Finance Charge Rates for Penalty</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.charge.penalty</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_charge_rates_surcharge" model="ir.actions.act_window">
+            <field name="name">Finance Charge Rates for Surcharge</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.charge.surcharge</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_funds" model="ir.actions.act_window">
+            <field name="name">Loan Funds</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.funds</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_collaterals" model="ir.actions.act_window">
+            <field name="name">Loan Collaterals</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.collateral</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_co_makers" model="ir.actions.act_window">
+            <field name="name">Co-makers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.comaker</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================LOAN TRANSACTION CODES===========================================-->
+
+        <record id="credit_base.action_window_transaction_codes" model="ir.actions.act_window">
+            <field name="name">Loan Transaction Codes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.codes</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================NO COLLECTION DATES AND LOAN ACCOUNTS===========================================-->
+
+        <record id="credit_base.action_window_no_dates_accounts" model="ir.actions.act_window">
+            <field name="name">No Collection Dates &amp; Loan Accounts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.account.nil</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--============================CASH RECEIPT TRANSACTIONS=========================-->
+
+        <record id="credit_base.action_window_cash_receipt_transactions" model="ir.actions.act_window">
+            <field name="name">Cash Receipt Transactions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.transaction.cash</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--============================CASH PAYMENT TRANSACTIONS=========================-->
+
+        <record id="credit_base.action_window_cash_payment_transactions" model="ir.actions.act_window">
+            <field name="name">Cash Payment Transactions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.transaction.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--============================JOURNAL ENTRY TRANSACTIONS=========================-->
+
+        <record id="credit_base.action_window_journal_entry_transactions" model="ir.actions.act_window">
+            <field name="name">Journal Entry Transactions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.transaction.journal.entry</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--====================================JOURNALS==================================-->
+
+        <record id="credit_base.action_window_journal_report" model="ir.actions.act_window">
+            <field name="name">Journals</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.journal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================GENERAL LEDGER==================================-->
+
+        <record id="credit_base.action_window_general_ledger_report" model="ir.actions.act_window">
+            <field name="name">General Ledger</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================TRIAL BALANCE==================================-->
+
+        <record id="credit_base.action_window_trial_balance_report" model="ir.actions.act_window">
+            <field name="name">Trial Balance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================BALANCE SHEET==================================-->
+
+        <record id="credit_base.action_window_balance_sheet_report" model="ir.actions.act_window">
+            <field name="name">Balance Sheet</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+<!--====================================INCOME STATEMENT==================================-->
+
+        <record id="credit_base.action_window_income_statement_report" model="ir.actions.act_window">
+            <field name="name">Income Statement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================SUBSIDIARY LEDGER==================================-->
+
+        <record id="credit_base.action_window_subsidiary_ledger_report" model="ir.actions.act_window">
+            <field name="name">Subsidiary Ledger</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================SCHEDULE OF SUBSIDIARY ACCOUNT==================================-->
+
+        <record id="credit_base.action_window_schedule_of_subsidiary_report" model="ir.actions.act_window">
+            <field name="name">Schedule of Detail Accounts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================SCHEDULE OF DETAIL ACCOUNTS==================================-->
+
+        <record id="credit_base.action_window_schedule_of_detail_report" model="ir.actions.act_window">
+            <field name="name">Schedule of Detail Accounts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================LEDGER ACCOUNT DETAILS==================================-->
+
+        <record id="redit_base.action_window_ledger_account_details_report" model="ir.actions.act_window">
+            <field name="name">Ledger Account Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--====================================LEDGER ACCOUNT PERIODIC CHANGES==================================-->
+
+        <record id="credit_base.action_window_ledger_account_periodic_changes_report" model="ir.actions.act_window">
+            <field name="name">Ledger Account Periodic Changes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

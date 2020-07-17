@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--===========================DOCUMENTS================================-->
+
+        <record id="credit_base.action_window_documents" model="ir.actions.act_window">
+            <field name="name">Documents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.documents</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================CHECKING ACCOUNTS================================-->
+
+        <record id="credit_base.action_window_checking_accounts" model="ir.actions.act_window">
+            <field name="name">Checking Acounts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.check.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================CHECKS================================-->
+
+        <record id="credit_base.action_window_checks" model="ir.actions.act_window">
+            <field name="name">Checks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.check</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================NAMES================================-->
+
+        <record id="credit_base.action_window_names" model="ir.actions.act_window">
+            <field name="name">Names</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.names</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================DOAS/DOS================================-->
+
+        <record id="credit_base.action_window_doas_dos" model="ir.actions.act_window">
+            <field name="name">DOAs &amp; DOs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.doas.dos</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================CARE GROUPS================================-->
+
+        <record id="credit_base.action_window_care_groups" model="ir.actions.act_window">
+            <field name="name">CARE Groups</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================CARE GROUP BATCHES================================-->
+
+        <record id="credit_base.action_window_care_group_batches" model="ir.actions.act_window">
+            <field name="name">CARE Group Batches</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.group.batch</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================MEMBERS================================-->
+
+        <record id="credit_base.action_window_members" model="ir.actions.act_window">
+            <field name="name">Members</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.member</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--===========================MEMBERS - OTHER INFO================================-->
+
+        <record id="credit_base.action_window_members_oi" model="ir.actions.act_window">
+            <field name="name">Members - Other Information</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.member</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--================================CASH POSITION FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_cash_position_report" model="ir.actions.act_window">
+            <field name="name">Cash position for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================JOURNAL FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_journal_report" model="ir.actions.act_window">
+            <field name="name">Journal for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================GENERAL LEDGER FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_general_ledger_report" model="ir.actions.act_window">
+            <field name="name">General Ledger for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================TRIAL BALANCE FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_trial_balance_report" model="ir.actions.act_window">
+            <field name="name">Trial Balance for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================LOAN JOURNAL FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_loan_journal_report" model="ir.actions.act_window">
+            <field name="name">Loan Journal for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================LOAN LEDGER FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_loan_ledger_report" model="ir.actions.act_window">
+            <field name="name">Loan Ledgers for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================LOAN SCHEDULES FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_loan_schedule_report" model="ir.actions.act_window">
+            <field name="name">Loan Schedules for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================SAVINGS JOURNAL FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_savings_journal_report" model="ir.actions.act_window">
+            <field name="name">Savings Journal for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================SAVINGS LEDGER FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_savings_ledger_report" model="ir.actions.act_window">
+            <field name="name">Savings Ledgers for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================SAVINGS SCHEDULES FOR THE DAY=====================================-->
+
+        <record id="credit_base.action_window_daily_savings_schedule_report" model="ir.actions.act_window">
+            <field name="name">Savings Schedules for the Day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

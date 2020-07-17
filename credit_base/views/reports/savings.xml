@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--================================SAVINGS JOURNALS=====================================-->
+
+        <record id="credit_base.action_window_savings_journal_report" model="ir.actions.act_window">
+            <field name="name">Savings Journal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model"></field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================SAVINGS LEDGERS=====================================-->
+
+        <record id="credit_base.action_window_savings_ledger_report" model="ir.actions.act_window">
+            <field name="name">Savings Ledgers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model"></field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================SAVINGS SCHEDULES=====================================-->
+
+        <record id="credit_base.action_window_savings_schedules_report" model="ir.actions.act_window">
+            <field name="name">Savings Schedules</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model"></field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================SAVINGS ACCOUNT DETAILS=====================================-->
+
+        <record id="credit_base.action_window_savings_account_details_report" model="ir.actions.act_window">
+            <field name="name">Savings Account Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model"></field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--================================SAVINGS TRANSACTION CODE DETAILS=====================================-->
+
+        <record id="credit_base.action_window_savings_transaction_code_details_report" model="ir.actions.act_window">
+            <field name="name">Savings Transaction Code Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>
