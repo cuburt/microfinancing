@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <!-- NAME & FILE_NAME should be the same -->
+                <report
+                    id="credit_reports.action_credit_evaluation_form"
+                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
+                    report_type="qweb-pdf"
+                    string="LABEL"
+                    name="credit_reports.credit_evaluation_form_template"
+                    file="credit_reports.credit_evaluation_form_template"
+                />
+
+        <template id="credit_evaluation_form_template">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                <!-- <t t-call="report.external_layout"> -->
+                    <div class="page">
+                        <h2>Credit Evaluation Form</h2>
+                        <!--
+                        Build your report here!
+                        Do it in awesome way ;)
+                        -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+    </data>
+</odoo>

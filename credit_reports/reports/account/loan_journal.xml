@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <!-- NAME & FILE_NAME should be the same -->
+                <report
+                    id="credit_reports.action_loan_journal"
+                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
+                    report_type="qweb-pdf"
+                    string="LABEL"
+                    name="credit_reports.loan_journal_template"
+                    file="credit_reports.loan_journal_template"
+                />
+        <template id="loan_journal_template">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                <!-- <t t-call="report.external_layout"> -->
+                    <div class="page">
+                        <h2>Loan Journal</h2>
+                        <!--
+                        Build your report here!
+                        Do it in awesome way ;)
+                        -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+        <!-- QWeb Reports -->
+        <!-- NAME & FILE_NAME should be the same -->
+        <report
+                id="credit_reports.action_cash_payment_loan_journal"
+                model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
+                report_type="qweb-pdf"
+                string="LABEL"
+                name="credit_reports.cash_payment_loan_journal_template"
+                file="credit_reports.cash_payment_loan_journal_template"
+        />
+
+        <template id="cash_payment_loan_journal_template">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <!-- <t t-call="report.external_layout"> -->
+                    <div class="page">
+                        <h2>Cash Payment Loan Journal</h2>
+                        <!--
+                        Build your report here!
+                        Do it in awesome way ;)
+                        -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="credit_reports.action_cash_receipt_loan_journal"
+                model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
+                report_type="qweb-pdf"
+                string="LABEL"
+                name="credit_reports.cash_receipt_loan_journal_template"
+                file="credit_reports.cash_receipt_loan_journal_template"
+        />
+
+        <template id="cash_receipt_loan_journal_template">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <!-- <t t-call="report.external_layout"> -->
+                    <div class="page">
+                        <h2>Cash Receipt Loan Journal</h2>
+                        <!--
+                        Build your report here!
+                        Do it in awesome way ;)
+                        -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+    </data>
+</odoo>

@@ -27,6 +27,18 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'views/blcl.xml',
+        'views/lists.xml',
+        'views/system.xml',
+        'views/transactions.xml',
+        'views/lists/accounting.xml',
+        'views/lists/loans.xml',
+        'views/lists/references.xml',
+        'views/lists/savings.xml',
+        'views/reports/accounting.xml',
+        'views/reports/daily_reports.xml',
+        'views/reports/loan.xml',
+        'views/reports/savings.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

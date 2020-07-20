@@ -4,20 +4,19 @@
        <!-- QWeb Reports -->
        <!-- NAME & FILE_NAME should be the same -->
                <report
-                   id="credit_reports.action_promissory_note"
+                   id="UNIQUE_REPORT_ID"
                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
                    report_type="qweb-pdf"
                    string="LABEL"
-                   name="credit_reports.promissory_note_template"
-                   file="credit_reports.promissory_note_template"
+                   name="NAME"
+                   file="FILE_NAME"
                />
-
-        <template id="promissory_note_template">
+        <template id="UNIQUE_ID">
             <t t-call="report.html_container">
                 <t t-call="report.internal_layout">
                 <!-- <t t-call="report.external_layout"> -->
                     <div class="page">
-                        <h2>Promissory Note</h2>
+                        <h2>TITLE FOR YOUR REPORT</h2>
                         <!--
                         Build your report here!
                         Do it in awesome way ;)
@@ -27,7 +26,7 @@
             </t>
         </template>
 
-
+        
 
 
     </data>

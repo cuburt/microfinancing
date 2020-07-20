@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <!-- QWeb Reports -->
+       <!-- NAME & FILE_NAME should be the same -->
+               <report
+                   id="UNIQUE_REPORT_ID"
+                   model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
+                   report_type="qweb-pdf"
+                   string="LABEL"
+                   name="NAME"
+                   file="FILE_NAME"
+               />
+
+        <template id="UNIQUE_ID">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                <!-- <t t-call="report.external_layout"> -->
+                    <div class="page">
+                        <h2>TITLE FOR YOUR REPORT</h2>
+                        <!--
+                        Build your report here!
+                        Do it in awesome way ;)
+                        -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- QWeb Reports -->
+        <!-- NAME & FILE_NAME should be the same -->
+                <report
+                    id="UNIQUE_REPORT_ID"
+                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
+                    report_type="qweb-pdf"
+                    string="LABEL"
+                    name="NAME"
+                    file="FILE_NAME"
+                />
+
+        <template id="UNIQUE_ID">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                <!-- <t t-call="report.external_layout"> -->
+                    <div class="page">
+                        <h2>TITLE FOR YOUR REPORT</h2>
+                        <!--
+                        Build your report here!
+                        Do it in awesome way ;)
+                        -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+    </data>
+</odoo>

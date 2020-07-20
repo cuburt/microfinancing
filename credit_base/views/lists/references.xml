@@ -3,11 +3,46 @@
     <data>
 <!--============================CASH RECEIPT TRANSACTIONS=========================-->
 
+        <record id="cash_receipt_transactions_filter" model="ir.ui.view">
+           <field name="name">credit.transaction.cash.filter</field>
+           <field name="model">credit.transaction.cash</field>
+            <field name="arch" type="xml">
+                <search string="">
+              <field name="name" string="string" domain="[()]"/>
+            </search>
+           </field>
+        </record>
+
+        <record id="cash_receipt_transactions_tree_view" model="ir.ui.view">
+            <field name="name">credit.transaction.cash.list</field>
+            <field name="model">credit.transaction.cash</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cash_receipt_transactions_form_view" model="ir.ui.view">
+            <field name="name">credit.transaction.cash.form</field>
+            <field name="model">credit.transaction.cash</field>
+            <field name="arch" type="xml">
+                <form string="Cash Receipt Transaction">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="credit_base.action_window_cash_receipt_transactions" model="ir.actions.act_window">
             <field name="name">Cash Receipt Transactions</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">credit.transaction.cash</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="cash_receipt_transactions_filter"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->
@@ -19,11 +54,46 @@
 
 <!--============================CASH PAYMENT TRANSACTIONS=========================-->
 
+        <record id="cash_payment_transactions_filter" model="ir.ui.view">
+           <field name="name">credit.transaction.payment.filter</field>
+           <field name="model">credit.transaction.payment</field>
+            <field name="arch" type="xml">
+                <search string="Search Cash Payment Transaction">
+              <field name="name" string="string" domain="[()]"/>
+            </search>
+           </field>
+        </record>
+
+        <record id="cash_payment_transactions_tree_view" model="ir.ui.view">
+            <field name="name">credit.transaction.payment.list</field>
+            <field name="model">credit.transaction.payment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cash_payment_transactions_form_view" model="ir.ui.view">
+            <field name="name">credit.transaction.payment.form</field>
+            <field name="model">credit.transaction.payment</field>
+            <field name="arch" type="xml">
+                <form string="Cash Payment Transactions">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="credit_base.action_window_cash_payment_transactions" model="ir.actions.act_window">
             <field name="name">Cash Payment Transactions</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">credit.transaction.payment</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="cash_payment_transactions_filter"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->

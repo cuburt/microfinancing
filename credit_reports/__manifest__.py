@@ -27,6 +27,13 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'reports/application/financial_package_application_form.xml',
+        'reports/collection/cmpmc.xml',
+        'reports/investigation/credit_evaluation_form.xml',
+        'reports/orientation/care_group_information.xml',
+        'reports/orientation/signature_list.xml',
+        'reports/processing_and_release/promissory_note.xml',
+        'reports/processing_and_release/summary_loan_proceed.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

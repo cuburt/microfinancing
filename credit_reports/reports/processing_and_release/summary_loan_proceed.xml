@@ -4,20 +4,19 @@
        <!-- QWeb Reports -->
        <!-- NAME & FILE_NAME should be the same -->
                <report
-                   id="credit_reports.action_promissory_note"
+                   id="credit_reports.action_summary_loan_proceed"
                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
                    report_type="qweb-pdf"
                    string="LABEL"
-                   name="credit_reports.promissory_note_template"
-                   file="credit_reports.promissory_note_template"
+                   name="credit_reports.summary_loan_proceed_template"
+                   file="credit_reports.summary_loan_proceed_template"
                />
-
-        <template id="promissory_note_template">
+        <template id="summary_loan_proceed_template">
             <t t-call="report.html_container">
                 <t t-call="report.internal_layout">
                 <!-- <t t-call="report.external_layout"> -->
                     <div class="page">
-                        <h2>Promissory Note</h2>
+                        <h2>Summary of Loan Proceed</h2>
                         <!--
                         Build your report here!
                         Do it in awesome way ;)
