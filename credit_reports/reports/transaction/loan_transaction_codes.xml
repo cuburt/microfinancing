@@ -4,19 +4,19 @@
        <!-- QWeb Reports -->
        <!-- NAME & FILE_NAME should be the same -->
                <report
-                   id="UNIQUE_REPORT_ID"
+                   id="credit_report.action_loan_transaction_codes"
                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
                    report_type="qweb-pdf"
                    string="LABEL"
-                   name="NAME"
-                   file="FILE_NAME"
+                   name="credit_report.loan_transaction_codes_template"
+                   file="credit_report.loan_transaction_codes_template"
                />
-        <template id="UNIQUE_ID">
+        <template id="loan_transaction_codes_template">
             <t t-call="report.html_container">
                 <t t-call="report.internal_layout">
                 <!-- <t t-call="report.external_layout"> -->
                     <div class="page">
-                        <h2>TITLE FOR YOUR REPORT</h2>
+                        <h2>List of Loan Transaction Codes</h2>
                         <!--
                         Build your report here!
                         Do it in awesome way ;)

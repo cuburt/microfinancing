@@ -2,6 +2,11 @@
 
 from odoo import models, fields, api
 
+class LoanFinancing(models.Model):
+    _inherit = 'credit.loan.financing'
+
+    loan_applications = fields.One2many(comodel_name="micro.loan.application", inverse_name="financing_id", string="Source", required=False)
+
 class LoanApplication(models.Model):
     _name = 'micro.loan.application'
 

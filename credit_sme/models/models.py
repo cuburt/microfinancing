@@ -2,6 +2,13 @@
 
 from odoo import models, fields, api
 
+
+class LoanFinancing(models.Model):
+    _inherit = 'credit.loan.financing'
+
+    type = fields.Selection(selection_add=[('sme','SME Loan')])
+    business_id = fields.Many2one(required_if_type='sme')
+
 class LoanRecommendation(models.Model):
     _inherit = 'micro.loan.application'
 

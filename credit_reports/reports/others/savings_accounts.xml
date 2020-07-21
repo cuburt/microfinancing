@@ -4,15 +4,15 @@
        <!-- QWeb Reports -->
        <!-- NAME & FILE_NAME should be the same -->
                <report
-                   id="UNIQUE_REPORT_ID"
+                   id="credit_reports.action_savings_accounts"
                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
                    report_type="qweb-pdf"
                    string="LABEL"
-                   name="NAME"
-                   file="FILE_NAME"
+                   name="credit_reports.savings_accounts_template"
+                   file="credit_reports.savings_accounts_template"
                />
 
-        <template id="UNIQUE_ID">
+        <template id="savings_accounts_template">
             <t t-call="report.html_container">
                 <t t-call="report.internal_layout">
                 <!-- <t t-call="report.external_layout"> -->
@@ -30,7 +30,7 @@
         <!-- QWeb Reports -->
         <!-- NAME & FILE_NAME should be the same -->
                 <report
-                    id="UNIQUE_REPORT_ID"
+                    id="credit_reports."
                     model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
                     report_type="qweb-pdf"
                     string="LABEL"

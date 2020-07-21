@@ -7,29 +7,6 @@ from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from datetime import date, datetime
 
-def _get_bmi_state(bmi):
-    bmi_state = None
-    if bmi < 18.5:
-        bmi_state = 'under'
-    elif bmi >= 18.5 and bmi <= 24.9:
-        bmi_state = 'normal'
-    elif bmi >= 20 and bmi <= 29.9:
-        bmi_state = 'over'
-    elif bmi >= 40:
-        bmi_state = 'obese'
-
-    return bmi_state
-
-def compute_height_cm(ft, inc):
-    height = 0.0
-    if ft:
-        height = ft * 12
-    if inc:
-        height = height + inc
-    if height > 0:
-        height = height * 2.54
-
-    return height
 
 class ConfigName(models.Model):
     _name = 'config.names'
@@ -108,29 +85,6 @@ class LoanClient(models.Model):
 
         pass
 
-    @api.one
-    @api.depends('birthdate')
-    def _compute_age(self):
-        if self.birthdate:
-            bday = datetime.strptime(self.birthdate, '%Y-%m-%d').date()
-            if bday < date.today():
-                self.age = relativedelta(date.today(), bday).years
-
-    @api.one
-    @api.depends('height_ft', 'height_in')
-    def _get_height_cm(self):
-        """
-        @api.depends() should contain all fields that will be used in the calculations.
-        """
-        if self.height_ft or self.height_in:
-            self.height = compute_height_cm(self.height_ft, self.height_in)
-
-        pass
-
-    @api.model
-    def _default_image(self):
-        image_path = get_module_resource('loan_base', 'static/src/img', 'default_image.png')
-        return tools.image_resize_image_big(open(image_path, 'rb').read().encode('base64'))
 
     partner_id = fields.Many2one('res.partner', string='Customer')
     name_related = fields.Char(related='partner_id.name', string="Partner Name", readonly=True, store=True)
@@ -142,74 +96,7 @@ class LoanClient(models.Model):
                                  track_visibilty='onchange')
     suffix = fields.Many2one(comodel_name="res.partner.suffix", string="Suffix", required=False,
                              track_visibilty='onchange')
-    partner_type = fields.Many2one('res.partner.type', 'Client Type', required=True, domain="[('active','=',True)]",
-                                   default='Customer')
-    image = fields.Binary("Photo", default=_default_image, attachment=True,
-                          help="This field holds the image used as photo for the Customer, limited to 1024x1024px.")
-    image_medium = fields.Binary("Medium-sized photo", attachment=True,
-                                 help="Medium-sized photo of the employee. It is automatically "
-                                      "resized as a 128x128px image, with aspect ratio preserved. "
-                                      "Use this field in form views or some kanban views.")
-    image_small = fields.Binary("Small-sized photo", attachment=True,
-                                help="Small-sized photo of the employee. It is automatically "
-                                     "resized as a 64x64px image, with aspect ratio preserved. "
-                                     "Use this field anywhere a small image is required.")
-    company_id = fields.Many2one(comodel_name="res.company", string="Company", required=True,
-                                 default=lambda self: self.env.user.company_id)
-    loan_id = fields.Many2one("micro.loan.financing", "Loans", required=False)
-    user_id = fields.Many2one('res.users', string='User',
-                              help='Related user name for the resource to manage its access.',
-                              track_visibilty='onchange')
-    login = fields.Char(related='user_id.login', readonly=True)
-    last_login = fields.Datetime(related='user_id.login_date', string='Latest Connection', readonly=True)
-    birthdate = fields.Date(string="Date of Birth", required=False)
-    age = fields.Integer(string="Age", required=False, compute=_compute_age, readonly=True, store=True)
-    gender = fields.Selection(string="Gender", selection=[('male', 'Male'),
-                                                          ('female', 'Female'),
-                                                          ('other', 'Other'), ], required=False)
-    place_of_birth = fields.Char(string="Place of Birth", required=False, )
-    marital = fields.Selection(string="Marital Status", selection=[('single', 'Single'),
-                                                                   ('married', 'Married'),
-                                                                   ('widower', 'Widower'),
-                                                                   ('singleparent', 'Single Parent'),
-                                                                   ('separated', 'Separated'), ], required=False,
-                                                                    track_visibilty='onchange')
-    children = fields.Integer(string="Children", required=False)
-    height = fields.Float(string="Height(cm)", required=False, compute=_get_height_cm, store=True, default=None)
-    height_ft = fields.Integer(string="Height(Ft)", required=False, default=None)
-    height_in = fields.Integer(string="Height(inch)", required=False, default=None)
-    weight = fields.Float(string="Weight(kg)", required=False)
-    bmi = fields.Float(string="BMI", required=False, compute='_compute_bmi')
-    bmi_state = fields.Selection(string="State", selection=[('under', 'Underweight'),
-                                                            ('normal', 'Normal'),
-                                                            ('over', 'Overweight'),
-                                                            ('obese', 'Obese'), ], compute='_compute_bmi')
-    religion_id = fields.Many2one(comodel_name="hr.religion", string="Religion", required=False)
-    tribe_id = fields.Many2one(comodel_name="res.partner.tribe", string="Tribe", required=False)
-    st_address = fields.Char(string="Street", required=False)
-    st_address2 = fields.Char(string="Street2", required=False)
-    barangay_id = fields.Many2one(comodel_name="config.barangay", string="Barangay", required=True)
-    prev_address = fields.Char(string="Previous Address", required=False, compute='_compute_previous_address')
-    prev_address_ids = fields.One2many(comodel_name="loan.client.address.history", inverse_name="client_id",
-                                       string="Previous Address", required=False)
-    municipality_id = fields.Many2one(comodel_name="config.municipality", string="Municipality/City", required=False,
-                                      related='barangay_id.municipality_id', readonly=True)
-    province_id = fields.Many2one(comodel_name="config.province", string="Province", required=False,
-                                  related='municipality_id.province_id', readonly=True)
-    region_id = fields.Many2one(comodel_name="config.region", string="Province", required=False,
-                                related='province_id.region_id', readonly=True)
-    zipcode_id = fields.Many2one(comodel_name="config.zipcode", string="Zip Code", required=False,
-                                 related='municipality_id.zipcode_id', readonly=True)
-    citizenship_id = fields.Many2one(comodel_name="res.country", string="Citizenship", required=False,
-                                     default=lambda self: self.env.user.partner_id.country_id)
-    spouse_id = fields.Many2one(comodel_name="loan.client", string="Spouse", required=False, track_visibilty='onchange')
-    marital_spouse_readonly = fields.Boolean()
-    parent_id = fields.Many2one(comodel_name="loan.client", string="Parent Record", required=False)
-    child_ids = fields.One2many(comodel_name="loan.client", inverse_name="parent_id", string="Child Record",
-                                required=False)
-    fb_me = fields.Char(string="Facebook", required=False)
-    tw_me = fields.Char(string="Twitter", required=False)
-    ig_me = fields.Char(string="Instagram", required=False)
+
 
     @api.multi
     def update_loan_client(self):
@@ -409,16 +296,11 @@ class LoanFinancing(models.Model):
 
     name = fields.Char(string="Name", required=False, store=True, default='New Customer',
                        readonly=True, track_visibility='onchange')
-    client_ids = fields.One2Many('micro.loan.client', 'Clients', required=True)
-    is_lone_borrower = fields.Boolean(default=lambda self:self._is_lone_borrower())
-    # loan_applications = fields.One2many(comodel_name="micro.loan.application", inverse_name="financing_id", string="Source", required=False)
-    transaction_date = fields.Datetime(default=fields.Datetime.now())
+    client_id = fields.Many2one('micro.loan.client', 'Client', required=True)
+    type = fields.Selection([('group','Group/Selda Loan')])
+    creation_date = fields.Datetime(default=fields.Datetime.now())
+    cosigner_id = fields.Many2one('micro.loan.client', 'Cosigner', required=True)
 
-    @api.model
-    def _is_lone_borrower(self):
-        if len([i for i in self.client_ids]) > 1:
-            return False
-        else: return False
 
 class CapacityAssesssment(models.Model):
     _name = 'micro.capacity.assessment'
