@@ -5,13 +5,13 @@ from odoo import models, fields, api
 class LoanFinancing(models.Model):
     _inherit = 'credit.loan.financing'
 
-    loan_applications = fields.One2many(comodel_name="micro.loan.application", inverse_name="financing_id", string="Source", required=False)
+    loan_applications = fields.One2many(comodel_name="credit.loan.application", inverse_name="financing_id", string="Source", required=False)
 
 class LoanApplication(models.Model):
-    _name = 'micro.loan.application'
+    _name = 'credit.loan.application'
 
     # APPLICATION FORM
-    financing_id = fields.Many2one('micro.loan.financing', 'Source', required=True)
+    financing_id = fields.Many2one('credit.loan.financing', 'Source', required=True)
     state = fields.Selection(string="Status", selection=[('draft', 'Draft'),
                                                          ('confirm', 'Confirmed')], required=True,
                              default='draft', track_visibility='onchange')

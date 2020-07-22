@@ -2,81 +2,88 @@
 
 from odoo import models, fields, api
 from odoo import tools, _
+import base64
 from odoo.modules.module import get_module_resource
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from datetime import date, datetime
 
+# class LoanServices(models.Model):
+#     _inherit = 'product.product'
+#
+#     name = fields.Char()
+#     description = fields.Text()
+#     #TODO: add insurance, service fee, description, requirements
 
-class ConfigName(models.Model):
-    _name = 'config.names'
-    _rec_name = 'name'
-    _inherit = ['mail.thread']
-
-    _mail_post_access = 'read'
-
-    _sql_constraints = [('unique_name', 'unique(name)', 'Name Already exists.')]
-    name = fields.Char(string="Name", required=True, index=True)
-
-    def init(self):
-        self._cr.execute("""
-        insert into config_names (name)select name from (
-            select name from (
-                select distinct name from (
-                select replace(replace(replace(replace(replace(replace(last_name,', Jr.',''),' Jr.',''),' Jr',''),'Iii',''),'Ii',''),'Vii','') as name
-                from hr_employee
-                union all
-                select replace(replace(replace(replace(replace(replace(first_name,', Jr.',''),' Jr.',''),' Jr',''),'Iii',''),'Ii',''),'Vii','') as name
-                from hr_employee
-                union all
-                select replace(replace(middle_name,', Jr.',''),'Jr.','') as name
-                from hr_employee) x
-                where length(name) > 1
-                order by 1) y where lower(right(name,3)) != 'xxx'
-                and lower(right(name,2)) != 'xx'
-                and lower(right(name,2)) != ' x') a
-                where name not in
-                (select name from config_names)
-                group by 1
-        """)
-        self._cr.commit()
-
-class ResPartnerSuffix(models.Model):
-    _name = 'res.partner.suffix'
-    _rec_name = 'name'
-    _inherit = ['mail.thread']
-
-    _mail_post_access = 'read'
-
-    _sql_constraints = [('unique_name', 'unique(name)', 'Suffix Already exists.')]
-    name = fields.Char(string="Suffix", required=True, index=True)
-    shortcut = fields.Char(string="Abbreviation", required=True)
-
-    @api.constrains('name')
-    def _validate_name(self):
-        id = self.id
-        name = self.name
-        res = self.search([['name', '=ilike', name], ['id', '!=', id]])
-        if res:
-            raise ValidationError(_("Suffix Name already exists."))
-
-    @api.constrains('shortcut')
-    def _validate_name(self):
-        id = self.id
-        shortcut = self.shortcut
-        res = self.search([['shortcut', '=ilike', shortcut], ['id', '!=', id]])
-        if res:
-            raise ValidationError(_("Suffix Abbreviation already exists."))
-
-class LoanOfficer(models.Model):
-    _name = 'micro.loan.officer'
-
-    partner_id = fields.Many2one('res.partner', string='Employee')
-    partner_type = fields.Many2one('res.partner.type', 'Client Type', required=True, domain="[('active','=',True)]",
-                                   default='Employee')
-    # employee_type =
+# class ConfigName(models.Model):
+#     _name = 'config.names'
+#     _rec_name = 'name'
+#     _inherit = ['mail.thread']
+#
+#     _mail_post_access = 'read'
+#
+#     _sql_constraints = [('unique_name', 'unique(name)', 'Name Already exists.')]
+#     name = fields.Char(string="Name", required=True, index=True)
+#
+#     def init(self):
+#         self._cr.execute("""
+#         insert into config_names (name)select name from (
+#             select name from (
+#                 select distinct name from (
+#                 select replace(replace(replace(replace(replace(replace(last_name,', Jr.',''),' Jr.',''),' Jr',''),'Iii',''),'Ii',''),'Vii','') as name
+#                 from hr_employee
+#                 union all
+#                 select replace(replace(replace(replace(replace(replace(first_name,', Jr.',''),' Jr.',''),' Jr',''),'Iii',''),'Ii',''),'Vii','') as name
+#                 from hr_employee
+#                 union all
+#                 select replace(replace(middle_name,', Jr.',''),'Jr.','') as name
+#                 from hr_employee) x
+#                 where length(name) > 1
+#                 order by 1) y where lower(right(name,3)) != 'xxx'
+#                 and lower(right(name,2)) != 'xx'
+#                 and lower(right(name,2)) != ' x') a
+#                 where name not in
+#                 (select name from config_names)
+#                 group by 1
+#         """)
+#         self._cr.commit()
+#
+# class ResPartnerSuffix(models.Model):
+#     _name = 'res.partner.suffix'
+#     _rec_name = 'name'
+#     _inherit = ['mail.thread']
+#
+#     _mail_post_access = 'read'
+#
+#     _sql_constraints = [('unique_name', 'unique(name)', 'Suffix Already exists.')]
+#     name = fields.Char(string="Suffix", required=True, index=True)
+#     shortcut = fields.Char(string="Abbreviation", required=True)
+#
+#     @api.constrains('name')
+#     def _validate_name(self):
+#         id = self.id
+#         name = self.name
+#         res = self.search([['name', '=ilike', name], ['id', '!=', id]])
+#         if res:
+#             raise ValidationError(_("Suffix Name already exists."))
+#
+#     @api.constrains('shortcut')
+#     def _validate_name(self):
+#         id = self.id
+#         shortcut = self.shortcut
+#         res = self.search([['shortcut', '=ilike', shortcut], ['id', '!=', id]])
+#         if res:
+#             raise ValidationError(_("Suffix Abbreviation already exists."))
+# #
+# # class LoanOfficer(models.Model):
+# #     _name = 'credit.loan.officer'
+# #
+# #     partner_id = fields.Many2one('res.partner', string='Employee')
+# #     partner_type = fields.Many2one('res.partner.type', 'Client Type', required=True, domain="[('active','=',True)]",
+# #                                    default='Employee')
+# #     # employee_type =
 class LoanClient(models.Model):
-    _name = 'micro.loan.client'
+    _name = 'credit.loan.client'
 
     @api.one
     @api.depends('client_id')
@@ -85,9 +92,9 @@ class LoanClient(models.Model):
 
         pass
 
-
-    partner_id = fields.Many2one('res.partner', string='Customer')
-    name_related = fields.Char(related='partner_id.name', string="Partner Name", readonly=True, store=True)
+    code = fields.Char()
+    partner_id = fields.Many2one('res.partner', string='Client')
+    name_related = fields.Char(related='partner_id.name', string="Client Name", readonly=True, store=True)
     lastname = fields.Many2one(comodel_name="config.names", string="Last Name", required=False,
                                track_visibilty='onchange')
     firstname = fields.Many2one(comodel_name="config.names", string="First Name", required=False,
@@ -96,53 +103,20 @@ class LoanClient(models.Model):
                                  track_visibilty='onchange')
     suffix = fields.Many2one(comodel_name="res.partner.suffix", string="Suffix", required=False,
                              track_visibilty='onchange')
+    active = fields.Boolean(string="Active", readonly=True, default=True, track_visibility='onchange')
+    email = fields.Char('Emailing Address',track_visibilty='onchange')
+    phone = fields.Char('Landline Number',track_visibilty='onchange')
+    fax = fields.Char('FAX',track_visibilty='onchange')
+    mobile = fields.Char('Mobile Number', required=True,track_visibilty='onchange')
 
+    @api.model
+    def hash_code(self, code):
+        return str(base64.b64encode(str(code).encode('UTF-8')), 'UTF-8')
 
-    @api.multi
-    def update_loan_client(self):
-        self.init()
-        self._cr.execute("""insert into micro_loan_client (partner_id, user_id)
-                select id, user_id from res_partner
-                where user_id > 1 and id not in (select partner_id from loan_client)
-            """)
-        self._cr.commit()
-
-    @api.multi
-    def create_user(self):
-        if self.user_id:
-            raise ValidationError(_("User already exists."))
-        else:
-            found = self.env['res.users'].sudo().search([['name', '=ilike', self.name]])
-            if found:
-                self.user_id = found.id
-            elif not found:
-                series = '0001'
-                if self.company_id.parent_id:
-                    company = [(4, self.company_id.id), (4, self.company_id.parent_id.id)]
-                else:
-                    company = [(4, self.company_id.id)]
-                login = fields.Date.today()[2:7]
-                res = self.env['res.users'].sudo().search([['login', 'ilike', login]], order='login desc', limit=1)
-                if res:
-                    series = str(int(res.login[4:]) + 1).zfill(4)
-                login = '%s%s' % (login, series)
-                user_id = self.env['res.users'].sudo().create({'name': self.name,
-                                                               'login': login,
-                                                               'password': login,
-                                                               'company_ids': company,
-                                                               'company_id': self.company_id.id})
-                self.user_id = user_id.id
-
-        # @api.onchange('company_type')
-        # def _onchange_company_type(self):
-        #     if self.company_type == 'company':
-        #         self.lastname = None
-        #         self.firstname = None
-        #         self.middlename = None
-        #         self.prefix = None
-        #         self.title = None
-
-        pass
+    @api.model
+    def create(self, values):
+        values['code'] = self.hash_code(int(self.search([], order='code asc', limit=1).code or 0)+1)
+        return super(LoanClient, self).create(values)
 
     @api.onchange('lastname', 'firstname', 'middlename', 'suffix', 'prefix')
     def _onchange_names(self):
@@ -173,51 +147,6 @@ class LoanClient(models.Model):
         self.is_duplicate = is_duplicate
 
         pass
-
-    @api.model
-    def create(self, values):
-        values['marital_spouse_readonly'] = False
-        if values.get('type'):
-            if values['type'] == 'contact':
-                name = None
-                res = self.env['config.names']
-                if 'lastname' in values:
-                    res_name = res.browse(values['lastname'])
-                    if res_name:
-                        name = res_name.name
-
-                if 'firstname' in values:
-                    res_name = res.browse(values['firstname'])
-                    if res_name:
-                        if name:
-                            name = '%s, %s' % (name, res_name.name)
-                        elif not name:
-                            name = '%s' % (res_name.name)
-
-                if 'middlename' in values:
-                    res_name = res.browse(values['middlename'])
-                    if res_name:
-                        if name:
-                            name = '%s %s' % (name, res_name.name)
-                        elif not name:
-                            name = '%s' % (res_name.name)
-
-                if 'suffix' in values:
-                    res = self.env['res.partner.suffix'].browse(values['suffix'])
-                    if res:
-                        if name:
-                            name = '%s %s' % (name, res.shortcut)
-                        elif not name:
-                            name = '%s' % (self.res.name)
-
-                if name:
-                    values['name'] = name.title()
-
-                    # error = self.search([['name', '=ilike', name]])
-                    # if error:
-                    #     raise ValidationError(_("Name already exists."))
-
-        return super(LoanClient, self).create(values)
 
     @api.multi
     def write(self, values):
@@ -288,30 +217,30 @@ class LoanClient(models.Model):
             if res:
                 raise ValidationError(_("Name with same birthdate already exists."))
 
-class LoanFinancing(models.Model):
-    _name = 'micro.loan.financing'
-    _rec_name = 'name'
-    _description = 'Loan Microfinancing'
-    _order = 'write_date desc, transaction_date desc'
-
-    name = fields.Char(string="Name", required=False, store=True, default='New Customer',
-                       readonly=True, track_visibility='onchange')
-    client_id = fields.Many2one('micro.loan.client', 'Client', required=True)
-    type = fields.Selection([('group','Group/Selda Loan')])
-    creation_date = fields.Datetime(default=fields.Datetime.now())
-    cosigner_id = fields.Many2one('micro.loan.client', 'Cosigner', required=True)
-
-
-class CapacityAssesssment(models.Model):
-    _name = 'micro.capacity.assessment'
+# class LoanFinancing(models.Model):
+#     _name = 'credit.loan.financing'
+#     _rec_name = 'name'
+#     _description = 'Loan Microfinancing'
+#     _order = 'write_date desc, transaction_date desc'
+#
+#     name = fields.Char(string="Name", required=False, store=True, default='New Customer',
+#                        readonly=True, track_visibility='onchange')
+#     client_id = fields.Many2one('credit.loan.client', 'Client', required=True)
+#     type = fields.Many2one([('group','Group/Selda Loan')])
+#     creation_date = fields.Datetime(default=fields.Datetime.now())
+#     cosigner_id = fields.Many2one('credit.loan.client', 'Cosigner', required=True)
 
 
-class CreditTicket(models.Model):
-    _name = 'micro.credit.ticket'
-
-
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+# class CapacityAssesssment(models.Model):
+#     _name = 'credit.capacity.assessment'
+#
+#
+# class CreditTicket(models.Model):
+#     _name = 'credit.credit.ticket'
+#
+#
+# class AccountInvoice(models.Model):
+#     _inherit = 'account.invoice'
 
 
 

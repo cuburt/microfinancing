@@ -10,7 +10,7 @@ class LoanFinancing(models.Model):
     business_id = fields.Many2one(required_if_type='sme')
 
 class LoanRecommendation(models.Model):
-    _inherit = 'micro.loan.application'
+    _inherit = 'credit.loan.application'
 
     state = fields.Selection(string="Status", selection_add=[('recommend', 'Recommendation')],
                              track_visibility='onchange')
@@ -22,7 +22,7 @@ class LoanRecommendation(models.Model):
     # ETC
 
 class LoanEndorsement(models.Model):
-    _inherit = 'micro.loan.application'
+    _inherit = 'credit.loan.application'
 
     state = fields.Selection(string="Status", selection_add=[('endorse', 'Endorsement')],
                              track_visibility='onchange')

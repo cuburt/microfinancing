@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Microfinancing - EPFC",
+    'name': "Microfinancing - CARE",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -20,9 +20,10 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['credit_base','credit_application','credit_investigation','credit_processing',
-                'credit_disbursement','credit_collection','credit_account','credit_reports',
-                'credit_orientation'],
+    # 'depends': ['credit_base','credit_application','credit_investigation','credit_processing',
+    #             'credit_disbursement','credit_collection','credit_account','credit_reports',
+    #             'credit_orientation'],
+    'depends':['credit_base'],
 
 
     # always loaded
@@ -35,4 +36,7 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
 }

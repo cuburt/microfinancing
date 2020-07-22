@@ -7,7 +7,7 @@
         <record id="credit_base.action_window_loan_journals_report" model="ir.actions.act_window">
             <field name="name">Loan Journals</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -23,7 +23,7 @@
         <record id="credit_base.action_window_loan_ledgers_report" model="ir.actions.act_window">
             <field name="name">Loan Ledgers</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -39,7 +39,7 @@
         <record id="credit_base.action_window_loan_schedules_report" model="ir.actions.act_window">
             <field name="name">Loan Schedules</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -55,7 +55,7 @@
         <record id="credit_base.action_window_aging_of_loan_accounts_report" model="ir.actions.act_window">
             <field name="name">Aging of Loan Accounts</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -71,7 +71,7 @@
         <record id="credit_base.action_window_loan_collectibles_report" model="ir.actions.act_window">
             <field name="name">Loan Collectibles</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -87,7 +87,7 @@
         <record id="credit_base.action_window_loan_account_details_report" model="ir.actions.act_window">
             <field name="name">Loan Account Details</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -103,7 +103,7 @@
         <record id="credit_base.action_window_loan_transaction_codes_details_report" model="ir.actions.act_window">
             <field name="name">Loan Transaction Code Details</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">

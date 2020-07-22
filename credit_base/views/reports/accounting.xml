@@ -7,7 +7,7 @@
         <record id="credit_base.action_window_journal_report" model="ir.actions.act_window">
             <field name="name">Journals</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.journal</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -23,7 +23,7 @@
         <record id="credit_base.action_window_general_ledger_report" model="ir.actions.act_window">
             <field name="name">General Ledger</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -40,7 +40,7 @@
         <record id="credit_base.action_window_trial_balance_report" model="ir.actions.act_window">
             <field name="name">Trial Balance</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -56,7 +56,7 @@
         <record id="credit_base.action_window_balance_sheet_report" model="ir.actions.act_window">
             <field name="name">Balance Sheet</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -71,7 +71,7 @@
         <record id="credit_base.action_window_income_statement_report" model="ir.actions.act_window">
             <field name="name">Income Statement</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -87,7 +87,7 @@
         <record id="credit_base.action_window_subsidiary_ledger_report" model="ir.actions.act_window">
             <field name="name">Subsidiary Ledger</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -103,7 +103,7 @@
         <record id="credit_base.action_window_schedule_of_subsidiary_report" model="ir.actions.act_window">
             <field name="name">Schedule of Detail Accounts</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -119,7 +119,7 @@
         <record id="credit_base.action_window_schedule_of_detail_report" model="ir.actions.act_window">
             <field name="name">Schedule of Detail Accounts</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -135,7 +135,7 @@
         <record id="redit_base.action_window_ledger_account_details_report" model="ir.actions.act_window">
             <field name="name">Ledger Account Details</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -151,7 +151,7 @@
         <record id="credit_base.action_window_ledger_account_periodic_changes_report" model="ir.actions.act_window">
             <field name="name">Ledger Account Periodic Changes</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">

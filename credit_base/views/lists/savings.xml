@@ -41,7 +41,7 @@
         <record id="credit_base.action_window_savings_accounts" model="ir.actions.act_window">
             <field name="name">Savings Accounts</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.savings.account</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="savings_accounts_filter"/>
             <field name="help" type="html">
@@ -82,7 +82,7 @@
         <record id="credit_base.action_window_savings_account_classifications" model="ir.actions.act_window">
             <field name="name">Savings Account Classifications</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.savings.account.classification</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="savings_account_classification_tree_view"/>
             <field name="help" type="html">
@@ -119,7 +119,7 @@
         <record id="credit_base.action_window_savings_products" model="ir.actions.act_window">
             <field name="name">Savings Products</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.savings.product</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="savings_products_filter"/>
             <field name="help" type="html">
@@ -171,7 +171,7 @@
         <record id="credit_base.action_window_savings_transaction_codes" model="ir.actions.act_window">
             <field name="name">Savings Transaction Codes</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.savings.codes</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="savings_transaction_codes_filter"/>
             <field name="help" type="html">

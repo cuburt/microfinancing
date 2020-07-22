@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mgc_credit_mgc_credit,mgc_credit.mgc_credit,model_mgc_credit_mgc_credit,,1,0,0,0
+credit_internal_user,credit.internal.user,model_credit_loan_client,group_credit_internal_user,1,1,1,1

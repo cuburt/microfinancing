@@ -40,7 +40,7 @@
         <record id="credit_base.action_window_cash_receipt_transactions" model="ir.actions.act_window">
             <field name="name">Cash Receipt Transactions</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.transaction.cash</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="cash_receipt_transactions_filter"/>
             <field name="help" type="html">
@@ -91,7 +91,7 @@
         <record id="credit_base.action_window_cash_payment_transactions" model="ir.actions.act_window">
             <field name="name">Cash Payment Transactions</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.transaction.payment</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="cash_payment_transactions_filter"/>
             <field name="help" type="html">
@@ -108,7 +108,7 @@
         <record id="credit_base.action_window_journal_entry_transactions" model="ir.actions.act_window">
             <field name="name">Journal Entry Transactions</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.transaction.journal.entry</field>
+            <field name="res_model"></field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">

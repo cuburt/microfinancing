@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 
 class LoanDisbursement(models.Model):
-    _inherit = 'micro.loan.application'
+    _inherit = 'credit.loan.application'
 
 
 state = fields.Selection(string="Status", selection_add=[('disburse', 'Disbursement')], required=True,
