@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--        GROUPS-->
+        <record model="ir.module.category" id="module_credit">
+            <field name="name">CARE</field>
+            <field name="description">User access level for CARE module</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="group_care_user" model="res.groups">
+            <field name="name">Internal User</field>
+            <field name="category_id" ref="module_credit"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+    </data>
+</odoo>

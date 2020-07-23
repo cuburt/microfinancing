@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_contract_employee_form_view" model="ir.ui.view">
+            <field name="name">hr.contract.employee.form</field>
+            <field name="model">hr.contract.employee</field>
+            <field name="arch" type="xml">
+               <form>
+                   <p>Request(s) will be validated accordingly to its status.</p>
+                    <footer>
+                        <button name="action_open" string="Confirm" type="object" class="btn-primary"/>
+                        <button name="action_pending" string="Pending" type="object" class="oe_highlight"/>
+                        <button name="action_close" string="Expired" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_contract_employee_action_view" model="ir.actions.act_window">
+            <field name="name">Validate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.contract.employee</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_contract_validate" model="ir.values">
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="name">Validate</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('hr_contract_employee_action_view'))"/>
+            <field name="key">action</field>
+            <field name="model">hr.contract</field>
+        </record>
+    </data>
+</odoo>

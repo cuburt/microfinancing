@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="report_memorandum_agreement_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<div class="page" style="font-family:Arial;">
+                        <div class="text-center">
+                            <h3><b>MEMORANDUM OF AGREEMENT</b></h3><br/>
+                        </div>
+                        <div class="text-justify">
+                            <p style="font-size:18px;">
+                                This agreement entered into this <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y')"/> at Koronadal City, Philippines by and between:
+                            </p>
+                        </div><br/>
+                        <div class="text-justify">
+                            <p style="font-size:18px;">
+                                <b><t class="text-uppercase" t-esc="company_id.name"/>,&#160; </b>&#160;&#160; a company duly organized and registered under the laws of the Republic of the Philippines,
+                                with principal office address at Osmeña Street, Koronadal City, herein represented by its &#160;<b><t class="text-uppercase" t-esc="signatory_job_id"/></b>&#160;&#160;,
+                                &#160;<b><t class="text-uppercase" t-esc="str(o.get_approvers_name(signatory_id.id)).upper()"/>, </b>&#160;&#160; Filipino, of legal age, <t t-esc="signatory_id.marital"/> and residing at ( Address of the signatory ), herein referred to as the <b>“EMPLOYER”</b>  and
+                                &#160;<b><t class="text-uppercase" t-esc="str(o.get_approvers_name(employee_id.id)).upper()"/>,</b>&#160; Filipino, of legal age, with address at <t t-if="not employee_id.barangay_id and employee_id.complete_add">
+                                    &#160;<b><t class="text-uppercase" t-esc="employee_id.complete_add"/></b>&#160;
+                                </t>
+                                <t t-if="employee_id.barangay_id and employee_id.complete_add">
+                                    &#160;<b><t class="text-uppercase" t-esc="employee_id.complete_add"/>,  <t t-esc="employee_id.barangay_id.display_name"/></b>&#160;
+                                </t>
+                                <t t-if="employee_id.barangay_id and not employee_id.complete_add">
+                                    &#160;<b><t class="text-uppercase" t-esc="employee_id.barangay_id.display_name"/></b>&#160;
+                                </t>
+                                <t t-if="not employee_id.barangay_id and not employee_id.complete_add and employee_id.municipality_id">
+                                   &#160; <b><t class="text-uppercase" t-esc="employee_id.municipality_id.display_name"/></b>&#160;
+                                </t>
+                                <t t-if="not employee_id.barangay_id and not employee_id.complete_add and not employee_id.municipality_id and employee_id.province_id">
+                                    &#160;<b><t class="text-uppercase" t-esc="employee_id.province_id.display_name"/></b>&#160;
+                                </t>
+                                <t t-if="not employee_id.barangay_id and not employee_id.complete_add and not employee_id.municipality_id and not employee_id.province_id and employee_id.region_id">
+                                    &#160;<b><t class="text-uppercase" t-esc="employee_id.region_id.display_name"/></b>&#160;
+                                </t> herein referred to as the <b> “EMPLOYEE.” </b>
+
+
+                            </p>
+                        </div>
+                        <div class="text-center">
+                            <p style="font-size:18px;"><b>WITNESSETH THAT:</b></p>
+                        </div>
+                        <table style="font-size:18px;width:100%;border-collapse: collapse;">
+                            <tr>
+                                <td style="width:2%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>1.</b></p>
+                                </td>
+                                <td style="width:95%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>WHEREAS</b>, the <b>EMPLOYER</b> owns and operates the business under the business name of <b><t class="text-uppercase" t-esc="company_id.name"/></b>&#160;;</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:2%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>2.</b></p>
+                                </td>
+                                <td style="width:95%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>WHEREAS</b>, the <b>EMPLOYER</b>, in its effort to strengthen its organization and
+                                        Business Units, desires to employ the services of personnel with technical and
+                                        managerial experience and expertise to meet the growing needs of the company;</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:2%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>3.</b></p>
+                                </td>
+                                <td style="width:95%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>WHEREAS</b>, the <b>EMPLOYER</b> is interested in engaging the services of the <b>EMPLOYEE</b> as CUSTOMER SERVICE REPRESENTATIVE.</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="text-left">
+                            <p style="font-size:18px;">
+                                <b>NOW, THEREFORE,</b> for and in consideration of the foregoing premises, the parties hereby agree as follows:
+                            </p>
+                        </div>
+                        <table style="font-size:18px;width:100%;border-collapse: collapse;">
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>1.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>JOB TITLE AND DESCRIPTION</b></p><br/>
+                                    <p>The <b>EMPLOYEE</b> is hired as (Position) &#160;<b><t class="text-uppercase" t-esc="employee_id.job_id.name"/></b>&#160; effective
+                                        &#160;<b><t class="text-uppercase" t-esc="time.strftime('%B %d, %Y', time.strptime(employee_id.date_hired,'%Y-%m-%d'))"/></b>&#160; subject to a probationary period of not more than six (6) months.
+                                        The probationary period shall be from &#160;<b><t class="text-uppercase" t-esc="time.strftime('%B %d, %Y', time.strptime(employee_id.date_hired,'%Y-%m-%d'))"/></b>&#160; to &#160;<b><t t-esc="o.get_months(employee_id.date_hired, 6)"/></b>&#160;.<br/><br/>
+                                        The <b>EMPLOYER</b> shall evaluate the performance of the <b>EMPLOYEE</b> at the end of the 1st,
+                                        3rd and 5th months of the probationary employment period based on agreed job requirements
+                                        and performance standards. If <b>EMPLOYEE’s</b> performance is to the satisfaction of the EMPLOYER,
+                                        the <b>EMPLOYEE</b> will be conferred a REGULAR EMPLOYMENT status by the EMPLOYER.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>2.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>COMPENSATION</b></p><br/>
+                                    <p>The <b>EMPLOYEE</b> shall be paid a basic salary of &#160;<b><t t-esc="o.get_num2words(salary)"/> ( P <t t-esc="'{0:,.2f}'.format(salary)"/> )</b> &#160; per month
+                                        payable every 10th and 25th days of the month. The <b>EMPLOYEE’s</b> salary will be paid either in cash,
+                                        through ATM, by a bank check or by a bank or postal transfer, from which shall be deducted ,
+                                        where applicable, the <b>EMPLOYEE’s</b> Social Security System, Philhealth and Pag-ibig contributions,
+                                        withholding tax and other government deductions. The paid salary includes compensation for
+                                        unworked holidays and mandatory allowance under existing Philippine laws.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>3.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>PERFORMANCE APPRAISAL</b></p><br/>
+                                    <p>Upon regularization, the <b>EMPLOYEE</b> accepts the policy of the <b>EMPLOYER</b> to review on a semi-annual
+                                        basis the performance of its employees based on agreed AIP/MAP and KRA percentage.
+                                        Such criteria shall be prepared by the <b>EMPLOYEE</b> and approved by the immediate superior
+                                        of the <b>EMPLOYEE</b> at the beginning of the evaluation period. The <b>EMPLOYEE</b> further recognizes
+                                        that failure to achieve minimum satisfactory performance shall be a ground for termination.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>4.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>COMPANY RULES AND REGULATIONS</b></p><br/>
+                                    <p>All existing as well as future rules and regulations issued by the <b>EMPLOYER</b> are hereby
+                                        deemed incorporated in this contract. The <b>EMPLOYEE</b> recognizes that by signing
+                                        this contract, he shall be bound by all such rules and regulations which <b>EMPLOYER</b>
+                                        may issue from time to time. On signing this contract, the <b>EMPLOYEE</b> acknowledges his
+                                        duty and responsibility to be aware of the rules and regulations of the <b>EMPLOYER</b> regarding
+                                        his employment and to fully comply with them in good faith.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>5.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>DISCIPLINARY MEASURES</b></p><br/>
+                                    <p>By signing this contract, the <b>EMPLOYEE</b> hereby recognizes the right of the <b>EMPLOYER</b>
+                                        to impose disciplinary measures or sanctions which may include but are not limited to,
+                                        termination of employment, suspensions, fines, salary deductions, withdrawal of benefits,
+                                        loss of privileges, for any and all infractions, acts or omission, irrespective that such
+                                        infractions, act or omission constitute a ground for termination.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>6.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>BUSINESS CODE OF CONDUCT</b></p><br/>
+                                    <p>The position of &#160;<b><t class="text-uppercase" t-esc="employee_id.job_id.name"/> </b>&#160; is one of trust and confidence.
+                                        The <b>EMPLOYEE</b> shall act in a manner characterized by transparency, accountability
+                                        and fairness.<br/><br/>
+                                        On signing this contract, the <b>EMPLOYEE</b> agrees that during the course of employment and immediately
+                                        following the termination of the relationship with the <b>EMPLOYER</b> for any reason, whether with or
+                                        without good cause or for any or no cause, at the option either of the <b>EMPLOYER</b> or the <b>EMPLOYEE</b>, 
+                                        with or without notice, the <b>EMPLOYEE</b> will NOT, without the prior written consent of the <b>EMPLOYER</b>, a)
+                                        serve as a partner, employee, consultant, officer, director, manager, agent, associate, investor,
+                                        or otherwise, or b) directly or indirectly, own, purchase, organize or take preparatory steps for
+                                        the organization of, or c) build, design, finance, acquire, lease, operate, manage, invest in, work
+                                        or consult for or otherwise affiliate with, any business in competition with or otherwise similar
+                                        to the <b>EMPLOYER’s</b> business within the <b>EMPLOYER’s</b> area of operation for a period of five (5) years ,
+                                        nor shall the <b>EMPLOYEE’s</b> relatives up to the third civil degree of consanguinity be involved in any
+                                        business that directly competes with the <b>EMPLOYER’s</b> business.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>7.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>TERMINATION OF EMPLOYMENT</b></p><br/>
+                                    <p>Aside from the just and authorized causes for the termination of employment
+                                        enumerated in Art. 282 to 284 of the Labor Code, the following acts and/or omissions
+                                        shall, without limitation, similarly constitute just and authorized grounds for the
+                                        termination of employment by the <b>EMPLOYER</b> and/or grounds for the <b>EMPLOYER</b> to impose disciplinary measures:
+                                    </p><br/>
+                                    <table style="font-size:18px;width:100%;border-collapse: collapse;">
+                                        <tr>
+                                            <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                            </td>
+                                            <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                                <p style="font-size:18px;"><b>a).</b></p>
+                                            </td>
+                                            <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                                <p>Intentional or unintentional violation of the <b>EMPLOYER’s</b> policies, rules
+                                                    and regulations as embodied in the Code of Discipline;</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                            </td>
+                                            <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                                <p style="font-size:18px;"><b>b).</b></p>
+                                            </td>
+                                            <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                                <p>Commissions of an act that leads to loss of confidence on the part of the <b>EMPLOYER</b>
+                                                    with regard to the <b>EMPLOYEE’s</b> ability to satisfactorily perform the duties and
+                                                    requirements of <b>EMPLOYEE’s</b> employment;</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                            </td>
+                                            <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                                <p style="font-size:18px;"><b>c).</b></p>
+                                            </td>
+                                            <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                                <p>Failure of the <b>EMPLOYEE</b> to meet the agreed AIP/MAP for the 6-month probationary period;</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                            </td>
+                                            <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                                <p style="font-size:18px;"><b>d).</b></p>
+                                            </td>
+                                            <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                                <p>Other similar acts, omissions, and/or events.</p>
+                                            </td>
+                                        </tr>
+                                    </table><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p>This contract of employment may be terminated by the <b>EMPLOYER</b> for any of the foregoing
+                                        grounds upon due notice and opportunity to be heard as required by law.
+                                        In the event the <b>EMPLOYEE</b> wishes to pre-terminate this contract of employment
+                                        for any reason, <b>EMPLOYEE</b> must submit a written notice to the <b>EMPLOYER</b> thirty (30)
+                                        days prior to the effective date of termination.
+
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p>Upon termination of this employment, the <b>EMPLOYEE</b> shall promptly account for, return,
+                                        and deliver to the <b>EMPLOYER</b> at the <b>EMPLOYER’s</b> head office, <b>EMPLOYEE’s</b> ID Cards, Code
+                                        of Discipline Manual. Employee Handbook and all properties of <b>EMPLOYER</b> which may have
+                                        been assigned or entrusted to <b>EMPLOYEE’s</b> care or custody.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>8.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>CONFIDENTIALITY</b></p><br/>
+                                    <p>The <b>EMPLOYER</b> agrees that upon commencement of the <b>EMPLOYEE’s</b> employment, it will
+                                        make available all necessary information that will enable the <b>EMPLOYEE</b> to
+                                        optimize performance. The <b>EMPLOYEE</b> agrees to use such confidential information solely
+                                        for the <b>EMPLOYER’s</b> benefit. The <b>EMPLOYEE</b> understands and agrees that CONFIDENTIAL INFORMATION
+                                        means any proprietary information, technical data, trade secrets or know-how, including,
+                                        but not limited to, markets, software, developments, inventions, processes, formulas,
+                                        technology, designs, drawings, engineering, hardware, configuration information, marketing,
+                                        finances, or other business information disclosed by the <b>EMPLOYER</b> to the <b>EMPLOYEE</b> either
+                                        directly or indirectly in writing, orally or by drawings or observation of parts or equipment;</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding:4px;text-align:left;vertical-align:center;">
+                                </td>
+                                <td style="width:3%;padding:4px;text-align:left;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>9.</b></p>
+                                </td>
+                                <td style="width:92%;padding:4px;text-align:justify;vertical-align:center;">
+                                    <p style="font-size:18px;"><b>SEPARABILITY CAUSE</b></p><br/>
+                                    <p>If any provision of this document shall be construed to be illegal or invalid,
+                                        they shall not affect the legality, validity and enforceability of the other provisions
+                                        of this document; the illegal or invalid provision shall be deleted from this document
+                                        and deemed no longer incorporated herein but all other provisions of this document shall
+                                        continue to have effect.<br/><br/>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="text-justify">
+                            <p style="font-size:18px;"><b>IN WITNESS WHEREOF</b>&#160;,  the parties have executed this document as of the date and place first mentioned.
+                                <br/></p>
+                            <b><span style="font-size:18px;" class="text-uppercase" t-esc="company_id.name"/></b>&#160;<br/><br/>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 text-center">
+                                <b><span style="font-size:18px;text-align:center;" class="text-uppercase" t-esc="str(o.get_approvers_name(signatory_id.id)).upper()"/></b>
+                                <!--<span>_______________________________________</span><br/>-->
+                                <p style="font-size:16px;"><b>EMPLOYER</b></p>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <b><span style="font-size:18px;text-align:center;" class="text-uppercase" t-esc="str(o.get_approvers_name(employee_id.id)).upper()"/></b>
+                                <!--<span>_______________________________________</span><br/>-->
+                                <p style="font-size:16px;"><b>EMPLOYEE</b></p>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p style="font-size:18px;"><b>WITNESSES:</b></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 text-center">
+                                <span>_______________________________________</span><br/>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <span>_______________________________________</span><br/>
+                            </div>
+                        </div><br/>
+                        <div class="text-left">
+                            <p style="font-size:18px;">
+                                REPUBLIC OF THE PHILIPPINES)<br/>
+                                PROVINCE OF SOUTH COTABATO) S.S.<br/>
+                                CITY OF KORONADAL<br/><br/>
+                                BEFORE ME, a Notary Public for and in the City of Koronadal, this __________ day of ________________, personally came and appeared the following persons with their corresponding Community Tax Certificates:<br/><br/>
+                                ( Note : Same as of Probationary Contract format )
+                            </p>
+                        </div>
+                        <table style="width:100%;border-collapse: collapse;">
+                            <tr>
+                                <th style="font-size:16px;width:30%;padding:4px;text-align:center;vertical-align:center;">
+                                    NAME
+                                </th>
+                                <th style="font-size:16px;width:25%;padding:4px;text-align:center;vertical-align:center;">
+                                    COMMUNITY TAX
+                                </th>
+                                <th style="font-size:16px;width:10%;padding:4px;text-align:center;vertical-align:center;">
+                                    ISSUED ON
+                                </th>
+                                <th style="font-size:16px;width:35%;padding:4px;text-align:center;vertical-align:center;">
+                                    ISSUED AT
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="font-size:14px;width:30%;padding:4px;text-align:left;vertical-align:center;">
+                                    <b><t class="text-uppercase" t-esc="str(o.get_approvers_name(signatory_id.id)).upper()"/></b>
+                                </td>
+                                <td style="font-size:16px;width:25%;padding:4px;text-align:left;vertical-align:center;">
+                                    <t class="text-uppercase" t-esc="signatory_valid_details"/>
+                                </td>
+                                <td style="width:10%;padding:4px;text-align:left;vertical-align:center;">
+                                    <span>_________________</span>
+                                </td>
+                                <td style="width:35%;padding:4px;text-align:left;vertical-align:center;">
+                                    <span>_________________</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:14px;width:30%;padding:4px;text-align:left;vertical-align:center;">
+                                    <b><t class="text-uppercase" t-esc="str(o.get_approvers_name(employee_id.id)).upper()"/></b>
+                                </td>
+                                <td style="font-size:16px;width:25%;padding:4px;text-align:left;vertical-align:center;">
+                                    <t class="text-uppercase" t-esc="emp_valid_details"/>
+                                </td>
+                                <td style="width:10%;padding:4px;text-align:left;vertical-align:center;">
+                                    <span>_________________</span>
+                                </td>
+                                <td style="width:35%;padding:4px;text-align:left;vertical-align:center;">
+                                    <span>_________________</span>
+                                </td>
+                            </tr>
+                        </table><br/>
+                        <div class="text-justify">
+                            <p style="font-size:18px;">
+                                known to me and to me known to be the same persons who executed the foregoing instrument and acknowledged before me
+                                that the same is their free and voluntary act and deed for purposes herein set forth.<br/><br/>
+                                <b>IN WITNESS WHEREOF</b>&#160;, I have hereunto set my hand and affixed my signature
+                                this __________ day of __________________ 20______ at Koronadal City.<br/><br/>
+                                Doc. No.        :<br/>
+                                Page No.       :<br/>
+                                Book No.       :<br/>
+                                Series No.     :<br/>
+
+                            </p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

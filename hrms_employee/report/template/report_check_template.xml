@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--Employee List Template-->
+        <template id="report_check_template">
+			<t t-call="report.html_container">
+				<t t-call="report.external_layout"/>
+				<t t-foreach="docs" t-as="o">
+					<div class="page">
+						<t t-set="company_ids" t-value="[]"/>
+                        <t t-foreach="records" t-as="recs">
+                            <t t-set="companies" t-value="o.company_env(recs['company_id'])"/>
+                            <t t-set="company_ids" t-value="company_ids+[companies]"/>
+                        </t>
+						<t t-foreach="o.get_sorted(list(set(company_ids)))" t-as="company">
+                            <!--<t t-set="cid" t-value="o.company_env(company)"/>-->
+                            <div style="page-break-before:always;">
+                                <div class="text-center">
+                                    <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;" class="text-uppercase" t-esc="o.name"/><br/>
+                                    <t t-if="o.event_type == 'check'">
+                                        <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">Employee's Gift Check</span><br/>
+                                    </t>
+                                    <t t-if="o.event_type == 'rice'">
+                                        <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">Employee's Rice Incentive</span><br/>
+                                    </t>
+                                    <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;"> <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.date_event,'%Y-%m-%d'))"/><br/></span>
+                                </div><br/>
+                                <t t-set="department_ids" t-value="[]"/>
+                                <t t-foreach="records" t-as="recs">
+                                    <t t-set="departments" t-value="o.department_env(recs['department_id'])"/>
+                                    <t t-set="department_ids" t-value="department_ids+[departments]"/>
+                                </t>
+                                <t t-foreach="o.get_sorted(list(set(department_ids)))" t-as="department">
+                                    <!--<t t-set="dept" t-value="o.department_env(department)"/>-->
+                                    <t t-if="department.company_id.id == company.id">
+                                        <span style="font-weight:bold;font-family:Liberation Sans;font-size:14px;" class="text-uppercase"><span t-esc="department.name"/> [ <span t-esc="company.partner_id.abbreviation"/> ]</span><br/>
+                                        <table style="width:100%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                                            <tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                                <th style="width:2%;padding:8px;text-align:center;vertical-align:center;">NO</th>
+                                                <th style="width:13%;padding:8px;text-align:center;vertical-align:center;" colspan="2">EMPLOYEE NAME</th>
+                                                <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">DATE HIRED</th>
+                                                <t t-if="o.event_type == 'rice'">
+                                                    <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">KGS</th>
+                                                </t>
+                                                <t t-if="o.event_type == 'check'">
+                                                    <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">AMOUNT</th>
+                                                    <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">SPOUSE</th>
+                                                    <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">CHILDREN</th>
+                                                    <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">TOTAL AMOUNT</th>
+                                                </t>
+                                            </tr>
+                                            <t t-set="i" t-value="1"/>
+                                            <t t-foreach="records" t-as="rec">
+                                                <t t-if="rec['department_id'] == department.id">
+                                                    <tr style="font-size:12;font-weight:bold;text-align:center;border: 1px solid #000000;">
+                                                        <th style="width:2%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <span t-esc="i"/>
+                                                            <t t-set="i" t-value="i+1"/>
+                                                        </th>
+                                                        <th style="width:3%;padding:8px;text-align:left;vertical-align:center;">
+                                                            <span t-esc="rec['id']"/>
+                                                        </th>
+                                                        <th style="width:10%;padding:8px;text-align:left;vertical-align:center;">
+                                                            <span class="text-uppercase" t-esc="rec['employee_name']"/>
+                                                        </th>
+                                                        <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <t t-if="rec['date_hired']">
+                                                                <span t-esc="(datetime.datetime.strptime(rec['date_hired'], '%Y-%m-%d')).strftime('%m-%d-%Y')"/>
+                                                            </t>
+                                                        </th>
+                                                        <t t-if="o.event_type == 'rice'">
+                                                            <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">
+                                                                <span t-esc="'{0:,.2f}'.format((rec['sack']))"/>
+                                                            </th>
+                                                        </t>
+                                                        <t t-if="o.event_type == 'check'">
+                                                            <th style="width:5%;padding:8px;text-align:right;vertical-align:center;">
+                                                                <t t-if="rec['service'] &gt; 0.0">
+                                                                    <span t-esc="'{0:,.2f}'.format((rec['service']))"/>
+                                                                </t>
+                                                            </th>
+                                                            <th style="width:5%;padding:8px;text-align:right;vertical-align:center;">
+                                                                <t t-if="rec['wife'] &gt; 0.0">
+                                                                    <span t-esc="'{0:,.2f}'.format((rec['wife']))"/>
+                                                                </t>
+                                                            </th>
+                                                            <th style="width:5%;padding:8px;text-align:right;vertical-align:center;">
+                                                                <t t-if="rec['children'] &gt; 0.0">
+                                                                    <span t-esc="'{0:,.2f}'.format((rec['children']))"/>
+                                                                </t>
+                                                            </th>
+                                                            <th style="width:5%;padding:8px;text-align:right;vertical-align:center;">
+                                                                <span t-esc="'{0:,.2f}'.format((rec['amount']))"/>
+                                                            </th>
+                                                        </t>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                            <tr style="font-size:12;font-weight:bold;text-align:center;border: 1px solid #000000;">
+                                                    <td style="width:27%;padding:8px;text-align:center;vertical-align:center;" colspan="4">
+                                                        TOTAL
+                                                    </td>
+                                                    <t t-if="o.event_type == 'rice'">
+                                                        <td style="width:5%;padding:5px;text-align:center;vertical-align:center;">
+                                                            <t t-set="total_sack" t-value="0"/>
+                                                            <t t-set="total_sack" t-value="sum([rec['sack'] for rec in records if rec['department_id'] == department.id])"/>
+                                                            <t t-esc="'{0:,.2f}'.format((total_sack))"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="o.event_type == 'check'">
+                                                        <td style="width:5%;padding:5px;text-align:right;vertical-align:center;">
+                                                            <t t-set="total_service" t-value="0"/>
+                                                            <t t-set="total_service" t-value="sum([rec['service'] for rec in records if rec['department_id'] == department.id])"/>
+                                                            <t t-esc="'{0:,.2f}'.format((total_service))"/>
+                                                        </td>
+                                                        <td style="width:5%;padding:5px;text-align:right;vertical-align:center;">
+                                                            <t t-set="total_spouse" t-value="0"/>
+                                                            <t t-set="total_spouse" t-value="sum([rec['wife'] for rec in records if rec['department_id'] == department.id])"/>
+                                                            <t t-esc="'{0:,.2f}'.format((total_spouse))"/>
+                                                        </td>
+                                                        <td style="width:5%;padding:5px;text-align:right;vertical-align:center;">
+                                                            <t t-set="total_child" t-value="0"/>
+                                                            <t t-set="total_child" t-value="sum([rec['children'] for rec in records if rec['department_id'] == department.id])"/>
+                                                            <t t-esc="'{0:,.2f}'.format((total_child))"/>
+                                                        </td>
+                                                        <td style="width:5%;padding:5px;text-align:right;vertical-align:center;">
+                                                            <t t-set="total_amount" t-value="0"/>
+                                                            <t t-set="total_amount" t-value="sum([rec['amount'] for rec in records if rec['department_id'] == department.id])"/>
+                                                            <t t-esc="'{0:,.2f}'.format((total_amount))"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                        </table><br/>
+                                    </t>
+                                </t>
+                                <t t-if="o.event_type == 'check'">
+                                    <table style="width:60%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                                        <tr style="font-size:12px;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                            <th style="width:80%;padding:8px;text-align:center;vertical-align:center;" colspan="3">GRAND TOTAL</th>
+                                        </tr>
+                                        <tr style="font-size:12px;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                            <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">NO.</th>
+                                            <th style="width:40%;padding:8px;text-align:center;vertical-align:center;">BRANCH / DEPARTMENT</th>
+                                            <th style="width:15%;padding:8px;text-align:center;vertical-align:center;">TOTAL AMOUNT</th>
+                                        </tr>
+                                        <t t-set="department_idx" t-value="[]"/>
+                                        <t t-foreach="records" t-as="recs">
+                                            <t t-set="departmentsx" t-value="o.department_env(recs['department_id'])"/>
+                                            <t t-set="department_idx" t-value="department_idx+[departmentsx]"/>
+                                        </t>
+                                        <t t-set="i" t-value="1"/>
+                                        <t t-foreach="o.get_sorted(list(set(department_idx)))" t-as="depart">
+                                            <t t-if="depart.company_id.id == company.id">
+                                                <tr style="font-size:12px;font-weight:bold;text-align:center;border: 1px solid #000000;">
+                                                    <td style="width:5%;padding:10px;text-align:center;vertical-align:center;">
+                                                        <span t-esc="i"/>
+                                                        <t t-set="i" t-value="i+1"/>
+                                                    </td>
+                                                    <td style="width:40%;padding:8px;text-align:left;vertical-align:center;">
+                                                        <span><span t-esc="depart.name"/> [ <span t-esc="company.partner_id.abbreviation"/> ]</span>
+                                                    </td>
+                                                    <td style="width:15%;padding:5px;text-align:right;vertical-align:center;">
+                                                        <t t-set="total_amount" t-value="0"/>
+                                                        <t t-set="total_amount" t-value="sum([rec['amount'] for rec in records if rec['department_id'] == depart.id])"/>
+                                                        <t t-esc="'{0:,.2f}'.format((total_amount))"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <tr style="font-size:12px;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                            <td style="color:red;width:45%;padding:8px;text-align:center;vertical-align:center;" colspan="2">OVERALL TOTAL</td>
+                                            <td style="color:red;width:15%;padding:5px;text-align:right;vertical-align:center;">
+                                                <t t-set="total_amounts" t-value="0"/>
+                                                <t t-set="total_amounts" t-value="sum([rec['amount'] for rec in records])"/>
+                                                <t t-esc="'{0:,.2f}'.format((total_amounts))"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                                <t t-if="o.event_type == 'rice'">
+                                    <table style="width:100%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                                        <tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                            <th style="width:100%;padding:8px;text-align:center;vertical-align:center;" colspan="6">GRAND TOTAL</th>
+                                        </tr>
+                                        <tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                            <th style="width:30%;padding:8px;text-align:center;vertical-align:center;">BRANCH / DEPARTMENT</th>
+                                            <t t-set="rice" t-value="o.get_rice_incentive()"/>
+                                            <t t-foreach="rice" t-as="line">
+                                                <th style="width:10%;padding:8px;text-align:center;vertical-align:center;"><span t-esc="line.kilos"/> KILOS</th>
+                                            </t>
+                                            <th style="width:10%;padding:8px;text-align:center;vertical-align:center;"># OF HEADS</th>
+                                        </tr>
+                                        <t t-set="department_idx" t-value="[]"/>
+                                        <t t-foreach="records" t-as="recs">
+                                            <t t-set="departmentsx" t-value="o.department_env(recs['department_id'])"/>
+                                            <t t-set="department_idx" t-value="department_idx+[departmentsx]"/>
+                                        </t>
+                                        <t t-foreach="o.get_sorted(list(set(department_idx)))" t-as="depart">
+                                            <!--<t t-set="departs" t-value="o.department_env(depart)"/>-->
+                                            <t t-if="depart.company_id.id == company.id">
+                                                <tr style="font-size:12px;font-weight:bold;text-align:center;border: 1px solid #000000;">
+                                                    <td style="width:30%;padding:8px;text-align:left;vertical-align:center;">
+                                                        <span><span t-esc="depart.name"/> [ <span t-esc="company.partner_id.abbreviation"/> ]</span>
+                                                    </td>
+                                                    <t t-set="dept_rice" t-value="o.get_rice_incentive()"/>
+                                                    <t t-set="heads" t-value="0"/>
+                                                    <t t-foreach="dept_rice" t-as="lines">
+                                                        <td style="width:10%;padding:5px;text-align:center;vertical-align:center;">
+                                                            <t t-set="x" t-value="0"/>
+                                                            <t t-foreach="records" t-as="rec">
+                                                                <t t-if="'{0:,.2f}'.format((rec['sack'])) == '{0:,.2f}'.format((lines.kilos)) and rec['department_id'] == depart.id">
+                                                                    <t t-set="x" t-value="x+1"/>
+                                                                    <t t-set="heads" t-value="heads + 1"/>
+                                                                </t>
+                                                            </t>
+                                                            <t t-if="x &gt; 0">
+                                                              <span t-esc="x"/>
+                                                            </t>
+                                                        </td>
+                                                    </t>
+                                                    <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                        <span><span t-esc="heads"/></span>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <tr style="background-color:#d6d8db;font-size:12;font-weight:bold;text-align:center;border: 1px solid #000000;">
+                                            <th style="width:30%;padding:8px;text-align:center;vertical-align:center;">
+                                                <span>TOTAL </span>
+                                            </th>
+                                            <t t-set="total_rice" t-value="o.get_rice_incentive()"/>
+                                            <t t-set="total_heads" t-value="0"/>
+                                            <t t-foreach="total_rice" t-as="lines_total">
+                                                <th style="width:10%;padding:5px;text-align:center;vertical-align:center;">
+                                                    <t t-set="x" t-value="0"/>
+                                                    <t t-foreach="records" t-as="rec">
+                                                        <t t-if="'{0:,.2f}'.format((rec['sack'])) == '{0:,.2f}'.format((lines_total.kilos))">
+                                                            <t t-set="x" t-value="x+1"/>
+                                                            <t t-set="total_heads" t-value="total_heads + 1"/>
+                                                        </t>
+                                                    </t>
+                                                    <span t-esc="x"/>
+                                                </th>
+                                            </t>
+                                            <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                <span t-esc="total_heads"/>
+                                            </th>
+                                        </tr>
+                                        <!--<tr style="background-color:#d6d8db;color:red;font-size:12;font-weight:bold;text-align:center;border: 1px solid #000000;">-->
+                                            <!--<th style="color:red;width:30%;padding:8px;text-align:center;vertical-align:center;">-->
+                                                <!--<span>EQV PER SACK</span>-->
+                                            <!--</th>-->
+                                            <!--<t t-set="total_rice" t-value="o.get_rice_incentive()"/>-->
+                                            <!--<t t-set="total_headsx" t-value="0"/>-->
+                                            <!--<t t-foreach="total_rice" t-as="lines_total">-->
+                                                <!--<th style="color:red;width:10%;padding:5px;text-align:right;vertical-align:center;">-->
+                                                    <!--<t t-set="x" t-value="0"/>-->
+                                                    <!--<t t-foreach="records" t-as="rec">-->
+                                                        <!--<t t-if="'{0:,.2f}'.format((rec['sack'])) == '{0:,.2f}'.format((lines_total.kilos))">-->
+                                                            <!--<t t-set="x" t-value="x+1"/>-->
+                                                        <!--</t>-->
+                                                    <!--</t>-->
+                                                    <!--<span t-esc="'{0:,.2f}'.format((x * lines_total.kilos) / 50.0)"/>-->
+                                                    <!--<t t-set="total_headsx" t-value="total_headsx + ((x * lines_total.kilos) / 50.0)"/>-->
+                                                <!--</th>-->
+                                            <!--</t>-->
+                                            <!--<th style="color:red;width:10%;padding:8px;text-align:center;vertical-align:center;">-->
+                                                <!--<span t-esc="'{0:,.2f}'.format(total_headsx)"/>-->
+                                            <!--</th>-->
+                                        <!--</tr>-->
+                                    </table><br/>
+                                    <table style="width:60%;text-align:center;font-family:Liberation Sans;">
+                                        <tr style="font-size:14px;font-weight:bold;border-top: 1px solid #000000;border-bottom: 1px solid #000000;">
+                                            <th style="width:20%;padding:5px;text-align:center;vertical-align:center;">QUANTITY</th>
+                                            <th style="width:20%;padding:5px;text-align:center;vertical-align:center;" colspan="2"># OF HEADS</th>
+                                            <th style="width:20%;padding:5px;text-align:center;vertical-align:center;" colspan="2">EQV PER SACK</th>
+                                        </tr>
+                                        <t t-set="total_rice" t-value="o.get_rice_incentive()"/>
+                                        <t t-foreach="total_rice" t-as="lines_total">
+                                            <tr style="font-size:14px;font-weight:bold;">
+                                                <th style="width:20%;padding:5px;text-align:center;vertical-align:center;">
+                                                    <span t-esc="lines_total.kilos"/> KGS
+                                                </th>
+                                                <th style="width:5%;padding:5px;text-align:center;vertical-align:center;">
+                                                    <span>X</span>
+                                                </th>
+                                                <th style="width:15%;padding:5px;text-align:right;vertical-align:center;">
+                                                    <t t-set="x" t-value="0"/>
+                                                    <t t-foreach="records" t-as="rec">
+                                                        <t t-if="'{0:,.2f}'.format((rec['sack'])) == '{0:,.2f}'.format((lines_total.kilos))">
+                                                            <t t-set="x" t-value="x+1"/>
+                                                        </t>
+                                                    </t>
+                                                    <span t-esc="'{0:,.2f}'.format(x)"/>
+                                                </th>
+                                                <th style="width:5%;padding:5px;text-align:center;vertical-align:center;">
+                                                    <span> = </span>
+                                                </th>
+                                                <th style="width:15%;padding:5px;text-align:right;vertical-align:center;">
+                                                    <t t-set="x" t-value="0"/>
+                                                    <t t-foreach="records" t-as="rec">
+                                                        <t t-if="'{0:,.2f}'.format((rec['sack'])) == '{0:,.2f}'.format((lines_total.kilos))">
+                                                            <t t-set="x" t-value="x+1"/>
+                                                        </t>
+                                                    </t>
+                                                    <span t-esc="'{0:,.2f}'.format((x * lines_total.kilos) / 50.0)"/>
+                                                </th>
+                                            </tr>
+                                        </t>
+                                        <tr style="font-size:16px;font-weight:bold;border-top: double;border-bottom: double;">
+                                            <th style="color:red;width:40%;padding:5px;text-align:center;vertical-align:center;" colspan="2">OVERALL TOTAL (SACKS)</th>
+                                            <t t-set="total_rice" t-value="o.get_rice_incentive()"/>
+                                            <t t-set="total_headsx" t-value="0"/>
+                                            <t t-set="total_headsxx" t-value="0"/>
+                                            <t t-foreach="total_rice" t-as="lines_total">
+                                                <t t-set="x" t-value="0"/>
+                                                <t t-foreach="records" t-as="rec">
+                                                    <t t-if="'{0:,.2f}'.format((rec['sack'])) == '{0:,.2f}'.format((lines_total.kilos))">
+                                                        <t t-set="x" t-value="x+1"/>
+                                                    </t>
+                                                </t>
+                                                <t t-set="total_headsxx" t-value="total_headsxx + x"/>
+                                                <t t-set="total_headsx" t-value="total_headsx + ((x * lines_total.kilos) / 50.0)"/>
+                                            </t>
+                                            <th style="color:red;width:15%;padding:8px;text-align:right;vertical-align:center;">
+                                                <span t-esc="'{0:,.2f}'.format(total_headsxx)"/>
+                                            </th>
+                                            <th style="color:red;width:5%;padding:8px;text-align:right;vertical-align:center;">
+                                                <span/>
+                                            </th>
+                                            <th style="color:red;width:15%;padding:8px;text-align:right;vertical-align:center;">
+                                                <span t-esc="'{0:,.2f}'.format(total_headsx)"/>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_check_templates" inherit_id="hrms_employee.report_check_template">
+            <xpath expr="//t[@t-call='report.external_layout']" position="attributes">
+                <attribute name="t-call">hrms_employee.external_layout_footer_custom_employee</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>

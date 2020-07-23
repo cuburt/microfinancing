@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="report_resource_template">
+			<t t-call="report.html_container">
+				<t t-call="report.external_layout"/>
+				<t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="text-center">
+                            <t t-if="o.plan_type == 'yearly'">
+                                <span style="font-weight:bold;font-family:Liberation Sans;font-size:20px;">RECRUITMENT PLAN <span t-esc="o.year_date"/> </span><br/>
+                            </t>
+                            <t t-if="o.plan_type == 'monthly'">
+                                <span style="font-weight:bold;font-family:Liberation Sans;font-size:20px;">RESOURCING PLAN <span t-esc="o.year_date"/> </span><br/>
+                            </t>
+                            <span style="font-weight:bold;font-family:Liberation Sans;font-size:10px;">AS OF<br/></span>
+                            <span t-if="o.from_date and o.to_date">
+                                <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.from_date,'%Y-%m-%d'))"/> - <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.to_date,'%Y-%m-%d'))"/>
+                            </span>
+                        </div><br/>
+                        <span style="font-weight:bold;font-family:Liberation Sans;font-size:13px;text-align:center;">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y %H:%M:%S')"/></span><br/>
+                        <br/>
+                        <t t-set="company_ids" t-value="[]"/>
+                        <t t-foreach="records" t-as="recs">
+                            <t t-set="company_ids" t-value="company_ids+[recs.company_id]"/>
+                        </t>
+                        <t t-foreach="o.get_sorted(list(set(company_ids)))" t-as="company">
+                            <!--<div style="page-break-after:always;">-->
+                                <span style="font-weight:bold;font-family:Liberation Sans;font-size:14px;text-align:center;" t-esc="company.name"/>
+                                <table style="width:100%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                                    <tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                        <th style="width:2%;padding:8px;text-align:center;vertical-align:center;">NO</th>
+                                        <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">PRF NUMBER</th>
+                                        <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">BRANCH / DEPARTMENT</th>
+                                        <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">JOB POSITION</th>
+                                        <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">DATE REQUESTED</th>
+                                        <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">NO. OF EMPLOYEES NEEDED</th>
+                                        <t t-if="o.plan_type == 'yearly'">
+                                            <!--<th style="width:10%;padding:8px;text-align:center;vertical-align:center;">NO. OF HIRED EMPLOYEES</th>-->
+                                            <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">DATE HIRED</th>
+                                        </t>
+                                        <th style="width:20%;padding:8px;text-align:center;vertical-align:center;">REMARKS</th>
+                                    </tr>
+                                    <t t-set="i" t-value="1"/>
+                                    <tbody>
+                                        <t t-foreach="records" t-as="rec">
+                                            <t t-if="rec.company_id.id == company.id">
+                                                <tr style="font-size:12px;">
+                                                    <td style="width:2%;padding:8px;text-align:center;vertical-align:center;">
+                                                        <span t-esc="i"/>
+                                                        <t t-set="i" t-value="i+1"/>
+                                                    </td>
+                                                    <td style="width:5%;padding:8px;text-align:left;vertical-align:center;">
+                                                        <span class="text-uppercase" t-esc="rec.name"/>
+                                                    </td>
+                                                    <td style="width:10%;padding:8px;text-align:left;vertical-align:center;">
+                                                        <span class="text-uppercase" t-esc="rec.department_id.name"/>
+                                                    </td>
+                                                    <td style="width:10%;padding:8px;text-align:left;vertical-align:center;">
+                                                        <span class="text-uppercase" t-esc="rec.job_id.name"/>
+                                                    </td>
+                                                    <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                        <span class="text-uppercase" t-esc="rec.date_request"/>
+                                                    </td>
+                                                    <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                        <span class="text-uppercase" t-esc="rec.no_of_recruitment"/>
+                                                    </td>
+                                                    <!--<t t-if="o.plan_type == 'yearly'">-->
+                                                        <!--<td style="width:10%;padding:8px;text-align:center;vertical-align:center;">-->
+                                                            <!--<span class="text-uppercase" t-esc="rec.no_of_hired_employee"/>-->
+                                                        <!--</td>-->
+                                                    <!--</t>-->
+                                                    <t t-if="o.plan_type == 'yearly'">
+                                                        <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <table>
+                                                                <t t-foreach="rec.hired_applicant_line" t-as="line">
+                                                                    <t t-if="line.is_hired or line.is_initial_hired">
+                                                                        <tr style="font-size:12px;">
+                                                                            <td style="width:30%;padding:8px;text-align:left;vertical-align:center;">
+                                                                                <span class="text-uppercase" t-esc="line.date_hired"/><br/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </t>
+                                                                </t>
+                                                            </table>
+                                                        </td>
+                                                    </t>
+                                                    <td style="width:20%;padding:8px;text-align:left;vertical-align:center;">
+                                                        <t t-if="o.plan_type == 'yearly'">
+                                                            <table>
+                                                                <t t-foreach="rec.hired_applicant_line" t-as="line">
+                                                                    <t t-if="line.is_hired">
+                                                                        <tr style="font-size:12px;">
+                                                                            <td style="width:30%;padding:8px;text-align:left;vertical-align:center;">
+                                                                                <span>Filled by </span><span class="text-uppercase" t-esc="line.name"/>.<br/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </t>
+                                                                    <t t-if="line.is_initial_hired">
+                                                                        <tr style="font-size:12px;">
+                                                                            <th style="width:30%;padding:8px;text-align:left;vertical-align:center;">
+                                                                                <span>To be filled by </span><span class="text-uppercase" t-esc="line.name"/>.
+                                                                                <span>for <span t-esc="line.stage_id.name"/>.</span><br/>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </t>
+                                                                </t>
+                                                            </table>
+                                                        </t>
+                                                        <t t-if="o.plan_type == 'monthly'">
+                                                            <t t-if="rec.type == 'new'">
+                                                                <span> New Additions</span><br/>
+                                                            </t>
+                                                            <t t-if="rec.type != 'new'">
+                                                                <span>In Replacement of </span><span class="text-uppercase" t-esc="rec.replace_employee_id.name"/>.<br/>
+                                                            </t>
+                                                            <span>Requested by </span><span t-esc="rec.requester_id.name"/>.<br/>
+                                                            <t t-if="rec.remarks">
+                                                                <t t-set="string_to_output" t-value="(rec.remarks).split('\n')" />
+                                                                <t t-foreach="string_to_output" t-as="string_line">
+                                                                    <strong><span style="font-size:12px;font-weight:bold;display:inline-block;white-space: pre-wrap;" t-esc="string_line"/></strong><br />
+                                                                </t>
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <t t-if="o.plan_type == 'monthly'">
+                                            <tr style="font-size:12px;background-color:#d6d8db;text-align:center;border: 1px solid #000000;border-collapse: collapse;" class="table table-bordered">
+                                                <td style="width:10%;padding:8px;text-align:center;vertical-align:center;font-weight:bold;" colspan="5">
+                                                    <span>TOTAL</span>
+                                                </td>
+                                                <td style="width:10%;padding:8px;text-align:center;vertical-align:center;font-weight:bold;">
+                                                    <t t-set="total_recs" t-value="0"/>
+                                                    <t t-set="total_recs" t-value="sum([rec.no_of_recruitment for rec in records if rec.company_id.id == company.id])"/>
+                                                    <t t-esc="((total_recs))"/>
+                                                </td>
+                                                <t t-if="o.plan_type == 'yearly'">
+                                                    <!--<td style="width:10%;padding:8px;text-align:center;vertical-align:center;font-weight:bold;">-->
+                                                        <!--<t t-set="total_hireds" t-value="0"/>-->
+                                                        <!--<t t-set="total_hireds" t-value="sum([rec.no_of_hired_employee for rec in records if rec.company_id.id == company.id])"/>-->
+                                                        <!--<t t-esc="((total_hireds))"/>-->
+                                                    <!--</td>-->
+                                                    <td style="width:10%;padding:8px;text-align:center;vertical-align:center;font-weight:bold;">
+                                                        <span> </span>
+                                                    </td>
+                                                </t>
+                                                <td style="width:20%;padding:8px;text-align:center;vertical-align:center;font-weight:bold;">
+                                                    <span> </span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table><br/>
+                                <t t-if="o.plan_type == 'yearly'">
+                                    <table align="middle" style="width:30%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                                        <tr style="font-size:12px;font-weight:bold;text-align:center;border: 1px solid #000000;">
+                                            <th style="width:10%;padding:8px;text-align:center;vertical-align:center;background-color:#d6d8db;">Total Requirements</th>
+                                            <th style="width:10%;padding:8px;text-align:center;vertical-align:center;background-color:#d6d8db;">Hired</th>
+                                            <th style="width:10%;padding:8px;text-align:center;vertical-align:center;background-color:red;">For Hiring</th>
+                                        </tr>
+                                        <tr style="font-size:12px;text-align:center;border: 1px solid #000000;">
+                                            <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                <t t-set="total_rec" t-value="0"/>
+                                                <t t-set="total_rec" t-value="sum([rec.no_of_recruitment for rec in records if rec.company_id.id == company.id])"/>
+                                                <t t-esc="total_rec"/>
+                                            </td>
+                                            <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                <t t-set="total_hired" t-value="0"/>
+                                                <t t-foreach="records" t-as="rec">
+                                                    <t t-if="rec.company_id.id == company.id">
+                                                        <t t-foreach="rec.hired_applicant_line" t-as="line">
+                                                            <t t-if="line.is_initial_hired or line.is_hired">
+                                                                <t t-set="total_hired" t-value="total_hired+1"/>
+                                                            </t>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                                <!--<t t-set="total_hired" t-value="sum([rec.no_of_hired_employee for rec in records if rec.company_id.id == company.id])"/>-->
+                                                <span t-esc="total_hired"/>
+                                            </td>
+                                            <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                <t t-esc="(total_rec - total_hired)"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                            <!--</div>-->
+                        </t>
+                        <t t-if="o.plan_type == 'monthly'">
+                            <br/>
+                            <table align="middle" style="width:30%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                                <tr style="font-size:12px;font-weight:bold;text-align:center;border: 1px solid #000000;">
+                                    <th style="width:10%;padding:8px;text-align:center;vertical-align:center;background-color:#d6d8db;">Company</th>
+                                    <th style="width:10%;padding:8px;text-align:center;vertical-align:center;background-color:#d6d8db;">Total</th>
+                                </tr>
+                                <t t-set="company_ids" t-value="[]"/>
+                                <t t-foreach="records" t-as="recs">
+                                    <t t-set="company_ids" t-value="company_ids+[recs.company_id]"/>
+                                </t>
+                                <t t-foreach="o.get_sorted(list(set(company_ids)))" t-as="company">
+                                    <tr style="font-size:12px;">
+                                        <th style="width:2%;padding:8px;text-align:center;vertical-align:center;">
+                                            <span t-esc="company.name"/>
+                                        </th>
+                                        <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">
+                                            <t t-set="total_recsx" t-value="0"/>
+                                            <t t-set="total_recsx" t-value="sum([rec.no_of_recruitment for rec in records if rec.company_id.id == company.id])"/>
+                                            <t t-esc="((total_recsx))"/>
+                                        </th>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>
+                    </div>
+				</t>
+			</t>
+        </template>
+    </data>
+</odoo>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'base_setup'],
+    'depends': ['base','mail','event','base_setup'],
 
     # always loaded
     'data': [
@@ -28,8 +28,8 @@
         'security/ir.model.access.csv',
 
         # 'views/blcl.xml',
-        # 'views/lists.xml',
-        # 'views/system.xml',
+        'views/lists.xml',
+        'views/system.xml',
         # 'views/transactions.xml',
         # 'views/lists/accounting.xml',
         # 'views/lists/loans.xml',
@@ -39,15 +39,12 @@
         # 'views/reports/daily_reports.xml',
         # 'views/reports/loan.xml',
         # 'views/reports/savings.xml',
-        'views/views.xml',
-        'views/templates.xml',
+        # 'views/views.xml',
+        # 'views/templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
-    'installable': True,
-    'auto_install': False,
-    'application': True,
 
 }

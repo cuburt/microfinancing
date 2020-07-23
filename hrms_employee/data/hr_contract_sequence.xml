@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="hr_approval_stage_sa" model="hr.approval.stage">
+            <field name="name">Supervisors' Approval</field>
+            <field name="sequence" eval="2"/>
+            <field name="active" eval="1"/>
+            <field name="state">confirm</field>
+        </record>
+
+        <record id="hr_approval_stage_new" model="hr.approval.stage">
+            <field name="name">New</field>
+            <field name="sequence" eval="1"/>
+            <field name="active" eval="1"/>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="hr_approval_stage_sad" model="hr.approval.stage">
+            <field name="name">Supervisor's Approved</field>
+            <field name="sequence" eval="3"/>
+            <field name="active" eval="1"/>
+            <field name="state">approve_supervisor</field>
+        </record>
+
+        <record id="hr_approval_stage_ma" model="hr.approval.stage">
+            <field name="name">Manager's Approval</field>
+            <field name="sequence" eval="4"/>
+            <field name="active" eval="1"/>
+            <field name="state">managers_approval</field>
+        </record>
+
+        <record id="hr_approval_stage_mad" model="hr.approval.stage">
+            <field name="name">Manager's Approved</field>
+            <field name="sequence" eval="5"/>
+            <field name="active" eval="1"/>
+            <field name="state">approve_manager</field>
+        </record>
+
+        <record id="hr_approval_stage_val" model="hr.approval.stage">
+            <field name="name">Validated</field>
+            <field name="sequence" eval="6"/>
+            <field name="active" eval="1"/>
+            <field name="state">validate</field>
+        </record>
+
+        <record id="hr_approval_stage_rev" model="hr.approval.stage">
+            <field name="name">Reviewed</field>
+            <field name="sequence" eval="7"/>
+            <field name="active" eval="1"/>
+            <field name="state">review</field>
+        </record>
+
+        <record id="hr_approval_stage_refuse" model="hr.approval.stage">
+            <field name="name">Refused</field>
+            <field name="sequence" eval="8"/>
+            <field name="active" eval="1"/>
+            <field name="state">refuse</field>
+        </record>
+
+        <record id="seq_contract_ref" model="ir.sequence">
+            <field name="name">Contract Reference</field>
+            <field name="code">contract.ref</field>
+            <field name="prefix">EC/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="seq_recruit_req_ref" model="ir.sequence">
+            <field name="name">Recruitment Reference</field>
+            <field name="code">recruitment.ref</field>
+            <field name="prefix">PRF/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="hr_contract.hr_contract_type_emp" model="hr.contract.type">
+            <field name="name">Regular Employee</field>
+            <field name="sequence">5</field>
+            <field name="regular_employees" eval="True"/>
+        </record>
+
+        <record id="hr_contract.hr_contract_type_wrkr" model="hr.contract.type">
+            <field name="name">Contractual Employee</field>
+            <field name="sequence">10</field>
+            <field name="regular_employees" eval="False"/>
+        </record>
+
+        <record id="hr_contract.hr_contract_type_sub" model="hr.contract.type">
+            <field name="name">Subcontractor</field>
+            <field name="sequence">15</field>
+            <field name="regular_employees" eval="False"/>
+        </record>
+
+    <!--</data>
+    <data noupdate="1">
+
+        <record id="seq_contract_ref" model="ir.sequence">
+            <field name="name">Contract Reference</field>
+            <field name="code">contract.ref</field>
+            <field name="prefix">EC/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="seq_recruit_req_ref" model="ir.sequence">
+            <field name="name">Recruitment Reference</field>
+            <field name="code">recruitment.ref</field>
+            <field name="prefix">RR/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="hr_approval_stage_new" model="hr.approval.stage">
+            <field name="child_id" ref="hr_approval_stage_sa"/>
+        </record>
+
+        <record id="hr_approval_stage_sad" model="hr.approval.stage">
+            <field name="parent_id" ref="hr_approval_stage_new"/>
+            <field name="child_id" ref="hr_approval_stage_ma"/>
+        </record>
+
+        <record id="hr_approval_stage_ma" model="hr.approval.stage">
+            <field name="parent_id" ref="hr_approval_stage_sad"/>
+            <field name="child_id" ref="hr_approval_stage_mad"/>
+        </record>
+
+        <record id="hr_approval_stage_mad" model="hr.approval.stage">
+            <field name="parent_id" ref="hr_approval_stage_mad"/>
+            <field name="child_id" ref="hr_approval_stage_val"/>
+        </record>
+
+        <record id="hr_approval_stage_val" model="hr.approval.stage">
+            <field name="parent_id" ref="hr_approval_stage_mad"/>
+            <field name="child_id" ref="hr_approval_stage_rev"/>
+        </record>
+
+        <record id="hr_approval_stage_rev" model="hr.approval.stage">
+            <field name="parent_id" ref="hr_approval_stage_val"/>
+        </record>-->
+
+    </data>
+</odoo>

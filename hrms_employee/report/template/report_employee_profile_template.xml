@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="dev_emp_detail_report">
+            <t t-set="o" t-value="o.with_context({'name':o.name})" />
+            <div class="page" style="font-size:13px">
+                <div class="text-center">
+                    <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 120px;"/><br/>
+                    <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;" class="text-uppercase" t-esc="o.company_id.name"/><br/>
+                    <h3><center><strong>EMPLOYEE PROFILE</strong></center></h3>
+                </div>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~1st ROW~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <div class="row">
+                            <div class="row" style="margin-top:50px;">
+                                <div class="col-xs-12" style="margin-top:20px;">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="8%" rowspan="13">
+                                                <br/>
+                                            </td>
+                                            <td width="30%" rowspan="13">
+                                                <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % o.image" style="margin-right:-32px !important;height:200px;width:200px;border-radius: 25px;"/>
+                                            </td>
+                                            <td width="15%">
+                                                <strong>Last Name</strong>
+                                            </td>
+                                            <td width="3%">
+                                                <strong>:</strong>
+                                            </td>
+                                            <td width="40%">
+                                                <strong><span class="text-uppercase" t-esc="o.last_name"/></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>First Name</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td>
+                                                <strong><span class="text-uppercase" t-esc="o.first_name"/></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Middle Name</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+
+                                                <strong><span class="text-uppercase" t-esc="o.middle_name"/></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Suffix</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td>
+                                                <strong><span class="text-uppercase" t-esc="o.suffix"/></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Company Name</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+
+                                                <strong>" <span class="text-uppercase" t-esc="o.company_name"/> "</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Work Email</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+                                                <span t-esc="o.work_email"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Work Phone</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+                                                <span t-esc="o.work_phone"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Date of Birth</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+                                                <span t-field="o.birthday" t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Date of Joining</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+                                                <span t-field="o.date_hired" t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Height / Weight</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+                                                <span t-esc="o.height"/> / <span t-esc="o.weight"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Religion</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+                                                <span class="text-uppercase" t-esc="o.religion_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Active</strong>
+                                            </td>
+                                            <td >
+                                                <strong>:</strong>
+                                            </td>
+                                            <td >
+                                            <span t-esc="o.active"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+    <!--							</div>-->
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                        </div>
+                    </div>
+                    <hr/>
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~2nd ROW~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    <div class="row">
+    <!--					<div class="col-xs-4">-->
+                                <div class="col-xs-5">
+                                    <h4><strong>Contact Information</strong></h4>
+                                    <table width="100%" style="empty-cells: hide;">
+                                        <tr>
+                                            <td width="40%">
+                                                <strong>Working Address</strong>
+                                            </td>
+                                            <td width="10%">
+                                                :
+                                            </td>
+                                            <td width="50%">
+                                                <span t-if="o.address_id.street"><span class="text-uppercase" t-field="o.address_id.street"/></span><br/>
+                                                <span t-if="o.address_id.city"><span class="text-uppercase" t-field="o.address_id.city"/>,</span><span t-if="o.address_id.state_id"><span t-field="o.address_id.state_id.name"/>,</span><span t-field="o.address_id.zip"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Work Mobile</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                               <span t-if="o.mobile_phone">
+                                                    <span class="text-uppercase" t-field="o.mobile_phone" />
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Office Location</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                               <span t-if="o.work_location">
+                                                    <span class="text-uppercase" t-field="o.work_location" />
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Related User</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                               <span t-if="o.user_id.name">
+                                                    <span t-field="o.user_id.name" />
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                            </div>
+                            <div class="col-xs-7 pul-left" >
+                                <h4><strong>Position</strong></h4>
+                                <table width="100%" >
+                                        <tr>
+                                            <td width="25%">
+                                                <strong>Department</strong>
+                                            </td>
+                                            <td width="3%">
+                                                :
+                                            </td>
+                                            <td width="65%">
+                                                <span class="text-uppercase" t-esc="o.department_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Job Title</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span class="text-uppercase" t-esc="o.job_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Employee Classification</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span class="text-uppercase" t-esc="o.emp_classification_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Supervisor</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span class="text-uppercase" t-esc="o.supervisor_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Manager</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span class="text-uppercase" t-esc="o.parent_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Coach</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span class="text-uppercase" t-esc="o.coach_id.name" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                            </div>
+                    </div>
+                <hr/>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~3rd ROW~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <h4><strong>Citizenship &#38; Other Info</strong></h4>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="50%">
+                                                <strong>Nationality</strong>
+                                            </td>
+                                            <td width="15%">
+                                                :
+                                            </td>
+                                            <td width="40%">
+                                                <span class="text-uppercase" t-esc="o.country_id.name"/>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Identification No</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.identification_id" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Passport No</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.passport_id" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                        </div>
+                        <div class="col-xs-7">
+                        <h4><strong>Status</strong></h4>
+                                <table width="100%">
+                                    <tr>
+                                        <td width="25%">
+                                            <strong>Gender</strong>
+                                        </td>
+                                        <td width="3%">
+                                        :
+                                        </td>
+                                        <td width="72%">
+                                        <span class="text-uppercase" t-esc="o.gender"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Marital Status</strong>
+                                        </td>
+                                        <td>
+                                        :
+                                        </td>
+                                        <td>
+                                            <span class="text-uppercase" t-esc="o.marital"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>No. of Children</strong>
+                                        </td>
+                                        <td>
+                                        :
+                                        </td>
+                                        <td>
+                                            <span class="text-uppercase" t-esc="o.children"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                        </div>
+                    </div>
+                    <hr/>
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~4th ROW~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <h4><strong>Payroll &#38; Other Info</strong></h4>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="50%">
+                                                <strong>Payroll Hiring Date</strong>
+                                            </td>
+                                            <td width="15%">
+                                                :
+                                            </td>
+                                            <td width="40%">
+                                                <span class="text-uppercase" t-esc="o.pyrl_date_hired"/>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Working Time</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.calendar_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Holiday Paid</strong>
+                                            </td>
+                                            <td>
+                                                :
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.holiday_paid" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                        </div>
+                        <div class="col-xs-7">
+                        <h4><strong>Government Released Information</strong></h4>
+                                <table width="100%">
+                                    <tr>
+                                        <td width="25%">
+                                            <strong>SSS Number</strong>
+                                        </td>
+                                        <td width="3%">
+                                        :
+                                        </td>
+                                        <td width="72%">
+                                        <span class="text-uppercase" t-esc="o.sss_no" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>HDMF Number</strong>
+                                        </td>
+                                        <td>
+                                        :
+                                        </td>
+                                        <td>
+                                            <span class="text-uppercase" t-esc="o.hdmf_no" />
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td>
+                                            <strong>PhilHealth Number</strong>
+                                        </td>
+                                        <td>
+                                        :
+                                        </td>
+                                        <td>
+                                        <span class="text-uppercase" t-esc="o.ph_no" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Tax Identification Number</strong>
+                                        </td>
+                                        <td>
+                                        :
+                                        </td>
+                                        <td>
+                                            <span class="text-uppercase" t-esc="o.tin_no" />
+                                        </td>
+                                    </tr>
+                                    <t t-if="o.driving_license_no">
+                                         <tr>
+                                            <td>
+                                                <strong>Driver License Number</strong>
+                                            </td>
+                                            <td>
+                                            :
+                                            </td>
+                                            <td>
+                                            <span class="text-uppercase" t-esc="o.driving_license_no" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="o.prc_license_no">
+                                         <tr>
+                                            <td>
+                                                <strong>PRC License Number</strong>
+                                            </td>
+                                            <td>
+                                            :
+                                            </td>
+                                            <td>
+                                            <span class="text-uppercase" t-esc="o.prc_license_no" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+        </template>
+
+        <template id="dev_emp_profile_report_template">
+            <t t-call="report.html_container">
+                 <t t-foreach="docs" t-as="o">
+                <t t-call="hrms_employee.dev_emp_detail_report" t-lang="o.name"/>
+            </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+

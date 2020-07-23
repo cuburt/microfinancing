@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.menu" id="hr_recruitment.report_hr_recruitment">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="report_recruitment_form_view" model="ir.ui.view">
+            <field name="name">hr.recruitment.handler.form</field>
+            <field name="model">hr.recruitment.handler</field>
+            <field name="arch" type="xml">
+                <form string="Applicant Monitoring Report">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="from_date"/>
+                                <field name="set_all_history"/>
+                            </group>
+                            <group>
+                                <field name="to_date"/>
+                                <field name="filters"/>
+                                <field name="responsible_id" options="{'no_create':True}" invisible="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="stage_state" options="{'no_create':True}" widget="many2many_tags" attrs="{'invisible':[('set_all_history', '=', True)]}"/>
+                            <field name="company_ids" widget="many2many_tags" attrs="{'invisible':[('filters', '!=', 'company')]}" options="{'no_create':True}"/>
+                            <field name="branch_ids" options="{'no_create':True}" domain="[('is_branch', '=', True)]"
+                                   attrs="{'invisible':[('filters', '!=', 'branch')]}"/>
+                            <field name="department_ids" options="{'no_create':True}"
+                                   attrs="{'invisible':[('filters', '!=', 'department')]}"/>
+                            <field name="job_ids" options="{'no_create':True}"
+                                   attrs="{'invisible':[('filters', '!=', 'job')]}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="print_recruitment_report"
+                                string="Print"
+                                type="object"
+                                class="btn-primary"/>
+
+                        <button string="Cancel"
+                                special="cancel"
+                                class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="report_recruitment_action_view" model="ir.actions.act_window">
+            <field name="name">Applicant Monitoring</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.recruitment.handler</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_pdf_report_root" name="Reports"
+                  parent="hr_recruitment.menu_hr_recruitment_root"
+                  sequence="98"/>
+
+        <menuitem id="menu_hr_recruitment_report_analysis" name="Recruitment Analysis"
+                  parent="menu_pdf_report_root"
+                  action="hr_recruitment.action_hr_recruitment_report_all"
+                  sequence="1"/>
+
+        <menuitem id="menu_hr_recruitment_report"
+                  parent="menu_pdf_report_root"
+                  action="report_recruitment_action_view"
+                  sequence="2"/>
+    </data>
+</odoo>

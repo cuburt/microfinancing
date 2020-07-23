@@ -2,281 +2,290 @@
 <odoo>
     <data>
 
-<!--===========================DOCUMENTS================================-->
+        <!--===========================DOCUMENTS================================-->
 
-        <record id="documents_filter" model="ir.ui.view">
-           <field name="name">credit.documents.filter</field>
-           <field name="model">credit.documents</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+        <!--        <record id="documents_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.documents.filter</field>-->
+        <!--           <field name="model">credit.documents</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
 
-        <record id="documents_tree_view" model="ir.ui.view">
-            <field name="name">credit.documents.list</field>
-            <field name="model">credit.documents</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+        <!--        <record id="documents_tree_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.documents.list</field>-->
+        <!--            <field name="model">credit.documents</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="">-->
+        <!--                    <field name="name"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="documents_form_view" model="ir.ui.view">
-            <field name="name">credit.documents.form</field>
-            <field name="model">credit.documents</field>
-            <field name="arch" type="xml">
-                <form string="Documents">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+        <!--        <record id="documents_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.documents.form</field>-->
+        <!--            <field name="model">credit.documents</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="Documents">-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <field name="name"/>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="credit_base.action_window_documents" model="ir.actions.act_window">
-            <field name="name">Documents</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="documents_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--        <record id="credit_base.action_window_documents" model="ir.actions.act_window">-->
+        <!--            <field name="name">Documents</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="view_id" ref="documents_filter"/>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================CHECKING ACCOUNTS================================-->
+        <!--===========================CHECKING ACCOUNTS================================-->
 
-        <record id="checking_accounts_tree_view" model="ir.ui.view">
-            <field name="name">credit.check.account.list</field>
-            <field name="model">credit.check.account</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+        <!--        <record id="checking_accounts_tree_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.check.account.list</field>-->
+        <!--            <field name="model">credit.check.account</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="">-->
+        <!--                    <field name="name"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="checking_accounts_form_view" model="ir.ui.view">
-            <field name="name">credit.check.account.form</field>
-            <field name="model">credit.check.account</field>
-            <field name="arch" type="xml">
-                <form string="Checking Accounts">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+        <!--        <record id="checking_accounts_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.check.account.form</field>-->
+        <!--            <field name="model">credit.check.account</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="Checking Accounts">-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <field name="name"/>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="credit_base.action_window_checking_accounts" model="ir.actions.act_window">
-            <field name="name">Checking Acounts</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="checking_accounts_tree_view"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--        <record id="credit_base.action_window_checking_accounts" model="ir.actions.act_window">-->
+        <!--            <field name="name">Checking Acounts</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="view_id" ref="checking_accounts_tree_view"/>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================CHECKS================================-->
+        <!--===========================CHECKS================================-->
 
-        <record id="checks_filter" model="ir.ui.view">
-           <field name="name">credit.check.filter</field>
-           <field name="model">credit.check</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+        <!--        <record id="checks_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.check.filter</field>-->
+        <!--           <field name="model">credit.check</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
 
-        <record id="checks_tree_view" model="ir.ui.view">
-            <field name="name">credit.check.list</field>
-            <field name="model">credit.check</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+        <!--        <record id="checks_tree_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.check.list</field>-->
+        <!--            <field name="model">credit.check</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="">-->
+        <!--                    <field name="name"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="checks_form_view" model="ir.ui.view">
-            <field name="name">credit.check.form</field>
-            <field name="model">credit.check</field>
-            <field name="arch" type="xml">
-                <form string="Checks">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+        <!--        <record id="checks_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.check.form</field>-->
+        <!--            <field name="model">credit.check</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="Checks">-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <field name="name"/>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="credit_base.action_window_checks" model="ir.actions.act_window">
-            <field name="name">Checks</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="checks_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--        <record id="credit_base.action_window_checks" model="ir.actions.act_window">-->
+        <!--            <field name="name">Checks</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="view_id" ref="checks_filter"/>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================NAMES================================-->
+        <!--===========================NAMES================================-->
 
-        <record id="names_filter" model="ir.ui.view">
-           <field name="name">credit.names.filter</field>
-           <field name="model">credit.names</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+        <!--        <record id="names_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.names.filter</field>-->
+        <!--           <field name="model">credit.names</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
 
-        <record id="names_tree_view" model="ir.ui.view">
-            <field name="name">credit.names.list</field>
-            <field name="model">credit.names</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+        <!--        <record id="names_tree_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.names.list</field>-->
+        <!--            <field name="model">credit.names</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="">-->
+        <!--                    <field name="name"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="names_form_view" model="ir.ui.view">
-            <field name="name">credit.names.form</field>
-            <field name="model">credit.names</field>
-            <field name="arch" type="xml">
-                <form string="Names">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+        <!--        <record id="names_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.names.form</field>-->
+        <!--            <field name="model">credit.names</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="Names">-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <field name="name"/>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="credit_base.action_window_names" model="ir.actions.act_window">
-            <field name="name">Names</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="names_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--        <record id="credit_base.action_window_names" model="ir.actions.act_window">-->
+        <!--            <field name="name">Names</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="view_id" ref="names_filter"/>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================DOAS/DOS================================-->
+        <!--===========================DOAS/DOS================================-->
 
-        <record id="doas_dos_filter" model="ir.ui.view">
-           <field name="name">credit.doas.dos.filter</field>
-           <field name="model">credit.doas.dos</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+        <!--        <record id="doas_dos_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.doas.dos.filter</field>-->
+        <!--           <field name="model">credit.doas.dos</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
 
-        <record id="doas_dos_tree_view" model="ir.ui.view">
-            <field name="name">credit.doas.dos.list</field>
-            <field name="model">credit.doas.dos</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+        <!--        <record id="doas_dos_tree_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.doas.dos.list</field>-->
+        <!--            <field name="model">credit.doas.dos</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="">-->
+        <!--                    <field name="name"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="doas_dos_form_view" model="ir.ui.view">
-            <field name="name">credit.doas.dos.form</field>
-            <field name="model">credit.doas.dos</field>
-            <field name="arch" type="xml">
-                <form string="">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+        <!--        <record id="doas_dos_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.doas.dos.form</field>-->
+        <!--            <field name="model">credit.doas.dos</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="">-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <field name="name"/>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="credit_base.action_window_doas_dos" model="ir.actions.act_window">
-            <field name="name">DOAs &amp; DOs</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="doas_dos_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--        <record id="credit_base.action_window_doas_dos" model="ir.actions.act_window">-->
+        <!--            <field name="name">DOAs &amp; DOs</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="view_id" ref="doas_dos_filter"/>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================CARE GROUPS================================-->
+        <!--===========================CARE GROUPS================================-->
 
-        <record id="care_groups_filter" model="ir.ui.view">
-           <field name="name">credit.group.filter</field>
-           <field name="model">credit.group</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+        <!--        <record id="care_groups_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.group.filter</field>-->
+        <!--           <field name="model">credit.group</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
 
         <record id="care_groups_tree_view" model="ir.ui.view">
-            <field name="name">credit.group.list</field>
-            <field name="model">credit.group</field>
+            <field name="name">credit.loan.group.list</field>
+            <field name="model">credit.loan.group</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree string="List of CARE Groups">
                     <field name="name"/>
                 </tree>
             </field>
         </record>
 
         <record id="care_groups_form_view" model="ir.ui.view">
-            <field name="name">credit.group.form</field>
-            <field name="model">credit.group</field>
+            <field name="name">credit.loan.group.form</field>
+            <field name="model">credit.loan.group</field>
             <field name="arch" type="xml">
-                <form string="CARE Groups">
+                <form string="CARE Group">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
                         <group>
-                            <field name="name"/>
+                            <field name="loan_account"/>
+                        </group>
+                        <group>
+                            <field name="members"/>
+                        </group>
+                        <group>
+                            <field name="event_registration_id"/>
                         </group>
                     </sheet>
                 </form>
@@ -286,86 +295,87 @@
         <record id="credit_base.action_window_care_groups" model="ir.actions.act_window">
             <field name="name">CARE Groups</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
+            <field name="res_model">credit.loan.group</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="care_groups_filter"/>
+            <!--            <field name="view_id" ref="care_groups_filter"/>-->
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
 
-<!--===========================CARE GROUP BATCHES================================-->
+        <!--===========================CARE GROUP BATCHES================================-->
 
-        <record id="care_group_batches_filter" model="ir.ui.view">
-           <field name="name">credit.group.batch.filter</field>
-           <field name="model">credit.group.batch</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+        <!--        <record id="care_group_batches_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.group.batch.filter</field>-->
+        <!--           <field name="model">credit.group.batch</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
 
-        <record id="care_group_batches_tree_view" model="ir.ui.view">
-            <field name="name">credit.group.batch.list</field>
-            <field name="model">credit.group.batch</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+        <!--        <record id="care_group_batches_tree_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.group.batch.list</field>-->
+        <!--            <field name="model">credit.group.batch</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="">-->
+        <!--                    <field name="name"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="care_group_batches_form_view" model="ir.ui.view">
-            <field name="name">credit.group.batch.form</field>
-            <field name="model">credit.group.batch</field>
-            <field name="arch" type="xml">
-                <form string="CARE Group Batches">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+        <!--        <record id="care_group_batches_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.group.batch.form</field>-->
+        <!--            <field name="model">credit.group.batch</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="CARE Group Batches">-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <field name="name"/>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-        <record id="credit_base.action_window_care_group_batches" model="ir.actions.act_window">
-            <field name="name">CARE Group Batches</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="care_group_batches_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--        <record id="credit_base.action_window_care_group_batches" model="ir.actions.act_window">-->
+        <!--            <field name="name">CARE Group Batches</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="view_id" ref="care_group_batches_filter"/>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================MEMBERS================================-->
+        <!--===========================MEMBERS================================-->
 
-        <record id="members_filter" model="ir.ui.view">
-           <field name="name">credit.member.filter</field>
-           <field name="model">credit.member</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+        <!--        <record id="members_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.member.filter</field>-->
+        <!--           <field name="model">credit.loan.client</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="Search Members">-->
+        <!--              <field name="name" string="string" domain="[('name','ilike',self)]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
 
         <record id="members_tree_view" model="ir.ui.view">
             <field name="name">credit.member.list</field>
-            <field name="model">credit.member</field>
+            <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree string="List of Members">
+                    <field name="suffix"/>
                     <field name="name"/>
                 </tree>
             </field>
@@ -373,12 +383,22 @@
 
         <record id="members_form_view" model="ir.ui.view">
             <field name="name">credit.member.form</field>
-            <field name="model">credit.member</field>
+            <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <form string="Members">
                     <sheet>
                         <group>
-                            <field name="name"/>
+                            <field name="suffix"/>
+                            <field name="firstname"/>
+                            <field name="middlename"/>
+                            <field name="lastname"/>
+                        </group>
+                        <group>
+                            <field name="email"/>
+                            <field name="mobile"/>
+                        </group>
+                        <group>
+                            <field name="group_id"/>
                         </group>
                     </sheet>
                 </form>
@@ -388,33 +408,33 @@
         <record id="credit_base.action_window_members" model="ir.actions.act_window">
             <field name="name">Members</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
+            <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="members_filter"/>
+            <!--            <field name="view_id" ref="members_filter"/>-->
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
 
-<!--===========================MEMBERS - OTHER INFO================================-->
+        <!--===========================MEMBERS - OTHER INFO================================-->
 
-        <record id="credit_base.action_window_members_oi" model="ir.actions.act_window">
-            <field name="name">Members - Other Information</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--        <record id="credit_base.action_window_members_oi" model="ir.actions.act_window">-->
+        <!--            <field name="name">Members - Other Information</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
     </data>
 </odoo>

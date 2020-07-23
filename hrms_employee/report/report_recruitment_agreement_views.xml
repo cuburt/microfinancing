@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_recruitment_agreement_form_view" model="ir.ui.view">
+            <field name="name">Recruitment Agreement</field>
+            <field name="model">hr.recruitment.agreement</field>
+            <field name="arch" type="xml">
+                <form string="Recruitment Agreement">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="applicant_id" class="oe_edit_only"/>
+                            <h3><field name="applicant_id" options="{'no_create':True}" required="1"/></h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="superior_id" options="{'no_create':True}" required="1"/>
+                                <field name="calendar_id" options="{'no_create':True}" required="1"/>
+                                <field name="time_start" widget="float_time" required="1"/>
+                                <field name="time_end" widget="float_time" required="1"/>
+                            </group>
+                            <group>
+                                <field name="date_filed" required="1"/>
+                                <field name="work_start" required="1"/>
+                                <field name="hr_manager_id" options="{'no_create':True}" domain="[('validator', '=', True)]" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="print_agreement_report"
+                                string="Print"
+                                type="object"
+                                class="btn-primary"/>
+
+                        <button string="Cancel"
+                                special="cancel"
+                                class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_recruitment_agreement_action_view" model="ir.actions.act_window">
+            <field name="name">Recruitment Agreement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.recruitment.agreement</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_hr_recruitment_agreement" parent="menu_pdf_report_root" action="hr_recruitment_agreement_action_view"/>
+    </data>
+</odoo>

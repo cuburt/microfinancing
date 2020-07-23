@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--allocation-->
+        <record model="ir.ui.menu" id="hr_contract.hr_menu_contract">
+            <field name="active" eval="False"/>
+        </record>
+
+        <!--<record id="hr_allocation_compensation_form" model="ir.ui.view">-->
+            <!--<field name="name">hr.allocation.compensation.form</field>-->
+            <!--<field name="model">hr.allocation.compensation</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<form string="Allocation Compensation">-->
+                    <!--<sheet>-->
+                        <!--&lt;!&ndash;<div class="oe_right oe_button_box">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--<group>-->
+                            <!--<group>-->
+                                <!--<field name="job_id" options="{'no_create':True}"/>-->
+                                <!--<field name="contract_id" options="{'no_create':True}" invisible="1"/>-->
+                                <!--<field name="company_ids" options="{'no_create':True}"/>-->
+                                <!--<field name="shared"/>-->
+                            <!--</group>-->
+                            <!--<group>-->
+                                <!--<field name="date_effect"/>-->
+                            <!--</group>-->
+                        <!--</group>-->
+                    <!--</sheet>-->
+                <!--</form>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="hr_allocation_compensation_tree" model="ir.ui.view">-->
+            <!--<field name="name">hr.allocation.compensation.tree</field>-->
+            <!--<field name="model">hr.allocation.compensation</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<tree string="Allocation Compensation">-->
+                    <!--<field name="contract_id" invisible="1"/>-->
+                    <!--<field name="job_id"/>-->
+                    <!--<field name="company_ids" options="{'no_create':True}"/>-->
+                    <!--<field name="shared"/>-->
+                    <!--<field name="date_effect"/>-->
+                <!--</tree>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record id="hr_contract.hr_contract_view_search" model="ir.ui.view">
+            <field name="name">hr.contract.search</field>
+            <field name="model">hr.contract</field>
+            <field name="arch" type="xml">
+                <search string="Search Contract">
+                    <field name="employee_id" string="Employee"/>
+                    <field name="name" string="Contracts"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="working_hours"/>
+                    <field name="department_id"/>
+                    <field name="state"/>
+                    <filter string="Running" name="running" domain="[('state', '=', 'open')]"/>
+                    <filter string="To Renew" name="to_renew" domain="[('state', '=', 'pending')]"/>
+                    <separator />
+                    <filter string="Current Employee" name="current_employee" domain="[('employee_id.active','=',True)]"/>
+                    <separator/>
+                    <filter string="Important Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                        <filter string="Contract Type" domain="[]" context="{'group_by':'type_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--<record id="hr_allocation_compensation_action" model="ir.actions.act_window">-->
+            <!--<field name="name">Allocation Compensation</field>-->
+            <!--<field name="res_model">hr.allocation.compensation</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+        <!--</record>-->
+        <!---->
+        <!---->
+        <record id="contract_wpartner_view_form" model="ir.ui.view">
+           <field name="name">hr.contract.form</field>
+           <field name="model">hr.contract</field>
+           <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+           <field name="arch" type="xml">
+               <header>
+                   <button name="action_open"
+                             string="Done"
+                             type="object" states="draft,pending" class="oe_highlight"
+                             attrs="{'invisible':[('state', 'not in', ['draft','pending'])]}"/>
+                   <button name="action_draft"
+                             string="Rest to Draft"
+                             type="object" states="open" class="oe_highlight"/>
+                   <button name="action_pending"
+                             string="Renew"
+                             type="object" states="close"
+                             attrs="{'invisible':[('state', '!=', 'close')]}"/>
+                   <button name="action_expired"
+                             string="Close"
+                             type="object" states="open,pending"
+                             attrs="{'invisible':[('state', '!=', 'open')]}"/>
+
+                   <field name="state" widget="statusbar" statusbar-visible="draft,open"/>
+
+               </header>
+               <xpath expr="//group[@name='salary_and_advantages']" position="attributes">
+                   <attribute name="string">Compensation</attribute>
+               </xpath>
+                <field name="name" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </field>
+               <field name="employee_id" position="after">
+                   <field name="identification_id" invisible="1"/>
+               </field>
+                <field name="department_id" position="before">
+                    <field name="company_id" options="{'no_create':True}" invisible="1"
+                           attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                </field>
+               <field name="job_id" position="after">
+                   <field name="emp_classification_id" options="{'no_create':True}"
+                          domain="[('parent_id', '!=', False)]" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                   <field name="municipality_id" options="{'no_create':True}" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+               </field>
+               <field name="department_id" position="after">
+                   <field name="partner_ids" options="{'no_create':True}" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                   <field name="employment_type" invisible="1" attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                   <field name="salary_changes_type" attrs="{'invisible':[('employment_type', '!=', 'promote')]}"/>
+                   <field name="separation_type" attrs="{'invisible':[('employment_type', '!=', 'separate')]}"/>
+                   <field name="change_position_type" attrs="{'invisible':[('employment_type', '!=', 'position')]}"/>
+               </field>
+               <!--<field name="working_hours" position="before">-->
+                   <!--<field name="is_dynamic_schedule"/>-->
+                   <!--<field name="previous_contract_id" domain="[('employee_id', '=', employee_id), ('id', '!=', id)]" options="{'no_create':True}"/>-->
+               <!--</field>-->
+               <xpath expr="//group[@name='duration_group']" position="replace">
+                   <group name="duration_group" string="Duration">
+                       <label for="trial_date_start" string="Trial Period Duration" invisible="1"/>
+                       <div invisible="1">
+                           <field name="trial_date_start" class="oe_inline"/> - <field name="trial_date_end" class="oe_inline"/>
+                       </div>
+                       <label for="date_start" string="Duration" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                       <div>
+                           <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
+                       </div>
+                       <field name="working_hours" required="1" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                       <field name="is_dynamic_schedule" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                       <field name="previous_contract_id" domain="[('employee_id', '=', employee_id), ('id', '!=', id)]"
+                              options="{'no_create':True}" />
+                   </group>
+               </xpath>
+
+               <!--<field name="working_hours" position="attributes">-->
+                   <!--<attribute name="required">1</attribute>-->
+               <!--</field>-->
+               <xpath expr="//notebook/page[@name='information']" position="after">
+                   <page string="Approvals" invisible="1">
+                       <group>
+                           <group>
+                               <field name="initiated_by_id" options="{'no_create':True}"/>
+                               <field name="recommended_by_id" options="{'no_create':True}"/>
+                           </group>
+                           <group>
+                               <field name="evaluated_by_id" options="{'no_create':True}"/>
+                               <field name="approved_by_id" widget="many2many_tags" options="{'no_create':True}"/>
+                           </group>
+                       </group>
+                   </page>
+                   <!--<page string="For Allocation (Payroll)">-->
+                       <!--<field name="allocation_compensation">-->
+                           <!--<tree editable="top">-->
+                               <!--<field name="company_ids" options="{'no_create':True}"/>-->
+                               <!--<field name="shared"/>-->
+                               <!--<field name="date_effect"/>-->
+                           <!--</tree>-->
+                       <!--</field>-->
+                   <!--</page>-->
+                   <page string="Allowances" invisible="1">
+                       <field name="allowance_ids">
+                           <tree editable="top">
+                               <field name="contract_id" invisible="1"/>
+                               <field name="name" invisible="1"/>
+                               <field name="allowance" invisible="1"/>
+                               <field name="date_start" invisible="1"/>
+                               <field name="date_end" invisible="1"/>
+                           </tree>
+                       </field>
+                   </page>
+               </xpath>
+           </field>
+        </record>
+
+        <!-- Contract View -->
+        <record id="contractview_view" model="ir.ui.view">
+            <field name="name">contractview.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="wage" position="after">
+                    <!--<field name="cola_id" domain="[('employee_id', '=', employee_id)]"/>-->
+                    <!--<field name="allowance"/>-->
+                    <field name="ewa_monthly_due"/>
+                    <field name="paid_payroll" required="True"/>
+                </field>
+                <field name="schedule_pay" position="replace">
+                    <field name="schedule_pay" required="True"/>
+                </field>
+                <field name="struct_id" position="after">
+                    <field name="annual_struct_id" options="{'no_create':True}" invisible="1"/>
+                    <field name="annual_structure"/>
+                    <field name="philhealth_cont" required="True"/>
+                    <field name="sss_cont" required="True"/>
+                    <field name="hdmf_cont" required="True"/>
+                </field>
+                <field name="advantages" position="replace">
+                    <field name="wholdtax_cont" required="True"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="contract_wpartner_view_tree" model="ir.ui.view">
+            <field name="name">hr.contract.tree</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="job_id" position="after">
+                    <field name="department_id"/>
+                    <field name="partner_ids"/>
+                    <field name="wage"/>
+                </field>
+                <!--<xpath expr="//field[@name='wage']" position="attributes">-->
+                    <!--<attribute name="invisible">0</attribute>-->
+                <!--</xpath>-->
+                <xpath expr="//field[@name='type_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='working_hours']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="date_end" position="after">
+                    <field name="state"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="hr_contract.hr_hr_employee_view_form2" model="ir.ui.view">
+            <field name="name">hr.hr.employee.view.form2</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//div[@name='button_box']" position="inside">
+                        <button name="%(hr_contract.act_hr_employee_2_hr_contract)d"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            type="action"
+                            groups="hrms_employee.group_hr_contract_payroll">
+                            <field name="contracts_count" widget="statinfo" string="Contracts"/>
+                        </button>
+                    </xpath>
+                    <xpath expr="//field[@name='coach_id']" position="after">
+                        <field name="manager" groups="base.group_no_one"/>
+                    </xpath>
+                    <xpath expr="//group[@name='active_group']" position="after">
+                        <group string="Current Contract">
+                            <field name="medic_exam" string="Medical Exam"/>
+                            <field name="vehicle"/>
+                            <field name="vehicle_distance"/>
+                        </group>
+                    </xpath>
+                    <xpath expr="//field[@name='marital']" position="after">
+                        <field name="children"/>
+                    </xpath>
+                    <xpath expr="//field[@name='birthday']" position="after">
+                        <field name="place_of_birth"/>
+                    </xpath>
+                    <xpath expr="//field[@name='bank_account_id']" position="replace">
+                        <field name="bank_account_id" context="{'display_partner':True}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_contract.hr_menu_contract">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="hr_contract.action_hr_contract" model="ir.actions.act_window">
+            <field name="context">{'search_default_running': 1}</field>
+        </record>
+
+        <menuitem
+            id="hr_menu_contracts"
+            name="Contracts"
+            action="hr_contract.action_hr_contract"
+            parent="hr.menu_hr_root"
+            sequence="4"
+            groups="hrms_employee.group_hr_contract_payroll"/>
+
+        <record id="hr_contract_type_view_form1" model="ir.ui.view">
+            <field name="name">hr.contract.type.form1</field>
+            <field name="model">hr.contract.type</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_type_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="regular_employees"/>
+                    <field name="code"/>
+                    <field name="digits"/>
+                    <field name="code_type"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_contract_type_view_tree1" model="ir.ui.view">
+            <field name="name">hr.contract.type.tree1</field>
+            <field name="model">hr.contract.type</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_type_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="regular_employees"/>
+                    <field name="code"/>
+                    <field name="digits"/>
+                    <field name="code_type"/>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem
+            id="hr_menu_contract_type1"
+            action="hr_contract.action_hr_contract_type"
+            parent="hr.menu_human_resources_configuration"
+            sequence="4"
+            groups="hrms_employee.group_hr_personnel"/>
+    </data>
+</odoo>

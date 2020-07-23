@@ -1,2 +1,13 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-credit_internal_user,credit.internal.user,model_credit_loan_client,group_credit_internal_user,1,1,1,1
+
+credit_client_admin,credit.loan.client.admin,model_credit_loan_client,group_credit_admin,1,1,1,1
+credit_client_user,credit.loan.client.user,model_credit_loan_client,group_credit_user,1,0,0,0
+
+credit_financing_admin,credit.loan.financing.admin,model_credit_loan_financing,group_credit_admin,1,1,1,1
+credit_financing_user,credit.loan.financing.user,model_credit_loan_financing,group_credit_user,1,0,0,0
+
+credit_group_admin,credit.loan.group.admin,model_credit_loan_group,group_credit_admin,1,1,1,1
+credit_group_user,credit.loan.group.user,model_credit_loan_group,group_credit_user,1,0,0,0
+
+credit_registration_admin,event.registration.admin,model_event_registration,group_credit_admin,1,1,1,1
+credit_registration_user,event.registration.user,model_event_registration,group_credit_user,1,0,0,0

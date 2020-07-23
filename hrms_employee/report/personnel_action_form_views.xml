@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_contract_partial_form_view" model="ir.ui.view">
+            <field name="name">hr.contract.partial.form</field>
+            <field name="model">hr.contract.partial</field>
+            <field name="arch" type="xml">
+                <form string="HR Form 106">
+                    <header>
+                        <button name="print_paf" string="Print PAF" type="object" states="draft,confirm" class="oe_highlight"/>
+                        <button name="action_draft" string="Reset to Draft" type="object" states="refuse" class="oe_highlight"/>
+                        <button name="action_confirm" string="Confirm" type="object" states="draft" class="oe_highlight"/>
+                        <button name="action_refuse" string="Refuse" type="object" states="draft,close" class="oe_highlight"/>
+                        <button name="action_close" string="Close" type="object" states="confirm" class="oe_highlight"/>
+                        <button name="forward_to_hr_contract" string="Forward to Payroll's Contract"
+                                confirm="Conifrm to Forward?" type="object"  class="oe_highlight" attrs="{'invisible':[('forwarded', '=', True)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,close"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Employee" class="oe_edit_only"/>
+                            <h1><field name="employee_id" options="{'no_create':True, 'no_create_edit':True}"  attrs="{'required':[('state', 'in', ['draft', False])], 'readonly':[('state', 'not in', ['draft', False])]}"/></h1>
+                        </div>
+                        <group>
+                            <group string="Employees Information">
+                                <field name="birthday" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="date_hired" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="gender" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="marital" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="forward_to_contract" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="contract_id" invisible="1"/>
+                                <field name="is_confirm" invisible="1"/>
+                                <field name="forwarded" invisible="1"/>
+                                <label for="street" string="Permanent Home Address"/>
+                                <div>
+                                    <field name="street" nolabel="1" placeholder="Street..." attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                    <field name="barangay_id" placeholder="Barangay..." options="{'no_create': True}"
+                                           attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                    <field name="municipality_id" placeholder="City / Municipality..." options="{'no_create': True}" required="1"
+                                           attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                    <field name="province_id" placeholder="Province..." options="{'no_create': True}" required="1"
+                                           attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                    <field name="region_id" placeholder="Region..." options="{'no_create': True}" required="1"
+                                           attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                </div>
+                            </group>
+                            <group string="Employees Reference and Effective Date">
+                                <field name="name" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="date_filed" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <label for="date_start"  string="Effective Date"/>
+                                <div>
+                                    <field name="date_start" nolabel="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}" class="oe_inline"/> -
+                                    <field name="date_end" nolabel="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}" class="oe_inline"/>
+                                </div>
+                                <field name="employee_state" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="employment_type" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="extra_salary_changes" attrs="{'readonly':[('state', 'not in', ['draft', False])],'required':[('employment_type', '=', 'others')],'invisible':[('employment_type', '!=', 'others')]}"/>
+                                <field name="salary_changes_type" widget="checkboxes" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', 'not in', ['position','promote'])]}"/>
+                                <!--<field name="separation_type" widget="checkboxes" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', '!=', 'separate')]}"/>-->
+
+                                <!--<field name="change_position_type" widget="checkboxes" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', 'not in', ['position','promote', 'separate'])]}"/>-->
+                                <field name="retired" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', '!=', 'separate')]}"/>
+                                <field name="death" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', '!=', 'separate')]}"/>
+                                <field name="resign" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', '!=', 'separate')]}"/>
+                                <field name="dismiss" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', '!=', 'separate')]}"/>
+                                <field name="other_separate" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', '!=', 'separate')]}"/>
+                                <field name="extra_separate" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('other_separate', '=', False)]}"/>
+
+                                <field name="transfer" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', 'not in', ['position','promote','separate'])]}"/>
+                                <field name="reclassify" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', 'not in', ['position','promote','separate'])]}"/>
+                                <field name="change" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', 'not in', ['position','promote','separate'])]}"/>
+                                <field name="other_transfer" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('employment_type', 'not in', ['position','promote','separate'])]}"/>
+                                <field name="extra_transfer" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('other_transfer', '=', False)]}"/>
+
+                                <field name="previous_contract_id" invisible="1"/>
+                                <field name="sss_no" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="tin_no" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="hdmf_no" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="ph_no" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Previous Position">
+                                <field name="previous_company_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_department_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_job_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_emp_classification_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_location_id" placeholder="City / Municipality..." options="{'no_create': True}"
+                                           attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                            </group>
+                            <group string="New Position">
+                                <field name="company_id" required="1" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="department_id" required="1" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="job_id" required="1" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="emp_classification_id" required="1" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="location_id" placeholder="City / Municipality..." options="{'no_create': True}" required="1"
+                                           attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Previous Compensation">
+                                <field name="previous_wage" attrs="{'invisible':[('previous_paid_payroll', '=', 'daily')],'readonly':[('state', 'not in', ['draft', False])]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="previous_wage_daily"  attrs="{'invisible':[('previous_paid_payroll', '=', 'monthly')],'readonly':[('state', 'not in', ['draft', False])]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="previous_allowance" attrs="{'readonly':[('state', 'not in', ['draft', False])]}" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                <field name="previous_other_allowance" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_specified_other_allowances" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('previous_other_allowance', '!=', 'others')],'required':[('previous_other_allowance', '=', 'others')]}"/>
+                                <field name="previous_cola" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('previous_other_allowance', '=', 'no')], 'required':[('previous_other_allowance', '!=', 'no')]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="previous_paid_payroll" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_schedule_pay" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_struct_id" options="{'no_create': True}" invisible="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="previous_working_hours" options="{'no_create': True}" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':True}"/>
+                                <br/><br/>
+                                <field name="previous_total_wage" attrs="{'readonly': True}"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group string="New Compensation">
+                                <field name="wage" required="1" attrs="{'invisible':[('paid_payroll', '=', 'daily')],'readonly':[('state', 'not in', ['draft', False])]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="wage_daily" required="1" attrs="{'invisible':[('paid_payroll', '=', 'monthly')],'readonly':[('state', 'not in', ['draft', False])]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="allowance" attrs="{'readonly':[('state', 'not in', ['draft', False])]}" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                <field name="other_allowance" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="specified_other_allowances" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('other_allowance', '!=', 'others')],'required':[('other_allowance', '=', 'others')]}"/>
+                                <field name="cola" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':[('other_allowance', '=', 'no')], 'required':[('other_allowance', '!=', 'no')]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="paid_payroll" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="schedule_pay" required="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="struct_id" required="1" options="{'no_create': True}" invisible="1" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="working_hours" required="1" options="{'no_create': True}" attrs="{'readonly':[('state', 'not in', ['draft', False])],'invisible':True}"/>
+                                <br/><br/>
+                                <field name="total_wage" attrs="{'readonly': True}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Approvals">
+                                <field name="initiated_by_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="recommended_by_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="evaluated_by_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="approved_by_id" widget="many2many_tags" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                            </group>
+                            <group string="Approvals Job Position">
+                                <field name="initiated_by_job_id" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="recommended_by_job_id" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="evaluated_by_job_id" attrs="{'readonly':[('state', 'not in', ['draft', False])]}"/>
+                                <field name="count_approver" invisible="1"/>
+                                <field name="approved_by_job_id1" attrs="{'readonly':[('state', 'not in', ['draft', False])], 'invisible':[('count_approver', '=', 0)]}"/>
+                                <field name="approved_by_job_id2" attrs="{'readonly':[('state', 'not in', ['draft', False])], 'invisible':[('count_approver', '&lt;=', 1)]}"/>
+                                <field name="approved_by_job_id3" attrs="{'readonly':[('state', 'not in', ['draft', False])], 'invisible':[('count_approver', '&lt;=', 2)]}"/>
+                                <field name="approved_by_name1" attrs="{'readonly':[('state', 'not in', ['draft', False])], 'invisible':True}"/>
+                                <field name="approved_by_name2" attrs="{'readonly':[('state', 'not in', ['draft', False])], 'invisible':True}"/>
+                                <field name="approved_by_name3" attrs="{'readonly':[('state', 'not in', ['draft', False])], 'invisible':True}"/>
+                            </group>
+                        </group>
+                        <group string="Comments">
+                            <field name="notes" nolabel="1" colspan="2" rowspan="4" placeholder="Please comment here."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_contract_partial_tree_view" model="ir.ui.view">
+            <field name="name">hr.contract.partial.tree</field>
+            <field name="model">hr.contract.partial</field>
+            <field name="arch" type="xml">
+                <tree string="HR Form 106">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="company_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="date_start"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_contract_partial_filter_view" model="ir.ui.view">
+           <field name="name">hr.contract.partial.filter</field>
+           <field name="model">hr.contract.partial</field>
+            <field name="arch" type="xml">
+                <search string="HR Form 106">
+              <field name="name" string="Reference"/>
+                    <field name="employee_id"/>
+                    <field name="company_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="state"/>
+            </search>
+           </field>
+        </record>
+
+        <record id="hr_contract_partial_view_action" model="ir.actions.act_window">
+            <field name="name">Personnel Action Form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.contract.partial</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Create your first Personal Action Form
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="action_hr_contract_partial_view" model="ir.actions.act_window">
+            <field name="name">Personnel Action Form</field>
+            <field name="res_model">hr.contract.partial</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="hr_contract_partial_tree_view" />
+            <field name="context">{'search_default_employee_id': [active_id], 'default_employee_id': active_id}</field>
+            <field name="domain">[('employee_id', '=', active_id)]</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="paf_main_menu" name="HR Form 106" parent="hrms_employee.employee_adviser" sequence="4" groups=""/>
+        <menuitem id="paf_menu" name="Personnel Action Form" parent="hrms_employee.paf_main_menu"
+                  action="hr_contract_partial_view_action" sequence="1"
+                  groups="hrms_employee.group_hr_contract_personnel"/>
+
+        <record id="hr_contract_partial_employee_payroll_form_view" model="ir.ui.view">
+            <field name="name">hr.contract.partial.employee.payroll.form</field>
+            <field name="model">hr.contract.partial.employee.payroll</field>
+            <field name="arch" type="xml">
+               <form>
+                   <p>Request(s) will be validated accordingly to its status and be forwarded to payroll.</p>
+                    <footer>
+                        <button name="forward_to_hr_contract" string="Forward" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_contract_partial_employee_payroll_action_view" model="ir.actions.act_window">
+            <field name="name">Forward to Payroll</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.contract.partial.employee.payroll</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_contract_partial_payroll_validate" model="ir.values">
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="name">Forward to Payroll</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('hr_contract_partial_employee_payroll_action_view'))"/>
+            <field name="key">action</field>
+            <field name="model">hr.contract.partial</field>
+        </record>
+
+        <record id="hr_contract_partial_employee_form_view" model="ir.ui.view">
+            <field name="name">hr.contract.partial.employee.form</field>
+            <field name="model">hr.contract.partial.employee</field>
+            <field name="arch" type="xml">
+               <form>
+                   <p>Request(s) will be validated accordingly to its status.</p>
+                    <footer>
+                        <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                        <button name="action_refuse" string="Refuse" type="object" class="oe_highlight"/>
+                        <button name="action_draft" string="Reset to Draft" type="object" class="oe_highlight"/>
+                        <button name="action_close" string="Expired" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_contract_partial_employee_action_view" model="ir.actions.act_window">
+            <field name="name">Validate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.contract.partial.employee</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_contract_partial_validate" model="ir.values">
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="name">Validate</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('hr_contract_partial_employee_action_view'))"/>
+            <field name="key">action</field>
+            <field name="model">hr.contract.partial</field>
+        </record>
+
+        <record id="view_hr_employee_inherited_paf" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherited.paf</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hrms_employee.hrms_employee_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='generate_identification_id']" position="after">
+                    <button name="%(action_hr_contract_partial_view)d"
+                            type="action" class="oe_inline oe_stat_button"
+                            atcatrs="{'invisible':[('state', '=', 'joined')]}"
+                            icon="fa-clipboard" help="Add/Edit/Review PAF"
+                            groups="hr.group_hr_manager,hrms_employee.group_hr_personnel" string="Personnel Action Form">
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--Employee List Template-->
+        <template id="report_hr_employee_template">
+			<t t-call="report.html_container">
+				<t t-call="report.external_layout"/>
+				<t t-foreach="docs" t-as="o">
+					<div class="page">
+                        <div class="text-center">
+                            <!--<span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;" class="text-uppercase" t-esc="company.name"/><br/>-->
+                            <t t-if="o.state in ('joined', 'probationary')">
+                                <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">LIST OF PROBATIONARY EMPLOYEE(S)<br/></span>
+                            </t>
+                            <t t-if="o.state == 'employment'">
+                                <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">LIST OF REGULAR EMPLOYEE(S)<br/></span>
+                            </t>
+                            <t t-if="o.state == 'relieved'">
+                                <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">LIST OF RESIGNED EMPLOYEE(S)<br/></span>
+                            </t>
+                            <t t-if="o.state == 'terminate'">
+                                <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">LIST OF TERMINATED EMPLOYEE(S)<br/></span>
+                            </t>
+                            <span style="font-weight:bold;font-family:Liberation Sans;font-size:10px;">AS OF<br/></span>
+                            <span t-if="o.from_date and o.to_date">
+                                <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.from_date,'%Y-%m-%d'))"/> - <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.to_date,'%Y-%m-%d'))"/>
+                            </span>
+                            <span t-if="not o.from_date and not o.to_date">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y')"/>
+                            </span>
+                        </div><br/>
+                        <span  style="font-weight:bold;font-family:Liberation Sans;font-size:12px;text-align:center;">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y %I:%M:%S %p')"/></span><br/>
+                        <table style="width:100%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                            <tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                <th style="width:2%;padding:10px;text-align:center;vertical-align:center;">NO</th>
+                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">EMPLOYEE ID</th>
+                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">LAST NAME</th>
+                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">FIRST NAME</th>
+                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">MIDDLE NAME</th>
+                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">SUFFIX</th>
+                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">COMPANY NAME</th>
+                                <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">COMPANY</th>
+                                <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">DEPARTMENT</th>
+                                <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">JOB POSITION</th>
+                                <t t-if="o.hiring_filter == 'actual'">
+                                    <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">DATE HIRED</th>
+                                </t>
+                                <t t-if="o.hiring_filter == 'payroll'">
+                                    <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">PAYROLL DATE HIRED</th>
+                                </t>
+                                <t t-if="o.hiring_filter == 'regular'">
+                                    <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">DATE OF REGULARIZATION</th>
+                                </t>
+                                <t t-if="o.hiring_filter == 'separate'">
+                                    <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">DATE OF SEPARATED</th>
+                                </t>
+                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">STATUS</th>
+                                <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">REMARKS</th>
+                            </tr>
+						<t t-set="company_ids" t-value="[]"/>
+                        <t t-foreach="records.sorted(key=lambda r: r.company_id.name)" t-as="recs">
+                            <t t-set="company_ids" t-value="company_ids+[recs.company_id]"/>
+                        </t>
+						<t t-foreach="o.get_sorted(list(set(company_ids)))" t-as="company">
+                            <!--<div style="page-break-before:always;">-->
+                                <!--<div class="row">-->
+                                    <!--<div class="col-xs-3">-->
+                                        <!--<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 50px;"/>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-xs-9 text-right" style="margin-top:20px;">-->
+                                        <!--<span><strong><span class="text-uppercase" t-field="company.name"/></strong><br/>-->
+                                            <!--<span t-field="company.rml_header1"/></span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="row zero_min_height">-->
+                                    <!--<div class="col-xs-12">-->
+                                        <!--<div style="border-bottom: 1px solid black;"> </div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="text-center">-->
+                                    <!--<span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;" class="text-uppercase" t-esc="company.name"/><br/>-->
+                                    <!--<span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">EMPLOYEE LIST REPORT<br/></span>-->
+                                    <!--<span style="font-weight:bold;font-family:Liberation Sans;font-size:10px;">AS OF<br/></span>-->
+                                    <!--<span t-if="o.from_date and o.to_date">-->
+                                        <!--<t t-esc="time.strftime('%B %d, %Y', time.strptime(o.from_date,'%Y-%m-%d'))"/> - <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.to_date,'%Y-%m-%d'))"/>-->
+                                    <!--</span>-->
+                                    <!--<span t-if="not o.from_date and not o.to_date">-->
+                                        <!--<span t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y')"/>-->
+                                    <!--</span>-->
+                                <!--</div><br/>-->
+                                <!--<span  style="font-weight:bold;font-family:Liberation Sans;font-size:12px;text-align:center;">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y %I:%M:%S %p')"/></span><br/>-->
+                                <!--<span style="font-weight:bold;font-family:Liberation Sans;font-size:14px;" class="text-uppercase"><span t-esc="company.name"/></span><br/>-->
+                                <!--<table style="width:100%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">-->
+                                    <!--<tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">-->
+                                        <!--<th style="width:2%;padding:10px;text-align:center;vertical-align:center;">NO</th>-->
+                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">EMPLOYEE ID</th>-->
+                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">LAST NAME</th>-->
+                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">FIRST NAME</th>-->
+                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">MIDDLE NAME</th>-->
+                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">SUFFIX</th>-->
+                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">COMPANY NAME</th>-->
+                                        <!--<th style="width:10%;padding:10px;text-align:center;vertical-align:center;">COMPANY</th>-->
+                                        <!--<th style="width:10%;padding:10px;text-align:center;vertical-align:center;">DEPARTMENT</th>-->
+                                        <!--<th style="width:10%;padding:10px;text-align:center;vertical-align:center;">JOB POSITION</th>-->
+                                        <!--<t t-if="o.hiring_filter == 'actual'">-->
+                                            <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">DATE HIRED</th>-->
+                                        <!--</t>-->
+                                        <!--<t t-if="o.hiring_filter == 'payroll'">-->
+                                            <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">PAYROLL DATE HIRED</th>-->
+                                        <!--</t>-->
+                                        <!--<t t-if="o.hiring_filter == 'regular'">-->
+                                            <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">DATE OF REGULARIZATION</th>-->
+                                        <!--</t>-->
+                                        <!--<t t-if="o.hiring_filter == 'separate'">-->
+                                            <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">DATE OF SEPARATED</th>-->
+                                        <!--</t>-->
+                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">STATUS</th>-->
+                                        <!--<th style="width:10%;padding:10px;text-align:center;vertical-align:center;">REMARKS</th>-->
+                                    <!--</tr>-->
+                                    <t t-set="department_ids" t-value="[]"/>
+                                    <t t-foreach="records.sorted(key=lambda r: r.department_id.name)" t-as="recs">
+                                        <t t-set="department_ids" t-value="department_ids+[recs.department_id]"/>
+                                    </t>
+                                    <t t-foreach="o.get_sorted(list(set(department_ids)))" t-as="department">
+                                        <t t-if="department.company_id.id == company.id">
+                                            <!--<span style="font-weight:bold;font-family:Liberation Sans;font-size:14px;" class="text-uppercase"><span t-esc="department.name"/> [ <span t-esc="company.partner_id.abbreviation"/> ]</span><br/>-->
+                                            <!--<table style="width:100%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">-->
+                                                <!--<tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">-->
+                                                    <!--<th style="width:2%;padding:10px;text-align:center;vertical-align:center;">NO</th>-->
+                                                    <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">EMPLOYEE ID</th>-->
+                                                    <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">LAST NAME</th>-->
+                                                    <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">FIRST NAME</th>-->
+                                                    <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">MIDDLE NAME</th>-->
+                                                    <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">SUFFIX</th>-->
+                                                    <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">COMPANY NAME</th>-->
+                                                    <!--<th style="width:10%;padding:10px;text-align:center;vertical-align:center;">JOB POSITION</th>-->
+                                                    <!--<th style="width:10%;padding:10px;text-align:center;vertical-align:center;">DEPARTMENT</th>-->
+                                                    <!--<t t-if="o.hiring_filter == 'actual'">-->
+                                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">DATE HIRED</th>-->
+                                                    <!--</t>-->
+                                                    <!--<t t-if="o.hiring_filter == 'payroll'">-->
+                                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">PAYROLL DATE HIRED</th>-->
+                                                    <!--</t>-->
+                                                    <!--<t t-if="o.hiring_filter == 'regular'">-->
+                                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">DATE OF REGULARIZATION</th>-->
+                                                    <!--</t>-->
+                                                    <!--<t t-if="o.hiring_filter == 'separate'">-->
+                                                        <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">DATE OF SEPARATED</th>-->
+                                                    <!--</t>-->
+                                                    <!--<th style="width:5%;padding:10px;text-align:center;vertical-align:center;">STATUS</th>-->
+                                                    <!--<th style="width:10%;padding:10px;text-align:center;vertical-align:center;">REMARKS</th>-->
+                                                <!--</tr>-->
+                                            <tr style="font-size:12px;font-weight:bold;background-color:#d6d8db;text-align:left;border: 1px solid #000000;">
+                                                <th style="padding:8px;text-align:left;vertical-align:center;" colspan="13"><span class="text-uppercase" t-esc="department.name"/> [<span class="text-uppercase" t-esc="company.partner_id.abbreviation"/>]</th>
+                                            </tr>
+                                                <t t-set="i" t-value="1"/>
+                                                <t t-foreach="records.sorted(key=lambda r: r.last_name)" t-as="rec">
+                                                    <t t-if="rec.department_id.id == department.id">
+                                                        <tr style="font-size:12px;">
+                                                            <th style="width:2%;padding:10px;text-align:center;vertical-align:center;">
+                                                                <span t-esc="i"/>
+                                                                <t t-set="i" t-value="i+1"/>
+                                                            </th>
+                                                            <th style="width:8%;padding:10px;text-align:center;vertical-align:center;">
+                                                                <t t-esc="rec.identification_id"/>
+                                                            </th>
+                                                            <th style="width:5%;padding:10px;text-align:left;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.last_name"/>
+                                                            </th>
+                                                            <th style="width:5%;padding:10px;text-align:left;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.first_name"/>
+                                                            </th>
+                                                            <th style="width:5%;padding:10px;text-align:left;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.middle_name"/>
+                                                            </th>
+                                                            <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.suffix"/>
+                                                            </th>
+                                                            <th style="width:5%;padding:10px;text-align:left;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.company_name"/>
+                                                            </th>
+                                                            <th style="width:10%;padding:10px;text-align:left;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.company_id.name"/>
+                                                            </th>
+                                                            <th style="width:10%;padding:10px;text-align:left;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.department_id.name"/>
+                                                            </th>
+                                                            <th style="width:10%;padding:10px;text-align:left;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.job_id.name"/>
+                                                            </th>
+                                                            <t t-if="o.hiring_filter == 'actual'">
+                                                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">
+                                                                    <t t-esc="rec.date_hired"/>
+                                                                </th>
+                                                            </t>
+                                                            <t t-if="o.hiring_filter == 'payroll'">
+                                                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">
+                                                                    <t t-esc="rec.pyrl_date_hired"/>
+                                                                </th>
+                                                            </t>
+                                                            <t t-if="o.hiring_filter == 'regular'">
+                                                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">
+                                                                    <t t-esc="rec.date_regularized"/>
+                                                                </th>
+                                                            </t>
+                                                            <t t-if="o.hiring_filter == 'separate'">
+                                                                <th style="width:5%;padding:10px;text-align:center;vertical-align:center;">
+                                                                    <t t-esc="rec.date_separated"/>
+                                                                </th>
+                                                            </t>
+                                                            <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">
+                                                                <span class="text-uppercase" t-esc="rec.state"/>
+                                                            </th>
+                                                            <th style="width:10%;padding:10px;text-align:center;vertical-align:center;">
+                                                                <span> </span>
+                                                            </th>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            <!--</table><br/>-->
+                                        </t>
+                                    </t>
+                            </t>
+
+                        </table><br/>
+                        <table style="width:50%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                            <tr style="font-size:12px;background-color:#d6d8db;text-align:center;border: 1px solid #000000;border-collapse: collapse;" class="table table-bordered">
+                                <td style="color:red;width:20%;padding:8px;text-align:center;vertical-align:center;font-weight:bold;">
+                                    <span>TOTAL</span>
+                                </td>
+                            </tr>
+                            <tr style="font-size:12px;text-align:center;border: 1px solid #000000;border-collapse: collapse;" class="table table-bordered">
+                                <td style="color:red;width:20%;padding:8px;text-align:center;vertical-align:center;font-weight:bold;">
+                                    <t t-set="x" t-value="0"/>
+                                    <t t-foreach="records.sorted(key=lambda r: r.last_name)" t-as="rec">
+                                        <t t-set="x" t-value="x+1"/>
+                                    </t>
+                                    <span t-esc="x"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                            <!--</div>-->
+						<!--</t>-->
+                    </div>
+				</t>
+			</t>
+        </template>
+
+        <template id="report_hr_employee_templates" inherit_id="hrms_employee.report_hr_employee_template">
+            <xpath expr="//t[@t-call='report.external_layout']" position="attributes">
+                <attribute name="t-call">hrms_employee.external_layout_footer_custom_employee</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--Employee Contract Template-->
+        <template id="report_monthly_contract_template">
+			<t t-call="report.html_container">
+				<t t-call="report.external_layout"/>
+				<t t-foreach="docs" t-as="o">
+					<div class="page">
+                        <br/>
+						<t t-set="company_ids" t-value="[]"/>
+                        <t t-foreach="records.sorted(key=lambda r: r.company_id.name)" t-as="recs">
+                            <t t-set="company_ids" t-value="company_ids+[recs.company_id]"/>
+                        </t>
+						<t t-foreach="o.get_sorted(list(set(company_ids)))" t-as="company">
+                            <div style="page-break-after:always;">
+                                <div class="text-center">
+                                    <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;" class="text-uppercase" t-esc="company.name"/><br/>
+                                    <span style="font-weight:bold;font-family:Liberation Sans;font-size:16px;">PERSONNEL MOVEMENTS<br/></span>
+                                    <span style="font-weight:bold;font-family:Liberation Sans;font-size:10px;">AS OF<br/></span>
+                                    <span t-if="o.from_date and o.to_date">
+                                        <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.from_date,'%Y-%m-%d'))"/> - <t t-esc="time.strftime('%B %d, %Y', time.strptime(o.to_date,'%Y-%m-%d'))"/>
+                                    </span>
+                                </div><br/>
+                                <span  style="font-weight:bold;font-family:Liberation Sans;font-size:12px;text-align:center;">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y %I:%M:%S %p')"/></span><br/>
+                                <t t-set="department_ids" t-value="[]"/>
+                                <t t-foreach="records.sorted(key=lambda r: r.department_id.name)" t-as="recs">
+                                    <t t-set="department_ids" t-value="department_ids+[recs.department_id]"/>
+                                </t>
+                                <t t-foreach="o.get_sorted(list(set(department_ids)))" t-as="department">
+                                    <t t-if="department.company_id.id == company.id">
+                                        <span style="font-weight:bold;font-family:Liberation Sans;font-size:14px;" class="text-uppercase"><span t-esc="department.name"/> [ <span t-esc="company.partner_id.abbreviation"/> ]</span><br/>
+                                        <table style="width:100%;text-align:center;font-family:Liberation Sans;border: 1px solid #000000;border-collapse: collapse;">
+                                            <tr style="font-size:12;font-weight:bold;background-color:#d6d8db;text-align:center;border: 1px solid #000000;">
+                                                <th style="width:2%;padding:8px;text-align:center;vertical-align:center;">NO</th>
+                                                <th style="width:15%;padding:8px;text-align:center;vertical-align:center;" colspan="2">EMPLOYEE</th>
+                                                <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">JOB POSITION</th>
+                                                <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">JOB LEVEL</th>
+                                                <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">TYPE</th>
+                                                <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">SALARY WAGE</th>
+                                                <!--<th style="width:10%;padding:8px;text-align:center;vertical-align:center;">COLA</th>-->
+                                                <th style="width:10%;padding:8px;text-align:center;vertical-align:center;">ALLOWANCE</th>
+                                                <th style="width:5%;padding:8px;text-align:center;vertical-align:center;">DATE EFFECTIVE</th>
+                                            </tr>
+                                            <t t-set="i" t-value="1"/>
+                                            <t t-foreach="records" t-as="rec">
+                                                <t t-if="rec.department_id.id == department.id and rec.company_id.id == company.id">
+                                                    <tr style="font-size:12px;">
+                                                        <td style="width:2%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <span t-esc="i"/>
+                                                            <t t-set="i" t-value="i+1"/>
+                                                        </td>
+                                                        <td style="width:5%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <t t-esc="rec.employee_id.identification_id"/>
+                                                        </td>
+                                                        <td style="width:10%;padding:8px;text-align:left;vertical-align:center;">
+                                                            <span t-esc="rec.employee_id.name"/>
+                                                        </td>
+                                                        <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <t t-if="not o.contract_comparison">
+                                                                <span class="text-uppercase" t-esc="rec.job_id.name"/>
+                                                            </t>
+                                                            <t t-if="o.contract_comparison">
+                                                                <span class="text-uppercase" t-esc="rec.previous_job_id.name"/> - <span class="text-uppercase" t-esc="rec.job_id.name"/>
+                                                            </t>
+                                                        </td>
+                                                        <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <t t-if="not o.contract_comparison">
+                                                                <span class="text-uppercase" t-esc="rec.emp_classification_id.code"/>
+                                                            </t>
+                                                            <t t-if="o.contract_comparison">
+                                                                <span class="text-uppercase" t-esc="rec.previous_emp_classification_id.code"/> - <span class="text-uppercase" t-esc="rec.emp_classification_id.code"/>
+                                                            </t>
+                                                        </td>
+                                                        <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <t t-if="o.employment_type == 'initial'">
+                                                                <span>INITIAL HIRING</span>
+                                                            </t>
+                                                            <t t-if="o.employment_type == 'confirm'">
+                                                                <span>CONFIRMATION OF REGULARIZATION</span>
+                                                            </t>
+                                                            <t t-if="o.employment_type == 'rehire'">
+                                                                <span>RE-HIRE</span>
+                                                            </t>
+                                                            <t t-if="o.employment_type == 'promote'">
+                                                                <span>PROMOTION</span>
+                                                            </t>
+                                                            <t t-if="o.employment_type == 'position'">
+                                                                <span>CHANGE IN POSITION</span>
+                                                            </t>
+                                                            <t t-if="o.employment_type == 'separate'">
+                                                                <span>SEPARATION</span>
+                                                            </t>
+                                                            <t t-if="o.employment_type == 'others'">
+                                                                <span class="text-uppercase" t-esc="rec.extra_salary_changes"/>
+                                                            </t>
+                                                        </td>
+                                                        <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <t t-if="not o.contract_comparison">
+                                                                <span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.wage)"/>
+                                                            </t>
+                                                            <t t-if="o.contract_comparison">
+                                                                <span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.previous_contract_id.wage)"/>
+                                                                - <span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.wage)"/>
+                                                            </t>
+                                                        </td>
+                                                        <!--<th style="width:10%;padding:8px;text-align:center;vertical-align:center;">-->
+                                                            <!--<t t-if="not o.contract_comparison">-->
+                                                                <!--<t t-if="rec.cola_id">-->
+                                                                   <!--<span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.cola_id.cola)"/>-->
+                                                                <!--</t>-->
+                                                            <!--</t>-->
+                                                            <!--<t t-if="o.contract_comparison">-->
+                                                                <!--<t t-if="rec.cola_id or rec.previous_contract_id.cola_id">-->
+                                                                    <!--<span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.previous_contract_id.cola_id.cola)"/>-->
+                                                                    <!-- - <span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.cola_id.cola)"/>-->
+                                                                <!--</t>-->
+                                                            <!--</t>-->
+                                                        <!--</th>-->
+                                                        <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <t t-if="not o.contract_comparison">
+                                                                <t t-if="rec.allowance">
+                                                                    <span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.allowance)"/>
+                                                                </t>
+                                                            </t>
+                                                            <t t-if="o.contract_comparison">
+                                                                <t t-if="rec.allowance or rec.previous_allowance">
+                                                                    <span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.previous_allowance)"/>
+                                                                    - <span class="text-uppercase" t-esc="rec.company_id.currency_id.symbol"/> <span class="text-uppercase" t-esc="'{0:,.2f}'.format(rec.allowance)"/>
+                                                                </t>
+                                                            </t>
+                                                        </td>
+                                                        <td style="width:10%;padding:8px;text-align:center;vertical-align:center;">
+                                                            <span class="text-uppercase" t-esc="time.strftime('%d-%b-%Y', time.strptime(rec.date_start,'%Y-%m-%d'))"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </table><br/>
+                                    </t>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

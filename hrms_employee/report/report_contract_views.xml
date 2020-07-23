@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_contract_handler_form" model="ir.ui.view">
+            <field name="name">Personnel Movement</field>
+            <field name="model">hr.contract.handler</field>
+            <field name="arch" type="xml">
+                <form string="Hr Contract Report">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="from_date"/>
+                                <field name="employment_type"/>
+                                <field name="contract_comparison"/>
+                            </group>
+                            <group>
+                                <field name="to_date"/>
+                                <field name="filters"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="company_ids" options="{'no_create':True}" widget="many2many_tags" attrs="{'invisible':[('filters', '!=', 'company')]}"/>
+                            <field name="department_ids" options="{'no_create':True}" domain="[('is_branch', '=', False)]" attrs="{'invisible':[('filters', '!=', 'department')]}"/>
+                            <field name="branch_ids" options="{'no_create':True}" domain="[('is_branch', '=', True)]" attrs="{'invisible':[('filters', '!=', 'branch')]}"/>
+                            <field name="job_ids" options="{'no_create':True}" attrs="{'invisible':[('filters', '!=', 'job')]}"/>
+                        </group>
+                        <footer>
+                            <button name="print_contract_report"
+                                        string="Print"
+                                        type="object"
+                                        class="btn-primary"/>
+
+                            <button string="Cancel" special="cancel" class="btn-default"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_contract_report_action" model="ir.actions.act_window">
+            <field name="name">Personnel Movement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.contract.handler</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+			<field name="target">new</field>
+        </record>
+
+        <menuitem id="employee_contract_report_menu" action="hr_contract_report_action"
+                  parent="main_hr_employee_report_menu" name="Personnel Movement" sequence="2"/>
+
+    </data>
+</odoo>

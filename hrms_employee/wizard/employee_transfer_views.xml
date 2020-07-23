@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+        <record id="employee_transfer_form_views" model="ir.ui.view">
+            <field name="name">hr.employee.transfer.form</field>
+            <field name="model">hr.employee.transfer</field>
+            <field name="arch" type="xml">
+                <form string="">
+                        <field name="state" invisible="True"/>
+                        <div states="choose" class="oe_title">
+                            <label for="employee_id" string="Employee"/>
+                            <h2>
+                                <field name="employee_id" readonly="1" nolabel="1"/>
+                            </h2>
+                        </div>
+                        <group states="choose">
+                            <field name="job_id" options="{'no_create':True}" required="1"/>
+                            <field name="emp_classification_id" options="{'no_create':True}" required="1"/>
+                            <field name="department_id" options="{'no_create':True}" required="1"/>
+                            <field name="company_id" options="{'no_create':True}" widget="selection" required="1"/>
+                            <field name="employee_state"/>
+                            <field name="effective_date" required="1"/>
+                            <field name="user_id" readonly="1"/>
+                        </group>
+                        <group states="get">
+                            <div>
+                                <h1>
+                                    <field name="msg" readonly="True"/>
+                                </h1>
+                            </div>
+                        </group>
+                    <footer>
+                        <button name="process_transfer" string="Transfer Now" confirm="Confirmation Required!"
+                                type="object" states="choose" class="btn-primary"/>
+                        <button string="Cancel" type="object" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_employee_transfer_action_view" model="ir.actions.act_window">
+            <field name="name">Transfer Employee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.transfer</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="context">{'search_default_employee_id': [active_id], 'default_employee_id': active_id}</field>
+            <field name="domain">[('employee_id', '=', active_id)]</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="view_hr_employee_inherited_transfer" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherited.form123</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hrms_employee.hrms_employee_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_rehire']" position="after">
+                    <button name="%(hr_employee_transfer_action_view)d"
+                        type="action" class="oe_inline oe_stat_button"
+                        icon="fa-exchange" help="Transfer Employee"
+                        groups="hr.group_hr_manager,hrms_employee.group_hr_personnel" string="Transfer">
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

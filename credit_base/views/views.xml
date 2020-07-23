@@ -1,349 +1,394 @@
-<odoo>
-  <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="credit_base.list">
-      <field name="name">credit_base list</field>
-      <field name="model">credit_base.credit_base</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
-    -->
-
-    <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="credit_base.action_window">
-      <field name="name">credit_base window</field>
-      <field name="res_model">credit_base.credit_base</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-    -->
-
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="credit_base.action_server">
-      <field name="name">credit_base server</field>
-      <field name="model_id" ref="model_mgc_credit_mgc_credit"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
-    -->
-
-      <!-- Top menu item -->
-      <menuitem name="Microfinancing"
-                id="credit_base.menu_root"
-                groups="base.group_user"
-                sequence="66"/>
-
-      <!-- menu categories -->
-      <menuitem name="System"
-                id="credit_base.system"
-                parent="credit_base.menu_root"
-                sequence="2"/>
-
-      <menuitem name="Transactions"
-                id="credit_base.transactions"
-                parent="credit_base.menu_root"
-                sequence="3"/>
-
-      <menuitem name="Reports"
-                id="credit_base.reports"
-                parent="credit_base.menu_root"
-                sequence="4"/>
-
-      <menuitem name="Lists"
-                id="credit_base.lists"
-                parent="credit_base.menu_root"
-                sequence="5"/>
+<!--<odoo>-->
+<!--  <data>-->
+<!--    &lt;!&ndash; explicit list view definition &ndash;&gt;-->
+<!--    &lt;!&ndash;-->
+<!--    <record model="ir.ui.view" id="credit_base.list">-->
+<!--      <field name="name">credit_base list</field>-->
+<!--      <field name="model">credit_base.credit_base</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--          <field name="name"/>-->
+<!--          <field name="value"/>-->
+<!--          <field name="value2"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+<!--    &ndash;&gt;-->
+
+<!--    &lt;!&ndash; actions opening views on models &ndash;&gt;-->
+<!--    &lt;!&ndash;-->
+<!--    <record model="ir.actions.act_window" id="credit_base.action_window">-->
+<!--      <field name="name">credit_base window</field>-->
+<!--      <field name="res_model">credit_base.credit_base</field>-->
+<!--      <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
+<!--    &ndash;&gt;-->
+
+<!--    &lt;!&ndash; server action to the one above &ndash;&gt;-->
+<!--    &lt;!&ndash;-->
+<!--    <record model="ir.actions.server" id="credit_base.action_server">-->
+<!--      <field name="name">credit_base server</field>-->
+<!--      <field name="model_id" ref="model_mgc_credit_mgc_credit"/>-->
+<!--      <field name="state">code</field>-->
+<!--      <field name="code">-->
+<!--        action = {-->
+<!--          "type": "ir.actions.act_window",-->
+<!--          "view_mode": "tree,form",-->
+<!--          "res_model": self._name,-->
+<!--        }-->
+<!--      </field>-->
+<!--    </record>-->
+<!--    &ndash;&gt;-->
+
+<!--      &lt;!&ndash; Top menu item &ndash;&gt;-->
+<!--      <menuitem name="Microfinancing"-->
+<!--                id="credit_base.menu_root"-->
+<!--                groups="credit_base.group_credit_internal_user"-->
+<!--                sequence="66"/>-->
+
+<!--      <menuitem name="Clients"-->
+<!--          id="credit_base.client"-->
+<!--          parent="credit_base.menu_root"-->
+<!--          sequence="1"/>-->
+
+<!--      <menuitem name="Client List" id="credit_base.client_list" parent="credit_base.client" action="credit_base.action_window_client_list"/>-->
+
+<!--      <record id="credit_base.client_tree_view" model="ir.ui.view">-->
+<!--          <field name="name">credit.loan.financing.list</field>-->
+<!--          <field name="model">credit.loan.financing</field>-->
+<!--          <field name="arch" type="xml">-->
+<!--              <tree string="List of Clients">-->
+<!--                  <field name="name"/>-->
+<!--              </tree>-->
+<!--          </field>-->
+<!--      </record>-->
+
+<!--      <record id="credit_base.client_form_view" model="ir.ui.view">-->
+<!--          <field name="name">credit.loan.financing.form</field>-->
+<!--          <field name="model">credit.loan.financing</field>-->
+<!--          <field name="arch" type="xml">-->
+<!--              <form string="Client">-->
+<!--                  <sheet>-->
+<!--                      <group>-->
+<!--                          <field name="name"/>-->
+<!--                      </group>-->
+<!--                  </sheet>-->
+<!--              </form>-->
+<!--          </field>-->
+<!--      </record>-->
+
+<!--      <record id="credit_base.action_window_client_list" model="ir.actions.act_window">-->
+<!--          <field name="name">Clients</field>-->
+<!--          <field name="type">ir.actions.act_window</field>-->
+<!--          <field name="res_model">credit.loan.financing</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--          <field name="view_id" ref="credit_base.client_tree_view"/>-->
+<!--          <field name="help" type="html">-->
+<!--            <p class="oe_view_nocontent_create">-->
+<!--              &lt;!&ndash; Add Text Here &ndash;&gt;-->
+<!--            </p><p>-->
+<!--              &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+<!--            </p>-->
+<!--          </field>-->
+<!--      </record>-->
+<!--      &lt;!&ndash; menu categories &ndash;&gt;-->
+<!--&lt;!&ndash;      <menuitem name="System"&ndash;&gt;-->
+<!--&lt;!&ndash;                id="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                parent="credit_base.menu_root"&ndash;&gt;-->
+<!--&lt;!&ndash;                sequence="2"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <menuitem name="Transactions"&ndash;&gt;-->
+<!--&lt;!&ndash;                id="credit_base.transactions"&ndash;&gt;-->
+<!--&lt;!&ndash;                parent="credit_base.menu_root"&ndash;&gt;-->
+<!--&lt;!&ndash;                sequence="3"/>&ndash;&gt;-->
 
-      <menuitem name="BLCL"
-                id="credit_base.blcl"
-                parent="credit_base.menu_root"
-                sequence="6"/>
-
-      <!--system actions -->
+<!--&lt;!&ndash;      <menuitem name="Reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                id="credit_base.reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                parent="credit_base.menu_root"&ndash;&gt;-->
+<!--&lt;!&ndash;                sequence="4"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Switch to Single User Mode" id="credit_base.single_user_mode" parent="credit_base.system"-->
-<!--                action="credit_base.action_single_user_mode"/>-->
+<!--&lt;!&ndash;      <menuitem name="Lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                id="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                parent="credit_base.menu_root"&ndash;&gt;-->
+<!--&lt;!&ndash;                sequence="5"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Unlock" id="credit_base.unlock" parent="credit_base.system"-->
-<!--                action="credit_base.unlock"/>-->
+<!--&lt;!&ndash;      <menuitem name="BLCL"&ndash;&gt;-->
+<!--&lt;!&ndash;                id="credit_base.blcl"&ndash;&gt;-->
+<!--&lt;!&ndash;                parent="credit_base.menu_root"&ndash;&gt;-->
+<!--&lt;!&ndash;                sequence="6"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Preferences" id="credit_base.preferences" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_preferences"/>-->
+<!--      &lt;!&ndash;system actions &ndash;&gt;-->
 
-<!--      <menuitem name="Users" id="credit_base.users" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_users"/>-->
+<!--&lt;!&ndash;      <menuitem name="Switch to Single User Mode" id="credit_base.single_user_mode" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_single_user_mode"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Change Access Code" id="credit_base.change_access_code" parent="credit_base.system"-->
-<!--                action="credit_base.change_access_code"/>-->
+<!--&lt;!&ndash;      <menuitem name="Unlock" id="credit_base.unlock" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.unlock"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Periods" id="credit_base.periods" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_periods"/>-->
+<!--&lt;!&ndash;      <menuitem name="Preferences" id="credit_base.preferences" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_preferences"/>&ndash;&gt;-->
 
-<!--      <menuitem name="End of Day" id="credit_base.end_of_day" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_end_of_day"/>-->
+<!--&lt;!&ndash;      <menuitem name="Users" id="credit_base.users" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_users"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Close Periods" id="credit_base.close_periods" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_close_periods"/>-->
+<!--&lt;!&ndash;      <menuitem name="Change Access Code" id="credit_base.change_access_code" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.change_access_code"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Re-open Closed Periods" id="credit_base.reopen_closed_periods" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_reopen_closed_periods"/>-->
+<!--&lt;!&ndash;      <menuitem name="Periods" id="credit_base.periods" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_periods"/>&ndash;&gt;-->
 
-<!--      <menuitem name="End of Year" id="credit_base.end_of_year" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_end_of_year"/>-->
+<!--&lt;!&ndash;      <menuitem name="End of Day" id="credit_base.end_of_day" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_end_of_day"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Data File Cleaner" id="credit_base.data_file_cleaner" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_data_file_cleaner"/>-->
+<!--&lt;!&ndash;      <menuitem name="Close Periods" id="credit_base.close_periods" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_close_periods"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Data Integrity Checker" id="credit_base.data_integrity_checker" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_data_integrity_checker"/>-->
+<!--&lt;!&ndash;      <menuitem name="Re-open Closed Periods" id="credit_base.reopen_closed_periods" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_reopen_closed_periods"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Backup" id="credit_base.backup" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_backup"/>-->
+<!--&lt;!&ndash;      <menuitem name="End of Year" id="credit_base.end_of_year" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_end_of_year"/>&ndash;&gt;-->
 
-<!--      <menuitem name="About..." id="credit_base.about" parent="credit_base.system"-->
-<!--                action="credit_base.action_window_about"/>-->
+<!--&lt;!&ndash;      <menuitem name="Data File Cleaner" id="credit_base.data_file_cleaner" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_data_file_cleaner"/>&ndash;&gt;-->
 
-<!--  &lt;!&ndash;    <menuitem name="Close" id="credit_base.journal_entry" parent="credit_base.system"&ndash;&gt;-->
-<!--  &lt;!&ndash;              action="credit_base.action_window_journal_entry"/>&ndash;&gt;-->
+<!--&lt;!&ndash;      <menuitem name="Data Integrity Checker" id="credit_base.data_integrity_checker" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_data_integrity_checker"/>&ndash;&gt;-->
 
-<!--      &lt;!&ndash;transactions actions &ndash;&gt;-->
+<!--&lt;!&ndash;      <menuitem name="Backup" id="credit_base.backup" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_backup"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Cash Receipt" id="credit_base.cash_receipt" parent="credit_base.transactions"-->
-<!--                action="credit_base.action_window_cash_receipt"/>-->
+<!--&lt;!&ndash;      <menuitem name="About..." id="credit_base.about" parent="credit_base.system"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_about"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Cash Payment" id="credit_base.cash_payment" parent="credit_base.transactions"-->
-<!--                action="credit_base.action_window_cash_payment"/>-->
+<!--&lt;!&ndash;  &lt;!&ndash;    <menuitem name="Close" id="credit_base.journal_entry" parent="credit_base.system"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;  &lt;!&ndash;              action="credit_base.action_window_journal_entry"/>&ndash;&gt;&ndash;&gt;-->
 
-<!--      <menuitem name="Journal Entry" id="credit_base.journal_entry" parent="credit_base.transactions"-->
-<!--                action="credit_base.action_window_journal_entry"/>-->
+<!--&lt;!&ndash;      &lt;!&ndash;transactions actions &ndash;&gt;&ndash;&gt;-->
 
-<!--      &lt;!&ndash;reports actions &ndash;&gt;-->
+<!--&lt;!&ndash;      <menuitem name="Cash Receipt" id="credit_base.cash_receipt" parent="credit_base.transactions"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_cash_receipt"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Accounting System" id="credit_base.accounting_system" parent="credit_base.reports"/>-->
+<!--&lt;!&ndash;      <menuitem name="Cash Payment" id="credit_base.cash_payment" parent="credit_base.transactions"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_cash_payment"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Journals" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_journal_report"/>-->
+<!--&lt;!&ndash;      <menuitem name="Journal Entry" id="credit_base.journal_entry" parent="credit_base.transactions"&ndash;&gt;-->
+<!--&lt;!&ndash;                action="credit_base.action_window_journal_entry"/>&ndash;&gt;-->
 
-<!--          <menuitem name="General Ledger" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_general_ledger_report"/>-->
+<!--&lt;!&ndash;      &lt;!&ndash;reports actions &ndash;&gt;&ndash;&gt;-->
 
-<!--          <menuitem name="Trial Balance" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_trial_balance_report"/>-->
+<!--&lt;!&ndash;      <menuitem name="Accounting System" id="credit_base.accounting_system" parent="credit_base.reports"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Balance Sheet" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_balance_sheet_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Journals" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_journal_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Income Statement" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_income_statement_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="General Ledger" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_general_ledger_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Subsidiary ledger" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_subsidiary_ledger_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Trial Balance" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_trial_balance_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Schedule of Subsidiary Account" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_schedule_of_subsidiary_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Balance Sheet" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_balance_sheet_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Schedule of Detail Accounts" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_schedule_of_detail_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Income Statement" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_income_statement_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Ledger Account Details" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_ledger_account_details_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Subsidiary ledger" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_subsidiary_ledger_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Ledger Account Periodic Changes" id="credit_base.daily_reports" parent="credit_base.accounting_system"-->
-<!--                  action="credit_base.action_window_ledger_account_periodic_changes_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Schedule of Subsidiary Account" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_schedule_of_subsidiary_report"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Loan System" id="credit_base.loan_system" parent="credit_base.reports"/>-->
+<!--&lt;!&ndash;          <menuitem name="Schedule of Detail Accounts" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_schedule_of_detail_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Journals" id="credit_base.daily_reports" parent="credit_base.loan_system"-->
-<!--                  action="credit_base.action_window_loan_journals_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Ledger Account Details" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_ledger_account_details_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Ledgers" id="credit_base.daily_reports" parent="credit_base.loan_system"-->
-<!--                  action="credit_base.action_window_loan_ledgers_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Ledger Account Periodic Changes" id="credit_base.daily_reports" parent="credit_base.accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_ledger_account_periodic_changes_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Schedules" id="credit_base.daily_reports" parent="credit_base.loan_system"-->
-<!--                  action="credit_base.action_window_loan_schedules_report"/>-->
+<!--&lt;!&ndash;      <menuitem name="Loan System" id="credit_base.loan_system" parent="credit_base.reports"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Aging of Loan Accounts" id="credit_base.daily_reports" parent="credit_base.loan_system"-->
-<!--                  action="credit_base.action_window_aging_of_loan_accounts_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Journals" id="credit_base.daily_reports" parent="credit_base.loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_journals_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Collectibles" id="credit_base.daily_reports" parent="credit_base.loan_system"-->
-<!--                  action="credit_base.action_window_loan_collectibles_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Ledgers" id="credit_base.daily_reports" parent="credit_base.loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_ledgers_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Account Details" id="credit_base.daily_reports" parent="credit_base.loan_system"-->
-<!--                  action="credit_base.action_window_loan_account_details_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Schedules" id="credit_base.daily_reports" parent="credit_base.loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_schedules_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Transaction Code Details" id="credit_base.daily_reports" parent="credit_base.loan_system"-->
-<!--                  action="credit_base.action_window_loan_transaction_codes_details_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Aging of Loan Accounts" id="credit_base.daily_reports" parent="credit_base.loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_aging_of_loan_accounts_report"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Savings System" id="credit_base.savings_system" parent="credit_base.reports"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Collectibles" id="credit_base.daily_reports" parent="credit_base.loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_collectibles_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Journal" id="credit_base.daily_reports" parent="credit_base.savings_system"-->
-<!--                  action="credit_base.action_window_savings_journal_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Account Details" id="credit_base.daily_reports" parent="credit_base.loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_account_details_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Ledgers" id="credit_base.daily_reports" parent="credit_base.savings_system"-->
-<!--                  action="credit_base.action_window_savings_ledger_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Transaction Code Details" id="credit_base.daily_reports" parent="credit_base.loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_transaction_codes_details_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Schedules" id="credit_base.daily_reports" parent="credit_base.savings_system"-->
-<!--                  action="credit_base.action_window_savings_schedules_report"/>-->
+<!--&lt;!&ndash;      <menuitem name="Savings System" id="credit_base.savings_system" parent="credit_base.reports"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Account Details" id="credit_base.daily_reports" parent="credit_base.savings_system"-->
-<!--                  action="credit_base.action_window_savings_account_details_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Journal" id="credit_base.daily_reports" parent="credit_base.savings_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_journal_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Transaction Code Details" id="credit_base.daily_reports" parent="credit_base.savings_system"-->
-<!--                  action="credit_base.action_window_savings_transaction_code_details_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Ledgers" id="credit_base.daily_reports" parent="credit_base.savings_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_ledger_report"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Daily Reports" id="credit_base.daily_reports" parent="credit_base.reports"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Schedules" id="credit_base.daily_reports" parent="credit_base.savings_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_schedules_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Cash position for the Day" id="credit_base.journal_entry" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_cash_position_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Account Details" id="credit_base.daily_reports" parent="credit_base.savings_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_account_details_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Journal for the Day" id="credit_base.daily_journal" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_journal_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Transaction Code Details" id="credit_base.daily_reports" parent="credit_base.savings_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_transaction_code_details_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="General Ledger for the Day" id="credit_base.daily_general_ledger" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_general_ledger_report"/>-->
+<!--&lt;!&ndash;      <menuitem name="Daily Reports" id="credit_base.daily_reports" parent="credit_base.reports"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Trial Balance for the Day" id="credit_base.daily_trial_balance" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_trial_balance_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Cash position for the Day" id="credit_base.journal_entry" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_cash_position_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Journal for the Day" id="credit_base.daily_loan_journal" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_loan_journal_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Journal for the Day" id="credit_base.daily_journal" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_journal_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Ledgers for the Day" id="credit_base.daily_loan_ledger" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_loan_ledger_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="General Ledger for the Day" id="credit_base.daily_general_ledger" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_general_ledger_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Schedules for the Day" id="credit_base.daily_loan_schedules" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_loan_schedule_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Trial Balance for the Day" id="credit_base.daily_trial_balance" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_trial_balance_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Journal for the Day" id="credit_base.daily_savings_journal" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_savings_journal_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Journal for the Day" id="credit_base.daily_loan_journal" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_loan_journal_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Ledgers for the Day" id="credit_base.daily_savings_ledger" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_savings_ledger_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Ledgers for the Day" id="credit_base.daily_loan_ledger" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_loan_ledger_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Schedules for the Day" id="credit_base.daily_savings_schedules" parent="credit_base.daily_reports"-->
-<!--                  action="credit_base.action_window_daily_savings_schedule_report"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Schedules for the Day" id="credit_base.daily_loan_schedules" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_loan_schedule_report"/>&ndash;&gt;-->
 
-<!--      &lt;!&ndash;lists actions &ndash;&gt;-->
+<!--&lt;!&ndash;          <menuitem name="Savings Journal for the Day" id="credit_base.daily_savings_journal" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_savings_journal_report"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Documents" id="credit_base.documents" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_documents"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Ledgers for the Day" id="credit_base.daily_savings_ledger" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_savings_ledger_report"/>&ndash;&gt;-->
 
-<!--      <menuitem name="References" id="credit_base.references" parent="credit_base.lists"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Schedules for the Day" id="credit_base.daily_savings_schedules" parent="credit_base.daily_reports"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_daily_savings_schedule_report"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Cash Receipt Transactions" id="credit_base.receipt_transactions" parent="credit_base.references"-->
-<!--                  action="credit_base.action_window_cash_receipt_transactions"/>-->
+<!--&lt;!&ndash;      &lt;!&ndash;lists actions &ndash;&gt;&ndash;&gt;-->
 
-<!--          <menuitem name="Cash Payment Transactions" id="credit_base.payment_transactions" parent="credit_base.references"-->
-<!--                  action="credit_base.action_window_cash_payment_transactions"/>-->
+<!--&lt;!&ndash;      <menuitem name="Documents" id="credit_base.documents" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_documents"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Journal Entry Transactions" id="credit_base.entry_transactions" parent="credit_base.references"-->
-<!--                  action="credit_base.action_window_journal_entry_transactions"/>-->
+<!--&lt;!&ndash;      <menuitem name="References" id="credit_base.references" parent="credit_base.lists"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Checking Accounts" id="credit_base.checking_acounts" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_checking_accounts"/>-->
+<!--&lt;!&ndash;          <menuitem name="Cash Receipt Transactions" id="credit_base.receipt_transactions" parent="credit_base.references"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_cash_receipt_transactions"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Checks" id="credit_base.checks" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_checks"/>-->
+<!--&lt;!&ndash;          <menuitem name="Cash Payment Transactions" id="credit_base.payment_transactions" parent="credit_base.references"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_cash_payment_transactions"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Names" id="credit_base.names" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_names"/>-->
+<!--&lt;!&ndash;          <menuitem name="Journal Entry Transactions" id="credit_base.entry_transactions" parent="credit_base.references"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_journal_entry_transactions"/>&ndash;&gt;-->
 
-<!--      <menuitem name="DOAs/DOs" id="credit_base.doas_dos" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_doas_dos"/>-->
+<!--&lt;!&ndash;      <menuitem name="Checking Accounts" id="credit_base.checking_acounts" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_checking_accounts"/>&ndash;&gt;-->
 
-<!--      <menuitem name="CARE Groups" id="credit_base.care_groups" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_care_groups"/>-->
+<!--&lt;!&ndash;      <menuitem name="Checks" id="credit_base.checks" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_checks"/>&ndash;&gt;-->
 
-<!--      <menuitem name="CARE Group Batches" id="credit_base.care_group_batches" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_care_group_batches"/>-->
+<!--&lt;!&ndash;      <menuitem name="Names" id="credit_base.names" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_names"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Members" id="credit_base.members" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_members"/>-->
+<!--&lt;!&ndash;      <menuitem name="DOAs/DOs" id="credit_base.doas_dos" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_doas_dos"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Members - Other Information" id="credit_base.members_oi" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_members_oi"/>-->
+<!--&lt;!&ndash;      <menuitem name="CARE Groups" id="credit_base.care_groups" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_care_groups"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Accounting System" id="credit_base.lists_accounting_system" parent="credit_base.lists"/>-->
+<!--&lt;!&ndash;      <menuitem name="CARE Group Batches" id="credit_base.care_group_batches" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_care_group_batches"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Chart of Accounts" id="credit_base.chart_of_accounts" parent="credit_base.lists_accounting_system"-->
-<!--                  action="credit_base.action_window_chart_of_accounts"/>-->
+<!--&lt;!&ndash;      <menuitem name="Members" id="credit_base.members" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_members"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Subsidiary Accounts" id="credit_base.subsidiary_accounts" parent="credit_base.lists_accounting_system"-->
-<!--                  action="credit_base.action_window_subsidiary_accounts"/>-->
+<!--&lt;!&ndash;      <menuitem name="Members - Other Information" id="credit_base.members_oi" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_members_oi"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Loan System" id="credit_base.lists_loan_system" parent="credit_base.lists"/>-->
+<!--&lt;!&ndash;      <menuitem name="Accounting System" id="credit_base.lists_accounting_system" parent="credit_base.lists"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Accounts" id="credit_base.loan_accounts" parent="credit_base.lists_loan_system"-->
-<!--                  action="credit_base.action_window_loan_accounts"/>-->
+<!--&lt;!&ndash;          <menuitem name="Chart of Accounts" id="credit_base.chart_of_accounts" parent="credit_base.lists_accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_chart_of_accounts"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Accounts - Other Information" id="credit_base.loan_accounts_oi" parent="credit_base.lists_loan_system"-->
-<!--                  action="credit_base.action_window_loan_accounts_oi"/>-->
+<!--&lt;!&ndash;          <menuitem name="Subsidiary Accounts" id="credit_base.subsidiary_accounts" parent="credit_base.lists_accounting_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_subsidiary_accounts"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Account Details and Schedules" id="credit_base.loan_account_details_schedules" parent="credit_base.lists_loan_system"-->
-<!--                  action="credit_base.action_window_loan_account_details_schedules"/>-->
+<!--&lt;!&ndash;      <menuitem name="Loan System" id="credit_base.lists_loan_system" parent="credit_base.lists"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Account Data" id="credit_base.loan_account_data" parent="credit_base.lists_loan_system"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Accounts" id="credit_base.loan_accounts" parent="credit_base.lists_loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_accounts"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Loan Account Classifications" id="credit_base.loan_account_classifications" parent="credit_base.loan_account_data"-->
-<!--                  action="credit_base.action_window_loan_account_classifications"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Accounts - Other Information" id="credit_base.loan_accounts_oi" parent="credit_base.lists_loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_accounts_oi"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Loan Products" id="credit_base.loan_products" parent="credit_base.loan_account_data"-->
-<!--                  action="credit_base.action_window_loan_products"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Account Details and Schedules" id="credit_base.loan_account_details_schedules" parent="credit_base.lists_loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_account_details_schedules"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Finance Charge Rates for Penalty" id="credit_base.charge_rates_penalty" parent="credit_base.loan_account_data"-->
-<!--                  action="credit_base.action_window_charge_rates_penalty"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Account Data" id="credit_base.loan_account_data" parent="credit_base.lists_loan_system"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Finance Charge Rates for Surcharge" id="credit_base.charge_rates_surcharge" parent="credit_base.loan_account_data"-->
-<!--                  action="credit_base.action_window_charge_rates_surcharge"/>-->
+<!--&lt;!&ndash;              <menuitem name="Loan Account Classifications" id="credit_base.loan_account_classifications" parent="credit_base.loan_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_account_classifications"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Loan Funds" id="credit_base.funds" parent="credit_base.loan_account_data"-->
-<!--                  action="credit_base.action_window_funds"/>-->
+<!--&lt;!&ndash;              <menuitem name="Loan Products" id="credit_base.loan_products" parent="credit_base.loan_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_loan_products"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Loan Collaterals" id="credit_base.collaterals" parent="credit_base.loan_account_data"-->
-<!--                  action="credit_base.action_window_collaterals"/>-->
+<!--&lt;!&ndash;              <menuitem name="Finance Charge Rates for Penalty" id="credit_base.charge_rates_penalty" parent="credit_base.loan_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_charge_rates_penalty"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Co-makers" id="credit_base.co_makers" parent="credit_base.loan_account_data"-->
-<!--                  action="credit_base.action_window_co_makers"/>-->
+<!--&lt;!&ndash;              <menuitem name="Finance Charge Rates for Surcharge" id="credit_base.charge_rates_surcharge" parent="credit_base.loan_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_charge_rates_surcharge"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Loan Transaction Codes" id="credit_base.transaction_codes" parent="credit_base.lists_loan_system"-->
-<!--                  action="credit_base.action_window_transaction_codes"/>-->
+<!--&lt;!&ndash;              <menuitem name="Loan Funds" id="credit_base.funds" parent="credit_base.loan_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_funds"/>&ndash;&gt;-->
 
-<!--          <menuitem name="No Collection Dates and Loan Accounts" id="credit_base.no_dates_accounts" parent="credit_base.lists_loan_system"-->
-<!--                  action="credit_base.action_window_no_dates_accounts"/>-->
+<!--&lt;!&ndash;              <menuitem name="Loan Collaterals" id="credit_base.collaterals" parent="credit_base.loan_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_collaterals"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Savings System" id="credit_base.lists_savings_system" parent="credit_base.lists"-->
-<!--                  action="credit_base.action_window_lists_savings_system"/>-->
+<!--&lt;!&ndash;              <menuitem name="Co-makers" id="credit_base.co_makers" parent="credit_base.loan_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_co_makers"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Accounts" id="credit_base.savings_accounts" parent="credit_base.lists_savings_system"-->
-<!--                  action="credit_base.action_window_savings_accounts"/>-->
+<!--&lt;!&ndash;          <menuitem name="Loan Transaction Codes" id="credit_base.transaction_codes" parent="credit_base.lists_loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_transaction_codes"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Account Data" id="credit_base.savings_account_data" parent="credit_base.lists_savings_system"/>-->
+<!--&lt;!&ndash;          <menuitem name="No Collection Dates and Loan Accounts" id="credit_base.no_dates_accounts" parent="credit_base.lists_loan_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_no_dates_accounts"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Savings Account Classifications" id="credit_base.savings_account_classifications" parent="credit_base.savings_account_data"-->
-<!--                  action="credit_base.action_window_savings_account_classifications"/>-->
+<!--&lt;!&ndash;      <menuitem name="Savings System" id="credit_base.lists_savings_system" parent="credit_base.lists"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_lists_savings_system"/>&ndash;&gt;-->
 
-<!--              <menuitem name="Savings Products" id="credit_base.savings_products" parent="credit_base.savings_account_data"-->
-<!--                  action="credit_base.action_window_savings_products"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Accounts" id="credit_base.savings_accounts" parent="credit_base.lists_savings_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_accounts"/>&ndash;&gt;-->
 
-<!--          <menuitem name="Savings Transaction Codes" id="credit_base.savings_transaction_codes" parent="credit_base.lists_savings_system"-->
-<!--                  action="credit_base.action_window_savings_transaction_codes"/>-->
+<!--&lt;!&ndash;          <menuitem name="Savings Account Data" id="credit_base.savings_account_data" parent="credit_base.lists_savings_system"/>&ndash;&gt;-->
 
-<!--      &lt;!&ndash;blcl actions &ndash;&gt;-->
+<!--&lt;!&ndash;              <menuitem name="Savings Account Classifications" id="credit_base.savings_account_classifications" parent="credit_base.savings_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_account_classifications"/>&ndash;&gt;-->
 
-<!--      <menuitem name="Batch Loan and CBU Ledger" id="credit_base.batch_loan_cbu_ledger" parent="credit_base.blcl"-->
-<!--                  action="credit_base.action_window_batch_loan_cbu_ledger"/>-->
-  </data>
-</odoo>
+<!--&lt;!&ndash;              <menuitem name="Savings Products" id="credit_base.savings_products" parent="credit_base.savings_account_data"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_products"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;          <menuitem name="Savings Transaction Codes" id="credit_base.savings_transaction_codes" parent="credit_base.lists_savings_system"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_savings_transaction_codes"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      &lt;!&ndash;blcl actions &ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <menuitem name="Batch Loan and CBU Ledger" id="credit_base.batch_loan_cbu_ledger" parent="credit_base.blcl"&ndash;&gt;-->
+<!--&lt;!&ndash;                  action="credit_base.action_window_batch_loan_cbu_ledger"/>&ndash;&gt;-->
+<!--  </data>-->
+<!--</odoo>-->
