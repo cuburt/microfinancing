@@ -275,18 +275,44 @@
             <field name="arch" type="xml">
                 <form string="CARE Group">
                     <header>
-                        <field name="state" widget="statusbar"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,approve"/>
                     </header>
                     <sheet>
+                        <h1>
+                            <field name="code"/>
+                        </h1>
                         <group>
-                            <field name="loan_account"/>
+                            <group>
+                                <field name="event_registration_id"/>
+                                <field name="creator"/>
+                                <field name="date_organized"/>
+                                <field name="date_approved"/>
+                                <field name="contact_person"/>
+                                <field name="group_leader"/>
+                                <field name="do"/>
+                                <field name="area_id"/>
+                            </group>
+                            <group>
+                                <field name="street"/>
+                                <field name="street2"/>
+                                <field name="zip"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="members"/>
-                        </group>
-                        <group>
-                            <field name="event_registration_id"/>
-                        </group>
+                        <notebook>
+                            <page string="Members">
+                                <group>
+                                    <field name="members"/>
+                                </group>
+                            </page>
+                            <page string="Loan Account">
+                                <group>
+                                    <field name="loan_account"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -371,37 +397,63 @@
         <!--        </record>-->
 
         <record id="members_tree_view" model="ir.ui.view">
-            <field name="name">credit.member.list</field>
+            <field name="name">res.partner.inherit.list</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <tree string="List of Members">
-                    <field name="suffix"/>
                     <field name="name"/>
                 </tree>
             </field>
         </record>
 
+        <!--        <record id="digest_digest_view_form" model="ir.ui.view">-->
+        <!--            <field name="name">digest.digest.view.form.inherit.account.account</field>-->
+        <!--            <field name="model">digest.digest</field>-->
+        <!--            <field name="inherit_id" ref="digest.digest_digest_view_form"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//group[@name='kpi_general']" position="after">-->
+        <!--                    <group name="kpi_account" string="Invoicing" groups="account.group_account_manager">-->
+        <!--                        <field name="kpi_account_total_revenue"/>-->
+        <!--                    </group>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
         <record id="members_form_view" model="ir.ui.view">
-            <field name="name">credit.member.form</field>
+            <field name="name">res.partner.inherit.form</field>
             <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <form string="Members">
-                    <sheet>
-                        <group>
-                            <field name="suffix"/>
-                            <field name="firstname"/>
-                            <field name="middlename"/>
-                            <field name="lastname"/>
-                        </group>
-                        <group>
-                            <field name="email"/>
-                            <field name="mobile"/>
-                        </group>
-                        <group>
-                            <field name="group_id"/>
-                        </group>
-                    </sheet>
-                </form>
+                <xpath expr="//field[@name='function']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lang']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="group_id"/>
+                </xpath>
+                <xpath expr="//field[@name='title']" position="after">
+                    <field name="type"/>
+                </xpath>
             </field>
         </record>
 
@@ -410,7 +462,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
-            <!--            <field name="view_id" ref="members_filter"/>-->
+            <field name="view_id" ref="members_tree_view"/>
+            <field name="domain">['&amp;',('type','=','member'),('customer','=',True)]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     <!-- Add Text Here -->

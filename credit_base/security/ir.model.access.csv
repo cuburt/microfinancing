@@ -9,5 +9,8 @@ credit_financing_user,credit.loan.financing.user,model_credit_loan_financing,gro
 credit_group_admin,credit.loan.group.admin,model_credit_loan_group,group_credit_admin,1,1,1,1
 credit_group_user,credit.loan.group.user,model_credit_loan_group,group_credit_user,1,0,0,0
 
+credit_event_admin,event.event.admin,model_event_event,group_credit_admin,1,1,1,1
+credit_event_user,event.event.user,model_event_event,group_credit_user,1,0,0,0
+
 credit_registration_admin,event.registration.admin,model_event_registration,group_credit_admin,1,1,1,1
 credit_registration_user,event.registration.user,model_event_registration,group_credit_user,1,0,0,0

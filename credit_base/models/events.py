@@ -20,11 +20,11 @@ class LoanGroup(models.Model):
 #                                            ('member','Members Education')])
 #
 
-# class LoanEvent(models.Model):
-#     _inherit = 'event.event'
-#
-#
-#
+class LoanEvent(models.Model):
+    _inherit = 'event.event'
+
+
+
 class EventRegistration(models.Model):
     _inherit = 'event.registration'
 
