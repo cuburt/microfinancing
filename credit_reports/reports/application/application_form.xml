@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- QWeb Reports -->
+        <!-- NAME & FILE_NAME should be the same -->
+                <report
+                    id="credit_reports.action_application_form"
+                    model="MODEL_WHERE_THE_REPORT_WILL_BE_PRINTED"
+                    report_type="qweb-pdf"
+                    string="Application Form"
+                    name="credit_reports.application_form_template"
+                    file="credit_reports.application_form_template"
+                />
+        <template id="application_form_template">
+            <t t-call="report.html_container">
+<!--                <t t-call="report.internal_layout">-->
+                <t t-foreach="docs" t-as="doc">
+                <!-- <t t-call="report.external_layout"> -->
+                    <div class="page">
+                        <style>
+                            table{
+                            empty-cells:show;
+                            }
+                            tr{
+                            min-height:2em;
+                            }
+                            table, tr, td {
+                            border: 1px solid black;
+                            margin: 0 !important;
+                            padding: 2px 0px 2px !important;
+                            }
+                            input {
+                            margin: 0;
+                            margin-bottom: 5px !important;
+                            }
+                            .center{
+                            text-align: center;
+                            }
+                            .right{
+                            text-align: right;
+                            }
+                            .top{
+                            vertical-align: top;
+                            }
+                            .middle{
+                            vertical-align: middle;
+                            }
+                            .bottom{
+                            vertical-align: bottom;
+                            }
+                            .no-border{
+                            border: 0;
+                            }
+                            .strong{
+                            font-weight:bold;
+                            }
+                            .upcase{
+                            text-transform: uppercase;
+                            }
+                            td.left-top-bottom-border{
+                            border-top: 1px solid #4993c1;
+                            border-bottom: 1px solid #4993c1;
+                            border-left: 1px solid #4993c1;
+                            }
+                            td.top-bottom-border{
+                            border-top: 1px solid #4993c1;
+                            border-bottom: 1px solid #4993c1;
+                            }
+                            td.right-top-bottom-border{
+                            border-top: 1px solid #4993c1;
+                            border-bottom: 1px solid #4993c1;
+                            border-right: 1px solid #4993c1;
+                            }
+                            td.top-border{
+                            border-top: 1px solid #4993c1;
+                            }
+                            td.bottom-border{
+                            border-bottom: 1px solid #4993c1;
+                            }
+                            td.left-right-border{
+                            border-left: 1px solid #4993c1;
+                            border-right: 1px solid #4993c1;
+                            }
+                            span.header{
+                            margin-top:1rem !important;
+                            margin-bottom:1rem !important;
+                            }
+                            .hltd_clmn{
+                            background-color: #82b5d4;
+                            }
+                        </style>
+                        <table class="table-condensed table" colspan="10">
+                            <tr>
+                                <td class="no-border" colspan="8">
+                                    <img class="img" src="/credit_base/static/img/logo.png"/>
+                                </td>
+                                <td class="center middle" colspan="2">
+                                    paste 2x2 picture here
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-border upcase strong" colspan="8">
+                                    financial package application form (fpaf)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-border left-top-border strong">Member's Information:</td>
+                            </tr>
+                        </table>
+                        <!--
+                        Build your report here!
+                        Do it in awesome way ;)
+                        -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+    </data>
+</odoo>

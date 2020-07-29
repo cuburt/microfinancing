@@ -5,7 +5,13 @@ from dateutil.relativedelta import relativedelta
 from datetime import date, datetime
 from odoo.modules.module import get_module_resource
 from odoo import tools, _
-#
+from odoo.exceptions import UserError, ValidationError
+
+class LoanGroupCRM(models.Model):
+    _inherit = 'crm.lead'
+
+
+
 # class LoanClient(models.Model):
 #     _inherit = 'credit.loan.client'
 #
@@ -133,53 +139,12 @@ from odoo import tools, _
 #         return super(LoanClient, self).create(values)
 #
 # #person responsible: Client & Development Officer
-class LoanClient(models.Model):
-    _inherit = 'res.partner'
 
-    group_id = fields.Many2one('credit.loan.group','Group', required_if_type='member')
 
-class LoanFinancing(models.Model):
-    _inherit = 'credit.loan.financing'
 
-    group_id = fields.Many2one('credit.loan.group','Group', required_if_type='group')
-    name = fields.Char(related="group_id.name", string="Name", required=False, store=True,
-                       readonly=True, track_visibility='onchange')
 
-class LoanGroup(models.Model):
-    _name = 'credit.loan.group'
 
-    name = fields.Char()
-    index = fields.Integer()
-    code = fields.Char()
-    state = fields.Selection([('draft','Draft'),('approve','Approved')], default='draft')
-    loan_account = fields.One2many('credit.loan.financing','group_id','Loan Account', required_if_state='approve')
-    members = fields.One2many('res.partner','group_id','Members', domain=[('type','=','member')])
-    creator = fields.Many2one('res.partner', domain=[('type','=','member')], string='Created by:', default = lambda self:self.env.user.partner_id)
-    date_organized = fields.Datetime(string='Date organized', default=fields.Datetime.now())
-    date_approved = fields.Datetime(string='Date approved')
-    contact_person = fields.Many2one('res.partner', domain=[('type','=','member')],string='Contact Person', default= lambda self:self.env.user.partner_id)
-    group_leader = fields.Many2one('res.partner', 'Group Leader', domain=[('type','=','member')])
-    street = fields.Char(related= 'contact_person.street')
-    street2 = fields.Char(related= 'contact_person.street2')
-    zip = fields.Char(change_default=True, related= 'contact_person.zip')
-    city = fields.Char(related= 'contact_person.city')
-    state_id = fields.Many2one(related='contact_person.state_id')
-    country_id = fields.Many2one(related='contact_person.country_id')
-    area_id = fields.Many2one('res.area','Groups', default=lambda self:self._get_area())
-    do = fields.Many2one('res.partner', 'Development Officer',related='area_id.do', domain=[('type','=','do')])
-
-    @api.model
-    def _get_area(self):
-        return self.env['res.area'].search([('street2','=',self.street2),
-                                            ('city','=',self.city)], order='name desc', limit=1)
-    @api.model
-    def create(self, values):
-        values['index'] = int(self.search([]).index)+1
-        values['code'] = '%s-%s%s' % (values.get('area_id').code,str(values.get('do').index),"{0:0=2d}".format(values['index']))
-        values['members'] = [(0,0,{'name':self.env.user.partner_id.name, 'mobile':self.env.user.partner_id.mobile, 'email':self.env.user.partner_id.email})]
-        return super(LoanGroup, self).create(values)
-
-# # class LoanRecommendation(models.Model):
+# class LoanRecommendation(models.Model):
 # #     _inherit = 'credit.loan.application'
 # #
 # #     state = fields.Selection(string="Status", selection_add=[('recommend', 'Recommendation')],

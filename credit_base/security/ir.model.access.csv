@@ -1,16 +1,26 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
-credit_client_admin,credit.loan.client.admin,model_credit_loan_client,group_credit_admin,1,1,1,1
-credit_client_user,credit.loan.client.user,model_credit_loan_client,group_credit_user,1,0,0,0
+credit_client_sysad,credit.loan.client.sysad,model_res_partner,group_credit_sysad,1,1,1,1
+credit_client_admin,credit.loan.client.admin,model_res_partner,group_credit_admin,1,0,0,0
+credit_client_user,credit.loan.client.user,model_res_partner,group_credit_user,1,0,0,0
 
 credit_financing_admin,credit.loan.financing.admin,model_credit_loan_financing,group_credit_admin,1,1,1,1
-credit_financing_user,credit.loan.financing.user,model_credit_loan_financing,group_credit_user,1,0,0,0
+credit_financing_user,credit.loan.financing.user,model_credit_loan_financing,group_credit_user,1,0,1,0
 
 credit_group_admin,credit.loan.group.admin,model_credit_loan_group,group_credit_admin,1,1,1,1
-credit_group_user,credit.loan.group.user,model_credit_loan_group,group_credit_user,1,0,0,0
+credit_group_user,credit.loan.group.user,model_credit_loan_group,group_credit_user,1,0,1,0
 
 credit_event_admin,event.event.admin,model_event_event,group_credit_admin,1,1,1,1
 credit_event_user,event.event.user,model_event_event,group_credit_user,1,0,0,0
 
 credit_registration_admin,event.registration.admin,model_event_registration,group_credit_admin,1,1,1,1
 credit_registration_user,event.registration.user,model_event_registration,group_credit_user,1,0,0,0
+
+res_branch_sysad,res.branch.sysad,model_res_branch,group_credit_sysad,1,1,1,1
+res_branch_admin,res.branch.admin,model_res_branch,group_credit_admin,1,0,0,0
+res_branch_user,res.branch.user,model_res_branch,group_credit_user,1,0,0,0
+
+res_area_sysad,res.area.sysad,model_res_area,group_credit_sysad,1,1,1,1
+res_area_admin,res.area.admin,model_res_area,group_credit_admin,1,0,0,0
+res_area_user,res.area.user,model_res_area,group_credit_user,1,0,0,0
+

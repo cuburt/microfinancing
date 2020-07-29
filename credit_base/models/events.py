@@ -12,7 +12,6 @@ class LoanGroup(models.Model):
 
     event_registration_id = fields.Many2one('event.registration','Membership Education')
 
-
 # class EventType(models.Model):
 #     _inherit = 'event.type'
 #

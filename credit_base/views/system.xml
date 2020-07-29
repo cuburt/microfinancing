@@ -2,229 +2,269 @@
 <odoo>
     <data>
 
-<!--===========================SWITCH TO SINGLE USER========================-->
+        <!--===========================SWITCH TO SINGLE USER========================-->
 
-<!--        <record id="action_single_user_mode" model="ir.actions.act_window">-->
-<!--            <field name="name">Switch to Single User Mode</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model">users</field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_single_user_mode" model="ir.actions.act_window">-->
+        <!--            <field name="name">Switch to Single User Mode</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model">users</field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================UNLOCK=======================================-->
+        <!--===========================UNLOCK=======================================-->
 
-<!--        <record id="unlock" model="ir.actions.act_window">-->
-<!--            <field name="name">Unlock</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="unlock" model="ir.actions.act_window">-->
+        <!--            <field name="name">Unlock</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================PREFERENCES=======================================-->
+        <!--===========================PREFERENCES=======================================-->
 
-<!--        <record id="action_window_preferences" model="ir.actions.act_window">-->
-<!--            <field name="name">Preferences</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_preferences" model="ir.actions.act_window">-->
+        <!--            <field name="name">Preferences</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================USERS=======================================-->
+        <!--===========================USERS=======================================-->
 
         <record id="action_window_users" model="ir.actions.act_window">
             <field name="name">Users</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','in',['bm','gm'])]</field>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
 
-<!--===========================CHANGE ACCESS CODE=======================================-->
+        <!--===========================CHANGE ACCESS CODE=======================================-->
 
-<!--        <record id="change_access_code" model="ir.actions.act_window">-->
-<!--            <field name="name">Change Access Code</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="change_access_code" model="ir.actions.act_window">-->
+        <!--            <field name="name">Change Access Code</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================PERIODS=======================================-->
+        <!--===========================PERIODS=======================================-->
 
-<!--        <record id="action_window_periods" model="ir.actions.act_window">-->
-<!--            <field name="name">Periods</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_periods" model="ir.actions.act_window">-->
+        <!--            <field name="name">Periods</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================END OF DAY=======================================-->
+        <!--===========================END OF DAY=======================================-->
 
-<!--        <record id="action_window_end_of_day" model="ir.actions.act_window">-->
-<!--            <field name="name">End of Day</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_end_of_day" model="ir.actions.act_window">-->
+        <!--            <field name="name">End of Day</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================CLOSE PERIODS=======================================-->
+        <!--===========================CLOSE PERIODS=======================================-->
 
-<!--        <record id="action_window_close_periods" model="ir.actions.act_window">-->
-<!--            <field name="name">Close Periods</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_close_periods" model="ir.actions.act_window">-->
+        <!--            <field name="name">Close Periods</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================REOPEN CLOSED PERIODS=======================================-->
+        <!--===========================REOPEN CLOSED PERIODS=======================================-->
 
-<!--        <record id="action_window_reopen_closed_periods" model="ir.actions.act_window">-->
-<!--            <field name="name">Re-open Closed Periods</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_reopen_closed_periods" model="ir.actions.act_window">-->
+        <!--            <field name="name">Re-open Closed Periods</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================END OF YEAR=======================================-->
+        <!--===========================END OF YEAR=======================================-->
 
-<!--        <record id="action_window_end_of_year" model="ir.actions.act_window">-->
-<!--            <field name="name">End of Year</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_end_of_year" model="ir.actions.act_window">-->
+        <!--            <field name="name">End of Year</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================DATA FILE CLEANER=======================================-->
+        <!--===========================DATA FILE CLEANER=======================================-->
 
-<!--        <record id="action_window_data_file_cleaner" model="ir.actions.act_window">-->
-<!--            <field name="name">Data File Cleaner</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_data_file_cleaner" model="ir.actions.act_window">-->
+        <!--            <field name="name">Data File Cleaner</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================DATA INTEGRITY CHECKER=======================================-->
+        <!--===========================DATA INTEGRITY CHECKER=======================================-->
 
-<!--        <record id="action_window_data_integrity_checker" model="ir.actions.act_window">-->
-<!--            <field name="name">Data Integrity Checker</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_data_integrity_checker" model="ir.actions.act_window">-->
+        <!--            <field name="name">Data Integrity Checker</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================BACKUP=======================================-->
+        <!--===========================BACKUP=======================================-->
 
-<!--        <record id="action_window_backup" model="ir.actions.act_window">-->
-<!--            <field name="name">Backup</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_backup" model="ir.actions.act_window">-->
+        <!--            <field name="name">Backup</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--===========================ABOUT=======================================-->
+        <!--===========================ABOUT=======================================-->
 
-<!--        <record id="action_window_about" model="ir.actions.act_window">-->
-<!--            <field name="name">About</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--              <p class="oe_view_nocontent_create">-->
-<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-<!--              </p><p>-->
-<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-<!--              </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="action_window_about" model="ir.actions.act_window">-->
+        <!--            <field name="name">About</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model"></field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--              <p class="oe_view_nocontent_create">-->
+        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--              </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--              </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!--===========================CRM=======================================-->
+
+        <record id="member_crm_kanban_view" model="ir.ui.view">
+            <field name="name">crm.lead.member.kanban</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="group_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="member_crm_form_view" model="ir.ui.view">
+            <field name="name">crm.lead.member.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="group_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_member_crm" model="ir.actions.act_window">
+            <field name="name">Members Pipeline</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="view_id" ref="member_crm_kanban_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
 
     </data>
 </odoo>

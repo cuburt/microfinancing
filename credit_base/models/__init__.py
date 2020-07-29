@@ -1,3 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import models,processing,events
+from . import models,res_partner,groups,events,application
+
+
