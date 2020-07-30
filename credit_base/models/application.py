@@ -13,19 +13,27 @@ class LoanGroup(models.Model):
 
     financing_ids = fields.One2many('credit.loan.financing', 'group_id', 'Loan Account', required_if_state='approve')
 
+class LoanClient(models.Model):
+    _inherit = 'res.partner'
+
+    financing_ids = fields.One2many('credit.loan.financing', 'member_id', 'Loan Account', required_if_state='approve')
+
 class Lead(models.Model):
     _inherit = 'crm.lead'
 
-    stage_id = fields.Many2one('crm.stage', string='Stage', ondelete='restrict', track_visibility='onchange',
-                               index=True, copy=False,
-                               domain="['|',('team_id', '=', False), ('team_id', '=', team_id), ('is_active','=', True)]",
-                               group_expand='_read_group_stage_ids', default=lambda self: self._default_stage_id())
-    group_id = fields.Many2one('credit.loan.group', 'Group', index=True)
+    # group_id = fields.Many2one('credit.loan.group', 'Group', index=True)
+    application_id = fields.Many2one('credit.loan.application','Application')
+    service_applied = fields.Char(related='application_id.applied_service',string='Applied Service')
 
+# class ProductProduct(models.Model):
+
+
+#ACCOUNT FOR QUALIFIED MEMBERS
 class LoanFinancing(models.Model):
     _inherit = 'credit.loan.financing'
 
     loan_applications = fields.One2many(comodel_name="credit.loan.application", inverse_name="financing_id", string="Source", required=False)
+    member_id = fields.Many2one('res.partner','Client')
 
 class LoanApplication(models.Model):
     _name = 'credit.loan.application'
@@ -37,5 +45,7 @@ class LoanApplication(models.Model):
                              default='draft', track_visibility='onchange')
     branch_id = fields.Many2one('res.branch','Branch')
     application_date = fields.Date('Application Date', default=fields.Datetime.now(), required_if_state='confirm')
+    service = fields.Many2one('product.product','Service')
+    applied_service = fields.Char(related='service.name',string='Applied Service')
 
 

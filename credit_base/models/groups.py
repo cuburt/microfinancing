@@ -43,13 +43,22 @@ class LoanGroup(models.Model):
     city = fields.Char(related= 'contact_person.city')
     state_id = fields.Many2one(related='contact_person.state_id')
     country_id = fields.Many2one(related='contact_person.country_id')
-    area_id = fields.Many2one('res.area','Area', store=True)
-    do = fields.Many2one('res.partner', 'Development Officer', store=True)
+    area_id = fields.Many2one('res.area','Area',default=lambda self:self.default_area(), store=True)
+    do = fields.Many2one('res.partner', 'Development Officer', default=lambda self:self.default_do(), store=True)
 
     @api.onchange('contact_person')
     def _get_area(self):
         self.area_id = self.env['res.area'].search([('street2','=',self.street2),
                                             ('city','=',self.city)], order='name desc', limit=1)
+    @api.multi
+    def default_area(self):
+        return self.env['res.area'].search([('street2','=',self.street2),
+                                            ('city','=',self.city)], order='name desc', limit=1)
+
+    @api.multi
+    def default_do(self):
+        return self.area_id.do
+
     @api.onchange('contact_person')
     def _get_do(self):
         self.do = self.area_id.do
@@ -60,7 +69,7 @@ class LoanGroup(models.Model):
         if self.search([('contact_person.id','=',values.get('contact_person'))]):
             raise ValidationError(_('Contact person/member already in a group.'))
         else:
-            values['index'] = int(self.search([],limit=1).index)+1
+            values['index'] = int(self.search([], order='index desc',limit=1).index)+1
             values['code'] = '%s-%s%s' % (self.env['res.partner'].search([('id','=',values.get('do'))],limit=1).code,str(self.env['res.partner'].search([('id','=',values.get('do'))],limit=1).index),"{0:0=2d}".format(values['index']))
             values['name'] = values['code']
             return super(LoanGroup, self).create(values)

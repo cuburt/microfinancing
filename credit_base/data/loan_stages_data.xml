@@ -7,14 +7,16 @@
         <value eval="{'noupdate': False}" />
     </function>
     <record model="crm.stage" id="stage_lead1">
-        <field name="sequence">68</field>
-        <field name="is_active" eval="True"/>
+        <field name="name">New</field>
     </record>
     <record model="crm.stage" id="stage_lead2">
-        <field name="is_active" eval="False"/>
+        <field name="name">Qualified</field>
     </record>
     <record model="crm.stage" id="stage_lead3">
-        <field name="is_active" eval="False"/>
+        <field name="name">Endorsement</field>
+    </record>
+    <record model="crm.stage" id="stage_lead4">
+        <field name="name">Won</field>
     </record>
     <function name="write" model="ir.model.data">
         <function name="search" model="ir.model.data">
@@ -22,12 +24,4 @@
         </function>
         <value eval="{'noupdate': True}" />
     </function>
-    <record model="crm.stage" id="stage_lead5">
-        <field name="name">For Endorsement</field>
-        <field name="fold" eval="False"/>
-        <field name="probability">100</field>
-        <field name="on_change">1</field>
-        <field name="sequence">71</field>
-        <field name="is_active" eval="True"/>
-    </record>
 </odoo>

@@ -12,7 +12,7 @@ import logging
 _logger = logging.getLogger(__name__)
 class LoanFinancing(models.Model):
     _name = 'credit.loan.financing'
-    _rec_name = 'name'
+    # _rec_name = 'name'
     _description = 'Loan Microfinancing'
     _order = 'write_date desc'
 
@@ -26,13 +26,13 @@ class LoanFinancing(models.Model):
 class ResBranch(models.Model):
     _name = 'res.branch'
 
-    name = fields.Char()
+    name = fields.Char(readonly=True)
     index = fields.Integer()
-    code = fields.Char(readonly=True)
+    code = fields.Char('Code')
     financing_ids = fields.One2many('credit.loan.financing','branch_id','Loan Accounts')
     area_ids = fields.One2many('res.area','branch_id','Area')
-    bm = fields.Many2one('res.partner','Branch Manager',domain=[('type','=','bm')])
-    gm = fields.Many2one('res.partner','General Manager',domain=[('type','=','gm')])
+    manager_id = fields.One2many('res.partner','branch_id','Branch Manager',domain=[('type','=','bm')])
+    manager = fields.Char(related='manager_id.name', string='Branch Manager')
     street = fields.Char()
     street2 = fields.Char()
     zip = fields.Char(change_default=True)
@@ -43,7 +43,7 @@ class ResBranch(models.Model):
 
     @api.model
     def create(self, values):
-        values['index'] = int(self.search([], limit=1).index)+1
+        values['index'] = int(self.search([], order='index desc',limit=1).index)+1
         values['name'] = '%s - %s' % (values.get('code'), "{0:0=2d}".format(values.get('index')))
         return super(ResBranch, self).create(values)
 
@@ -51,22 +51,19 @@ class ResArea(models.Model):
     _name = 'res.area'
 
     name = fields.Char(compute='_get_name')
-    code = fields.Char(related='do.short_code', store=True, readonly=True)
+    code = fields.Char(related='officer_id.short_code', store=True, readonly=True)
     branch_id = fields.Many2one('res.branch','Branch', store=True)
     group_ids = fields.One2many('credit.loan.group','area_id','Groups')
-    do = fields.Many2one('res.partner','Assigned DO',domain=[('type','=','do')])
+    officer_id = fields.One2many('res.partner','area_id','Assigned DO')
+    officer = fields.Char(related='officer_id.name', string='Assigned DO')
     city = fields.Char(related='branch_id.city',string='City', store=True)
     street2 = fields.Char()
 
     @api.depends('street2','code')
     def _get_name(self):
-        self.name = '%s - %s' % (self.code,self.street2)
+        for rec in self:
+            rec.name = '%s - %s' % (rec.code,rec.street2)
 
-
-class Stage(models.Model):
-    _inherit = 'crm.stage'
-
-    is_active = fields.Boolean(default=False)
 
 # class CapacityAssesssment(models.Model):
 #     _name = 'credit.capacity.assessment'

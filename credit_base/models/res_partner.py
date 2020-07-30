@@ -40,6 +40,8 @@ class ResPartnerSuffix(models.Model):
 class LoanClient(models.Model):
     _inherit = 'res.partner'
 
+
+    display_name = fields.Char(compute='_compute_display_name', store=True, index=True)
     code = fields.Char(readonly=True)
     short_code = fields.Char(readonly=True)
     index = fields.Integer()
@@ -49,9 +51,14 @@ class LoanClient(models.Model):
                              ('ao','Account Officer'),
                              ('bm','Branch Manager'),
                              ('gm','General Manager')], default='member', string='User Type')
-    type_str = fields.Char()
-    branch_id = fields.Many2one('res.branch','Branch', required_if_type=['bm','ao','ds','do'])
-    parent_id = fields.Many2one('res.partner','Supervisor', required_if_type='do', domain=[('type','=','ds')])
+    type_str = fields.Char(default=lambda self:self.default_type())
+    branch_id = fields.Many2one('res.branch','Branch', required_if_type=['bm','ao','ds','do'],default= lambda self: self.default_branch(), store=True)
+    area_id = fields.Many2one('res.area','Area', required_if_type='do')
+    area = fields.Char(related='area_id.name', string='Area')
+    parent_id = fields.Many2one('res.partner','Supervisor', required_if_type='do', domain=[('type','in',['ds','bm','gm'])])
+
+
+
     # @api.model
     # def hash_code(self, code):
     #     return str(base64.b64encode(str(code).encode('UTF-8')), 'UTF-8')
@@ -63,18 +70,39 @@ class LoanClient(models.Model):
     # @api.model
     # def create(self, values):
     #     values['code'] = self.hash_code((int(self.decode_hash(self.search([], order='code asc', limit=1).code)) +1))
-    #     return super(LoanClient, self).create(values)
+    #     return super(LoanClient, self).create(values)4
+
+    @api.depends('name')
+    def _compute_display_name(self):
+        for partner in self:
+            partner.display_name = partner.name
+
     @api.onchange('type')
     def _set_type(self):
         self.type_str = dict(self._fields['type'].selection).get(self.type)
-    @api.onchange('street2', 'city')
+
+    @api.multi
+    def default_type(self):
+        return dict(self._fields['type'].selection).get(self.type)
+
+    @api.multi
+    def default_branch(self):
+        if self.type == 'do':
+            return self.parent_id.branch_id
+        else:
+            return self.env['res.branch'].search([('street2','=',self.street2),('city','=', self.city)], limit=1)
+
+    @api.onchange('street2', 'city', 'type')
     def _get_branch(self):
-        self.branch_id = self.env['res.branch'].search([('street2','=',self.street2),('city','=', self.city)], limit=1)
+        if self.type == 'do':
+            self.branch_id = self.parent_id.branch_id
+        else:
+            self.branch_id = self.env['res.branch'].search([('street2','=',self.street2),('city','=', self.city)], limit=1)
 
     @api.model
     def create(self, values):
 
-        values['index'] = int(self.search([('type','=', values.get('type'))], limit=1).index)+1
+        values['index'] = int(self.search([('type','=', values.get('type'))], order='index desc', limit=1).index)+1
 
         if values['type'] == 'gm':
             values['code'] = '%s' % ("{0:0=2d}".format(values['index']))

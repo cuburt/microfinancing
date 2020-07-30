@@ -52,11 +52,23 @@
 
         <!--===========================USERS=======================================-->
 
+        <record id="users_tree_view" model="ir.ui.view">
+            <field name="name">res.partner.list</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="branch_id"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="action_window_users" model="ir.actions.act_window">
             <field name="name">Users</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="users_tree_view"/>
             <field name="domain">[('type','in',['bm','gm'])]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -235,7 +247,7 @@
             <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="after">
-                    <field name="group_id"/>
+                    <field name="application_id"/>
                 </xpath>
             </field>
         </record>
@@ -246,7 +258,7 @@
             <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="group_id"/>
+                    <field name="application_id"/>
                 </xpath>
             </field>
         </record>

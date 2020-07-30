@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+<!--        ==================BRANCH===================-->
+
+        <record id="branch1" model="res.branch">
+            <field name="code">KOR</field>
+            <field name="street">Osmena </field>
+            <field name="street2">Zone IV</field>
+            <field name="zip">9506</field>
+            <field name="city">Koronadal City</field>
+            <field name="country_id" ref="base.ph"/>
+        </record>
+
+        <record id="branch2" model="res.branch">
+            <field name="code">ISU</field>
+            <field name="street">Datu Piang </field>
+            <field name="street2">Zone I</field>
+            <field name="zip">9506</field>
+            <field name="city">Isulan City</field>
+            <field name="country_id" ref="base.ph"/>
+        </record>
+
+        <record id="branch3" model="res.branch">
+            <field name="code">GEN</field>
+            <field name="street">Makar </field>
+            <field name="street2">Lagao</field>
+            <field name="zip">9506</field>
+            <field name="city">General Santos City</field>
+            <field name="country_id" ref="base.ph"/>
+        </record>
+
+<!--        ====================AREA==================-->
+
+        <record id="area1" model="res.area">
+            <field name="branch_id" ref="branch1"/>
+            <field name="street2">GPS</field>
+        </record>
+
+        <record id="area2" model="res.area">
+            <field name="branch_id" ref="branch1"/>
+            <field name="street2">Caloocan</field>
+        </record>
+
+        <record id="area3" model="res.area">
+            <field name="branch_id" ref="branch1"/>
+            <field name="street2">Zone IV</field>
+        </record>
+
+        <record id="area4" model="res.area">
+            <field name="branch_id" ref="branch2"/>
+            <field name="street2">Mangudadatu</field>
+        </record>
+
+        <record id="area5" model="res.area">
+            <field name="branch_id" ref="branch2"/>
+            <field name="street2">Ampatuan</field>
+        </record>
+
+        <record id="area6" model="res.area">
+            <field name="branch_id" ref="branch2"/>
+            <field name="street2">Allahuakbar</field>
+        </record>
+
+        <record id="area7" model="res.area">
+            <field name="branch_id" ref="branch3"/>
+            <field name="street2">Lagao</field>
+        </record>
+
+        <record id="area8" model="res.area">
+            <field name="branch_id" ref="branch3"/>
+            <field name="street2">MacArthur</field>
+        </record>
+
+        <record id="area9" model="res.area">
+            <field name="branch_id" ref="branch3"/>
+            <field name="street2">J.P Laurel</field>
+        </record>
+
+    </data>
+</odoo>

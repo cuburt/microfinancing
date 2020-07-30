@@ -20,14 +20,16 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','event','base_setup','crm'],
+    'depends': ['base','event','base_setup','crm','muk_web_theme','product', 'sale', 'sale_crm', 'website','website_event'],
 
     # always loaded
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
 
-        'data/loan_stages_data.xml',
+        # 'data/loan_stages_data.xml',
+        'data/config_data.xml',
+        'data/demo_data.xml',
         'views/lists.xml',
         'views/system.xml',
         # 'views/transactions.xml',
