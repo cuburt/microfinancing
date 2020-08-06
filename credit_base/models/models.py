@@ -27,6 +27,8 @@ class ResBranch(models.Model):
     _name = 'res.branch'
 
     name = fields.Char(readonly=True)
+    company_id = fields.Many2one('res.company', 'Related Company', readonly=True)
+    related_partner = fields.Many2one(related='company_id.partner_id', readonly=True)
     index = fields.Integer()
     code = fields.Char('Code')
     financing_ids = fields.One2many('credit.loan.financing','branch_id','Loan Accounts')
@@ -35,17 +37,37 @@ class ResBranch(models.Model):
     manager = fields.Char(related='manager_id.name', string='Branch Manager')
     street = fields.Char()
     street2 = fields.Char()
-    zip = fields.Char(change_default=True)
+    zip = fields.Char()
     city = fields.Char()
     state_id = fields.Many2one("res.country.state", string='State', ondelete='restrict',
                                domain="[('country_id', '=?', country_id)]")
     country_id = fields.Many2one('res.country', string='Country', ondelete='restrict')
+    email = fields.Char(related='manager_id.email', store=True, readonly=False)
+    phone = fields.Char(related='manager_id.phone', store=True, readonly=False)
+    website = fields.Char()
+    vat = fields.Char(string="Tax ID", readonly=False)
 
     @api.model
     def create(self, values):
+        if values.get('partner_id'):
+            self.clear_caches()
+            return super(ResBranch, self).create(values)
         values['index'] = int(self.search([], order='index desc',limit=1).index)+1
         values['name'] = '%s - %s' % (values.get('code'), "{0:0=2d}".format(values.get('index')))
+        company = self.env['res.company'].create({
+            'name': values.get('name'),
+            'email': values.get('email'),
+            'phone': values.get('phone'),
+            'website': values.get('website'),
+            'vat': values.get('vat')
+        })
+
+        values['company_id'] = company.id
+        # branch = super(ResBranch, self).create(values)
+        # branch.write({''})
+
         return super(ResBranch, self).create(values)
+
 
 class ResArea(models.Model):
     _name = 'res.area'

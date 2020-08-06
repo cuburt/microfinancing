@@ -17,59 +17,59 @@
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_credit_gm" model="res.groups">
+        <record id="group_credit_general" model="res.groups">
             <field name="name">General Manager</field>
             <field name="category_id" ref="module_credit_base"/>
             <field name="implied_ids" eval="[(4, ref('group_credit_sysad'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_credit_bm" model="res.groups">
+        <record id="group_credit_branch" model="res.groups">
             <field name="name">Branch Manager</field>
             <field name="category_id" ref="module_credit_base"/>
-            <field name="implied_ids" eval="[(4, ref('group_credit_gm'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_credit_general'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_credit_aa" model="res.groups">
+        <record id="group_credit_admin" model="res.groups">
             <field name="name">Admin Assistant</field>
             <field name="category_id" ref="module_credit_base"/>
-            <field name="implied_ids" eval="[(4, ref('group_credit_bm'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_credit_branch'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_credit_as" model="res.groups">
+        <record id="group_credit_accountsupervisor" model="res.groups">
             <field name="name">Account Supervisor</field>
             <field name="category_id" ref="module_credit_base"/>
-            <field name="implied_ids" eval="[(4, ref('group_credit_aa'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_credit_admin'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_credit_ao" model="res.groups">
+        <record id="group_credit_accountofficer" model="res.groups">
             <field name="name">Account Officer</field>
             <field name="category_id" ref="module_credit_base"/>
-            <field name="implied_ids" eval="[(4, ref('group_credit_as'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_credit_accountsupervisor'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_credit_ds" model="res.groups">
+        <record id="group_credit_devsupervisor" model="res.groups">
             <field name="name">Development Supervisor</field>
             <field name="category_id" ref="module_credit_base"/>
-            <field name="implied_ids" eval="[(4, ref('group_credit_ao'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_credit_accountofficer'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_credit_do" model="res.groups">
+        <record id="group_credit_devofficer" model="res.groups">
             <field name="name">Development Officer</field>
             <field name="category_id" ref="module_credit_base"/>
-            <field name="implied_ids" eval="[(4, ref('group_credit_ds'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_credit_devsupervisor'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
         <record id="group_credit_member" model="res.groups">
             <field name="name">Member</field>
             <field name="category_id" ref="module_credit_base"/>
-            <field name="implied_ids" eval="[(4, ref('group_credit_do'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_credit_devofficer'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 

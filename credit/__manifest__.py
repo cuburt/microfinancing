@@ -23,7 +23,7 @@
     # 'depends': ['credit_base','credit_application','credit_investigation','credit_processing',
     #             'credit_disbursement','credit_collection','credit_account','credit_reports',
     #             'credit_orientation'],
-    'depends':['credit_base'],
+    'depends':['credit_account'],
 
 
     # always loaded

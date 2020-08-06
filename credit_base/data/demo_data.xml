@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
+        <record id="care_company" model="res.company">
+            <field name="name">CARE Foundation Inc.</field>
+        </record>
+
 <!--        ===============USER==================-->
         <record id="general_manager" model="res.partner">
+            <field name="is_company" eval="False"/>
             <field name="name">Jan Dave Ogatis</field>
+            <field name="company_id" ref="care_company"/>
+<!--            <field name="parent_id" ref="care_partner"/>-->
             <field name="type">gm</field>
             <field name="type_str">General Manager</field>
             <field name="street">Pina</field>
@@ -14,7 +22,7 @@
             <field name="mobile">09123456789</field>
             <field name="phone">228-4246</field>
             <field name="email">jan.roots@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
+
         </record>
 
         <record id="branch_manager1" model="res.partner">
@@ -26,12 +34,13 @@
             <field name="city">Koronadal City</field>
             <field name="zip">9506</field>
             <field name="country_id" ref="base.ph"/>
-            <field name="parent_id" ref="general_manager"/>
+            <field name="supervisor_id" ref="general_manager"/>
             <field name="branch_id" ref="credit_base.branch1"/>
             <field name="mobile">0912345123</field>
             <field name="phone">228-5636</field>
             <field name="email">farnsworth.hubert@gmail.com</field>
             <field name="title" ref="base.res_partner_title_prof"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="branch_manager2" model="res.partner">
@@ -43,12 +52,13 @@
             <field name="city">Isulan City</field>
             <field name="zip">9506</field>
             <field name="country_id" ref="base.ph"/>
-            <field name="parent_id" ref="general_manager"/>
+            <field name="supervisor_id" ref="general_manager"/>
             <field name="branch_id" ref="credit_base.branch2"/>
             <field name="mobile">0912345890</field>
             <field name="phone">228-6587</field>
             <field name="email">pickle.rick@gmail.com</field>
             <field name="title" ref="base.res_partner_title_doctor"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="branch_manager3" model="res.partner">
@@ -60,12 +70,13 @@
             <field name="city">General Santos City</field>
             <field name="zip">9506</field>
             <field name="country_id" ref="base.ph"/>
-            <field name="parent_id" ref="general_manager"/>
+            <field name="supervisor_id" ref="general_manager"/>
             <field name="branch_id" ref="credit_base.branch3"/>
             <field name="mobile">0912345666</field>
             <field name="phone">228-5666</field>
             <field name="email">peaky.tommy@gmail.com</field>
             <field name="title" ref="base.res_partner_title_mister"/>
+            <field name="is_company" eval="False"/>
         </record>
 
 <!--===================== DO ===========================-->
@@ -85,7 +96,8 @@
             <field name="title" ref="base.res_partner_title_mister"/>
             <field name="branch_id" ref="credit_base.branch1"/>
             <field name="area_id" ref="credit_base.area1"/>
-            <field name="parent_id" ref="branch_manager1"/>
+            <field name="supervisor_id" ref="branch_manager1"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off2" model="res.partner">
@@ -103,7 +115,8 @@
             <field name="title" ref="base.res_partner_title_mister"/>
             <field name="branch_id" ref="credit_base.branch1"/>
             <field name="area_id" ref="credit_base.area2"/>
-            <field name="parent_id" ref="branch_manager1"/>
+            <field name="supervisor_id" ref="branch_manager1"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off3" model="res.partner">
@@ -121,7 +134,8 @@
             <field name="title" ref="base.res_partner_title_miss"/>
             <field name="branch_id" ref="credit_base.branch1"/>
             <field name="area_id" ref="credit_base.area3"/>
-            <field name="parent_id" ref="branch_manager1"/>
+            <field name="supervisor_id" ref="branch_manager1"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off4" model="res.partner">
@@ -139,7 +153,8 @@
             <field name="title" ref="base.res_partner_title_mister"/>
             <field name="branch_id" ref="credit_base.branch2"/>
             <field name="area_id" ref="credit_base.area4"/>
-            <field name="parent_id" ref="branch_manager2"/>
+            <field name="supervisor_id" ref="branch_manager2"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off5" model="res.partner">
@@ -157,7 +172,8 @@
             <field name="title" ref="base.res_partner_title_miss"/>
             <field name="branch_id" ref="credit_base.branch2"/>
             <field name="area_id" ref="credit_base.area5"/>
-            <field name="parent_id" ref="branch_manager2"/>
+            <field name="supervisor_id" ref="branch_manager2"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off6" model="res.partner">
@@ -175,7 +191,8 @@
             <field name="title" ref="base.res_partner_title_madam"/>
             <field name="branch_id" ref="credit_base.branch2"/>
             <field name="area_id" ref="credit_base.area6"/>
-            <field name="parent_id" ref="branch_manager2"/>
+            <field name="supervisor_id" ref="branch_manager2"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off7" model="res.partner">
@@ -193,7 +210,8 @@
             <field name="title" ref="base.res_partner_title_mister"/>
             <field name="branch_id" ref="credit_base.branch3"/>
             <field name="area_id" ref="credit_base.area7"/>
-            <field name="parent_id" ref="branch_manager3"/>
+            <field name="supervisor_id" ref="branch_manager3"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off8" model="res.partner">
@@ -211,7 +229,8 @@
             <field name="title" ref="base.res_partner_title_mister"/>
             <field name="branch_id" ref="credit_base.branch3"/>
             <field name="area_id" ref="credit_base.area8"/>
-            <field name="parent_id" ref="branch_manager3"/>
+            <field name="supervisor_id" ref="branch_manager3"/>
+            <field name="is_company" eval="False"/>
         </record>
 
         <record id="dev_off9" model="res.partner">
@@ -229,7 +248,8 @@
             <field name="title" ref="base.res_partner_title_mister"/>
             <field name="branch_id" ref="credit_base.branch3"/>
             <field name="area_id" ref="credit_base.area9"/>
-            <field name="parent_id" ref="branch_manager3"/>
+            <field name="supervisor_id" ref="branch_manager3"/>
+            <field name="is_company" eval="False"/>
         </record>
 
     </data>

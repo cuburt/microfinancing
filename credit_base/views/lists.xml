@@ -299,7 +299,15 @@
                             <field name="name"/>
                         </h1>
                         <group>
+                            <field name="company_id"/>
+                            <field name="related_partner"/>
+                        </group>
+                        <group>
                             <field name="code"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="website"/>
+                            <field name="vat"/>
                         </group>
                         <group>
                             <field name="street"/>
@@ -635,19 +643,19 @@
                     <attribute name="groups">credit_base.group_credit_sysad</attribute>
                 </xpath>
                 <xpath expr="//field[@name='vat']" position="after">
-                    <field name="branch_id"/>
+                    <field name="branch_id" />
                 </xpath>
                 <xpath expr="//field[@name='branch_id']" position="after">
                     <field name="area_id" domain="[('branch_id','=',branch_id)]"/>
                 </xpath>
                 <xpath expr="//field[@name='area_id']" position="after">
-                    <field name="group_id" groups="credit_base.group_credit_member"/>
+                    <field name="group_id" />
                 </xpath>
                 <xpath expr="//field[@name='title']" position="after">
-                    <field name="type"/>
+                    <field name="type" domain="[('type','in',['gm','bm','aa','as','ao','ds','do'])]"/>
                 </xpath>
                 <xpath expr="//field[@name='type']" position="after">
-                    <field name="parent_id"/>
+                    <field name="supervisor_id" />
                 </xpath>
             </field>
         </record>

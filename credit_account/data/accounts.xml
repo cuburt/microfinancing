@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--==================CATEGORY=====================-->
+        <record id="data_account_type_liquidity2" model="account.account.type">
+            <field name="name">Cash and Cash Equivalent</field>
+            <field name="type">liquidity</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <record id="data_account_type_loans_receivable" model="account.account.type">
+            <field name="name">Loans and Receivable</field>
+            <field name="type">receivable</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <record id="data_account_type_other_current_assets" model="account.account.type">
+            <field name="name">Other Current Assets</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <record id="data_account_type_property_equipment" model="account.account.type">
+            <field name="name">Property and Equipment</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <record id="data_account_type_other_non_current_assets" model="account.account.type">
+            <field name="name">Other Non-Current Assets</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <!--        <record id="category6" model="account.account.type">-->
+        <!--            <field name="name">Current Liabilities</field>-->
+        <!--        </record>-->
+        <!--        -->
+        <!--        <record model="account.account.type" id="data_account_type_current_liabilities">-->
+        <!--          <field name="name">Current Liabilities</field>-->
+        <!--          <field name="type">other</field>-->
+        <!--          <field name="internal_group">liability</field>-->
+        <!--          <field name="include_initial_balance" eval="True"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="category7" model="account.account.type">-->
+        <!--            <field name="name">Non-Current Liabilities</field>-->
+        <!--        </record>-->
+
+        <!--        <record model="account.account.type" id="data_account_type_non_current_liabilities">-->
+        <!--          <field name="name">Non-current Liabilities</field>-->
+        <!--          <field name="type">other</field>-->
+        <!--          <field name="internal_group">liability</field>-->
+        <!--          <field name="include_initial_balance" eval="True"/>-->
+        <!--        </record>-->
+
+        <record id="data_account_type_members_equity" model="account.account.type">
+            <field name="name">Member's Equity</field>
+            <field name="internal_group">equity</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <record id="data_account_type_income" model="account.account.type">
+            <field name="name">Income from Credit Operations</field>
+            <field name="type">other</field>
+            <field name="internal_group">income</field>
+        </record>
+
+        <!--        <record id="category10" model="account.account.type">-->
+        <!--            <field name="name">Other Income</field>-->
+        <!--        </record>-->
+
+        <!--        <record model="account.account.type" id="data_account_type_other_income">-->
+        <!--            <field name="name">Other Income</field>-->
+        <!--            <field name="type">other</field>-->
+        <!--            <field name="internal_group">income</field>-->
+        <!--        </record>-->
+
+        <record id="data_account_type_financing_cost" model="account.account.type">
+            <field name="name">Financing Cost</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record id="data_account_type_admin_cost" model="account.account.type">
+            <field name="name">Administrative Cost</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <!--=====================ACCOUNT========================-->
+
+        <record id="account1" model="account.account">
+            <field name="code">11130</field>
+            <field name="name">Cash in Bank</field>
+            <field name="user_type_id" ref="data_account_type_liquidity2"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account2" model="account.account">
+            <field name="code">11150</field>
+            <field name="name">Petty Cash Fund</field>
+            <field name="user_type_id" ref="data_account_type_liquidity2"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account3" model="account.account">
+            <field name="code">11155</field>
+            <field name="name">Revolving Fund</field>
+            <field name="user_type_id" ref="data_account_type_liquidity2"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account4" model="account.account">
+            <field name="code">11710</field>
+            <field name="name">Loan Receivable</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account5" model="account.account">
+            <field name="code">11716</field>
+            <field name="name">Allowance for Probable Losses on Loans</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account6" model="account.account">
+            <field name="code">11720</field>
+            <field name="name">Interest Receivable</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account7" model="account.account">
+            <field name="code">11725</field>
+            <field name="name">Allowance for Probable Losses on Interests</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account8" model="account.account">
+            <field name="code">11750</field>
+            <field name="name">Advances to Employees</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account9" model="account.account">
+            <field name="code">11760</field>
+            <field name="name">Due from Gensan</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account10" model="account.account">
+            <field name="code">11765</field>
+            <field name="name">Due from Koronadal</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account11" model="account.account">
+            <field name="code">11770</field>
+            <field name="name">Due from Isulan</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account12" model="account.account">
+            <field name="code">11780</field>
+            <field name="name">Other Current Receivables</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account13" model="account.account">
+            <field name="code">12300</field>
+            <field name="name">Unused Office Supplies</field>
+            <field name="user_type_id" ref="data_account_type_other_current_assets"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account14" model="account.account">
+            <field name="code">12400</field>
+            <field name="name">Prepaid Expenses</field>
+            <field name="user_type_id" ref="data_account_type_other_current_assets"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account15" model="account.account">
+            <field name="code">14130</field>
+            <field name="name">Building Improvements</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account16" model="account.account">
+            <field name="code">14131</field>
+            <field name="name">Accumulated Depreciation - Building/Improvement</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account17" model="account.account">
+            <field name="code">14160</field>
+            <field name="name">Office Equipments</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account18" model="account.account">
+            <field name="code">14161</field>
+            <field name="name">Accumulated Depreciation - OE</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account19" model="account.account">
+            <field name="code">14190</field>
+            <field name="name">Furnitures and Fixtures</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account20" model="account.account">
+            <field name="code">14191</field>
+            <field name="name">Accumulated Depreciation - FF</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account21" model="account.account">
+            <field name="code">14210</field>
+            <field name="name">Transportation Equipment</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account22" model="account.account">
+            <field name="code">14211</field>
+            <field name="name">Accumulated Depreciation - Transportation Equipment</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account23" model="account.account">
+            <field name="code">17900</field>
+            <field name="name">Other Non-Current Assets</field>
+            <field name="user_type_id" ref="data_account_type_other_non_current_assets"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account24" model="account.account">
+            <field name="code">21100</field>
+            <field name="name">Capital Build Up</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account25" model="account.account">
+            <field name="code">21210</field>
+            <field name="name">Micro-insurance Premiums Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account26" model="account.account">
+            <field name="code">21211</field>
+            <field name="name">Micro-insurance Claims Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account27" model="account.account">
+            <field name="code">21212</field>
+            <field name="name">Burial Premiums Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account28" model="account.account">
+            <field name="code">21220</field>
+            <field name="name">Loan Insurance Premiums Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account29" model="account.account">
+            <field name="code">21800</field>
+            <field name="name">Employee's Cash Bond Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account30" model="account.account">
+            <field name="code">21910</field>
+            <field name="name">Philhealth Premiums Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account31" model="account.account">
+            <field name="code">21920</field>
+            <field name="name">SSS Contributions Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account32" model="account.account">
+            <field name="code">21930</field>
+            <field name="name">HDMF Contributions Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account33" model="account.account">
+            <field name="code">22020</field>
+            <field name="name">SSS Loans Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account34" model="account.account">
+            <field name="code">22030</field>
+            <field name="name">HDMF Loans Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account35" model="account.account">
+            <field name="code">22100</field>
+            <field name="name">Withholding Tax Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account36" model="account.account">
+            <field name="code">22110</field>
+            <field name="name">Income Tax Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account37" model="account.account">
+            <field name="code">22400</field>
+            <field name="name">Accrued Expenses</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account38" model="account.account">
+            <field name="code">22600</field>
+            <field name="name">Training Fund Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account39" model="account.account">
+            <field name="code">22700</field>
+            <field name="name">Due to Head Office</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account40" model="account.account">
+            <field name="code">23100</field>
+            <field name="name">Other Current Liabilities</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account41" model="account.account">
+            <field name="code">23200</field>
+            <field name="name">Unearned Interest Income</field>
+            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account42" model="account.account">
+            <field name="code">24100</field>
+            <field name="name">Loan Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account43" model="account.account">
+            <field name="code">24840</field>
+            <field name="name">Other Non-Current Liabilities</field>
+            <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account44" model="account.account">
+            <field name="code">30000</field>
+            <field name="name">Donated Capital</field>
+            <field name="user_type_id" ref="data_account_type_members_equity"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account45" model="account.account">
+            <field name="code">31000</field>
+            <field name="name">Fund Balance</field>
+            <field name="user_type_id" ref="data_account_type_members_equity"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account46" model="account.account">
+            <field name="code">40110</field>
+            <field name="name">Interest Income from Loans</field>
+            <field name="user_type_id" ref="data_account_type_income"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account47" model="account.account">
+            <field name="code">00000</field>
+            <field name="name">Payable</field>
+            <field name="user_type_id" ref="account.data_account_type_payable"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account48" model="account.account">
+            <field name="code">40135</field>
+            <field name="name">Processing/Service Fee Income</field>
+            <field name="user_type_id" ref="data_account_type_income"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account49" model="account.account">
+            <field name="code">40150</field>
+            <field name="name">Income from Micro-insurance</field>
+            <field name="user_type_id" ref="data_account_type_income"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account50" model="account.account">
+            <field name="code">40160</field>
+            <field name="name">Income from Loan Insurance</field>
+            <field name="user_type_id" ref="data_account_type_income"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account51" model="account.account">
+            <field name="code">40170</field>
+            <field name="name">Income from Burial Insurance</field>
+            <field name="user_type_id" ref="data_account_type_income"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account52" model="account.account">
+            <field name="code">40400</field>
+            <field name="name">Other Income</field>
+            <field name="user_type_id" ref="account.data_account_type_other_income"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account53" model="account.account">
+            <field name="code">40401</field>
+            <field name="name">Gain on Sale</field>
+            <field name="user_type_id" ref="account.data_account_type_other_income"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account54" model="account.account">
+            <field name="code">71100</field>
+            <field name="name">Interest Expense on Borrowings</field>
+            <field name="user_type_id" ref="data_account_type_financing_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account55" model="account.account">
+            <field name="code">71200</field>
+            <field name="name">Interest Expense on CBU</field>
+            <field name="user_type_id" ref="data_account_type_financing_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account56" model="account.account">
+            <field name="code">71300</field>
+            <field name="name">Bank Charges</field>
+            <field name="user_type_id" ref="data_account_type_financing_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account57" model="account.account">
+            <field name="code">73211</field>
+            <field name="name">Salaries and Wages</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account58" model="account.account">
+            <field name="code">73220</field>
+            <field name="name">13th Month Pay</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account59" model="account.account">
+            <field name="code">73230</field>
+            <field name="name">Employees Benefits</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account60" model="account.account">
+            <field name="code">73235</field>
+            <field name="name">Employee Recruitment Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account61" model="account.account">
+            <field name="code">73241</field>
+            <field name="name">Philhealth Premiums</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account62" model="account.account">
+            <field name="code">73242</field>
+            <field name="name">SSS Contributions</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account63" model="account.account">
+            <field name="code">73243</field>
+            <field name="name">HDMF Contributions</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account64" model="account.account">
+            <field name="code">73310</field>
+            <field name="name">Trainees, OJTs and Contractual Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account65" model="account.account">
+            <field name="code">73330</field>
+            <field name="name">Professional Fee</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account66" model="account.account">
+            <field name="code">73373</field>
+            <field name="name">Office Supplies Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account67" model="account.account">
+            <field name="code">73374</field>
+            <field name="name">Photograph, Reproduction and Printing</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account68" model="account.account">
+            <field name="code">73381</field>
+            <field name="name">Meeting and Other Related Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account69" model="account.account">
+            <field name="code">73391</field>
+            <field name="name">Training, Seminars, and Conferences</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account70" model="account.account">
+            <field name="code">73415</field>
+            <field name="name">Light and Water</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account71" model="account.account">
+            <field name="code">73421</field>
+            <field name="name">Transportation and Travel</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account72" model="account.account">
+            <field name="code">73430</field>
+            <field name="name">Insurance Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account73" model="account.account">
+            <field name="code">73440</field>
+            <field name="name">Repairs and Maintenance</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account74" model="account.account">
+            <field name="code">73450</field>
+            <field name="name">Rental Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account75" model="account.account">
+            <field name="code">73461</field>
+            <field name="name">Taxes and Licenses</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account76" model="account.account">
+            <field name="code">73470</field>
+            <field name="name">Postage and Communication Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account77" model="account.account">
+            <field name="code">73482</field>
+            <field name="name">Representation</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account78" model="account.account">
+            <field name="code">73490</field>
+            <field name="name">Gas, Fuel and Oil</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account79" model="account.account">
+            <field name="code">73520</field>
+            <field name="name">Miscellaneous Expense</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account80" model="account.account">
+            <field name="code">73530</field>
+            <field name="name">Depreciation</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+
+        <record id="account81" model="account.account">
+            <field name="code">73540</field>
+            <field name="name">Amortization</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account82" model="account.account">
+            <field name="code">73560</field>
+            <field name="name">Provision for Probable Losses on Loans</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account83" model="account.account">
+            <field name="code">73565</field>
+            <field name="name">Provision for Probable Losses on Interest</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account84" model="account.account">
+            <field name="code">73590</field>
+            <field name="name">Impairment Losses</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account85" model="account.account">
+            <field name="code">73620</field>
+            <field name="name">Transformation Cost</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account86" model="account.account">
+            <field name="code">73650</field>
+            <field name="name">Donations and Other Contributions</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account87" model="account.account">
+            <field name="code">73660</field>
+            <field name="name">Membership and Affiliation Fee</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account88" model="account.account">
+            <field name="code">73665</field>
+            <field name="name">Fines and Penalties</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+        <record id="account89" model="account.account">
+            <field name="code">73670</field>
+            <field name="name">Software Development Cost</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import models,res_partner,groups,events,application
+from . import company,models,partner,groups,events,application
 
 

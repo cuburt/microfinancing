@@ -20,11 +20,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['credit_base', 'account_account', 'account_invoice'],
+    'depends': ['credit_base', 'product', 'sale', 'sale_crm', 'om_account_accountant'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
+        'data/accounts.xml',
+        # 'data/products.xml',
         'views/views.xml',
         'views/templates.xml',
     ],
