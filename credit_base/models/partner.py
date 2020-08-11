@@ -60,6 +60,9 @@ class LoanClient(models.Model):
     supervisor_id = fields.Many2one('res.partner','Supervisor', domain=[('type','in',['ds','as','aa','bm','gm'])])
     email = fields.Char(required=True)
     mobile = fields.Char(required=True)
+    employees = fields.One2many('res.partner', 'parent_id', 'Employees',default=lambda self:self.child_ids, domain=[('type','!=','member')])
+    members = fields.One2many('res.partner', 'parent_id', 'Members', default=lambda self:self.child_ids, domain=[('type','=','member')])
+
     # @api.model
     # def hash_code(self, code):
     #     return str(base64.b64encode(str(code).encode('UTF-8')), 'UTF-8')
@@ -123,6 +126,7 @@ class LoanClient(models.Model):
                 print('parent_id:', parent.id)
                 print('company id:', parent.company_id.id)
                 print('==================================================================')
+
             else:
                 branch = self.env['res.branch'].search([('id', '=', values.get('branch_id'))], limit=1)
 

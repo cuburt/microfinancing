@@ -262,10 +262,10 @@
         <!--                  <menuitem name="Subsidiary Accounts" id="credit.subsidiary_accounts" parent="credit.lists_accounting_system"-->
         <!--                          action="credit_base.action_window_subsidiary_accounts"/>-->
 
-        <!--              <menuitem name="Loan System" id="credit.lists_loan_system" parent="credit.lists"/>-->
+      <menuitem name="Loan System" id="credit.lists_loan_system" parent="credit.lists"/>
 
-        <!--                  <menuitem name="Loan Accounts" id="credit.loan_accounts" parent="credit.lists_loan_system"-->
-        <!--                          action="credit_base.action_window_loan_accounts"/>-->
+          <menuitem name="Loan Accounts" id="credit.loan_accounts" parent="credit.lists_loan_system"
+                  action="credit_base.action_window_loan_accounts"/>
 
         <!--                  <menuitem name="Loan Accounts - Other Information" id="credit.loan_accounts_oi" parent="credit.lists_loan_system"-->
         <!--                          action="credit_base.action_window_loan_accounts_oi"/>-->

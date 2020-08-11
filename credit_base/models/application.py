@@ -23,12 +23,14 @@ class Lead(models.Model):
 
     # group_id = fields.Many2one('credit.loan.group', 'Group', index=True)
     application_id = fields.Many2one('credit.loan.application','Application')
-    service_applied = fields.Char(related='application_id.applied_service',string='Applied Service')
+    product_id = fields.Many2one('product.product', related='application_id.product_id',string='Applied Service')
+    financing_id = fields.Many2one('credit.loan.financing', related='application_id.financing_id')
+    partner_id = fields.Many2one('res.partner', related='financing_id.member_id')
 
 # class ProductProduct(models.Model):
 
 
-#ACCOUNT FOR QUALIFIED MEMBERS
+#ACCOUNT FOR QUALIFIED MEMBERS/ FOR INDIVIDUAL
 class LoanFinancing(models.Model):
     _inherit = 'credit.loan.financing'
 
@@ -39,13 +41,28 @@ class LoanApplication(models.Model):
     _name = 'credit.loan.application'
 
     # APPLICATION FORM
+    name = fields.Char(related='financing_id.name')
     financing_id = fields.Many2one('credit.loan.financing', 'Source', required=True)
-    state = fields.Selection(string="Status", selection=[('draft', 'Draft'),
+    #TODO: CONNECT TO INVOICE WHEN STATUS IS CONFIRM
+    status = fields.Selection(string="Status", selection=[('draft', 'Draft'),
                                                          ('confirm', 'Confirmed')], required=True,
                              default='draft', track_visibility='onchange')
-    branch_id = fields.Many2one('res.branch','Branch')
-    application_date = fields.Date('Application Date', default=fields.Datetime.now(), required_if_state='confirm')
-    service = fields.Many2one('product.product','Service')
-    applied_service = fields.Char(related='service.name',string='Applied Service')
+    branch_id = fields.Many2one('res.branch','Branch', related='financing_id.branch_id')
+    application_date = fields.Datetime('Application Date', default=fields.Datetime.now(), required_if_state='confirm')
+    product_id = fields.Many2one('product.product', related='financing_id.product_id')
+    group_id = fields.Many2one('credit.loan.group', related='financing_id.group_id')
+    # applicant_ids = fields.Many2many('res.partner', related='group_id.members')
 
+    @api.model
+    def create(self, values):
+        application = super(LoanApplication, self).create(values)
+        self.env['crm.lead'].create({
+            'name':application.financing_id.member_id.name,
+            'application_id':application.id
+        })
+        return application
 
+class Invoice(models.Model):
+    _inherit = 'account.invoice'
+
+    loan_application = fields.Many2one('credit.loan.application', 'Source Document')

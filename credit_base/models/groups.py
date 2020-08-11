@@ -30,7 +30,7 @@ class LoanGroup(models.Model):
     index = fields.Integer()
     code = fields.Char(readonly=True)
     state = fields.Selection([('active', 'Active'),('inactive','Inactive')], default='active')
-    status = fields.Selection([('draft','Draft'),('confirm','Confirmed'),('inactive','Inactive')], default='draft')
+    status = fields.Selection([('draft','Draft'),('confirm','Confirmed')], default='draft')
     members = fields.One2many('res.partner','group_id','Members', domain=[('type','=','member')], default=lambda self:self.contact_person)
     creator = fields.Many2one('res.partner', domain=[('type','=','member')], string='Created by:', default = lambda self:self.env.user.partner_id)
     date_organized = fields.Datetime(string='Date organized', default=fields.Datetime.now())
@@ -48,7 +48,10 @@ class LoanGroup(models.Model):
 
     @api.onchange('contact_person')
     def _get_area(self):
-        self.area_id = self.env['res.area'].search([('street2','=',self.street2),
+        if self.contact_person.area_id:
+            self.area_id = self.contact_person.area_id
+        else:
+            self.area_id = self.env['res.area'].search([('street2','=',self.street2),
                                             ('city','=',self.city)], order='name desc', limit=1)
     @api.multi
     def default_area(self):
@@ -57,11 +60,11 @@ class LoanGroup(models.Model):
 
     @api.multi
     def default_do(self):
-        return self.area_id.do
+        return self.area_id.officer_id
 
     @api.onchange('contact_person')
     def _get_do(self):
-        self.do = self.area_id.do
+        self.do = self.area_id.officer_id
 
     @api.model
     def create(self, values):
@@ -72,8 +75,51 @@ class LoanGroup(models.Model):
             values['index'] = int(self.search([], order='index desc',limit=1).index)+1
             values['code'] = '%s-%s%s' % (self.env['res.partner'].search([('id','=',values.get('do'))],limit=1).code,str(self.env['res.partner'].search([('id','=',values.get('do'))],limit=1).index),"{0:0=2d}".format(values['index']))
             values['name'] = values['code']
-            return super(LoanGroup, self).create(values)
+            group = super(LoanGroup, self).create(values)
+            self.env['res.partner'].search([('id','=', group.contact_person.id)]).write({'group_id':group.id, 'area_id':group.area_id.id})
+            return group
 
-    @api.model
+
+    @api.one
     def confirm_group(self):
-        self.status = 'confirm'
+        if self.event_registration_id:
+            for member in self.members:
+                if self.env['credit.loan.financing'].search([('group_id','=',self.id),('member_id','=',member.id)], limit=1):
+                    self.env['credit.loan.financing'].search([('group_id','=',self.id)]).write({
+                        'branch_id': self.area_id.branch_id.id,
+                        'status': 'active',
+                    })
+                else:
+
+                    financing = self.env['credit.loan.financing'].create({
+                        'group_id':self.id,
+                        'branch_id': self.area_id.branch_id.id,
+                        'status':'active',
+                        'member_id': member.id
+                    })
+                    self.env['credit.loan.application'].create({
+                        'financing_id': financing.id
+                    })
+
+            if self.env['credit.loan.financing'].search(
+                    [('group_id', '=', self.id), ('member_id', 'not in', [m.id for m in self.members])], limit=1):
+                for rec in self.env['credit.loan.financing'].search(
+                        [('group_id', '=', self.id), ('member_id', 'not in', [m.id for m in self.members])]):
+                    try:
+                        for loan_application in rec.loan_applications:
+                            loan_application.unlink()
+                        rec.unlink()
+                    except Exception as e:
+                        raise ValidationError(_(str(e)))
+
+            self.status = 'confirm'
+
+        else:
+            raise ValidationError(_('Group Leader hasn\'t attended any of the information meeting yet.'))
+
+    @api.one
+    def draft_group(self):
+        self.env['credit.loan.financing'].search([('group_id.id','=',self.id)]).write({
+            'status':'archive'
+        })
+        self.status = 'draft'

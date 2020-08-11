@@ -16,12 +16,12 @@ class LoanFinancing(models.Model):
     _description = 'Loan Microfinancing'
     _order = 'write_date desc'
 
-    # client_id = fields.Many2one(comodel_name='credit.loan.client', string='Client', required=True)
     code = fields.Char(readonly=True)
-    type = fields.Selection([('group','Group/Selda Loan')], default='group')
+    status = fields.Selection([('active','Active'),('archive','Archived')], default='archive')
     cosigner_id = fields.Many2one(comodel_name='res.partner', string='Cosigner')
     date_created = fields.Datetime(default=fields.Datetime.now())
     branch_id = fields.Many2one('res.branch','Branch')
+
 
 class ResBranch(models.Model):
     _name = 'res.branch'
@@ -76,7 +76,7 @@ class ResArea(models.Model):
     code = fields.Char(related='officer_id.short_code', store=True, readonly=True)
     branch_id = fields.Many2one('res.branch','Branch', store=True)
     group_ids = fields.One2many('credit.loan.group','area_id','Groups')
-    officer_id = fields.One2many('res.partner','area_id','Assigned DO')
+    officer_id = fields.One2many('res.partner','area_id','Assigned DO', domain=[('type','=','do')])
     officer = fields.Char(related='officer_id.name', string='Assigned DO')
     city = fields.Char(related='branch_id.city',string='City', store=True)
     street2 = fields.Char()

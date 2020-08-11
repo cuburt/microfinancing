@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','event','base_setup','crm','muk_web_theme', 'website','website_event'],
+    'depends': ['base','event','base_setup','crm','muk_web_theme', 'website','website_event','product'],
 
     # always loaded
     'data': [
@@ -29,11 +29,12 @@
 
         'data/config_data.xml',
         'data/demo_data.xml',
+        'data/products.xml',
         'views/lists.xml',
         'views/system.xml',
         # 'views/transactions.xml',
         # 'views/lists/accounting.xml',
-        # 'views/lists/loans.xml',
+        'views/lists/loans.xml',
         # 'views/lists/references.xml',
         # 'views/lists/savings.xml',
         # 'views/reports/accounting.xml',
