@@ -84,11 +84,24 @@ class LoanGroup(models.Model):
     def confirm_group(self):
         if self.event_registration_id:
             for member in self.members:
-                if self.env['credit.loan.financing'].search([('group_id','=',self.id),('member_id','=',member.id)], limit=1):
-                    self.env['credit.loan.financing'].search([('group_id','=',self.id)]).write({
+                finance = self.env['credit.loan.financing'].search([('group_id','=',self.id),('member_id','=',member.id)], limit=1)
+                print(finance)
+                if finance:
+                    finance.write({
                         'branch_id': self.area_id.branch_id.id,
                         'status': 'active',
                     })
+                    application = self.env['credit.loan.application'].search([('financing_id','=',finance.id)], limit=1)
+                    print(application)
+                    if application:
+                        application.write({
+                            'state': True
+                        })
+                    else:
+                        self.env['credit.loan.application'].create({
+                            'financing_id': finance.id,
+                            'state': True
+                        })
                 else:
 
                     financing = self.env['credit.loan.financing'].create({
@@ -98,7 +111,8 @@ class LoanGroup(models.Model):
                         'member_id': member.id
                     })
                     self.env['credit.loan.application'].create({
-                        'financing_id': financing.id
+                        'financing_id': financing.id,
+                        'state': True
                     })
 
             if self.env['credit.loan.financing'].search(

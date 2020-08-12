@@ -22,10 +22,10 @@ class Lead(models.Model):
     _inherit = 'crm.lead'
 
     # group_id = fields.Many2one('credit.loan.group', 'Group', index=True)
-    application_id = fields.Many2one('credit.loan.application','Application')
+    application_id = fields.Many2one('credit.loan.application','Loan Application')
     product_id = fields.Many2one('product.product', related='application_id.product_id',string='Applied Service')
-    financing_id = fields.Many2one('credit.loan.financing', related='application_id.financing_id')
-    partner_id = fields.Many2one('res.partner', related='financing_id.member_id')
+    financing_id = fields.Many2one('credit.loan.financing', related='application_id.financing_id', string='Loan Account')
+    partner_id = fields.Many2one('res.partner', related='financing_id.member_id', string='Client')
 
 # class ProductProduct(models.Model):
 
@@ -34,7 +34,7 @@ class Lead(models.Model):
 class LoanFinancing(models.Model):
     _inherit = 'credit.loan.financing'
 
-    loan_applications = fields.One2many(comodel_name="credit.loan.application", inverse_name="financing_id", string="Source", required=False)
+    loan_applications = fields.One2many(comodel_name="credit.loan.application", inverse_name="financing_id", string="Loan Application", required=False)
     member_id = fields.Many2one('res.partner','Client')
 
 class LoanApplication(models.Model):
@@ -42,16 +42,38 @@ class LoanApplication(models.Model):
 
     # APPLICATION FORM
     name = fields.Char(related='financing_id.name')
-    financing_id = fields.Many2one('credit.loan.financing', 'Source', required=True)
+    code = fields.Char()
+    financing_id = fields.Many2one('credit.loan.financing', 'Loan Account', required=True)
     #TODO: CONNECT TO INVOICE WHEN STATUS IS CONFIRM
     status = fields.Selection(string="Status", selection=[('draft', 'Draft'),
                                                          ('confirm', 'Confirmed')], required=True,
-                             default='draft', track_visibility='onchange')
+                             default='confirm', track_visibility='onchange')
+    state = fields.Boolean(default=False)
     branch_id = fields.Many2one('res.branch','Branch', related='financing_id.branch_id')
     application_date = fields.Datetime('Application Date', default=fields.Datetime.now(), required_if_state='confirm')
     product_id = fields.Many2one('product.product', related='financing_id.product_id')
     group_id = fields.Many2one('credit.loan.group', related='financing_id.group_id')
-    # applicant_ids = fields.Many2many('res.partner', related='group_id.members')
+    partner_id = fields.Many2one('res.partner', related='financing_id.member_id')
+
+    @api.one
+    def confirm_form(self):
+        self.state = True
+        self.status = 'confirm'
+
+    @api.one
+    def draft_form(self):
+        self.state = False
+        self.status = 'draft'
+
+    @api.multi
+    def write(self, values):
+
+        if not self.env['crm.lead'].search([('application_id','=',self.id)], limit=1):
+            self.env['crm.lead'].create({
+                'name': self.financing_id.member_id.name,
+                'application_id': self.id
+            })
+        return super(LoanApplication, self).write(values)
 
     @api.model
     def create(self, values):

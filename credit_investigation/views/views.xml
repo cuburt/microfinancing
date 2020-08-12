@@ -1,60 +1,142 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="credit_investigation.list">
-      <field name="name">credit_investigation list</field>
-      <field name="model">credit_investigation.credit_investigation</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
-    -->
+    <data>
 
-    <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="credit_investigation.action_window">
-      <field name="name">credit_investigation window</field>
-      <field name="res_model">credit_investigation.credit_investigation</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-    -->
+<!--        LOAN APPLICATION-->
 
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="credit_investigation.action_server">
-      <field name="name">credit_investigation server</field>
-      <field name="model_id" ref="model_credit_investigation_credit_investigation"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
-    -->
+        <record id="loan_applications_inherit_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.application.form</field>
+            <field name="model">credit.loan.application</field>
+            <field name="inherit_id" ref="credit_base.loan_applications_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='draft_form']" position="after">
+                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate'])]}"/>
+                </xpath>
+                <xpath expr="//field[@name='status']" position="attributes">
+                    <attribute name="statusbar_visible">draft,confirm,investigate</attribute>
+                </xpath>
+                <xpath expr="//button[@name='confirm_form']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('status','in',['confirm','investigate'])]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='draft_form']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('status','in',['draft','investigate'])]}</attribute>
+                </xpath>
+                <xpath expr="//group" position="after">
+                    <notebook>
+                        <page string="CI/BI">
+                            <field name="client_investigations"/>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
 
-    <!-- Top menu item -->
-    <!--
-    <menuitem name="credit_investigation" id="credit_investigation.menu_root"/>
-    -->
-    <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="credit_investigation.menu_1" parent="credit_investigation.menu_root"/>
-    <menuitem name="Menu 2" id="credit_investigation.menu_2" parent="credit_investigation.menu_root"/>
-    -->
-    <!-- actions -->
-    <!--
-    <menuitem name="List" id="credit_investigation.menu_1_list" parent="credit_investigation.menu_1"
-              action="credit_investigation.action_window"/>
-    <menuitem name="Server to list" id="credit_investigation" parent="credit_investigation.menu_2"
-              action="credit_investigation.action_server"/>
-    -->
-  </data>
+<!--        CI/BI-->
+        <record id="investigation_tree_view" model="ir.ui.view">
+            <field name="name">credit.client.investigation.list</field>
+            <field name="model">credit.client.investigation</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="loan_application"/>
+                    <field name="investigation_date"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="investigation_form_view" model="ir.ui.view">
+            <field name="name">credit.client.investigation.form</field>
+            <field name="model">credit.client.investigation</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="Confirm" name="confirm_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','cancel','done'])]}"/>
+                        <button string="Send to Draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','draft',])]}"/>
+                        <button string="Done" name="done_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>
+                        <button name="cancel_form" string="Cancel" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['cancel','draft','done'])]}"/>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,ongoing,cancel,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="loan_application"/>
+                            <field name="investigation_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Questions">
+                                <field name="questions" mode="kanban">
+                                    <kanban>
+                                        <field name="question"/>
+                                        <field name="score"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+<!--                                                <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>-->
+                                                <div class="oe_kanban_content">
+                                                    <field name="question"/>
+                                                    <div class="o_kanban_record_bottom" style="margin-top:2em !important;">
+                                                        <div class="oe_kanban_bottom_left">
+                                                            <small>Rating:</small>
+                                                        </div>
+                                                        <div class="oe_kanban_bottom_right">
+                                                            <field name="score" widget="priority"/>
+                                                        </div>
+                                                    </div>
+                                                    <small>Remarks:</small>
+                                                    <field name="remarks"/>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="question_tree_view" model="ir.ui.view">
+            <field name="name">credit.client.investigation.questionnaire.list</field>
+            <field name="model">credit.client.investigation.questionnaire</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="question"/>
+                    <field name="score" widget="priority"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="question_form_view" model="ir.ui.view">
+            <field name="name">credit.client.investigation.questionnaire.form</field>
+            <field name="model">credit.client.investigation.questionnaire</field>
+            <field name="arch" type="xml">
+                <form string="">
+<!--                    <header>-->
+<!--                        <field name="status" widget="statusbar" statusbar_visible="unanswered,answered"/>-->
+<!--                    </header>-->
+                    <sheet>
+                        <group>
+                            <field name="ci_id"/>
+                            <field name="question"/>
+                            <field name="score" widget="priority"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_window_investigation" model="ir.actions.act_window">
+            <field name="name">Background Investigation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.client.investigation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+              <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+    </data>
 </odoo>

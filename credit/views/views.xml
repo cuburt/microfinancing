@@ -45,11 +45,14 @@
         <!--              <menuitem name="Preferences" id="credit.preferences" parent="credit.system"-->
         <!--                        action="credit_base.action_window_preferences"/>-->
 
+        <menuitem name="Applications" id="credit.member_crm" parent="credit.system"
+                  action="credit_base.action_window_member_crm" sequence="1"/>
+
         <menuitem name="Users" id="credit.users" parent="credit.system"
                   action="credit_base.action_window_users"/>
 
-        <menuitem name="Members" id="credit.member_crm" parent="credit.system"
-                  action="credit_base.action_window_member_crm"/>
+        <menuitem name="Investigation" id="credit.investigation" parent="credit.system"
+                  action="credit_investigation.action_window_investigation"/>
 
 <!--        <menuitem name="Groups" id="credit.group_crm" parent="credit.system"-->
 <!--                  action="credit_base.action_window_group_crm"/>-->

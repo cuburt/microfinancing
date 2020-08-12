@@ -477,7 +477,7 @@
                         <notebook>
                             <page string="Members">
                                 <group>
-                                    <field name="members"/>
+                                    <field name="members" editable="bottom"/>
                                 </group>
                             </page>
                             <page string="Loan Account">
