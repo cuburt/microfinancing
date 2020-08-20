@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class LoanFinancing(models.Model):
     _inherit = 'credit.loan.financing'
 
-    product_id = fields.Many2one('product.product', 'Product')
+    product_id = fields.Many2one('product.product', 'Product', default=lambda self:self.env['product.product'].search([],limit=1))
 
 class Product(models.Model):
     _inherit = 'product.product'

@@ -79,3 +79,13 @@ credit_application_accountofficer,credit.loan.application.accountofficer,model_c
 credit_application_devsupervisor,credit.loan.application.devsupervisor,model_credit_loan_application,group_credit_devsupervisor,1,1,1,1
 credit_application_devofficer,credit.loan.application.devofficer,model_credit_loan_application,group_credit_devofficer,1,1,1,1
 credit_application_member,credit.loan.application.member,model_credit_loan_application,group_credit_member,1,1,1,0
+
+credit_lead_sysad,crm.lead.sysad,model_crm_lead,group_credit_sysad,1,1,1,1
+credit_lead_general,crm.lead.general ,model_crm_lead,group_credit_general,1,1,1,1
+credit_lead_branch,crm.lead.branch,model_crm_lead,group_credit_branch,1,1,1,1
+credit_lead_admin,crm.lead.admin,model_crm_lead,group_credit_admin,1,1,1,1
+credit_lead_accountsupervisor,crm.lead.accountsupervisor,model_crm_lead,group_credit_accountsupervisor,1,1,1,1
+credit_lead_accountofficer,crm.lead.accountofficer,model_crm_lead,group_credit_accountofficer,1,1,1,1
+credit_lead_devsupervisor,crm.lead.devsupervisor,model_crm_lead,group_credit_devsupervisor,1,1,1,1
+credit_lead_devofficer,crm.lead.devofficer,model_crm_lead,group_credit_devofficer,1,1,1,1
+credit_lead_member,crm.lead.member,model_crm_lead,group_credit_member,1,1,1,0

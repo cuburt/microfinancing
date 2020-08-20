@@ -1,24 +1,27 @@
 <odoo>
     <data>
 
-<!--        LOAN APPLICATION-->
+        <!--        LOAN APPLICATION-->
 
         <record id="loan_applications_inherit_form_view" model="ir.ui.view">
             <field name="name">credit.loan.application.form</field>
             <field name="model">credit.loan.application</field>
             <field name="inherit_id" ref="credit_base.loan_applications_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//button[@name='draft_form']" position="after">
-                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate'])]}"/>
+                <xpath expr="//field[@name='status']" position="before">
+                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['investigate','confirm'])]}"/>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,confirm,investigate</attribute>
+                    <attribute name="statusbar_visible">draft,investigate</attribute>
                 </xpath>
-                <xpath expr="//button[@name='confirm_form']" position="attributes">
-                    <attribute name="attrs">{'invisible':[('status','in',['confirm','investigate'])]}</attribute>
-                </xpath>
-                <xpath expr="//button[@name='draft_form']" position="attributes">
-                    <attribute name="attrs">{'invisible':[('status','in',['draft','investigate'])]}</attribute>
+                <xpath expr="//button[@name='toggle_active']" position="after">
+                    <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="investigation_status" widget="boolean_button" options="{&quot;terminology&quot;:
+                        {&quot;string_true&quot;:&quot;Passed&quot;,
+                         &quot;hover_true&quot;:&quot;Fail Investigation&quot;,
+                         &quot;string_false&quot;:&quot;Not passed&quot;,
+                         &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>
+                    </button>
                 </xpath>
                 <xpath expr="//group" position="after">
                     <notebook>
@@ -30,7 +33,7 @@
             </field>
         </record>
 
-<!--        CI/BI-->
+        <!--        CI/BI-->
         <record id="investigation_tree_view" model="ir.ui.view">
             <field name="name">credit.client.investigation.list</field>
             <field name="model">credit.client.investigation</field>
@@ -57,37 +60,37 @@
                         <field name="status" widget="statusbar" statusbar_visible="draft,ongoing,cancel,done"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="is_passed" widget="boolean_button" options="{&quot;terminology&quot;:
+                        {&quot;string_true&quot;:&quot;Passed&quot;,
+                         &quot;hover_true&quot;:&quot;Fail Investigation&quot;,
+                         &quot;string_false&quot;:&quot;Not passed&quot;,
+                         &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>
+                            </button>
+                        </div>
                         <group>
                             <field name="name"/>
+                            <field name="partner_id"/>
                             <field name="loan_application"/>
                             <field name="investigation_date"/>
+                            <field name="ave_score"/>
                         </group>
                         <notebook>
-                            <page string="Questions">
-                                <field name="questions" mode="kanban">
-                                    <kanban>
-                                        <field name="question"/>
-                                        <field name="score"/>
-                                        <templates>
-                                            <t t-name="kanban-box">
-<!--                                                <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>-->
-                                                <div class="oe_kanban_content">
-                                                    <field name="question"/>
-                                                    <div class="o_kanban_record_bottom" style="margin-top:2em !important;">
-                                                        <div class="oe_kanban_bottom_left">
-                                                            <small>Rating:</small>
-                                                        </div>
-                                                        <div class="oe_kanban_bottom_right">
-                                                            <field name="score" widget="priority"/>
-                                                        </div>
-                                                    </div>
-                                                    <small>Remarks:</small>
-                                                    <field name="remarks"/>
-                                                </div>
-                                            </t>
-                                        </templates>
-                                    </kanban>
-                                </field>
+                            <page string="Character">
+                                <field name="character" mode="kanban" editable="1"/>
+                            </page>
+                            <page string="Capacity">
+                                <field name="capacity" mode="kanban" editable="1"/>
+                            </page>
+                            <page string="Capital">
+                                <field name="capital" mode="kanban" editable="1"/>
+                            </page>
+                            <page string="Condition">
+                                <field name="condition" mode="kanban" editable="1"/>
+                            </page>
+                            <page string="Collateral">
+                                <field name="collateral" mode="kanban" editable="1"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -100,6 +103,8 @@
             <field name="model">credit.client.investigation.questionnaire</field>
             <field name="arch" type="xml">
                 <tree string="">
+                    <field name="name"/>
+                    <field name="category"/>
                     <field name="question"/>
                     <field name="score" widget="priority"/>
                 </tree>
@@ -111,17 +116,71 @@
             <field name="model">credit.client.investigation.questionnaire</field>
             <field name="arch" type="xml">
                 <form string="">
-<!--                    <header>-->
-<!--                        <field name="status" widget="statusbar" statusbar_visible="unanswered,answered"/>-->
-<!--                    </header>-->
                     <sheet>
                         <group>
                             <field name="ci_id"/>
                             <field name="question"/>
                             <field name="score" widget="priority"/>
+                            <field name="remarks"/>
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record id="quick_create_question_form" model="ir.ui.view">
+            <field name="name">credit.client.investigation.questionnaire.quick_create</field>
+            <field name="model">credit.client.investigation.questionnaire</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="ci_id"/>
+                        <field name="category"/>
+                        <field name="question"/>
+                        <field name="score"/>
+                        <field name="remarks"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="question_kanban" model="ir.ui.view">
+            <field name="name">credit.client.investigation.questionnaire.kanban</field>
+            <field name="model">credit.client.investigation.questionnaire</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="category" on_create="quick_create" quick_create_view="credit_investigation.quick_create_question_form">
+                    <field name="name"/>
+                    <field name="category"/>
+                    <field name="question"/>
+                    <field name="score"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <!--                                                <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>-->
+                            <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+                                <div>
+                                    <strong class="o_kanban_record_title"><span><field name="name"/></span></strong>
+                                </div>
+                                <div>
+                                    <span class="o_kanban_record_subtitle"><field name="category"/></span>
+                                </div>
+                                <field name="question"/>
+                                <div class="o_kanban_record_bottom" style="margin-top:2em !important;">
+                                    <div class="oe_kanban_bottom_left">
+                                        <small>Rating:</small>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="score" widget="priority"/>
+                                    </div>
+                                </div>
+                                <small>Remarks:</small>
+                                <field name="remarks"/>
+                            </div>
+                        </t>
+
+                    </templates>
+                </kanban>
             </field>
         </record>
 
@@ -131,10 +190,10 @@
             <field name="res_model">credit.client.investigation</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-              <!-- More details about what a user can do with this object will be OK -->
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
             </p>
             </field>
         </record>

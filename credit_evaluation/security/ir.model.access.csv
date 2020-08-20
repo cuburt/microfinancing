@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+credit_evaluation_sysad,credit.member.evaluation.sysad,model_credit_group_evaluation,credit_base.group_credit_sysad,1,1,1,1
+credit_evaluation_general,credit.member.evaluation.general ,model_credit_group_evaluation,credit_base.group_credit_general,1,0,0,0
+credit_evaluation_branch,credit.member.evaluation.branch,model_credit_group_evaluation,credit_base.group_credit_branch,1,0,0,0
+credit_evaluation_admin,credit.member.evaluation.admin,model_credit_group_evaluation,credit_base.group_credit_admin,1,0,0,0
+credit_evaluation_accountsupervisor,credit.member.evaluation.accountsupervisor,model_credit_group_evaluation,credit_base.group_credit_accountsupervisor,1,0,0,0
+credit_evaluation_accountofficer,credit.member.evaluation.accountofficer,model_credit_group_evaluation,credit_base.group_credit_accountofficer,1,0,0,0
+credit_evaluation_devsupervisor,credit.member.evaluation.devsupervisor,model_credit_group_evaluation,credit_base.group_credit_devsupervisor,1,0,0,0
+credit_evaluation_devofficer,credit.member.evaluation.devofficer,model_credit_group_evaluation,credit_base.group_credit_devofficer,1,0,0,0
+credit_evaluation_member,credit.member.evaluation.member,model_credit_group_evaluation,credit_base.group_credit_member,1,0,0,0

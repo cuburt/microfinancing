@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','event','base_setup','crm','muk_web_theme', 'website','website_event','product'],
+    'depends': ['base','event','base_setup','crm','muk_web_theme', 'website','website_event','product','mail'],
 
     # always loaded
     'data': [
@@ -30,6 +30,7 @@
         'data/config_data.xml',
         'data/demo_data.xml',
         'data/products.xml',
+        'data/event.xml',
         'views/lists.xml',
         'views/system.xml',
         # 'views/transactions.xml',

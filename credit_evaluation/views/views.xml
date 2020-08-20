@@ -1,0 +1,106 @@
+<odoo>
+    <data>
+        <record id="loan_applications_inherit_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.application.form</field>
+            <field name="model">credit.loan.application</field>
+            <field name="inherit_id" ref="credit_base.loan_applications_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='status']" position="before">
+                    <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate'])]}"/>
+                </xpath>
+                <xpath expr="//field[@name='status']" position="attributes">
+                    <attribute name="statusbar_visible">draft,investigate,confirm</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="groups_inherit_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.group.inherit.form</field>
+            <field name="model">credit.loan.group</field>
+            <field name="inherit_id" ref="credit_base.care_groups_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='draft_group']" position="before">
+                    <button string="Evaluate" name="evaluate_group" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['evaluate','draft'])]}"/>
+                </xpath>
+                <xpath expr="//button[@name='confirm_group']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='status']" position="attributes">
+                    <attribute name="statusbar_visible">draft,confirm,evaluate</attribute>
+                </xpath>
+                <xpath expr="//button[@name='toggle_active']" position="after">
+                    <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="is_approved" widget="boolean_button" options="{&quot;terminology&quot;:
+                            {&quot;string_true&quot;:&quot;Approved&quot;,
+                             &quot;hover_true&quot;:&quot;Disapprove&quot;,
+                             &quot;string_false&quot;:&quot;For Approval&quot;,
+                             &quot;hover_false&quot;:&quot;Approve&quot;}}"/>
+                    </button>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+
+                    <page string="Evaluations">
+                        <field name="evaluation_ids"/>
+                    </page>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="evaluation_tree_view" model="ir.ui.view">
+            <field name="name">credit.group.evaluation.list</field>
+            <field name="model">credit.group.evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="group_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="evaluation_form_view" model="ir.ui.view">
+            <field name="name">credit.group.evaluation.form</field>
+            <field name="model">credit.group.evaluation</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="is_complete" widget="boolean_button" options="{&quot;terminology&quot;:
+                        {&quot;string_true&quot;:&quot;Complete&quot;,
+                         &quot;hover_true&quot;:&quot;Set incomplete&quot;,
+                         &quot;string_false&quot;:&quot;Incomplete&quot;,
+                         &quot;hover_false&quot;:&quot;Set Complete&quot;}}"/>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="group_id"/>
+                            <field name="evaluation_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Members">
+                                <field name="members"/>
+                            </page>
+                            <page string="Registration">
+                                <field name="registration_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_window_evaluation" model="ir.actions.act_window">
+            <field name="name">Evaluations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.group.evaluation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+    </data>
+</odoo>

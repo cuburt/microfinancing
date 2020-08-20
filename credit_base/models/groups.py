@@ -4,7 +4,7 @@ from odoo import models, fields, api
 from odoo import tools, _
 import base64
 from odoo.modules.module import get_module_resource
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 from dateutil.relativedelta import relativedelta
 from datetime import date, datetime
 import logging
@@ -25,12 +25,13 @@ class LoanFinancing(models.Model):
 
 class LoanGroup(models.Model):
     _name = 'credit.loan.group'
+    _inherit = 'mail.thread'
 
-    name = fields.Char()
+    name = fields.Char(track_visibility='always')
     index = fields.Integer()
     code = fields.Char(readonly=True)
-    state = fields.Selection([('active', 'Active'),('inactive','Inactive')], default='active')
-    status = fields.Selection([('draft','Draft'),('confirm','Confirmed')], default='draft')
+    state = fields.Selection([('active', 'Active'),('inactive','Inactive')], default='active', track_visibility='onchange')
+    status = fields.Selection([('draft','Draft'),('confirm','Confirmed')], default='draft', track_visibility='onchange')
     members = fields.One2many('res.partner','group_id','Members', domain=[('type','=','member')], default=lambda self:self.contact_person)
     creator = fields.Many2one('res.partner', domain=[('type','=','member')], string='Created by:', default = lambda self:self.env.user.partner_id)
     date_organized = fields.Datetime(string='Date organized', default=fields.Datetime.now())
@@ -45,12 +46,17 @@ class LoanGroup(models.Model):
     country_id = fields.Many2one(related='contact_person.country_id')
     area_id = fields.Many2one('res.area','Area',default=lambda self:self.default_area(), store=True)
     do = fields.Many2one('res.partner', 'Development Officer', default=lambda self:self.default_do(), store=True)
+    product_id = fields.Many2one('product.product', default=lambda self:self.set_product())
+
+    @api.multi
+    def set_product(self):
+        return self.env['product.product'].search([('name', '=', 'Selda Loan')], limit=1)
 
     @api.onchange('contact_person')
     def _get_area(self):
-        if self.contact_person.area_id:
+        try:
             self.area_id = self.contact_person.area_id
-        else:
+        except:
             self.area_id = self.env['res.area'].search([('street2','=',self.street2),
                                             ('city','=',self.city)], order='name desc', limit=1)
     @api.multi
@@ -68,7 +74,6 @@ class LoanGroup(models.Model):
 
     @api.model
     def create(self, values):
-        print(values)
         if self.search([('contact_person.id','=',values.get('contact_person'))]):
             raise ValidationError(_('Contact person/member already in a group.'))
         else:
@@ -82,34 +87,40 @@ class LoanGroup(models.Model):
 
     @api.one
     def confirm_group(self):
-        if self.event_registration_id:
+        if self.event_registration_ids:
             for member in self.members:
-                finance = self.env['credit.loan.financing'].search([('group_id','=',self.id),('member_id','=',member.id)], limit=1)
-                print(finance)
-                if finance:
+                try:
+                    finance = self.env['credit.loan.financing'].search([('group_id','=',self.id),('member_id','=',member.id)], limit=1)
                     finance.write({
                         'branch_id': self.area_id.branch_id.id,
                         'status': 'active',
                     })
-                    application = self.env['credit.loan.application'].search([('financing_id','=',finance.id)], limit=1)
-                    print(application)
-                    if application:
+                    try:
+                        application = self.env['credit.loan.application'].search([('financing_id','=',finance.id)], limit=1)
+                        if not self.env['crm.lead'].search([('application_id', '=', application.id)], limit=1):
+                            self.env['crm.lead'].create({
+                                'name': application.partner_id.name,
+                                'application_id': application.id,
+                                'partner_id':application.partner_id.id,
+                            })
                         application.write({
                             'state': True
                         })
-                    else:
+                    except:
                         self.env['credit.loan.application'].create({
                             'financing_id': finance.id,
                             'state': True
                         })
-                else:
-
+                except:
+                    print('CREATING ACCOUNT...')
                     financing = self.env['credit.loan.financing'].create({
                         'group_id':self.id,
                         'branch_id': self.area_id.branch_id.id,
                         'status':'active',
-                        'member_id': member.id
+                        'member_id': member.id,
+                        'product_id':self.product_id.id
                     })
+                    print('ACCOUNT PRODUCT', financing.product_id.name)
                     self.env['credit.loan.application'].create({
                         'financing_id': financing.id,
                         'state': True
@@ -121,6 +132,9 @@ class LoanGroup(models.Model):
                         [('group_id', '=', self.id), ('member_id', 'not in', [m.id for m in self.members])]):
                     try:
                         for loan_application in rec.loan_applications:
+                            lead = self.env['crm.lead'].search([('application_id','=','loan_application')], limit=1)
+                            if lead:
+                                lead.unlink()
                             loan_application.unlink()
                         rec.unlink()
                     except Exception as e:
@@ -136,4 +150,33 @@ class LoanGroup(models.Model):
         self.env['credit.loan.financing'].search([('group_id.id','=',self.id)]).write({
             'status':'archive'
         })
+        for member in self.members:
+
+            application = self.env['credit.loan.application'].search([('financing_id', '=', self.env['credit.loan.financing'].search([('group_id', '=', self.id), ('member_id', '=', member.id)],
+                                                           limit=1).id)], limit=1)
+            try:
+                if self.env['crm.lead'].search([('application_id', '=', application.id)], limit=1):
+                    lead = self.env['crm.lead'].search([('application_id', '=', application.id)], limit=1)
+                    order = self.env['sale.order'].search([('opportunity_id', '=', lead.id)], limit=1)
+                    if order:
+                        order.unlink()
+                    lead.unlink()
+                if self.env['credit.client.investigation'].search([('loan_application', '=', application.id)],limit=1):
+                    raise UserError(_('Cancel all investigations for this group first!'))
+                if self.env['credit.member.evaluation'].search([('application_id', '=', application.id)],limit=1):
+                    raise UserError(_('Cncel all evaluations for this group first!'))
+            except:
+                pass
+            finally:
+                application.write({
+                    'state': False,
+                    'status': 'draft'
+                })
         self.status = 'draft'
+
+    @api.multi
+    def unlink(self):
+        if self.status != 'draft':
+            raise UserError(_('Set to draft first before deleting.'))
+        return super(LoanGroup, self).unlink()
+

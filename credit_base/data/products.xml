@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-<!--                    CATEGORY-->
+        <!--                    CATEGORY-->
 
-<!--                    TEMPLATE-->
+        <!--                    TEMPLATE-->
         <record id="template_1" model="product.template">
             <field name="name">Group</field>
             <field name="type">service</field>
@@ -11,11 +11,18 @@
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
-<!--                    PRODUCT-->
-       <record id="product_1" model="product.product">
+        <!--                    PRODUCT-->
+        <record id="product_1" model="product.product">
             <field name="name">Selda Loan</field>
             <field name="product_tmpl_id" ref="template_1"/>
         </record>
+
+
+        <record id="list0" model="product.pricelist">
+            <field name="name">Public Pricelist</field>
+            <field name="sequence">1</field>
+        </record>
+
 
     </data>
 </odoo>
