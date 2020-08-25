@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-from odoo import tools, _
-import base64
-from odoo.modules.module import get_module_resource
-from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
-from datetime import date, datetime
+
 import logging
 
 _logger = logging.getLogger(__name__)
 class LoanFinancing(models.Model):
     _name = 'credit.loan.financing'
-    # _rec_name = 'name'
     _description = 'Loan Microfinancing'
     _order = 'write_date desc'
 
@@ -63,8 +57,6 @@ class ResBranch(models.Model):
         })
 
         values['company_id'] = company.id
-        # branch = super(ResBranch, self).create(values)
-        # branch.write({''})
 
         return super(ResBranch, self).create(values)
 
@@ -85,18 +77,5 @@ class ResArea(models.Model):
     def _get_name(self):
         for rec in self:
             rec.name = '%s - %s' % (rec.code,rec.street2)
-
-
-# class CapacityAssesssment(models.Model):
-#     _name = 'credit.capacity.assessment'
-#
-#
-# class CreditTicket(models.Model):
-#     _name = 'credit.credit.ticket'
-#
-#
-# class AccountInvoice(models.Model):
-#     _inherit = 'account.invoice'
-
 
 

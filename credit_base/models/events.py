@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-from odoo import tools, _
-from odoo.modules.module import get_module_resource
-from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
-from datetime import date, datetime
 
 class LoanGroup(models.Model):
     _inherit = 'credit.loan.group'

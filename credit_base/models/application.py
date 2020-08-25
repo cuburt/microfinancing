@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-from dateutil.relativedelta import relativedelta
-from datetime import date, datetime
-from odoo.modules.module import get_module_resource
-from odoo import tools, _
-from odoo.exceptions import UserError, ValidationError
 
 #FOR GROUPS
 class LoanGroup(models.Model):
@@ -26,24 +21,19 @@ class Lead(models.Model):
     product_id = fields.Many2one('product.product', related='application_id.product_id',string='Applied Service')
     financing_id = fields.Many2one('credit.loan.financing', related='application_id.financing_id', string='Loan Account')
 
-# class ProductProduct(models.Model):
-
-
-#ACCOUNT FOR QUALIFIED MEMBERS/ FOR INDIVIDUAL
 class LoanFinancing(models.Model):
     _inherit = 'credit.loan.financing'
 
     loan_applications = fields.One2many(comodel_name="credit.loan.application", inverse_name="financing_id", string="Loan Application", required=False)
     member_id = fields.Many2one('res.partner','Client')
 
+#TODO: CONNECT TO INVOICE WHEN STATUS IS CONFIRM
 class LoanApplication(models.Model):
     _name = 'credit.loan.application'
 
-    # APPLICATION FORM
     name = fields.Char(related='financing_id.name')
     code = fields.Char()
     financing_id = fields.Many2one('credit.loan.financing', 'Loan Account', required=True)
-    #TODO: CONNECT TO INVOICE WHEN STATUS IS CONFIRM
     status = fields.Selection(string="Status", selection=[('draft', 'Draft')], required=True,
                              default='draft', track_visibility='onchange')
     state = fields.Boolean(default=False)

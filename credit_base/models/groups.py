@@ -2,11 +2,7 @@
 
 from odoo import models, fields, api
 from odoo import tools, _
-import base64
-from odoo.modules.module import get_module_resource
 from odoo.exceptions import ValidationError, UserError
-from dateutil.relativedelta import relativedelta
-from datetime import date, datetime
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -84,47 +80,41 @@ class LoanGroup(models.Model):
             self.env['res.partner'].search([('id','=', group.contact_person.id)]).write({'group_id':group.id, 'area_id':group.area_id.id})
             return group
 
-
     @api.one
     def confirm_group(self):
         if self.event_registration_ids:
             for member in self.members:
-                try:
-                    finance = self.env['credit.loan.financing'].search([('group_id','=',self.id),('member_id','=',member.id)], limit=1)
-                    finance.write({
+
+                finance = self.env['credit.loan.financing'].search([('group_id', '=', self.id), ('member_id', '=', member.id)], limit=1)
+
+                if not finance:
+                    finance = self.env['credit.loan.financing'].create({
+                        'group_id': self.id,
                         'branch_id': self.area_id.branch_id.id,
                         'status': 'active',
-                    })
-                    try:
-                        application = self.env['credit.loan.application'].search([('financing_id','=',finance.id)], limit=1)
-                        if not self.env['crm.lead'].search([('application_id', '=', application.id)], limit=1):
-                            self.env['crm.lead'].create({
-                                'name': application.partner_id.name,
-                                'application_id': application.id,
-                                'partner_id':application.partner_id.id,
-                            })
-                        application.write({
-                            'state': True
-                        })
-                    except:
-                        self.env['credit.loan.application'].create({
-                            'financing_id': finance.id,
-                            'state': True
-                        })
-                except:
-                    print('CREATING ACCOUNT...')
-                    financing = self.env['credit.loan.financing'].create({
-                        'group_id':self.id,
-                        'branch_id': self.area_id.branch_id.id,
-                        'status':'active',
                         'member_id': member.id,
-                        'product_id':self.product_id.id
+                        'product_id': self.product_id.id
                     })
-                    print('ACCOUNT PRODUCT', financing.product_id.name)
-                    self.env['credit.loan.application'].create({
-                        'financing_id': financing.id,
-                        'state': True
+                finance.write({
+                    'branch_id': self.area_id.branch_id.id,
+                    'status': 'active',
                     })
+                application = self.env['credit.loan.application'].search([('financing_id','=',finance.id)], limit=1)
+                if not application:
+                    application = self.env['credit.loan.application'].create({
+                        'financing_id': finance.id
+                    })
+
+                if not self.env['crm.lead'].search([('application_id', '=', application.id)], limit=1):
+
+                    self.env['crm.lead'].create({
+                        'name': application.partner_id.name,
+                        'application_id': application.id,
+                        'partner_id':application.partner_id.id,
+                    })
+                application.write({
+                    'state': True
+                })
 
             if self.env['credit.loan.financing'].search(
                     [('group_id', '=', self.id), ('member_id', 'not in', [m.id for m in self.members])], limit=1):
@@ -164,7 +154,7 @@ class LoanGroup(models.Model):
                 if self.env['credit.client.investigation'].search([('loan_application', '=', application.id)],limit=1):
                     raise UserError(_('Cancel all investigations for this group first!'))
                 if self.env['credit.member.evaluation'].search([('application_id', '=', application.id)],limit=1):
-                    raise UserError(_('Cncel all evaluations for this group first!'))
+                    raise UserError(_('Cancel all evaluations for this group first!'))
             except:
                 pass
             finally:

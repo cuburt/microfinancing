@@ -2,11 +2,7 @@
 
 from odoo import models, fields, api
 from odoo import tools, _
-import base64
-from odoo.modules.module import get_module_resource
 from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
-from datetime import date, datetime
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -63,19 +59,6 @@ class LoanClient(models.Model):
     employees = fields.One2many('res.partner', 'parent_id', 'Employees',default=lambda self:self.child_ids, domain=[('type','!=','member')])
     members = fields.One2many('res.partner', 'parent_id', 'Members', default=lambda self:self.child_ids, domain=[('type','=','member')])
 
-    # @api.model
-    # def hash_code(self, code):
-    #     return str(base64.b64encode(str(code).encode('UTF-8')), 'UTF-8')
-    #
-    # @api.model
-    # def decode_hash(self, code):
-    #     return int(base64.b64decode(code if code else self.hash_code(0)))
-    #
-    # @api.model
-    # def create(self, values):
-    #     values['code'] = self.hash_code((int(self.decode_hash(self.search([], order='code asc', limit=1).code)) +1))
-    #     return super(LoanClient, self).create(values)4
-
     @api.depends('name')
     def _compute_display_name(self):
         for partner in self:
@@ -121,12 +104,6 @@ class LoanClient(models.Model):
                 parent = company.partner_id
                 values['parent_id'] = parent.id
 
-                print('=================RES PARTNER CREATE FUNCTION======================')
-                print(values.get('type_str'))
-                print('parent_id:', parent.id)
-                print('company id:', parent.company_id.id)
-                print('==================================================================')
-
             else:
                 branch = self.env['res.branch'].search([('id', '=', values.get('branch_id'))], limit=1)
 
@@ -136,13 +113,6 @@ class LoanClient(models.Model):
                 values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
                 parent = branch.related_partner
                 values['parent_id'] = parent.id
-
-                print('=================RES PARTNER CREATE FUNCTION======================')
-                print(values.get('type_str'))
-                print('branch name', branch.name, 'branch index:', branch.index)
-                print('parent_id:', parent.id)
-                print('company id:', parent.company_id.id)
-                print('==================================================================')
 
                 if values['type'] == 'member':
                     values['employee'] = False

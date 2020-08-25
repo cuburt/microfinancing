@@ -38,12 +38,47 @@
                     </button>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-
                     <page string="Evaluations">
                         <field name="evaluation_ids"/>
                     </page>
-
                 </xpath>
+            </field>
+        </record>
+
+        <record id="indicator_tree_view" model="ir.ui.view">
+            <field name="name">credit.group.evaluation.form.list</field>
+            <field name="model">credit.group.evaluation.form</field>
+            <field name="arch" type="xml">
+                <tree string="Critical Success Indicators">
+                    <field name="name"/>
+                    <field name="weight"/>
+                    <field name="rating"/>
+                    <field name="weighted_score"/>
+                    <field name="proof"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="indicator_form_view" model="ir.ui.view">
+            <field name="name">credit.group.evaluation.form.form</field>
+            <field name="model">credit.group.evaluation.form</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="weight"/>
+                            <field name="rating"/>
+                            <field name="weighted_score"/>
+                            <field name="proof"/>
+                        </group>
+                        <notebook>
+                            <page string="Criteria">
+                                <field name="subindicators"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
             </field>
         </record>
 
@@ -53,6 +88,11 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="group_id"/>
+                    <field name="branch_id"/>
+                    <field name="evaluation_date"/>
+                    <field name="product_id"/>
+                    <field name="total_score"/>
+                    <field name="decision"/>
                 </tree>
             </field>
         </record>
@@ -62,6 +102,13 @@
             <field name="model">credit.group.evaluation</field>
             <field name="arch" type="xml">
                 <form string="">
+                    <header>
+                        <button string="Confirm" name="confirm_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','cancel','done'])]}"/>
+                        <button string="Send to Draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','draft',])]}"/>
+                        <button string="Done" name="done_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>
+                        <button name="cancel_form" string="Cancel" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['cancel','draft','done'])]}"/>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,ongoing,cancel,done"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">
@@ -74,14 +121,33 @@
                         </div>
                         <group>
                             <field name="group_id"/>
+                            <field name="branch_id"/>
                             <field name="evaluation_date"/>
+                            <field name="product_id"/>
+                            <field name="total_score"/>
+                            <field name="decision"/>
                         </group>
                         <notebook>
+                            <page string="Critical Success Indicators">
+                                <field name="indicator_ids"/>
+                            </page>
+                            <page string="Credit Committee Evaluation">
+                                <field name="crecoms">
+                                    <tree string="">
+                                        <field name="name"/>
+                                        <field name="is_passed"/>
+                                        <field name="others"/>
+                                    </tree>
+                                </field>
+                            </page>
                             <page string="Members">
                                 <field name="members"/>
                             </page>
                             <page string="Registration">
                                 <field name="registration_ids"/>
+                            </page>
+                            <page string="Prerequisites">
+                                <field name="attachments"/>
                             </page>
                         </notebook>
                     </sheet>

@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-from odoo import tools, _
-import base64
-from odoo.modules.module import get_module_resource
-from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
-from datetime import date, datetime
 import logging
 
 _logger = logging.getLogger(__name__)

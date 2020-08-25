@@ -1,11 +1,51 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
-credit_evaluation_sysad,credit.member.evaluation.sysad,model_credit_group_evaluation,credit_base.group_credit_sysad,1,1,1,1
-credit_evaluation_general,credit.member.evaluation.general ,model_credit_group_evaluation,credit_base.group_credit_general,1,0,0,0
-credit_evaluation_branch,credit.member.evaluation.branch,model_credit_group_evaluation,credit_base.group_credit_branch,1,0,0,0
-credit_evaluation_admin,credit.member.evaluation.admin,model_credit_group_evaluation,credit_base.group_credit_admin,1,0,0,0
-credit_evaluation_accountsupervisor,credit.member.evaluation.accountsupervisor,model_credit_group_evaluation,credit_base.group_credit_accountsupervisor,1,0,0,0
-credit_evaluation_accountofficer,credit.member.evaluation.accountofficer,model_credit_group_evaluation,credit_base.group_credit_accountofficer,1,0,0,0
-credit_evaluation_devsupervisor,credit.member.evaluation.devsupervisor,model_credit_group_evaluation,credit_base.group_credit_devsupervisor,1,0,0,0
-credit_evaluation_devofficer,credit.member.evaluation.devofficer,model_credit_group_evaluation,credit_base.group_credit_devofficer,1,0,0,0
-credit_evaluation_member,credit.member.evaluation.member,model_credit_group_evaluation,credit_base.group_credit_member,1,0,0,0
+credit_evaluation_sysad,credit.group.evaluation.sysad,model_credit_group_evaluation,credit_base.group_credit_sysad,1,1,1,1
+credit_evaluation_general,credit.group.evaluation.general ,model_credit_group_evaluation,credit_base.group_credit_general,1,0,0,0
+credit_evaluation_branch,credit.group.evaluation.branch,model_credit_group_evaluation,credit_base.group_credit_branch,1,0,0,0
+credit_evaluation_admin,credit.group.evaluation.admin,model_credit_group_evaluation,credit_base.group_credit_admin,1,0,0,0
+credit_evaluation_accountsupervisor,credit.group.evaluation.accountsupervisor,model_credit_group_evaluation,credit_base.group_credit_accountsupervisor,1,0,0,0
+credit_evaluation_accountofficer,credit.group.evaluation.accountofficer,model_credit_group_evaluation,credit_base.group_credit_accountofficer,1,0,0,0
+credit_evaluation_devsupervisor,credit.group.evaluation.devsupervisor,model_credit_group_evaluation,credit_base.group_credit_devsupervisor,1,0,0,0
+credit_evaluation_devofficer,credit.group.evaluation.devofficer,model_credit_group_evaluation,credit_base.group_credit_devofficer,1,0,0,0
+credit_evaluation_member,credit.group.evaluation.member,model_credit_group_evaluation,credit_base.group_credit_member,1,0,0,0
+
+credit_form_sysad,credit.group.evaluation.form.sysad,model_credit_group_evaluation_form,credit_base.group_credit_sysad,1,1,1,1
+credit_form_general,credit.group.evaluation.form.general ,model_credit_group_evaluation_form,credit_base.group_credit_general,1,0,0,0
+credit_form_branch,credit.group.evaluation.form.branch,model_credit_group_evaluation_form,credit_base.group_credit_branch,1,0,0,0
+credit_form_admin,credit.group.evaluation.form.admin,model_credit_group_evaluation_form,credit_base.group_credit_admin,1,0,0,0
+credit_form_accountsupervisor,credit.group.evaluation.form.accountsupervisor,model_credit_group_evaluation_form,credit_base.group_credit_accountsupervisor,1,0,0,0
+credit_form_accountofficer,credit.group.evaluation.form.accountofficer,model_credit_group_evaluation_form,credit_base.group_credit_accountofficer,1,0,0,0
+credit_form_devsupervisor,credit.group.evaluation.form.devsupervisor,model_credit_group_evaluation_form,credit_base.group_credit_devsupervisor,1,0,0,0
+credit_form_devofficer,credit.group.evaluation.form.devofficer,model_credit_group_evaluation_form,credit_base.group_credit_devofficer,1,0,0,0
+credit_form_member,credit.group.evaluation.form.member,model_credit_group_evaluation_form,credit_base.group_credit_member,1,0,0,0
+
+credit_csi_sysad,credit.group.evaluation.csi.sysad,model_credit_group_evaluation_csi,credit_base.group_credit_sysad,1,1,1,1
+credit_csi_general,credit.group.evaluation.csi.general ,model_credit_group_evaluation_csi,credit_base.group_credit_general,1,0,0,0
+credit_csi_branch,credit.group.evaluation.csi.branch,model_credit_group_evaluation_csi,credit_base.group_credit_branch,1,0,0,0
+credit_csi_admin,credit.group.evaluation.csi.admin,model_credit_group_evaluation_csi,credit_base.group_credit_admin,1,0,0,0
+credit_csi_accountsupervisor,credit.group.evaluation.csi.accountsupervisor,model_credit_group_evaluation_csi,credit_base.group_credit_accountsupervisor,1,0,0,0
+credit_csi_accountofficer,credit.group.evaluation.csi.accountofficer,model_credit_group_evaluation_csi,credit_base.group_credit_accountofficer,1,0,0,0
+credit_csi_devsupervisor,credit.group.evaluation.csi.devsupervisor,model_credit_group_evaluation_csi,credit_base.group_credit_devsupervisor,1,0,0,0
+credit_csi_devofficer,credit.group.evaluation.csi.devofficer,model_credit_group_evaluation_csi,credit_base.group_credit_devofficer,1,0,0,0
+credit_csi_member,credit.group.evaluation.csi.member,model_credit_group_evaluation_csi,credit_base.group_credit_member,1,0,0,0
+
+credit_cssi_sysad,credit.group.evaluation.cssi.sysad,model_credit_group_evaluation_cssi,credit_base.group_credit_sysad,1,1,1,1
+credit_cssi_general,credit.group.evaluation.cssi.general ,model_credit_group_evaluation_cssi,credit_base.group_credit_general,1,0,0,0
+credit_cssi_branch,credit.group.evaluation.cssi.branch,model_credit_group_evaluation_cssi,credit_base.group_credit_branch,1,0,0,0
+credit_cssi_admin,credit.group.evaluation.cssi.admin,model_credit_group_evaluation_cssi,credit_base.group_credit_admin,1,0,0,0
+credit_cssi_accountsupervisor,credit.group.evaluation.cssi.accountsupervisor,model_credit_group_evaluation_cssi,credit_base.group_credit_accountsupervisor,1,0,0,0
+credit_cssi_accountofficer,credit.group.evaluation.cssi.accountofficer,model_credit_group_evaluation_cssi,credit_base.group_credit_accountofficer,1,0,0,0
+credit_cssi_devsupervisor,credit.group.evaluation.cssi.devsupervisor,model_credit_group_evaluation_cssi,credit_base.group_credit_devsupervisor,1,0,0,0
+credit_cssi_devofficer,credit.group.evaluation.cssi.devofficer,model_credit_group_evaluation_cssi,credit_base.group_credit_devofficer,1,0,0,0
+credit_cssi_member,credit.group.evaluation.cssi.member,model_credit_group_evaluation_cssi,credit_base.group_credit_member,1,0,0,0
+
+credit_crecom_sysad,credit.group.evaluation.crecom.sysad,model_credit_group_evaluation_crecom,credit_base.group_credit_sysad,1,1,1,1
+credit_crecom_general,credit.group.evaluation.crecom.general ,model_credit_group_evaluation_crecom,credit_base.group_credit_general,1,0,0,0
+credit_crecom_branch,credit.group.evaluation.crecom.branch,model_credit_group_evaluation_crecom,credit_base.group_credit_branch,1,0,0,0
+credit_crecom_admin,credit.group.evaluation.crecom.admin,model_credit_group_evaluation_crecom,credit_base.group_credit_admin,1,0,0,0
+credit_crecom_accountsupervisor,credit.group.evaluation.crecom.accountsupervisor,model_credit_group_evaluation_crecom,credit_base.group_credit_accountsupervisor,1,0,0,0
+credit_crecom_accountofficer,credit.group.evaluation.crecom.accountofficer,model_credit_group_evaluation_crecom,credit_base.group_credit_accountofficer,1,0,0,0
+credit_crecom_devsupervisor,credit.group.evaluation.crecom.devsupervisor,model_credit_group_evaluation_crecom,credit_base.group_credit_devsupervisor,1,0,0,0
+credit_crecom_devofficer,credit.group.evaluation.crecom.devofficer,model_credit_group_evaluation_crecom,credit_base.group_credit_devofficer,1,0,0,0
+credit_crecom_member,credit.group.evaluation.mcrecom.ember,model_credit_group_evaluation_crecom,credit_base.group_credit_member,1,0,0,0
