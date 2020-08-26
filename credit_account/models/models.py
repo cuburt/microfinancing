@@ -13,3 +13,8 @@ from odoo import models, fields, api
 #     @api.depends('value')
 #     def _value_pc(self):
 #         self.value2 = float(self.value) / 100
+
+class PaymentTerm(models.Model):
+    _inherit = 'account.payment.term'
+
+    #TODO: Add payment terms here

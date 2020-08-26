@@ -5,7 +5,6 @@ from odoo import tools, _
 from odoo.exceptions import ValidationError, UserError
 
 #TODO: VALIDATION ON DRAFT
-
 class GroupEvaluation(models.Model):
     _name = 'credit.group.evaluation'
 
@@ -31,7 +30,7 @@ class GroupEvaluation(models.Model):
                                ('cancel', 'Cancelled')], default='draft')
     def set_complete(self):
         for rec in self:
-            self.is_complete = (len(rec.members) == len(rec.registration_ids))
+            self.is_complete = (len(rec.members) == len(rec.registration_ids)) * (self.total_score>=4)
 
     def _get_mean_score(self):
         for rec in self:
@@ -54,7 +53,16 @@ class GroupEvaluation(models.Model):
 
     @api.one
     def done_form(self):
-        self.status = 'done'
+        if self.is_complete:
+            self.status = 'done'
+            #TODO: Generate Collection/Amortization
+        else:
+            raise ValidationError(_('Evaluation must be completed first!'))
+
+    @api.onchange('is_complete')
+    def set_done(self):
+        if self.is_complete:
+            self.status = 'done'
 
     @api.model
     def create(self, values):
@@ -67,6 +75,7 @@ class GroupEvaluation(models.Model):
                         'evaluation_id': ev.id,
                         'cs_indicator_id':i.id
                     })
+                ev['status'] = 'ongoing'
             except Exception as e:
                 raise UserError(_('ERROR 3 '+str(e)))
         return ev
@@ -80,7 +89,7 @@ class LoanApplicationRemarks(models.Model):
 class LoanApplication(models.Model):
     _inherit = 'credit.loan.application'
 
-    status = fields.Selection(string='Status', selection_add=[('confirm', 'Done')], required=True, track_visibility='onchange')
+    status = fields.Selection(string='Status', selection_add=[('confirm','Confirmed'),('evaluate', 'Evaluation')], required=True, track_visibility='onchange')
     registration_ids = fields.One2many('event.registration','application_id')
     performance_id = fields.Many2one('credit.loan.application.remarks','Performance')
 
@@ -92,7 +101,6 @@ class LoanGroup(models.Model):
     # is_complete = fields.Boolean(default=False, compute='set_approved')
     evaluation_ids = fields.One2many('credit.group.evaluation','group_id', 'Evaluations')
 
-    #TODO: does not create form
     @api.one
     def evaluate_group(self):
         if self.is_approved:
@@ -118,6 +126,9 @@ class LoanGroup(models.Model):
                         self.env['crm.stage'].search([('name', '=', 'Qualified')])
                     except ValueError as ve:
                         raise UserError(_(str(ve) + '\nConfirm group first!'))
+                    application.write({
+                        'status':'evaluate'
+                    })
             except Exception as e:
                 raise UserError(_('ERROR 1 '+str(e)))
             self.status = 'evaluate'
@@ -164,8 +175,6 @@ class GroupEvaluationForm(models.Model):
     rating = fields.Integer('Rating')
     weighted_score = fields.Integer('Weighted Score')
     proof = fields.Text('Proof of Evidence')
-
-
 
 class EventRegistration(models.Model):
     _inherit = 'event.registration'
