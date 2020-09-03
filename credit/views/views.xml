@@ -48,8 +48,8 @@
         <menuitem name="Member Applications" id="credit.member_crm" parent="credit.system"
                   action="credit_base.action_window_member_crm" sequence="1"/>
 
-<!--        <menuitem name="Group Applications" id="credit.member_crm" parent="credit.system"-->
-<!--                  action="credit_base.action_window_member_crm" sequence="1"/>-->
+        <!--        <menuitem name="Group Applications" id="credit.member_crm" parent="credit.system"-->
+        <!--                  action="credit_base.action_window_member_crm" sequence="1"/>-->
 
         <menuitem name="Users" id="credit.users" parent="credit.system"
                   action="credit_base.action_window_users"/>
@@ -60,8 +60,8 @@
         <menuitem name="Evaluations" id="credit.evaluation" parent="credit.system"
                   action="credit_evaluation.action_window_evaluation"/>
 
-<!--        <menuitem name="Groups" id="credit.group_crm" parent="credit.system"-->
-<!--                  action="credit_base.action_window_group_crm"/>-->
+        <!--        <menuitem name="Groups" id="credit.group_crm" parent="credit.system"-->
+        <!--                  action="credit_base.action_window_group_crm"/>-->
 
         <!--              <menuitem name="Change Access Code" id="credit.change_access_code" parent="credit.system"-->
         <!--                        action="credit_base.change_access_code"/>-->
@@ -271,10 +271,10 @@
         <!--                  <menuitem name="Subsidiary Accounts" id="credit.subsidiary_accounts" parent="credit.lists_accounting_system"-->
         <!--                          action="credit_base.action_window_subsidiary_accounts"/>-->
 
-      <menuitem name="Loan System" id="credit.lists_loan_system" parent="credit.lists"/>
+        <menuitem name="Loan System" id="credit.lists_loan_system" parent="credit.lists"/>
 
-          <menuitem name="Loan Accounts" id="credit.loan_accounts" parent="credit.lists_loan_system"
-                  action="credit_base.action_window_loan_accounts"/>
+            <menuitem name="Loan Accounts" id="credit.loan_accounts" parent="credit.lists_loan_system"
+                      action="credit_base.action_window_loan_accounts"/>
 
         <!--                  <menuitem name="Loan Accounts - Other Information" id="credit.loan_accounts_oi" parent="credit.lists_loan_system"-->
         <!--                          action="credit_base.action_window_loan_accounts_oi"/>-->
@@ -282,13 +282,13 @@
         <!--                  <menuitem name="Loan Account Details and Schedules" id="credit.loan_account_details_schedules" parent="credit.lists_loan_system"-->
         <!--                          action="credit_base.action_window_loan_account_details_schedules"/>-->
 
-        <!--                  <menuitem name="Loan Account Data" id="credit.loan_account_data" parent="credit.lists_loan_system"/>-->
+            <menuitem name="Loan Account Data" id="credit.loan_account_data" parent="credit.lists_loan_system"/>
 
-        <!--                      <menuitem name="Loan Account Classifications" id="credit.loan_account_classifications" parent="credit.loan_account_data"-->
-        <!--                          action="credit_base.action_window_loan_account_classifications"/>-->
+                <menuitem name="Loan Account Classifications" id="credit.loan_account_classifications" parent="credit.loan_account_data"
+                          action="product.product_category_action_form"/>
 
-        <!--                      <menuitem name="Loan Products" id="credit.loan_products" parent="credit.loan_account_data"-->
-        <!--                          action="credit_base.action_window_loan_products"/>-->
+                <menuitem name="Loan Products" id="credit.loan_products" parent="credit.loan_account_data"
+                          action="product.product_variant_action"/>
 
         <!--                      <menuitem name="Finance Charge Rates for Penalty" id="credit.charge_rates_penalty" parent="credit.loan_account_data"-->
         <!--                          action="credit_base.action_window_charge_rates_penalty"/>-->

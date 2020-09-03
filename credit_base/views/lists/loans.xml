@@ -193,10 +193,34 @@
 
 <!--================LOAN ACCOUNT DATA===========================================-->
 
+<!--        <record id="loan_products_class_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">product.classification.list</field>-->
+<!--            <field name="model">product.product</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="">-->
+<!--                    <field name="name"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="loan_products_class_form_view" model="ir.ui.view">-->
+<!--            <field name="name">product.cassification.form</field>-->
+<!--            <field name="model">product.product</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
 <!--        <record id="credit_base.action_window_loan_account_classifications" model="ir.actions.act_window">-->
 <!--            <field name="name">Loan Account Classifications</field>-->
 <!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
+<!--            <field name="res_model">product.product</field>-->
 <!--            <field name="view_mode">tree,form</field>-->
 <!--            <field name="help" type="html">-->
 <!--              <p class="oe_view_nocontent_create">-->
@@ -212,6 +236,7 @@
 <!--        <record id="loan_products_filter" model="ir.ui.view">-->
 <!--           <field name="name">credit.loan.product.filter</field>-->
 <!--           <field name="model">credit.loan.product</field>-->
+<!--            <field name="inherit_id" ref="product.view_partner_form"/>-->
 <!--            <field name="arch" type="xml">-->
 <!--                <search string="">-->
 <!--              <field name="name" string="string" domain="[()]"/>-->
@@ -220,35 +245,29 @@
 <!--        </record>-->
 
 <!--        <record id="loan_products_tree_view" model="ir.ui.view">-->
-<!--            <field name="name">credit.loan.product.list</field>-->
-<!--            <field name="model">credit.loan.product</field>-->
+<!--            <field name="name">product.product.list</field>-->
+<!--            <field name="model">product.product</field>-->
+<!--            <field name="inherit_id" ref="product.product_product_tree_view"/>-->
 <!--            <field name="arch" type="xml">-->
-<!--                <tree string="">-->
-<!--                    <field name="name"/>-->
-<!--                </tree>-->
+
 <!--            </field>-->
 <!--        </record>-->
 
 <!--        <record id="loan_products_form_view" model="ir.ui.view">-->
-<!--            <field name="name">credit.loan.product.form</field>-->
-<!--            <field name="model">credit.loan.product</field>-->
+<!--            <field name="name">product.product.form</field>-->
+<!--            <field name="model">product.product</field>-->
+<!--            <field name="inherit_id" ref="product.product_normal_form_view"/>-->
 <!--            <field name="arch" type="xml">-->
-<!--                <form string="Loan Product">-->
-<!--                    <sheet>-->
-<!--                        <group>-->
-<!--                            <field name="name"/>-->
-<!--                        </group>-->
-<!--                    </sheet>-->
-<!--                </form>-->
+
 <!--            </field>-->
 <!--        </record>-->
 
 <!--        <record id="credit_base.action_window_loan_products" model="ir.actions.act_window">-->
 <!--            <field name="name">Loan Products</field>-->
 <!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model"></field>-->
+<!--            <field name="res_model">product.product</field>-->
 <!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="view_id" ref="loan_products_filter"/>-->
+<!--&lt;!&ndash;            <field name="view_id" ref="loan_products_filter"/>&ndash;&gt;-->
 <!--            <field name="help" type="html">-->
 <!--              <p class="oe_view_nocontent_create">-->
 <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
