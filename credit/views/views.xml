@@ -288,7 +288,7 @@
                           action="product.product_category_action_form"/>
 
                 <menuitem name="Loan Products" id="credit.loan_products" parent="credit.loan_account_data"
-                          action="product.product_variant_action"/>
+                          action="product.product_template_action_all"/>
 
         <!--                      <menuitem name="Finance Charge Rates for Penalty" id="credit.charge_rates_penalty" parent="credit.loan_account_data"-->
         <!--                          action="credit_base.action_window_charge_rates_penalty"/>-->
@@ -311,19 +311,18 @@
         <!--                  <menuitem name="No Collection Dates and Loan Accounts" id="credit.no_dates_accounts" parent="credit.lists_loan_system"-->
         <!--                          action="credit_base.action_window_no_dates_accounts"/>-->
 
-        <!--              <menuitem name="Savings System" id="credit.lists_savings_system" parent="credit.lists"-->
-        <!--                          action="credit_base.action_window_lists_savings_system"/>-->
+        <menuitem name="Savings System" id="credit.lists_savings_system" parent="credit.lists"/>
 
-        <!--                  <menuitem name="Savings Accounts" id="credit.savings_accounts" parent="credit.lists_savings_system"-->
-        <!--                          action="credit_base.action_window_savings_accounts"/>-->
+            <menuitem name="Savings Accounts" id="credit.savings_accounts" parent="credit.lists_savings_system"
+                      action="product.product_template_action_all"/>
 
-        <!--                  <menuitem name="Savings Account Data" id="credit.savings_account_data" parent="credit.lists_savings_system"/>-->
+            <menuitem name="Savings Account Data" id="credit.savings_account_data" parent="credit.lists_savings_system"/>
 
         <!--                      <menuitem name="Savings Account Classifications" id="credit.savings_account_classifications" parent="credit.savings_account_data"-->
         <!--                          action="credit_base.action_window_savings_account_classifications"/>-->
 
-        <!--                      <menuitem name="Savings Products" id="credit.savings_products" parent="credit.savings_account_data"-->
-        <!--                          action="credit_base.action_window_savings_products"/>-->
+                <menuitem name="Savings Products" id="credit.savings_products" parent="credit.savings_account_data"
+                          action="product.product_template_action_all"/>
 
         <!--                  <menuitem name="Savings Transaction Codes" id="credit.savings_transaction_codes" parent="credit.lists_savings_system"-->
         <!--                          action="credit_base.action_window_savings_transaction_codes"/>-->

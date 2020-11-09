@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="payment_term_6" model="account.payment.term">
+            <field name="name">20 Days</field>
+            <field name="note">Payment terms: 20 Days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

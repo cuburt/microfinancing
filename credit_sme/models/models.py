@@ -3,18 +3,18 @@
 from odoo import models, fields, api
 
 
-class LoanFinancing(models.Model):
-    _inherit = 'credit.loan.financing'
+class LoanApplication(models.Model):
+    _inherit = 'crm.lead'
 
-    type = fields.Selection(selection_add=[('sme','SME Loan')])
-    business_id = fields.Many2one(required_if_type='sme')
+    loantype = fields.Selection(selection_add=[('sme','SME Loan')])
+    business_id = fields.Many2one(required_if_loantype='sme')
 
 class LoanRecommendation(models.Model):
-    _inherit = 'credit.loan.application'
+    _inherit = 'crm.lead'
 
-    state = fields.Selection(string="Status", selection_add=[('recommend', 'Recommendation')],
+    status = fields.Selection(string="Status", selection_add=[('recommend', 'Recommendation')],
                              track_visibility='onchange')
-    recommend_date = fields.Datetime('Recommendation Date', default=fields.Datetime.now(), required_if_state='recommend')
+    recommend_date = fields.Datetime('Recommendation Date', default=fields.Datetime.now(), required_if_status='recommend')
     # RECOMMENDATION FORM
     # CI/BI FORM
     # COSIGNER PROFILE
@@ -22,11 +22,11 @@ class LoanRecommendation(models.Model):
     # ETC
 
 class LoanEndorsement(models.Model):
-    _inherit = 'credit.loan.application'
+    _inherit = 'crm.lead'
 
-    state = fields.Selection(string="Status", selection_add=[('endorse', 'Endorsement')],
+    status = fields.Selection(string="Status", selection_add=[('endorse', 'Endorsement')],
                              track_visibility='onchange')
-    endorsement_date = fields.Datetime('Endorsement Date', default=fields.Datetime.now(), required_if_state='endorse')
+    endorsement_date = fields.Datetime('Endorsement Date', default=fields.Datetime.now(), required_if_status='endorse')
     # CREDIT MEMO/CC
     # SIGNATURE CARDS
     # PROMISORRY NOTE

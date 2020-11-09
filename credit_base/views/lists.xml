@@ -456,12 +456,12 @@
                         </div>
                         <group>
                             <group>
+                                <field name="application_id"/>
+                                <field name="financing_id"/>
+                                <field name="partner_id"/>
                                 <field name="product_id"/>
-                                <field name="creator"/>
                                 <field name="date_organized"/>
                                 <field name="date_approved"/>
-                                <field name="contact_person"/>
-                                <field name="group_leader"/>
                                 <field name="do"/>
                                 <field name="area_id"/>
                             </group>
@@ -476,10 +476,7 @@
                         </group>
                         <notebook>
                             <page string="Members">
-                                <field name="members" editable="bottom"/>
-                            </page>
-                            <page string="Loan Account">
-                                <field name="financing_ids"/>
+                                <field name="application_ids" editable="bottom"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -864,9 +861,6 @@
                 <xpath expr="//field[@name='branch_id']" position="after">
                     <field name="area_id" domain="[('branch_id','=',branch_id)]"/>
                 </xpath>
-                <xpath expr="//field[@name='area_id']" position="after">
-                    <field name="group_id" />
-                </xpath>
                 <xpath expr="//field[@name='title']" position="after">
                     <field name="type" domain="[('type','in',['gm','bm','aa','as','ao','ds','do'])]"/>
                 </xpath>
@@ -907,6 +901,8 @@
         <!--              </p>-->
         <!--            </field>-->
         <!--        </record>-->
+
+
 
     </data>
 </odoo>

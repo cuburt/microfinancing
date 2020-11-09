@@ -1,22 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <!--                    CATEGORY-->
+        <record id="product_category_fee" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Fee</field>
+        </record>
+        <record id="product_category_insurance" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Insurance</field>
+        </record>
 
+        <record id="product_category_loan" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Loan Products</field>
+        </record>
+
+        <record id="product_category_save" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Savings Products</field>
+        </record>
         <!--                    TEMPLATE-->
         <record id="template_1" model="product.template">
-            <field name="name">Group</field>
+            <field name="name">Selda Loan</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="product.product_category_1"/>
+            <field name="loanclass">group</field>
+            <field name="categ_id" ref="product_category_loan"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="template_2" model="product.template">
+            <field name="name">Insurance</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product_category_insurance"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="template_3" model="product.template">
+            <field name="name">Processing Fee</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product_category_fee"/>
+            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="template_4" model="product.template">
+            <field name="name">Capital Build Up</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product_category_save"/>
+            <field name="company_id" ref="credit_base.care_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
         <!--                    PRODUCT-->
-        <record id="product_1" model="product.product">
-            <field name="name">Selda Loan</field>
-            <field name="product_tmpl_id" ref="template_1"/>
-        </record>
+<!--        <record id="product_selda" model="product.product">-->
+<!--            <field name="name">Selda Loan</field>-->
+<!--            <field name="product_tmpl_id" ref="template_1"/>-->
+<!--        </record>-->
 
+<!--        <record id="product_insurance" model="product.product">-->
+<!--            <field name="name">Insurance</field>-->
+<!--            <field name="product_tmpl_id" ref="template_2"/>-->
+<!--        </record>-->
+
+<!--        <record id="product_pro_fee" model="product.product">-->
+<!--            <field name="name">Processing Fee</field>-->
+<!--            <field name="product_tmpl_id" ref="template_3"/>-->
+<!--        </record>-->
 
         <record id="list0" model="product.pricelist">
             <field name="name">Public Pricelist</field>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['credit_base'],
+    'depends': ['credit_account'],
 
     # always loaded
     'data': [

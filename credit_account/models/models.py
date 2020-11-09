@@ -7,3 +7,4 @@ class PaymentTerm(models.Model):
 
     #TODO: Add payment terms here
 
+    name = fields.Char()

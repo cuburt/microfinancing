@@ -2,8 +2,8 @@
     <data>
         <record id="loan_applications_inherit_form_view" model="ir.ui.view">
             <field name="name">credit.loan.application.form</field>
-            <field name="model">credit.loan.application</field>
-            <field name="inherit_id" ref="credit_base.loan_applications_form_view"/>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='status']" position="before">
                     <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate'])]}"/>
@@ -140,8 +140,8 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Members">
-                                <field name="members"/>
+                            <page string="Applications">
+                                <field name="application_ids"/>
                             </page>
                             <page string="Registration">
                                 <field name="registration_ids"/>

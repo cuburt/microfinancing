@@ -14,10 +14,10 @@ class GroupEvaluation(models.Model):
     group_id = fields.Many2one('credit.loan.group', 'Group')
     area_id = fields.Many2one('res.area',related='group_id.area_id')
     branch_id = fields.Many2one('res.branch', related='area_id.branch_id')
-    members = fields.One2many('res.partner', related='group_id.members')
+    application_ids = fields.One2many('crm.lead', related='group_id.application_ids')
     is_complete = fields.Boolean(default=False, compute='set_complete')
     evaluation_date = fields.Datetime(default=fields.Datetime.now())
-    product_id = fields.Many2one('product.product', related='group_id.product_id', string='Loan Type')
+    product_id = fields.Many2one('product.template', related='group_id.product_id', string='Loan Type')
     attachments = fields.Many2many('ir.attachment', string='Prerequisites')
     total_score = fields.Integer('Total', compute='_get_mean_score')
     decision = fields.Selection([('approve','Approved'),
@@ -29,16 +29,20 @@ class GroupEvaluation(models.Model):
                                ('done', 'Done'),
                                ('cancel', 'Cancelled')], default='draft')
     def set_complete(self):
-        for rec in self:
-            self.is_complete = (len(rec.members) == len(rec.registration_ids)) * (self.total_score>=4)
+        try:
+            for rec in self:
+                self.is_complete = (len(rec.application_ids) == len(rec.registration_ids)) * (self.total_score>=4)
+        except Exception as e:
+            raise UserError(_("ERROR: 'set_complete' "+str(e)))
 
     def _get_mean_score(self):
         for rec in self:
             try:
                 rec.total_score = sum([indicator.weighted_score for indicator in rec.indicator_ids])
             except ZeroDivisionError as zde:
-                raise ValidationError(_(str(zde)))
-
+                raise ValidationError(_("ZeroDivisionError: '_get_mean_score' "+str(zde)))
+            except Exception as e:
+                raise UserError(_("ERROR: '_get_mean_score' "+str(e)))
     @api.one
     def draft_form(self):
         self.status = 'draft'
@@ -56,6 +60,8 @@ class GroupEvaluation(models.Model):
         if self.is_complete:
             self.status = 'done'
             #TODO: Generate Collection/Amortization
+
+
         else:
             raise ValidationError(_('Evaluation must be completed first!'))
 
@@ -87,7 +93,7 @@ class LoanApplicationRemarks(models.Model):
     content = fields.Text()
 
 class LoanApplication(models.Model):
-    _inherit = 'credit.loan.application'
+    _inherit = 'crm.lead'
 
     status = fields.Selection(string='Status', selection_add=[('confirm','Confirmed'),('evaluate', 'Evaluation')], required=True, track_visibility='onchange')
     registration_ids = fields.One2many('event.registration','application_id')
@@ -104,42 +110,50 @@ class LoanGroup(models.Model):
     @api.one
     def evaluate_group(self):
         if self.is_approved:
-            me = self.env['event.event'].search([('event_type_id.name','=','Membership Education'),('state','=','confirm')], order='date_begin desc', limit=1)
             try:
+
+                me = self.env['event.event'].search(
+                    [('event_type_id.name', '=', 'Membership Education'), ('state', '=', 'confirm')],
+                    order='date_begin desc', limit=1)
+
+                if not me:
+                    raise UserError(_('Set Membership Education Event first!'))
+
                 ev = self.evaluation_ids.search([('group_id','=',self.id)], order='evaluation_date desc', limit=1)
                 if not ev:
-                    self.env['credit.group.evaluation'].create({
+                    ev = self.env['credit.group.evaluation'].create({
                             'group_id': self.id,
                         })
-                    ev = self.evaluation_ids.search([('group_id', '=', self.id)], order='evaluation_date desc', limit=1)
-                for member in self.members:
-                    application = self.env['credit.loan.application'].search(
-                        [('partner_id', '=', member.id), ('group_id', '=', self.id), ('state', '=', True)])
+                for application_id in self.application_ids:
+                    application = self.env['crm.lead'].search(
+                        [('partner_id', '=', application_id.partner_id.id), ('group_id', '=', self.id), ('state', '=', True)])
                     self.env['event.registration'].create({
                         'event_id': me.id,
                         'evaluation_id': ev.id,
                         'application_id': application.id,
-                        'partner_id': member.id,
+                        'partner_id': application_id.partner_id.id,
                     })
                     try:
-                        self.env['crm.lead'].search([('application_id', '=', application.id)]).stage_id = \
+                        self.env['crm.lead'].search([('id', '=', application.id)]).stage_id = \
                         self.env['crm.stage'].search([('name', '=', 'Qualified')])
                     except ValueError as ve:
                         raise UserError(_(str(ve) + '\nConfirm group first!'))
+                    except Exception as e:
+                        raise UserError(_("ERROR: '(evaluate_group)'"+str(e)))
                     application.write({
                         'status':'evaluate'
                     })
             except Exception as e:
-                raise UserError(_('ERROR 1 '+str(e)))
+                raise UserError(_("ERROR 'evaluate_group' "+str(e)))
             self.status = 'evaluate'
         else:
             raise ValidationError(_('All members\'s application must be approved'))
 
 
-    @api.depends('members')
+    @api.depends('application_ids')
     def set_approved(self):
         for rec in self:
-            self.is_approved = (len(rec.members) == sum([int(member.financing_ids.search([('member_id', '=', member.id),('group_id','=',rec.id)],limit=1,order='date_created desc').loan_applications.search([('partner_id', '=', member.id),('group_id','=',rec.id)],limit=1,order='application_date desc').status == 'confirm') for member in rec.members]))
+            rec.is_approved = (len(rec.application_ids) == sum([_bool.investigation_status for _bool in rec.application_ids]))
             # self.is_complete = (len(rec.members) == sum([((int(self.env['credit.loan.application'].search([('partner_id','=',member.id),('group_id','=',rec.id),('state','=',True)], order='application_date desc', limit=1).partner_id.id) for member in members) for members in evaluation)for evaluation in self.evaluation_ids]))
 
 class CrecomEvaluation(models.Model):
@@ -173,13 +187,21 @@ class GroupEvaluationForm(models.Model):
     cs_indicator_id = fields.Many2one('credit.group.evaluation.csi', 'Critical Success Indicators')
     subindicators = fields.One2many('credit.group.evaluation.cssi',related='cs_indicator_id.subindicators')
     rating = fields.Integer('Rating')
-    weighted_score = fields.Integer('Weighted Score')
+    weighted_score = fields.Float('Weighted Score', compute='_compute_score')
     proof = fields.Text('Proof of Evidence')
+
+    @api.depends('rating', 'weight')
+    def _compute_score(self):
+        try:
+            for rec in self:
+                rec.weighted_score = rec.rating * rec.weight
+        except Exception as e:
+            raise ValidationError(_("ERROR: '_compute_score' "+str(e)))
 
 class EventRegistration(models.Model):
     _inherit = 'event.registration'
 
-    application_id = fields.Many2one('credit.loan.application','Application')
+    application_id = fields.Many2one('crm.lead','Application')
     evaluation_id = fields.Many2one('credit.group.evaluation','Evaluation')
     application = fields.Char(related='application_id.name')
     application_status = fields.Selection(related='application_id.status')

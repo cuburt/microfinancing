@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError, UserError
 #TODO: VALIDATION ON DRAFT
 
 class LoanApplication(models.Model):
-    _inherit = 'credit.loan.application'
+    _inherit = 'crm.lead'
 
     status = fields.Selection(string="Status", selection_add=[('investigate','Investigation')], required=True,
                              track_visibility='onchange')
@@ -16,20 +16,24 @@ class LoanApplication(models.Model):
     investigation_status = fields.Boolean(default=False, compute='get_inv_status', readonly=True)
     attachments = fields.Many2many('ir.attachment', string='Attachment')
 
+    @api.one
     def get_inv_status(self):
         for rec in self:
             rec.investigation_status = self.env['credit.client.investigation'].search([('loan_application','=',self.id),('status','=','done')], order='investigation_date desc', limit=1).is_passed
 
     @api.one
     def investigate_form(self):
-        if not self.env['credit.client.investigation'].search([('loan_application','=',self.id)], limit=1):
-            self.env['credit.client.investigation'].create({
-                'loan_application':self.id,
-                'name':'CI/BI Group '+ self.name,
-                'status':'ongoing',
-                'investigation_date':fields.Datetime.now(),
-            })
-        self.status = 'investigate'
+        try:
+            if not self.env['credit.client.investigation'].search([('loan_application','=',self.id)], limit=1):
+                self.env['credit.client.investigation'].create({
+                    'loan_application':self.id,
+                    'name':'CI/BI Group '+ self.name,
+                    'status':'ongoing',
+                    'investigation_date':fields.Datetime.now(),
+                })
+            self.status = 'investigate'
+        except Exception as e:
+            raise UserError(_("ERROR: 'investigate_form' "+str(e)))
 
 class ClientInvestigation(models.Model):
     _name = 'credit.client.investigation'
@@ -40,7 +44,7 @@ class ClientInvestigation(models.Model):
                                ('done','Done'),
                                ('cancel','Cancelled')], default='draft')
     is_passed = fields.Boolean(default=False, compute='set_result')
-    loan_application = fields.Many2one('credit.loan.application','Loan Application')
+    loan_application = fields.Many2one('crm.lead','Loan Application')
     partner_id = fields.Many2one('res.partner', related='loan_application.partner_id', string='Applicant')
     investigation_date = fields.Datetime('Investigation Date', default=fields.Datetime.now())
     questions = fields.One2many('credit.client.investigation.questionnaire','ci_id','Questions')
@@ -50,7 +54,7 @@ class ClientInvestigation(models.Model):
     condition = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
     collateral = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
     ave_score = fields.Float(digits=(0,2), string='Average Score', compute='_get_mean_score')
-    product_id = fields.Many2one('product.product', related='loan_application.product_id')
+    product_id = fields.Many2one('product.template', related='loan_application.product_id')
 
     @api.depends('questions')
     def sort_questions(self):
@@ -94,13 +98,14 @@ class ClientInvestigation(models.Model):
         question = self.env['credit.client.investigation.questionnaire'].search([('ci_id','=',ci.id)], limit=1)
         if not question:
             try:
-                for q in self.env['credit.client.investigation.question'].search([('product_category', '=', ci.product_id.product_tmpl_id.id)]):
+                questions = self.env['credit.client.investigation.question'].search([('product_category.id', '=', ci.product_id.id)])
+                for q in questions:
                     self.env['credit.client.investigation.questionnaire'].create({
                         'ci_id':ci.id,
                         'question_id':q.id,
                     })
-            except:
-                raise UserError(_('No product selected.'))
+            except Exception as e:
+                raise UserError(_("ERROR: 'create' "+str(e)))
         return ci
 
 class CIQuestionCategory(models.Model):

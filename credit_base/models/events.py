@@ -13,15 +13,14 @@ class Event(models.Model):
 class EventType(models.Model):
     _inherit = 'event.type'
 
-
-
 class EventRegistration(models.Model):
     _inherit = 'event.registration'
 
+    financing_id = fields.Many2one()
     group_id = fields.Many2one('credit.loan.group','Group', compute='set_group',store=True)
 
     @api.depends('partner_id')
     def set_group(self):
         for rec in self:
-            rec.group_id = rec.partner_id.group_id
+            rec.group_id = self.env['credit.loan.group'].search([('partner_id.id','=',rec.partner_id.id),('status','=','draft')], limit=1, order='date_organized desc')
 
