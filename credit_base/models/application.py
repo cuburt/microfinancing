@@ -39,7 +39,7 @@ class LoanApplication(models.Model):
                              default='draft', track_visibility='onchange')
     state = fields.Boolean(default=False)
     #RELATED FIELDS
-    partner_id = fields.Many2one('res.partner', related='financing_id.member_id', store=True)
+    partner_id = fields.Many2one('res.partner', related='financing_id.member_id')
     area_id = fields.Many2one('res.area', 'Area', related='financing_id.area_id')
     branch_id = fields.Many2one('res.branch','Branch', related='financing_id.branch_id')
     do = fields.Many2one('res.partner','Assigned DO')

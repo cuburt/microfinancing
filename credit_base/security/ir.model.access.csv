@@ -89,3 +89,13 @@ credit_lead_accountofficer,crm.lead.accountofficer,model_crm_lead,group_credit_a
 credit_lead_devsupervisor,crm.lead.devsupervisor,model_crm_lead,group_credit_devsupervisor,1,1,1,1
 credit_lead_devofficer,crm.lead.devofficer,model_crm_lead,group_credit_devofficer,1,1,1,1
 credit_lead_member,crm.lead.member,model_crm_lead,group_credit_member,1,1,1,0
+
+credit_savings_sysad,credit.loan.savings.sysad,model_credit_loan_savings,group_credit_sysad,1,1,1,1
+credit_savings_general,credit.loan.savings.general ,model_credit_loan_savings,group_credit_general,1,1,1,1
+credit_savings_branch,credit.loan.savings.branch,model_credit_loan_savings,group_credit_branch,1,1,1,1
+credit_savings_admin,credit.loan.savings.admin,model_credit_loan_savings,group_credit_admin,1,1,1,1
+credit_savings_accountsupervisor,credit.loan.savings.accountsupervisor,model_credit_loan_savings,group_credit_accountsupervisor,1,1,1,1
+credit_savings_accountofficer,credit.loan.savings.accountofficer,model_credit_loan_savings,group_credit_accountofficer,1,1,1,1
+credit_savings_devsupervisor,credit.loan.savings.devsupervisor,model_credit_loan_savings,group_credit_devsupervisor,1,1,1,1
+credit_savings_devofficer,credit.loan.savings.devofficer,model_credit_loan_savings,group_credit_devofficer,1,1,1,1
+credit_savings_member,credit.loan.savings.member,model_credit_loan_savings,group_credit_member,1,1,1,0

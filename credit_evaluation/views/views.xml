@@ -6,10 +6,10 @@
             <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='status']" position="before">
-                    <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate'])]}"/>
+                    <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate','evaluation','qualify'])]}"/>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,investigate,confirm</attribute>
+                    <attribute name="statusbar_visible">draft,investigate,qualify</attribute>
                 </xpath>
             </field>
         </record>
@@ -20,10 +20,10 @@
             <field name="inherit_id" ref="credit_base.care_groups_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='draft_group']" position="before">
-                    <button string="Evaluate" name="evaluate_group" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['evaluate','draft'])]}"/>
+                    <button string="Evaluate" name="evaluate_group" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['evaluate','draft','qualify'])]}"/>
                 </xpath>
                 <xpath expr="//button[@name='confirm_group']" position="attributes">
-                    <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate'])]}</attribute>
+                    <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate','qualify'])]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
                     <attribute name="statusbar_visible">draft,confirm,evaluate</attribute>
@@ -105,7 +105,7 @@
                     <header>
                         <button string="Confirm" name="confirm_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','cancel','done'])]}"/>
                         <button string="Send to Draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','draft',])]}"/>
-                        <button string="Done" name="done_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>
+                        <button string="Done" name="set_done" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>
                         <button name="cancel_form" string="Cancel" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['cancel','draft','done'])]}"/>
                         <field name="status" widget="statusbar" statusbar_visible="draft,ongoing,cancel,done"/>
                     </header>

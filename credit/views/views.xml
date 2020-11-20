@@ -288,19 +288,22 @@
                           action="product.product_category_action_form"/>
 
                 <menuitem name="Loan Products" id="credit.loan_products" parent="credit.loan_account_data"
-                          action="product.product_template_action_all"/>
+                          action="credit_account.action_window_loan_products"/>
 
-        <!--                      <menuitem name="Finance Charge Rates for Penalty" id="credit.charge_rates_penalty" parent="credit.loan_account_data"-->
-        <!--                          action="credit_base.action_window_charge_rates_penalty"/>-->
+                <menuitem name="Finance Charge Rates for Penalty" id="credit.charge_rates_penalty" parent="credit.loan_account_data"
+                    action="credit_account.action_window_charge_rates_penalty"/>
 
-        <!--                      <menuitem name="Finance Charge Rates for Surcharge" id="credit.charge_rates_surcharge" parent="credit.loan_account_data"-->
-        <!--                          action="credit_base.action_window_charge_rates_surcharge"/>-->
+                <menuitem name="Finance Charge Rates for Surcharge" id="credit.charge_rates_surcharge" parent="credit.loan_account_data"
+                    action="credit_account.action_window_charge_rates_surcharge"/>
 
-        <!--                      <menuitem name="Loan Funds" id="credit.funds" parent="credit.loan_account_data"-->
-        <!--                          action="credit_base.action_window_funds"/>-->
+                <menuitem name="Loan Interests" id="credit.interests" parent="credit.loan_account_data"
+                    action="credit_account.action_window_interests"/>
 
-        <!--                      <menuitem name="Loan Collaterals" id="credit.collaterals" parent="credit.loan_account_data"-->
-        <!--                          action="credit_base.action_window_collaterals"/>-->
+                <menuitem name="Loan Funds" id="credit.funds" parent="credit.loan_account_data"
+                    action="credit_account.action_window_funds"/>
+
+                <menuitem name="Loan Collaterals" id="credit.collaterals" parent="credit.loan_account_data"
+                    action="credit_account.action_window_collaterals"/>
 
         <!--                      <menuitem name="Co-makers" id="credit.co_makers" parent="credit.loan_account_data"-->
         <!--                          action="credit_base.action_window_co_makers"/>-->
@@ -308,13 +311,13 @@
         <!--                  <menuitem name="Loan Transaction Codes" id="credit.transaction_codes" parent="credit.lists_loan_system"-->
         <!--                          action="credit_base.action_window_transaction_codes"/>-->
 
-        <!--                  <menuitem name="No Collection Dates and Loan Accounts" id="credit.no_dates_accounts" parent="credit.lists_loan_system"-->
-        <!--                          action="credit_base.action_window_no_dates_accounts"/>-->
+            <menuitem name="No Collection Dates and Loan Accounts" id="credit.no_dates_accounts" parent="credit.lists_loan_system"
+                  action="credit_collection.action_window_no_dates_accounts"/>
 
         <menuitem name="Savings System" id="credit.lists_savings_system" parent="credit.lists"/>
 
             <menuitem name="Savings Accounts" id="credit.savings_accounts" parent="credit.lists_savings_system"
-                      action="product.product_template_action_all"/>
+                      action="credit_base.action_window_savings_accounts"/>
 
             <menuitem name="Savings Account Data" id="credit.savings_account_data" parent="credit.lists_savings_system"/>
 
@@ -322,7 +325,7 @@
         <!--                          action="credit_base.action_window_savings_account_classifications"/>-->
 
                 <menuitem name="Savings Products" id="credit.savings_products" parent="credit.savings_account_data"
-                          action="product.product_template_action_all"/>
+                          action="credit_account.action_window_savings_products"/>
 
         <!--                  <menuitem name="Savings Transaction Codes" id="credit.savings_transaction_codes" parent="credit.lists_savings_system"-->
         <!--                          action="credit_base.action_window_savings_transaction_codes"/>-->

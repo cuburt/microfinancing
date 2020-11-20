@@ -2,21 +2,21 @@
 <odoo>
     <data>
 
-<!--================SAVINGS ACCOUNTS===========================================-->
+        <!--================SAVINGS ACCOUNTS===========================================-->
 
-        <record id="savings_accounts_filter" model="ir.ui.view">
-           <field name="name">credit.savings.account.filter</field>
-           <field name="model">credit.savings.account</field>
-            <field name="arch" type="xml">
-                <search string="Savings Account">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+<!--        <record id="savings_accounts_filter" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.savings.filter</field>-->
+<!--            <field name="model">credit.loan.savings</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="Savings Account">-->
+<!--                    <field name="name" string="string" domain="[()]"/>-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <record id="savings_accounts_tree_view" model="ir.ui.view">
-            <field name="name">credit.savings.account.list</field>
-            <field name="model">credit.savings.account</field>
+            <field name="name">credit.loan.savings.list</field>
+            <field name="model">credit.loan.savings</field>
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
@@ -25,8 +25,8 @@
         </record>
 
         <record id="savings_accounts_form_view" model="ir.ui.view">
-            <field name="name">credit.savings.account.form</field>
-            <field name="model">credit.savings.account</field>
+            <field name="name">credit.loan.savings.form</field>
+            <field name="model">credit.loan.savings</field>
             <field name="arch" type="xml">
                 <form string="Savings Account">
                     <sheet>
@@ -41,147 +41,110 @@
         <record id="credit_base.action_window_savings_accounts" model="ir.actions.act_window">
             <field name="name">Savings Accounts</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
+            <field name="res_model">credit.loan.savings</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="savings_accounts_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
-
-<!--================SAVINGS ACCOUNT DATA===========================================-->
-
-        <record id="savings_account_classification_tree_view" model="ir.ui.view">
-            <field name="name">credit.savings.account.classification.list</field>
-            <field name="model">credit.savings.account.classification</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="savings_account_classification_form_view" model="ir.ui.view">
-            <field name="name">credit.savings.account.classification.form</field>
-            <field name="model">credit.savings.account.classification</field>
-            <field name="arch" type="xml">
-                <form string="Savings Account Classifications">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="credit_base.action_window_savings_account_classifications" model="ir.actions.act_window">
-            <field name="name">Savings Account Classifications</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="savings_account_classification_tree_view"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
-
-        <!--==========savings product==============-->
-
-        <record id="savings_products_filter" model="ir.ui.view">
-           <field name="name">credit.savings.product.filter</field>
-           <field name="model">credit.savings.product</field>
-            <field name="arch" type="xml">
-                <search string="Search Product">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
-
-        <record id="savings_product_tree_view" model="ir.ui.view">
-            <field name="name">credit.savings.product.tree</field>
-            <field name="model">credit.savings.product</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="credit_base.action_window_savings_products" model="ir.actions.act_window">
-            <field name="name">Savings Products</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="savings_products_filter"/>
+<!--            <field name="view_id" ref="savings_accounts_filter"/>-->
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Click to add new savings product.
+                    <!-- Add Text Here -->
                 </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
             </p>
             </field>
         </record>
 
+        <!--================SAVINGS ACCOUNT DATA===========================================-->
 
-<!--================SAVINGS TRANSACTION CODES===========================================-->
+<!--        <record id="savings_account_classification_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.savings.classification.list</field>-->
+<!--            <field name="model">credit.loan.savings.classification</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="">-->
+<!--                    <field name="name"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
 
-        <record id="savings_transaction_codes_filter" model="ir.ui.view">
-           <field name="name">credit.savings.codes.filter</field>
-           <field name="model">credit.savings.codes</field>
-            <field name="arch" type="xml">
-                <search string="">
-              <field name="name" string="string" domain="[()]"/>
-            </search>
-           </field>
-        </record>
+<!--        <record id="savings_account_classification_form_view" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.savings.classification.form</field>-->
+<!--            <field name="model">credit.loan.savings.classification</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Savings Account Classifications">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
 
-        <record id="savings_transaction_codes_tree_view" model="ir.ui.view">
-            <field name="name">credit.savings.codes.list</field>
-            <field name="model">credit.savings.codes</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+<!--        <record id="credit_base.action_window_savings_account_classifications" model="ir.actions.act_window">-->
+<!--            <field name="name">Savings Account Classifications</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model"></field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="savings_account_classification_tree_view"/>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="oe_view_nocontent_create">-->
+<!--                    &lt;!&ndash; Add Text Here &ndash;&gt;-->
+<!--                </p><p>-->
+<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+<!--            </p>-->
+<!--            </field>-->
+<!--        </record>-->
 
-        <record id="savings_transaction_codes_form_view" model="ir.ui.view">
-            <field name="name">credit.savings.codes.form</field>
-            <field name="model">credit.savings.codes</field>
-            <field name="arch" type="xml">
-                <form string="Savings Transaction Codes">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        <record id="credit_base.action_window_savings_transaction_codes" model="ir.actions.act_window">
-            <field name="name">Savings Transaction Codes</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="savings_transaction_codes_filter"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+
+        <!--================SAVINGS TRANSACTION CODES===========================================-->
+
+<!--        <record id="savings_transaction_codes_filter" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.savings.codes.filter</field>-->
+<!--            <field name="model">credit.loan.savings.codes</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="">-->
+<!--                    <field name="name" string="string" domain="[()]"/>-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="savings_transaction_codes_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.savings.list</field>-->
+<!--            <field name="model">credit.loan.savings.codes</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="">-->
+<!--                    <field name="name"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="savings_transaction_codes_form_view" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.savings.codes.form</field>-->
+<!--            <field name="model">credit.loan.savings.codes</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Savings Transaction Codes">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="credit_base.action_window_savings_transaction_codes" model="ir.actions.act_window">-->
+<!--            <field name="name">Savings Transaction Codes</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model"></field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="savings_transaction_codes_filter"/>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="oe_view_nocontent_create">-->
+<!--                    &lt;!&ndash; Add Text Here &ndash;&gt;-->
+<!--                </p><p>-->
+<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+<!--            </p>-->
+<!--            </field>-->
+<!--        </record>-->
 
 
 

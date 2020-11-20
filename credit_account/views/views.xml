@@ -1,5 +1,333 @@
 <odoo>
-  <data>
+    <data>
+        <!--===========loan products===========-->
+        <record id="credit_product_template_inherit_tree_view" model="ir.ui.view">
+            <field name="name">product.template.inherit.tree.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="categ_id"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
 
-  </data>
+        <record id="products_inherit_form_view" model="ir.ui.view">
+            <field name="name">product.template.inherit.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <!--                <xpath expr="//field[@name='barcode']" position="attributes">-->
+                <!--                    <attribute name="invisible">1</attribute>-->
+                <!--                </xpath>-->
+                <xpath expr="//field[@name='list_price']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='taxes_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='standard_price']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="loanclass"/>
+                    <field name="_class"/>
+                    <field name="child_ids" widget="many2many_tags"/>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="before">
+                    <field name="payment_schedule_type"/>
+                    <field name="min"/>
+                    <field name="max"/>
+                    <field name="grace_period_principal"/>
+                    <field name="grace_period_interest"/>
+                    <field name="aging_method"/>
+                    <field name="has_collateral"/>
+                    <field name="payment_term"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_loan_products" model="ir.actions.act_window">
+            <field name="name">Loan Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="credit_product_template_inherit_tree_view"/>
+            <field name="domain">[('categ_id.name','=','Loan Products')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <!--==========savings product==============-->
+
+        <record id="credit_account.action_window_savings_products" model="ir.actions.act_window">
+            <field name="name">Savings Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="credit_product_template_inherit_tree_view"/>
+            <field name="domain">[('categ_id.name','=','Savings Products')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <record id="care_groups_inherit_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.group.inherit.form</field>
+            <field name="model">credit.loan.group</field>
+            <field name="inherit_id" ref="credit_base.care_groups_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="product_id"/>
+                    <field name="loan_amount"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="crm_lead_quickform_inherit_view" model="ir.ui.view">
+            <field name="name">credit.lead.member.kanban</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="credit_base.crm_lead_quickform_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="product_id"/>
+                    <field name="loan_amount"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="member_crm_inherit_form_view" model="ir.ui.view">
+            <field name="name">crm.lead.member.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='phone']" position="after">
+                    <field name="product_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--    ====================== SURCHARCGE ===============================-->
+
+        <record id="surcharge_tree_view" model="ir.ui.view">
+            <field name="name">credit.loan.surcharge.list.view</field>
+            <field name="model">credit.loan.surcharge</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="code"/>
+                    <field name="rate"/>
+                    <field name="description"/>
+                    <field name="is_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="surcharge_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.surcharge.form.view</field>
+            <field name="model">credit.loan.surcharge</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="code"/>
+                            <field name="rate"/>
+                            <field name="description"/>
+                            <field name="is_active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_charge_rates_surcharge" model="ir.actions.act_window">
+            <field name="name">Surcharge</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.surcharge</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <!--    ====================== PENALTY ===============================-->
+
+        <record id="penalty_tree_view" model="ir.ui.view">
+            <field name="name">credit.loan.penalty.list.view</field>
+            <field name="model">credit.loan.penalty</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="code"/>
+                    <field name="rate"/>
+                    <field name="description"/>
+                    <field name="is_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="penalty_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.penalty.form.view</field>
+            <field name="model">credit.loan.penalty</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="code"/>
+                            <field name="rate"/>
+                            <field name="description"/>
+                            <field name="is_active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_charge_rates_penalty" model="ir.actions.act_window">
+            <field name="name">Penalty</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.penalty</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+<!--        =============================== INTEREST =================================-->
+
+        <record id="interest_tree_view" model="ir.ui.view">
+            <field name="name">credit.loan.list.view</field>
+            <field name="model">credit.loan.interest</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="interest_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.interest.form.view</field>
+            <field name="model">credit.loan.interest</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_interests" model="ir.actions.act_window">
+            <field name="name">Loan Interests</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.interest</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--        ================================ COLLATERAL ==================================-->
+
+        <record id="collateral_tree_view" model="ir.ui.view">
+            <field name="name">credit.loan.collateral.list.view</field>
+            <field name="model">credit.loan.collateral</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="collateral_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.collateral.form.view</field>
+            <field name="model">credit.loan.collateral</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_collaterals" model="ir.actions.act_window">
+            <field name="name">Loan Collaterals</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.collateral</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+<!--     ================================== FUND ===============================================-->
+
+        <record id="fund_tree_view" model="ir.ui.view">
+            <field name="name">credit.loan.fund.list.view</field>
+            <field name="model">credit.loan.fund</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fund_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.fund.form.view</field>
+            <field name="model">credit.loan.fund</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_funds" model="ir.actions.act_window">
+            <field name="name">Loan Funds</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.fund</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+    </data>
 </odoo>

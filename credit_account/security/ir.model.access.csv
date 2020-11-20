@@ -1,2 +1,61 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_credit_account_credit_account,credit_account.credit_account,model_credit_account_credit_account,,1,0,0,0
+
+payment_term_sysad,payment.term.sysad,model_account_payment_term,credit_base.group_credit_sysad,1,1,1,1
+payment_term_general,payment.term.general ,model_account_payment_term,credit_base.group_credit_general,1,1,1,1
+payment_term_branch,payment.term.branch,model_account_payment_term,credit_base.group_credit_branch,1,1,1,1
+payment_term_admin,payment.term.admin,model_account_payment_term,credit_base.group_credit_admin,1,1,1,1
+payment_term_accountsupervisor,payment.term.accountsupervisor,model_account_payment_term,credit_base.group_credit_accountsupervisor,1,1,1,1
+payment_term_accountofficer,payment.term.accountofficer,model_account_payment_term,credit_base.group_credit_accountofficer,1,1,1,1
+payment_term_devsupervisor,payment.term.devsupervisor,model_account_payment_term,credit_base.group_credit_devsupervisor,1,1,1,1
+payment_term_devofficer,payment.term.devofficer,model_account_payment_term,credit_base.group_credit_devofficer,1,1,1,1
+payment_term_member,payment.term.member,model_account_payment_term,credit_base.group_credit_member,1,1,1,0
+
+surcharge_sysad,credit.loan.surcharge.sysad,model_credit_loan_surcharge,credit_base.group_credit_sysad,1,1,1,1
+surcharge_general,credit.loan.surcharge.general ,model_credit_loan_surcharge,credit_base.group_credit_general,1,1,1,1
+surcharge_branch,credit.loan.surcharge.branch,model_credit_loan_surcharge,credit_base.group_credit_branch,1,1,1,1
+surcharge_admin,credit.loan.surcharge.admin,model_credit_loan_surcharge,credit_base.group_credit_admin,1,1,1,1
+surcharge_accountsupervisor,credit.loan.surcharge.accountsupervisor,model_credit_loan_surcharge,credit_base.group_credit_accountsupervisor,1,1,1,1
+surcharge_accountofficer,credit.loan.surcharge.accountofficer,model_credit_loan_surcharge,credit_base.group_credit_accountofficer,1,1,1,1
+surcharge_devsupervisor,credit.loan.surcharge.devsupervisor,model_credit_loan_surcharge,credit_base.group_credit_devsupervisor,1,1,1,1
+surcharge_devofficer,credit.loan.surcharge.devofficer,model_credit_loan_surcharge,credit_base.group_credit_devofficer,1,1,1,1
+surcharge_member,credit.loan.surcharge.member,model_credit_loan_surcharge,credit_base.group_credit_member,1,1,1,0
+
+penalty_sysad,credit.loan.penalty.sysad,model_credit_loan_penalty,credit_base.group_credit_sysad,1,1,1,1
+penalty_general,credit.loan.penalty.general ,model_credit_loan_penalty,credit_base.group_credit_general,1,1,1,1
+penalty_branch,credit.loan.penalty.branch,model_credit_loan_penalty,credit_base.group_credit_branch,1,1,1,1
+penalty_admin,credit.loan.penalty.admin,model_credit_loan_penalty,credit_base.group_credit_admin,1,1,1,1
+penalty_accountsupervisor,credit.loan.penalty.accountsupervisor,model_credit_loan_penalty,credit_base.group_credit_accountsupervisor,1,1,1,1
+penalty_accountofficer,credit.loan.penalty.accountofficer,model_credit_loan_penalty,credit_base.group_credit_accountofficer,1,1,1,1
+penalty_devsupervisor,credit.loan.penalty.devsupervisor,model_credit_loan_penalty,credit_base.group_credit_devsupervisor,1,1,1,1
+penalty_devofficer,credit.loan.penalty.devofficer,model_credit_loan_penalty,credit_base.group_credit_devofficer,1,1,1,1
+penalty_member,credit.loan.penalty.member,model_credit_loan_penalty,credit_base.group_credit_member,1,1,1,0
+
+collateral_sysad,credit.loan.collateral.sysad,model_credit_loan_collateral,credit_base.group_credit_sysad,1,1,1,1
+collateral_general,credit.loan.collateral.general ,model_credit_loan_collateral,credit_base.group_credit_general,1,1,1,1
+collateral_branch,credit.loan.collateral.branch,model_credit_loan_collateral,credit_base.group_credit_branch,1,1,1,1
+collateral_admin,credit.loan.collateral.admin,model_credit_loan_collateral,credit_base.group_credit_admin,1,1,1,1
+collateral_accountsupervisor,credit.loan.collateral.accountsupervisor,model_credit_loan_collateral,credit_base.group_credit_accountsupervisor,1,1,1,1
+collateral_accountofficer,credit.loan.collateral.accountofficer,model_credit_loan_collateral,credit_base.group_credit_accountofficer,1,1,1,1
+collateral_devsupervisor,credit.loan.collateral.devsupervisor,model_credit_loan_collateral,credit_base.group_credit_devsupervisor,1,1,1,1
+collateral_devofficer,credit.loan.collateral.devofficer,model_credit_loan_collateral,credit_base.group_credit_devofficer,1,1,1,1
+collateral_member,credit.loan.collateral.member,model_credit_loan_collateral,credit_base.group_credit_member,1,1,1,0
+
+interest_sysad,credit.loan.interest.sysad,model_credit_loan_interest,credit_base.group_credit_sysad,1,1,1,1
+interest_general,credit.loan.interest.general ,model_credit_loan_interest,credit_base.group_credit_general,1,1,1,1
+interest_branch,credit.loan.interest.branch,model_credit_loan_interest,credit_base.group_credit_branch,1,1,1,1
+interest_admin,credit.loan.interest.admin,model_credit_loan_interest,credit_base.group_credit_admin,1,1,1,1
+interest_accountsupervisor,credit.loan.interest.accountsupervisor,model_credit_loan_interest,credit_base.group_credit_accountsupervisor,1,1,1,1
+interest_accountofficer,credit.loan.interest.accountofficer,model_credit_loan_interest,credit_base.group_credit_accountofficer,1,1,1,1
+interest_devsupervisor,credit.loan.interest.devsupervisor,model_credit_loan_interest,credit_base.group_credit_devsupervisor,1,1,1,1
+interest_devofficer,credit.loan.interest.devofficer,model_credit_loan_interest,credit_base.group_credit_devofficer,1,1,1,1
+interest_member,credit.loan.interest.member,model_credit_loan_interest,credit_base.group_credit_member,1,1,1,0
+
+fund_sysad,credit.loan.fund.sysad,model_credit_loan_fund,credit_base.group_credit_sysad,1,1,1,1
+fund_general,credit.loan.fund.general ,model_credit_loan_fund,credit_base.group_credit_general,1,1,1,1
+fund_branch,credit.loan.fund.branch,model_credit_loan_fund,credit_base.group_credit_branch,1,1,1,1
+fund_admin,credit.loan.fund.admin,model_credit_loan_fund,credit_base.group_credit_admin,1,1,1,1
+fund_accountsupervisor,credit.loan.fund.accountsupervisor,model_credit_loan_fund,credit_base.group_credit_accountsupervisor,1,1,1,1
+fund_accountofficer,credit.loan.fund.accountofficer,model_credit_loan_fund,credit_base.group_credit_accountofficer,1,1,1,1
+fund_devsupervisor,credit.loan.fund.devsupervisor,model_credit_loan_fund,credit_base.group_credit_devsupervisor,1,1,1,1
+fund_devofficer,credit.loan.fund.devofficer,model_credit_loan_fund,credit_base.group_credit_devofficer,1,1,1,1
+fund_member,credit.loan.fund.member,model_credit_loan_fund,credit_base.group_credit_member,1,1,1,0

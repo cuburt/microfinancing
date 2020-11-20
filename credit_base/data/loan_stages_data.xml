@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
-    <function name="write" model="ir.model.data">
-        <function name="search" model="ir.model.data">
-            <value eval="[('module', '=', 'crm'), ('name', '=', 'model_crm_stage')]"/>
-        </function>
-        <value eval="{'noupdate': False}" />
-    </function>
-    <record model="crm.stage" id="stage_lead1">
-        <field name="name">New</field>
+<odoo noupdate="0">
+
+    <record model="crm.stage" id="stage_lead5">
+        <field name="name">Approved</field>
+        <field name="fold" eval="False"/>
+        <field name="probability">100</field>
+        <field name="on_change">1</field>
+        <field name="sequence">4</field>
     </record>
-    <record model="crm.stage" id="stage_lead2">
-        <field name="name">Qualified</field>
+
+    <record model="crm.stage" id="stage_lead6">
+        <field name="name">Disbursed</field>
+        <field name="fold" eval="False"/>
+        <field name="probability">100</field>
+        <field name="on_change">1</field>
+        <field name="sequence">5</field>
     </record>
-    <record model="crm.stage" id="stage_lead3">
-        <field name="name">Endorsement</field>
+
+    <record model="crm.stage" id="stage_lead7">
+        <field name="name">Collection</field>
+        <field name="fold" eval="False"/>
+        <field name="probability">100</field>
+        <field name="on_change">1</field>
+        <field name="sequence">6</field>
     </record>
-    <record model="crm.stage" id="stage_lead4">
-        <field name="name">Won</field>
+
+    <record model="crm.stage" id="stage_lead8">
+        <field name="name">Delinquent</field>
+        <field name="fold" eval="True"/>
+        <field name="probability">0</field>
+        <field name="on_change">1</field>
+        <field name="sequence">71</field>
     </record>
-    <function name="write" model="ir.model.data">
-        <function name="search" model="ir.model.data">
-            <value eval="[('module', '=', 'crm'), ('name', '=', 'model_crm_stage')]"/>
-        </function>
-        <value eval="{'noupdate': True}" />
-    </function>
 </odoo>

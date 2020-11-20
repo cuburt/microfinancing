@@ -459,7 +459,6 @@
                                 <field name="application_id"/>
                                 <field name="financing_id"/>
                                 <field name="partner_id"/>
-                                <field name="product_id"/>
                                 <field name="date_organized"/>
                                 <field name="date_approved"/>
                                 <field name="do"/>

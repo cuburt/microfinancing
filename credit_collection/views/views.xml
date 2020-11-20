@@ -1,38 +1,126 @@
 <odoo>
     <data>
-        <record id="" model="ir.ui.view">
-            <field name="name"></field>
-            <field name="model"></field>
+        <record id="loan_application_inherit_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.collection.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
+            <field name="arch" type="xml">
+                <!--                <xpath expr="//field[@name='status']" position="before">-->
+                <!--                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['investigate','confirm'])]}"/>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='status']" position="attributes">-->
+                <!--                    <attribute name="statusbar_visible">draft,investigate</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//button[@name='toggle_active']" position="after">-->
+                <!--                    <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">-->
+                <!--                        <field name="investigation_status" widget="boolean_button" options="{&quot;terminology&quot;:-->
+                <!--                        {&quot;string_true&quot;:&quot;Passed&quot;,-->
+                <!--                         &quot;hover_true&quot;:&quot;Fail Investigation&quot;,-->
+                <!--                         &quot;string_false&quot;:&quot;Not passed&quot;,-->
+                <!--                         &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>-->
+                <!--                    </button>-->
+                <!--                </xpath>-->
+                <xpath expr="//notebook/page" position="after">
+                    <page string="Loan Collection">
+                        <field name="collection_ids"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        CI/BI-->
+        <record id="investigation_tree_view" model="ir.ui.view">
+            <field name="name">credit.loan.collection.list</field>
+            <field name="model">credit.loan.collection</field>
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="status"/>
                 </tree>
             </field>
         </record>
-        <record id="" model="ir.ui.view">
-            <field name="name"></field>
-            <field name="model"></field>
+
+        <record id="collection_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.collection.form</field>
+            <field name="model">credit.loan.collection</field>
             <field name="arch" type="xml">
                 <form string="">
+                    <!--                    <header>-->
+                    <!--                        <button string="Confirm" name="confirm_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','cancel','done'])]}"/>-->
+                    <!--                        <button string="Send to Draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','draft',])]}"/>-->
+                    <!--                        <button string="Done" name="done_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>-->
+                    <!--                        <button name="cancel_form" string="Cancel" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['cancel','draft','done'])]}"/>-->
+                    <!--                        <field name="status" widget="statusbar" statusbar_visible="draft,ongoing,cancel,done"/>-->
+                    <!--                    </header>-->
                     <sheet>
                         <group>
                             <field name="name"/>
+                            <field name="application_id"/>
+                            <field name="amount"/>
+                            <field name="date"/>
+                            <field name="term_id"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
-        <record id="" model="ir.actions.act_window">
-            <field name="name">Collection</field>
+
+        <!--================NO COLLECTION DATES AND LOAN ACCOUNTS===========================================-->
+
+        <!--        <record id="no_dates_accounts_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.loan.account.nil.filter</field>-->
+        <!--           <field name="model">credit.loan.account.nil</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
+
+        <record id="no_dates_accounts_tree_view" model="ir.ui.view">
+            <field name="name">credit.loan.collection.holiday.list</field>
+            <field name="model">credit.loan.collection.holiday</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="month"/>
+                    <field name="day"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="no_dates_accounts_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.collection.holiday.form</field>
+            <field name="model">credit.loan.collection.holiday</field>
+            <field name="arch" type="xml">
+                <form string="No Collection Dates and Loan Account">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="month"/>
+                            <field name="day"/>
+                            <field name="type"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_window_no_dates_accounts" model="ir.actions.act_window">
+            <field name="name">No Collection Dates &amp; Loan Accounts</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
+            <field name="res_model">credit.loan.collection.holiday</field>
             <field name="view_mode">tree,form</field>
+            <!--                    <field name="view_id" ref="no_dates_accounts_filter"/>-->
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
     </data>

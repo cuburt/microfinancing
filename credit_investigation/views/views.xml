@@ -9,7 +9,7 @@
             <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='status']" position="before">
-                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['investigate','confirm'])]}"/>
+                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['investigate','confirm','evaluate','qualify'])]}"/>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
                     <attribute name="statusbar_visible">draft,investigate</attribute>

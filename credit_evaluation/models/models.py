@@ -28,13 +28,16 @@ class GroupEvaluation(models.Model):
                                ('ongoing', 'Ongoing'),
                                ('done', 'Done'),
                                ('cancel', 'Cancelled')], default='draft')
+
+    @api.depends('application_ids','registration_ids','total_score')
     def set_complete(self):
         try:
             for rec in self:
-                self.is_complete = (len(rec.application_ids) == len(rec.registration_ids)) * (self.total_score>=4)
+                rec.is_complete = (len(rec.application_ids) == len(rec.registration_ids)) * (rec.total_score>=4)
         except Exception as e:
             raise UserError(_("ERROR: 'set_complete' "+str(e)))
 
+    @api.depends('indicator_ids')
     def _get_mean_score(self):
         for rec in self:
             try:
@@ -55,20 +58,17 @@ class GroupEvaluation(models.Model):
     def cancel_form(self):
         self.status = 'cancel'
 
-    @api.one
-    def done_form(self):
-        if self.is_complete:
-            self.status = 'done'
-            #TODO: Generate Collection/Amortization
-
-
-        else:
-            raise ValidationError(_('Evaluation must be completed first!'))
-
     @api.onchange('is_complete')
     def set_done(self):
         if self.is_complete:
             self.status = 'done'
+
+    @api.one
+    def set_done(self):
+        if self.is_complete:
+            self.status = 'done'
+        else:
+            raise UserError(_("Evaluation must be completed with a passing score first!"))
 
     @api.model
     def create(self, values):
@@ -86,6 +86,11 @@ class GroupEvaluation(models.Model):
                 raise UserError(_('ERROR 3 '+str(e)))
         return ev
 
+# class LoanCollection(models.Model):
+#     _name = 'credit.loan.collection'
+
+
+
 class LoanApplicationRemarks(models.Model):
     _name = 'credit.loan.application.remarks'
 
@@ -95,14 +100,14 @@ class LoanApplicationRemarks(models.Model):
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
-    status = fields.Selection(string='Status', selection_add=[('confirm','Confirmed'),('evaluate', 'Evaluation')], required=True, track_visibility='onchange')
+    status = fields.Selection(string='Status', selection_add=[('confirm','Confirmed'),('evaluate', 'Evaluation'),('qualify','Qualified')], required=True, track_visibility='onchange')
     registration_ids = fields.One2many('event.registration','application_id')
     performance_id = fields.Many2one('credit.loan.application.remarks','Performance')
 
 class LoanGroup(models.Model):
     _inherit = 'credit.loan.group'
 
-    status = fields.Selection(selection_add=[('evaluate', 'Evaluation')], required=True, track_visibility='onchange')
+    status = fields.Selection(selection_add=[('evaluate', 'Evaluation'),('qualify','Qualified')], required=True, track_visibility='onchange')
     is_approved = fields.Boolean(default=False, compute='set_approved', string='State')
     # is_complete = fields.Boolean(default=False, compute='set_approved')
     evaluation_ids = fields.One2many('credit.group.evaluation','group_id', 'Evaluations')
@@ -152,9 +157,36 @@ class LoanGroup(models.Model):
 
     @api.depends('application_ids')
     def set_approved(self):
-        for rec in self:
-            rec.is_approved = (len(rec.application_ids) == sum([_bool.investigation_status for _bool in rec.application_ids]))
-            # self.is_complete = (len(rec.members) == sum([((int(self.env['credit.loan.application'].search([('partner_id','=',member.id),('group_id','=',rec.id),('state','=',True)], order='application_date desc', limit=1).partner_id.id) for member in members) for members in evaluation)for evaluation in self.evaluation_ids]))
+        try:
+            for rec in self:
+                rec.is_approved = (len(rec.application_ids) == sum([_bool.investigation_status for _bool in rec.application_ids]))
+                if rec.is_approved:
+                    for application in rec.application_ids:
+                        application.write({
+                            'status':'qualify',
+                            'stage_id':self.env['crm.stage'].search([('name', '=', 'Proposition')]).id,
+                        })
+                        print(self.env['crm.stage'].search([('name', '=', 'Proposition')]).id)
+                    rec.status = 'qualify'
+                # self.is_complete = (len(rec.members) == sum([((int(self.env['credit.loan.application'].search([('partner_id','=',member.id),('group_id','=',rec.id),('state','=',True)], order='application_date desc', limit=1).partner_id.id) for member in members) for members in evaluation)for evaluation in self.evaluation_ids]))
+        except Exception as e:
+            raise ValidationError(_("ERROR: 'set_approved' "+str(e)))
+    @api.onchange('application_ids')
+    def set_approved(self):
+        try:
+            self.is_approved = (
+                        len(self.application_ids) == sum([_bool.investigation_status for _bool in self.application_ids]))
+            if self.is_approved:
+                for application in self.application_ids:
+                    application.write({
+                        'status': 'qualify',
+                        'stage_id': self.env['crm.stage'].search([('name', '=', 'Proposition')]).id,
+                    })
+                    print( self.env['crm.stage'].search([('name', '=', 'Proposition')]).id)
+                self.status = 'qualify'
+                # self.is_complete = (len(rec.members) == sum([((int(self.env['credit.loan.application'].search([('partner_id','=',member.id),('group_id','=',rec.id),('state','=',True)], order='application_date desc', limit=1).partner_id.id) for member in members) for members in evaluation)for evaluation in self.evaluation_ids]))
+        except Exception as e:
+            raise ValidationError(_("ERROR: 'set_approved' "+str(e)))
 
 class CrecomEvaluation(models.Model):
     _name = 'credit.group.evaluation.crecom'

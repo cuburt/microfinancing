@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="new_year" model="credit.loan.collection.holiday">
+            <field name="name">New Year's Day</field>
+            <field name="type">regular</field>
+            <field name="month">1</field>
+            <field name="day">1</field>
+        </record>
+        <record id="maundy_thursday" model="credit.loan.collection.holiday">
+            <field name="name">Maundy Thursday</field>
+            <field name="type">regular</field>
+            <field name="month">4</field>
+            <field name="day">1</field>
+        </record>
+        <record id="good_friday" model="credit.loan.collection.holiday">
+            <field name="name">Good Friday</field>
+            <field name="type">regular</field>
+            <field name="month">4</field>
+            <field name="day">2</field>
+        </record>
+        <record id="kagitingan" model="credit.loan.collection.holiday">
+            <field name="name">Araw ng Kagitingan</field>
+            <field name="type">regular</field>
+            <field name="month">4</field>
+            <field name="day">9</field>
+        </record>
+        <record id="labor_day" model="credit.loan.collection.holiday">
+            <field name="name">Labor Day</field>
+            <field name="type">regular</field>
+            <field name="month">5</field>
+            <field name="day">1</field>
+        </record>
+        <record id="independence_day" model="credit.loan.collection.holiday">
+            <field name="name">Independence Day</field>
+            <field name="type">regular</field>
+            <field name="month">6</field>
+            <field name="day">12</field>
+        </record>
+        <record id="heroes_day" model="credit.loan.collection.holiday">
+            <field name="name">National Heroes' Day</field>
+            <field name="type">regular</field>
+            <field name="month">9</field>
+            <field name="day">30</field>
+        </record>
+        <record id="bonifacio_day" model="credit.loan.collection.holiday">
+            <field name="name">Bonifacio Day</field>
+            <field name="type">regular</field>
+            <field name="month">11</field>
+            <field name="day">30</field>
+        </record>
+        <record id="christmas_day" model="credit.loan.collection.holiday">
+            <field name="name">Christmas Day</field>
+            <field name="type">regular</field>
+            <field name="month">12</field>
+            <field name="day">25</field>
+        </record>
+        <record id="rizal_day" model="credit.loan.collection.holiday">
+            <field name="name">Rizal Day</field>
+            <field name="type">regular</field>
+            <field name="month">12</field>
+            <field name="day">30</field>
+        </record>
+
+        <record id="chinese_new_year" model="credit.loan.collection.holiday">
+            <field name="name">Chinese New Year</field>
+            <field name="type">special_nw</field>
+            <field name="month">2</field>
+            <field name="day">12</field>
+        </record>
+        <record id="edsa" model="credit.loan.collection.holiday">
+            <field name="name">EDSA Revolution Anniversary</field>
+            <field name="type">special_nw</field>
+            <field name="month">2</field>
+            <field name="day">25</field>
+        </record>
+        <record id="black_saturday" model="credit.loan.collection.holiday">
+            <field name="name">Black Saturday</field>
+            <field name="type">special_nw</field>
+            <field name="month">4</field>
+            <field name="day">3</field>
+        </record>
+        <record id="ninoy_aquino" model="credit.loan.collection.holiday">
+            <field name="name">Ninoy Aquino Day</field>
+            <field name="type">special_nw</field>
+            <field name="month">9</field>
+            <field name="day">21</field>
+        </record>
+        <record id="saints_day" model="credit.loan.collection.holiday">
+            <field name="name">All Saints' Day</field>
+            <field name="type">special_nw</field>
+            <field name="month">11</field>
+            <field name="day">1</field>
+        </record>
+        <record id="mary_feast" model="credit.loan.collection.holiday">
+            <field name="name">Feast of the Immaculate Conception of Mary</field>
+            <field name="type">special_nw</field>
+            <field name="month">12</field>
+            <field name="day">8</field>
+        </record>
+        <record id="last_day" model="credit.loan.collection.holiday">
+            <field name="name">Last Day of the Year</field>
+            <field name="type">special_nw</field>
+            <field name="month">12</field>
+            <field name="day">31</field>
+        </record>
+        <record id="souls_day" model="credit.loan.collection.holiday">
+            <field name="name">All Souls' Day</field>
+            <field name="type">special_nw</field>
+            <field name="month">11</field>
+            <field name="day">2</field>
+        </record>
+        <record id="christmas_eve" model="credit.loan.collection.holiday">
+            <field name="name">Christmas Eve</field>
+            <field name="type">special_nw</field>
+            <field name="month">12</field>
+            <field name="day">24</field>
+        </record>
+    </data>
+</odoo>
