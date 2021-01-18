@@ -272,6 +272,10 @@
                 <xpath expr="//field[@name='application_date']" position="after">
                     <field name="financing_id"/>
                     <field name="partner_id"/>
+                    <field name="company_id"/>
+                    <field name="branch_id"/>
+                    <field name="area_id"/>
+                    <field name="do"/>
                     <field name="cosigner_id"/>
                 </xpath>
             </field>

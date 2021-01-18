@@ -210,7 +210,7 @@
             </field>
         </record>
 
-<!--        =============================== INTEREST =================================-->
+        <!--        =============================== INTEREST =================================-->
 
         <record id="interest_tree_view" model="ir.ui.view">
             <field name="name">credit.loan.list.view</field>
@@ -242,15 +242,15 @@
             <field name="res_model">credit.loan.interest</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
 
-<!--        ================================ COLLATERAL ==================================-->
+        <!--        ================================ COLLATERAL ==================================-->
 
         <record id="collateral_tree_view" model="ir.ui.view">
             <field name="name">credit.loan.collateral.list.view</field>
@@ -282,15 +282,15 @@
             <field name="res_model">credit.loan.collateral</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
 
-<!--     ================================== FUND ===============================================-->
+        <!--     ================================== FUND ===============================================-->
 
         <record id="fund_tree_view" model="ir.ui.view">
             <field name="name">credit.loan.fund.list.view</field>
@@ -322,12 +322,41 @@
             <field name="res_model">credit.loan.fund</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
+
+
+        <!--===============================JOURNAL ENTRIES=================================-->
+
+        <!--        <record id="" model="ir.actions.act_window">-->
+        <!--            <field name="name">Journal Entries</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model">account.move</field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--                <p class="oe_view_nocontent_create">-->
+        <!--                    &lt;!&ndash; Add Text Here &ndash;&gt;-->
+        <!--                </p><p>-->
+        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+        <!--            </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!--        TODO: Inherit AccountMove Form from Accounting, ADD FINANCING ID AND SAVINGS ID-->
+
+        <record id="account.action_payment_term_form" model="ir.actions.act_window">
+            <field name="name">Payment Terms</field>
+            <field name="res_model">account.payment.term</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">['|',('company_id.id','=',[user.company_id.id]),('company_id.id','=',[user.company_id.parent_id.id])]</field>
+            <field name="search_view_id" ref="account.view_payment_term_search"/>
+        </record>
+
     </data>
 </odoo>

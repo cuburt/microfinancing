@@ -24,8 +24,15 @@ class LoanFinancing(models.Model):
     date_created = fields.Datetime(default=fields.Datetime.now(), readonly=True, required=True)
     member_id = fields.Many2one('res.partner','Client', required=True)
     index = fields.Integer()
-    branch_id = fields.Many2one('res.branch', 'Branch', related='member_id.branch_id')
-    area_id = fields.Many2one('res.area', 'Area', related='member_id.area_id')
+    branch_id = fields.Many2one('res.branch', 'Branch', store=True)
+    area_id = fields.Many2one('res.area', 'Area', store=True)
+
+    # @api.depends('member_id')
+    # def _compute_branch_area(self):
+    #     for rec in self:
+    #         rec.branch_id = rec.member_id.branch_id.id
+    #         rec.area_id = rec.member_id.area_id.id
+    #         print('LOAN ACCOUNT FUCCKKKK!!!!')
 
     @api.depends('code', 'member_id')
     def get_name(self):
@@ -48,7 +55,7 @@ class LoanFinancing(models.Model):
         try:
             member_id = self.env['res.partner'].search([('id','=', values.get('member_id'))], limit=1)
             values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
-            print(values)
+            print('LOAN ACCOUNT CREATED', values)
             values['code'] = '%s %s - %s' % ('[TEMP]' if not bool(values.get('state')) else None,
                                                self.env['res.branch'].search([('id', '=', member_id.branch_id.id)]).code,
                                                "{0:0=2d}".format(values.get('index')))
@@ -94,7 +101,7 @@ class LoanSavings(models.Model):
         try:
             member_id = self.env['res.partner'].search([('id', '=', values.get('member_id'))], limit=1)
             values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
-            print(values)
+            print('LOAN SAVINGS CREATED', values)
             values['code'] = '%s %s - %s' % ('[TEMP]' if not bool(values.get('state')) else None,
                                              self.env['res.branch'].search([('id', '=', member_id.branch_id.id)]).code,
                                              "{0:0=2d}".format(values.get('index')))
@@ -144,16 +151,17 @@ class LoanClient(models.Model):
                              ('as','Account Supervisor'),
                              ('aa','Admin Assistant'),
                              ('bm','Branch Manager'),
-                             ('gm','General Manager')], default='member', string='User Type')
+                             ('gm','General Manager')], default='member', string='User Type', readonly=True)
     type_str = fields.Char(default=lambda self:self.default_type())
-    branch_id = fields.Many2one('res.branch','Branch', required_if_type=['member','bm','aa','as','ao','ds','do'], store=True)
-    area_id = fields.Many2one('res.area','Area', required_if_type=['member','do'], store=True)
+    branch_id = fields.Many2one('res.branch','Branch', required_if_type=['member','bm','aa','as','ao','ds','do'], compute='_compute_branch_area', store=True, readonly=True)
+    area_id = fields.Many2one('res.area','Area', compute='_compute_branch_area',store=True)
     area = fields.Char(related='area_id.name', string='Area')
-    supervisor_id = fields.Many2one('res.partner','Supervisor', domain=[('type','in',['ds','as','aa','bm','gm'])])
+    supervisor_id = fields.Many2one('res.partner','Supervisor', domain=[('type','in',['ds','as','aa','bm','gm'])], readonly=True)
     email = fields.Char(required=True)
-    mobile = fields.Char(required=True)
+    phone = fields.Char(required=True)
     employees = fields.One2many('res.partner', 'parent_id', 'Employees',default=lambda self:self.child_ids, domain=[('type','!=','member')])
     members = fields.One2many('res.partner', 'parent_id', 'Members', default=lambda self:self.child_ids, domain=[('type','=','member')])
+    employee = fields.Boolean(default=bool(lambda r:r.type != 'member'), help="Check this box if this contact is an Employee.")
 
     @api.depends('name')
     def _compute_display_name(self):
@@ -177,6 +185,11 @@ class LoanClient(models.Model):
         except Exception as e:
             raise UserError(_("ERROR: 'default_type' "+str(e)))
 
+    @api.depends('street2', 'city')
+    def _compute_branch_area(self):
+        for rec in self:
+            rec.branch_id = self.env['res.branch'].sudo().search([('city', '=', rec.city)], limit=1).id
+            rec.area_id = self.env['res.area'].sudo().search([('street2', '=', rec.street2)], limit=1).id
     # @api.multi
     # def default_branch(self):
     #     try:
@@ -186,63 +199,215 @@ class LoanClient(models.Model):
     #             return self.env['res.branch'].search([('street2','=',self.street2),('city','=', self.city)], limit=1)
     #     except Exception as e:
     #         raise UserError(_(str(e)))
+    #
+    # @api.onchange('street2', 'city', 'type')
+    # def _get_area(self):
+    #     try:
+    #         if self.type in ['member','do']:
+    #             self.area_id = self.env['res.area'].search([('street2','=', self.street2)], limit=1)
+    #
+    #     except Exception as e:
+    #         raise UserError(_("ERROR: '_get_area' "+str(e)))
 
-    @api.onchange('street2', 'city', 'type')
-    def _get_branch(self):
+    # @api.model
+    # def create(self, values):
+    #     try:
+    #         partner = super(LoanClient, self).create(values)
+    #         type = values.get('type')
+    #         if not values['is_company']:
+    #             company = self.env['res.company'].search([('id','=',values.get('company_id'))], limit=1)
+    #             values['index'] = int(
+    #                 self.search([('type', '=', values.get('type'))], order='index desc', limit=1).index) + 1
+    #
+    #             if values['employee']:
+    #                 values['customer'] = False
+    #                 if type == 'gm':
+    #                     values['code'] = '%s' % ("{0:0=2d}".format(values['index']))
+    #                     values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
+    #                     parent = company.partner_id
+    #                     values['parent_id'] = parent.id
+    #
+    #                 else:
+    #                     branch = self.env['res.branch'].search([('related_partner','=',company.partner_id.id)], limit=1)
+    #                     print(company.partner_id.id)
+    #                     print(branch)
+    #                     values['branch_id'] = branch.id
+    #                     values['code'] = '%s-%s' % ("{0:0=2d}".format(branch.index),"{0:0=2d}".format(values['index']))
+    #                     values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
+    #
+    #             # MEMBER
+    #             else:
+    #                 values['customer'] = True
+    #
+    #                 values['area_id'] = self.env['res.area'].search([('street2', '=', self.street2)], limit=1).id
+    #
+    #                 branch_id = self.env['res.branch'].search([('city', '=', values['city'])], limit=1).id
+    #                 branch = self.env['res.branch'].search([('id', '=', branch_id)], limit=1)
+    #
+    #                 values['code'] = '%s-%s' % ("{0:0=2d}".format(branch.index), "{0:0=2d}".format(values['index']))
+    #                 values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
+    #                 parent = branch.related_partner
+    #                 values['parent_id'] = parent.id
+    #
+    #         print(values['branch_id'])
+    #         if not values['branch_id'] and type!= 'gm':
+    #             pass
+    #         else:
+    #             return partner
+    #
+    #     except Exception as e:
+    #         raise UserError(_("ERROR: 'create' "+str(e)))
+
+    @api.multi
+    def write(self, values):
+        partner = super(LoanClient, self).write(values)
+        print(values)
         try:
-            if self.type == 'member':
-                self.branch_id = self.env['res.branch'].search([('city','=', self.city)], limit=1)
-                self.area_id = self.env['res.area'].search([('street2','=', self.street2)], limit=1)
-            elif self.type == 'gm':
-                self.branch_id = None
-            else:
-                self.branch_id = self.parent_id.branch_id
+            type = values.get('type')
+            try:
+                is_company = values['is_company']
+                employee = values['employee']
+                print('dipuga')
+            except:
+                is_company = False
+                employee = False
+                print('yawa')
+            if not is_company:
+                company = self.env['res.company'].search([('id','=',values.get('company_id'))], limit=1)
+                values['index'] = int(
+                    self.search([('type', '=', values.get('type', 'member'))], order='index desc', limit=1).index) + 1
+
+                if employee:
+                    values['customer'] = False
+                    if type == 'gm':
+                        values['code'] = '%s' % ("{0:0=2d}".format(values['index']))
+                        values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
+                        parent = company.partner_id
+                        values['parent_id'] = parent.id
+
+                    else:
+                        branch = self.env['res.branch'].search([('id','=',values['branch_id'])])
+                        values['code'] = '%s-%s' % ("{0:0=2d}".format(branch.index), "{0:0=2d}".format(values['index']))
+                        values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
+
+                        if type == 'do' and values['area_id']:
+                            area = self.env['res.area'].search([('id', '=', values['area_id'])], limit=1)
+                            values['code'] = '%s-%s' % ("{0:0=2d}".format(area.index), "{0:0=2d}".format(partner.index))
+                            values['short_code'] = '%s' % ("{0:0=2d}".format(partner.index))
+                # MEMBER
+                else:
+                    values['customer'] = True
+                    if values['city'] and values['street2']:
+                        branch = self.env['res.branch'].search([('id', '=', values['branch_id'])], limit=1)
+                        values['code'] = '%s-%s' % ("{0:0=2d}".format(branch.index), "{0:0=2d}".format(values['index']))
+                        values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
+                        values['parent_id'] = branch.related_partner.id
+                        self.env['res.users'].sudo().search([('login', '=', values['email'])]).write({
+                            'company_id':branch.company_id.id,
+                            'company_ids':[(4, branch.company_id.id)],
+                        })
         except Exception as e:
-            raise UserError(_("ERROR: '_get_branch' "+str(e)))
+            print(str(e))
+        finally:
+            print(values)
+            return partner
+
+class ResUser(models.Model):
+    _inherit = 'res.users'
 
     @api.model
     def create(self, values):
         try:
-            if not values['is_company']:
-                group = self.env['res.groups'].sudo().search([('name', '=', values.get('type_str'))], limit=1)
-                values['index'] = int(self.search([('type', '=', values.get('type'))], order='index desc', limit=1).index) + 1
-                values['employee'] = True
-                values['customer'] = False
-                if values['type'] == 'gm':
-                    company = self.env['res.company'].search([('id', '=', values.get('company_id'))], limit=1)
+            user = super(ResUser, self).create(values)
+            partner = user.partner_id
+            company = user.company_id
+            company_partner = company.partner_id
+            print('PARTNER_ID',partner.id)
+            print('COMPANY_ID',company.id)
+            print('COMPANY_PARTNER',company_partner.id)
+            type = partner.type
+            supervisor_type = 'ds'
+            # user_type = [cat for cat in user.groups_id.search([('category_id.name','=','User types')], order='id asc')]
+            # type_field = 'sel_groups'+(''.join(map(str, ['_'+str(user_type.id) for user_type in user_type])))
+            try:
+                category = [cat for cat in user.groups_id.search([('category_id.name', '=', 'CARE')], order='id asc')]
+                category_field = 'sel_groups' + (''.join(map(str, ['_' + str(category.id) for category in category])))
+                group = self.env['res.groups'].search([('id','=',values[str(category_field)])])
 
-                    values['code'] = '%s' % ("{0:0=2d}".format(values['index']))
-                    values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
-                    parent = company.partner_id
-                    values['parent_id'] = parent.id
+                if group.name == 'General Manager':
+                    type = 'gm'
+                    supervisor_type = False
+                if group.name == 'Branch Manager':
+                    type = 'bm'
+                    supervisor_type = 'gm'
+                if group.name == 'Admin Assistant':
+                    type = 'aa'
+                    supervisor_type = 'bm'
+                if group.name == 'Account Supervisor':
+                    type = 'as'
+                    supervisor_type = 'aa'
+                if group.name == 'Account Officer':
+                    type = 'ao'
+                    supervisor_type = 'as'
+                if group.name == 'Development Supervisor':
+                    type = 'ds'
+                    supervisor_type = 'aa'
+                if group.name == 'Development Officer':
+                    type = 'do'
+                    supervisor_type = 'ds'
 
+                if supervisor_type == 'gm':
+                    supervisor = self.env['res.partner'].search(
+                        [('type', '=', supervisor_type), ('company_id.id', '=', company.parent_id.id)])
                 else:
-                    branch = self.env['res.branch'].search([('id', '=', values.get('branch_id'))], limit=1)
+                    supervisor = self.env['res.partner'].search(
+                        [('type', '=', supervisor_type), ('company_id.id', '=', company.id)])
 
-                    values['code'] = '%s-%s' % (
-                    "{0:0=2d}".format(branch.index),
-                    "{0:0=2d}".format(values['index']))
-                    values['short_code'] = '%s' % ("{0:0=2d}".format(values['index']))
-                    parent = branch.related_partner
-                    values['parent_id'] = parent.id
+                print(supervisor.name)
 
-                    if values['type'] == 'member':
-                        values['employee'] = False
-                        values['customer'] = True
+                if not supervisor and type == 'bm':
+                    raise UserError(_('Please assign a general manager first.'))
+                if not supervisor and type == 'aa':
+                    raise UserError(_('Please assign a branch manager first.'))
+                if not supervisor and type in ['as', 'ds']:
+                    raise UserError(_('Please assign an admin assistant first.'))
+                if not supervisor and type == 'ao':
+                    raise UserError(_('Please assign an account supervisor first.'))
+                if not supervisor and type == 'do':
+                    raise UserError(_('Please assign a development supervisor first.'))
 
-                partner = super(LoanClient, self).create(values)
-                user = self.env['res.users'].sudo().create({
-                    'partner_id': partner.id,
-                    'login': values.get('email'),
-                    'groups_id': group,
-                    'company_ids': [partner.parent_id.company_id.id],
-                    'company_id': parent.company_id.id
-                })
-                self.write({'user_id':user.id})
+                updates = {
+                'name':values.get('name'),
+                'email':values.get('email'),
+                'parent_id':company_partner.id,
+                'company_id':company.id,
+                'branch_id':self.env['res.branch'].search([('related_partner', '=', company_partner.id)], limit=1).id if type != 'gm' else False,
+                'supervisor_id':supervisor.id,
+                'type':type,
+                'function':group.name,
+                'is_company':False,
+                'employee':True
+            }
+            except UserError as e:
+                raise UserError(_(str(e)))
+            except:
+                print('User is member')
+                updates = {
+                    'name': values.get('name'),
+                    'email': values.get('email'),
+                    'type': type,
+                    'function':'Member',
+                    'is_company': False,
+                    'employee': False
+                }
+                # print(values[str(type_field)])
+                # values[str(type_field)] = self.env['res.groups'].search([('name', '=', 'Portal')]).id
+            print(updates['is_company'])
+            partner.sudo().write(updates)
+            print('WRITTEN!')
 
-                return partner
-            else:
-                return super(LoanClient, self).create(values)
+            return user
+
         except Exception as e:
             raise UserError(_("ERROR: 'create' "+str(e)))
 
@@ -251,7 +416,7 @@ class ResBranch(models.Model):
 
     name = fields.Char(readonly=True)
     company_id = fields.Many2one('res.company', 'Related Company', readonly=True)
-    related_partner = fields.Many2one(related='company_id.partner_id', readonly=True)
+    related_partner = fields.Many2one(related='company_id.partner_id', readonly=True, store=True)
     index = fields.Integer()
     code = fields.Char('Code')
     financing_ids = fields.One2many('credit.loan.financing','branch_id','Loan Accounts')
@@ -278,37 +443,72 @@ class ResBranch(models.Model):
                 return super(ResBranch, self).create(values)
             values['index'] = int(self.search([], order='index desc',limit=1).index)+1
             values['name'] = '%s - %s' % (values.get('code'), "{0:0=2d}".format(values.get('index')))
+            parent = self.env['res.company'].search([('name','=','CARE Foundation Inc.')])
+            if not parent:
+                raise UserError(_("Please create a company named 'CARE Foundation Inc.' first."))
             company = self.env['res.company'].create({
+                'parent_id':parent.id,
                 'name': values.get('name'),
                 'email': values.get('email'),
                 'phone': values.get('phone'),
                 'website': values.get('website'),
-                'vat': values.get('vat')
+                'vat': values.get('vat'),
             })
 
             values['company_id'] = company.id
-
+            print(values['index'], values['name'], values['company_id'])
+            print('PUTANGINA 5')
             return super(ResBranch, self).create(values)
         except Exception as e:
             raise UserError(_(str(e)))
 
+    @api.multi
+    def unlink(self):
+        print(self)
+        partner_id = self.related_partner.id
+        self.env['res.company'].search([('id','=',self.company_id.id)]).unlink()
+        self.env['res.partner'].search([('id','=',partner_id)]).unlink()
+        return super(ResBranch, self).unlink()
+    # @api.multi
+    # def write(self, values):
+    #     values['company_id'] = self.search([('id','=',values['id'])]).company_id.write({
+    #
+    #     })
+    #
+    #
+    #     return super(ResBranch, self).write(values)
+
 class ResArea(models.Model):
     _name = 'res.area'
 
-    name = fields.Char(compute='_get_name')
-    code = fields.Char(related='officer_id.short_code', store=True, readonly=True)
+    name = fields.Char(readonly=True)
+    code = fields.Char(readonly=True)
+    index = fields.Integer()
     branch_id = fields.Many2one('res.branch','Branch', store=True)
     group_ids = fields.One2many('credit.loan.group','area_id','Groups')
-    officer_id = fields.One2many('res.partner','area_id','Assigned DO', domain=[('type','=','do')])
+    officer_id = fields.One2many('res.partner','area_id','Assigned DO', domain=[('type','=','do')], required=True)
     officer = fields.Char(related='officer_id.name', string='Assigned DO')
     city = fields.Char(related='branch_id.city',string='City', store=True)
     street2 = fields.Char()
 
-    @api.depends('street2','code')
-    def _get_name(self):
-        try:
-            for rec in self:
-                rec.name = '%s - %s' % (rec.code,rec.street2)
-        except Exception as e:
-            raise UserError(_(str(e)))
+    # @api.depends('street2','code')
+    # def _get_name(self):
+    #     try:
+    #         for rec in self:
+    #             rec.name = '%s - %s' % (rec.code,rec.street2)
+    #     except Exception as e:
+    #         raise UserError(_(str(e)))
 
+    # @api.multi
+    # def write(self, values):
+    #     values['name'] = '%s - %s' % (values['code'], self.street2)
+    #     return super(ResArea, self).write(values)
+
+    @api.model
+    def create(self, values):
+        values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
+        values['code'] = '%s' % ("{0:0=2d}".format(values['index']))
+        values['name'] = '%s - %s' % (values['code'], values['street2'])
+        return super(ResArea, self).create(values)
+
+    #TODO: SET DO CODE

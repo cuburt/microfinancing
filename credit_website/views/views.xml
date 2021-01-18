@@ -1,60 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="credit_website.list">
-      <field name="name">credit_website list</field>
-      <field name="model">credit_website.credit_website</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
-    -->
+    <data>
+<!--        <record id="menu_register" model="website.menu">-->
+<!--            <field name="name">Register</field>-->
+<!--            <field name="url">/member/form</field>-->
+<!--            <field name="parent_id" ref="website.main_menu"/>-->
+<!--            <field name="sequence" type="int">90</field>-->
+<!--        </record>-->
 
-    <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="credit_website.action_window">
-      <field name="name">credit_website window</field>
-      <field name="res_model">credit_website.credit_website</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-    -->
-
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="credit_website.action_server">
-      <field name="name">credit_website server</field>
-      <field name="model_id" ref="model_credit_website_credit_website"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
-    -->
-
-    <!-- Top menu item -->
-    <!--
-    <menuitem name="credit_website" id="credit_website.menu_root"/>
-    -->
-    <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="credit_website.menu_1" parent="credit_website.menu_root"/>
-    <menuitem name="Menu 2" id="credit_website.menu_2" parent="credit_website.menu_root"/>
-    -->
-    <!-- actions -->
-    <!--
-    <menuitem name="List" id="credit_website.menu_1_list" parent="credit_website.menu_1"
-              action="credit_website.action_window"/>
-    <menuitem name="Server to list" id="credit_website" parent="credit_website.menu_2"
-              action="credit_website.action_server"/>
-    -->
-  </data>
+<!--        &lt;!&ndash;        <record id="menu_loan_application" model="website.menu">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <field name="name">Loan Application</field>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <field name="url">/loan</field>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <field name="parent_id" ref="website.main_menu"/>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <field name="sequence" type="int">100</field>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </record>&ndash;&gt;-->
+<!--        <record id="website_sale.menu_shop" model="website.menu">-->
+<!--            <field name="name">Loan Application</field>-->
+<!--        </record>-->
+    </data>
 </odoo>

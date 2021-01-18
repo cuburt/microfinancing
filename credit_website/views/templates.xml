@@ -1,22 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- <template id="listing"> -->
-        <!--   <ul> -->
-        <!--     <li t-foreach="objects" t-as="object"> -->
-        <!--       <a t-attf-href="#{ root }/objects/#{ object.id }"> -->
-        <!--         <t t-esc="object.display_name"/> -->
-        <!--       </a> -->
-        <!--     </li> -->
-        <!--   </ul> -->
-        <!-- </template> -->
-        <!-- <template id="object"> -->
-        <!--   <h1><t t-esc="object.display_name"/></h1> -->
-        <!--   <dl> -->
-        <!--     <t t-foreach="object._fields" t-as="field"> -->
-        <!--       <dt><t t-esc="field"/></dt> -->
-        <!--       <dd><t t-esc="object[field]"/></dd> -->
-        <!--     </t> -->
-        <!--   </dl> -->
-        <!-- </template> -->
+        <template id="tmp_member_form" name="Member Form">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container">
+                        <div class="col-md-12">
+                            <form action="/member/form/submit">
+                                <div class="form-group">
+                                    <label for="name">Phone:</label>
+                                    <input type="text" class="form-control" name="phone" required="True"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">City:</label>
+                                    <input type="text" class="form-control" name="city" required="True"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Barangay:</label>
+                                    <input type="text" class="form-control" name="street2" required="True"/>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="tmp_member_form_success" name="Member Form Successfully Submitted">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container">
+                        <div class="col-md-12">
+                            <div class="alert alert-success">
+                                Member created successfully.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="credit_website.address" inherit_id="website_sale.address">
+            <xpath expr="//div[@id='wrap']" position="replace">
+                <div id="wrap" class="oe_structure">
+                    <h1>FUCK YEA</h1>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="credit_website.wizard_checkout" inherit_id="website_sale.wizard_checkout">
+            <xpath expr="//div[@class='row']" position="replace">
+                <div class="row">
+                    <div class="col-xl">
+                        <div class="wizard">
+                            <div class="progress-wizard">
+                                <a class="no-decoration" t-att-href="step&gt;=10 and '/shop/cart' or '#'">
+                                    <div id="wizard-step10" t-att-class="'progress-wizard-step %s' % (step == 10 and 'active' or step&gt;10 and 'complete' or 'disabled')">
+                                        <div class="progress-wizard-bar d-none d-md-block"/>
+                                        <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                                        <div class="text-center progress-wizard-steplabel">Review Loan</div>
+                                    </div>
+                                </a>
+                                <a class="no-decoration" t-att-href="step&gt;=20 and '/shop/checkout' or '#'">
+                                    <div id="wizard-step20" t-att-class="'progress-wizard-step %s' % (step == 20 and 'active' or step&gt;20 and 'complete' or 'disabled')">
+                                        <div class="progress-wizard-bar d-none d-md-block"/>
+                                        <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                                        <div class="text-center progress-wizard-steplabel">Loan Application</div>
+                                    </div>
+                                </a>
+                                <a class="no-decoration" t-att-href="step&gt;=40 and '/shop/payment' or '#'">
+                                    <div id="wizard-step40" t-att-class="'progress-wizard-step %s' % (step == 40 and 'active' or step&gt;40 and 'complete' or 'disabled')">
+                                        <div class="progress-wizard-bar d-none d-md-block"/>
+                                        <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                                        <div class="text-center progress-wizard-steplabel">Confirm Application</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="credit_website.product_price" inherit_id="website_sale.product_price">
+            <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price mt16">
+                <h4 class="oe_price_h4 css_editable_mode_hidden">
+                    <span t-attf-class="text-danger oe_default_price {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="text-decoration: line-through; white-space: nowrap;"
+                          t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                    />
+                    <b class="oe_price" style="white-space: nowrap;" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                    <span itemprop="price" style="display:none;" t-esc="combination_info['price']"/>
+                    <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+                </h4>
+                <h4 class="css_non_editable_mode_hidden decimal_precision" t-att-data-precision="str(website.currency_id.decimal_places)">
+                    <span t-field="product.list_price"
+                          t-options='{
+                   "widget": "monetary",
+                   "display_currency": product.currency_id,
+               }'/>
+                </h4>
+                <h4 class="d-none oe_not_available bg-warning">Option not available</h4>
+            </div>
+        </template>
+
+        <template id="credit_website.product" inherit_id="website_sale.product">
+            <xpath expr="//div[@id='product_details']" position="replace">
+                <div class="col-md-6 col-xl-4 offset-xl-2" id="product_details">
+                    <h1 itemprop="name" t-field="product.name">Product Name</h1>
+                    <span itemprop="url" style="display:none;" t-esc="'%sshop/product/%s' % (request.httprequest.url_root, slug(product))"/>
+                    <form t-if="product._is_add_to_cart_possible()" action="/shop/cart/update" method="POST">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                        <div class="js_product js_main_product">
+                            <t t-placeholder="select">
+                                <input type="hidden" class="product_id" name="product_id" t-att-value="product_variant.id" />
+                                <input type="hidden" class="product_template_id" name="product_template_id" t-att-value="product.id" />
+                                <t t-if="first_possible_combination" t-call="sale.variants">
+                                    <t t-set="ul_class" t-value="'flex-column'" />
+                                    <t t-set="parent_combination" t-value="None" />
+                                </t>
+                                <t t-else="">
+                                    <ul class="d-none js_add_cart_variants" t-att-data-attribute_exclusions="{'exclusions: []'}"/>
+                                </t>
+                            </t>
+                            <t t-call="website_sale.product_price" />
+                            <p t-if="True" class="css_not_available_msg alert alert-warning">This combination does not exist.</p>
+                            <a role="button" id="add_to_cart" class="btn btn-primary btn-lg mt8 js_check_product a-submit" href="#">Apply Now</a>
+                        </div>
+                    </form>
+                    <p t-elif="not product.active" class="alert alert-warning">This product is no longer available.</p>
+                    <p t-else="" class="alert alert-warning">This product has no valid combination.</p>
+                    <hr t-if="product.description_sale" />
+                    <div class="o_not_editable">
+                        <p t-field="product.description_sale" class="text-muted" />
+                    </div>
+                    <hr />
+                    <p class="text-muted">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br/>
+                        Ultricies tristique nulla aliquet enim tortor.<br/>
+                        Non arcu risus quis varius.
+                    </p>
+                </div>
+            </xpath>
+        </template>
+        <template id="credit_website.total" inherit_id="website_sale.total">
+            <xpath expr="//div[@id='cart_total']" position="replace">
+                <div id="cart_total" t-att-class="extra_class or ''" t-if="website_sale_order and website_sale_order.website_order_line">
+                    <table class="table">
+                        <tr id="empty">
+                            <t t-if='not no_rowspan'><td rowspan="10" class="noborder"/></t>
+                            <td class="col-md-2 col-3 noborder"></td>
+                            <td class="col-md-2 col-3 noborder" ></td>
+                        </tr>
+                        <tr id="order_total_untaxed">
+                            <td class="text-right noborder">Subtotal:</td>
+                            <td class="text-xl-right noborder" >
+                                <span t-field="website_sale_order.amount_untaxed" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr id="order_total_untaxed">
+                            <td class="text-right noborder">Processing Fee:</td>
+                            <td class="text-xl-right noborder" >
+                                <span t-field="website_sale_order.amount_untaxed" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr id="order_total_taxes">
+                            <td class="text-right noborder">Taxes:</td>
+                            <td class="text-xl-right noborder">
+                                <span t-field="website_sale_order.amount_tax" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
+                            </td>
+                        </tr>
+                        <tr id="order_total">
+                            <td class="text-right"><strong>Total:</strong></td>
+                            <td class="text-xl-right">
+                                <strong t-field="website_sale_order.amount_total"
+                                        t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="credit_website.portal_my_details" inherit_id="portal.portal_my_details">
+            <xpath expr="//div[1]/div[1]/div[1]/div[9]" position="after">
+                <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-xl-6">
+                    <label class="col-form-label" for="street">Barangay</label>
+                    <input type="text" name="street2" t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}" t-att-value="street2 or partner.street2"/>
+                </div>
+            </xpath>
+        </template>
     </data>
 </odoo>

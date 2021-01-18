@@ -11,13 +11,18 @@ _logger = logging.getLogger(__name__)
 #
 # [product.template]>O---<HAS>---|-[product.template]-|----<HAS>----|<[crm.lead]
 #
+class AccountPaymentTerm(models.Model):
+    _inherit = 'account.payment.term'
+
+    company_id = fields.Many2one('res.company', string='Company', required=True)
+
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
     @api.model
     def product_domain(self):
         try:
-            return [('company_id.id','=',self.env.user.company_id.id)]
+            return ['|',('company_id.id','=',self.env.user.company_id.id),('company_id.id','=',self.env.user.company_id.parent_id.id)]
         except Exception as e:
             raise UserError(_("ERROR: 'product_domain' "+str(e)))
 
@@ -28,6 +33,13 @@ class LoanApplication(models.Model):
 
 class productTemplate(models.Model):
     _inherit = 'product.template'
+
+    @api.model
+    def term_domain(self):
+        try:
+            return ['|',('company_id.id','=',self.env.user.company_id.id),('company_id.id','=',self.env.user.company_id.parent_id.id)]
+        except Exception as e:
+            raise UserError(_("ERROR: 'term_domain' "+str(e)))
 
     sale_line_warn = fields.Selection(WARNING_MESSAGE, 'Sales Order Line', help=WARNING_HELP, required=False, default="no-message")
     package_id = fields.Many2one('product.template', 'Package')
@@ -41,7 +53,7 @@ class productTemplate(models.Model):
     grace_period_interest = fields.Monetary('Grace Period - Interest')
     aging_method = fields.Selection([('microfinance','Microfinance')], 'Aging Method')
     has_collateral = fields.Boolean('Collateral', default=False)
-    payment_term = fields.Many2one('account.payment.term', 'Payment Term')
+    payment_term = fields.Many2one('account.payment.term', 'Payment Term', required_if_payment_schedule_type='automatic', domain=term_domain)
     interest_id = fields.Many2one('credit.loan.interest', 'Interest Rate', default=lambda self:self.env['credit.loan.interest'].search([], limit=1, order='date_created desc'))
     interest = fields.Float(related='interest_id.rate')
 

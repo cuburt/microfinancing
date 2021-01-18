@@ -378,7 +378,13 @@
                         </group>
                         <notebook>
                             <page string="Assigned DO">
-                                <field name="officer_id"/>
+                                <field name="officer_id">
+                                    <tree editable="bottom" string="Officers">
+                                        <field name="name"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Groups">
                                 <field name="group_ids"/>

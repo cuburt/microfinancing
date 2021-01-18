@@ -150,7 +150,7 @@
             <field name="aging_method">microfinance</field>
             <field name="has_collateral" eval="True"/>
             <field name="categ_id" ref="product_category_loan"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -171,7 +171,7 @@
             <field name="has_collateral" eval="False"/>
             <field name="payment_term" ref="payment_term_20"/>
             <field name="categ_id" ref="product_category_loan"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -192,7 +192,7 @@
             <field name="has_collateral" eval="True"/>
             <field name="payment_term" ref="payment_term_20"/>
             <field name="categ_id" ref="product_category_loan"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -211,7 +211,7 @@
             <field name="aging_method">microfinance</field>
             <field name="has_collateral" eval="True"/>
             <field name="categ_id" ref="product_category_loan"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -232,7 +232,7 @@
             <field name="has_collateral" eval="True"/>
             <field name="payment_term" ref="payment_term_20"/>
             <field name="categ_id" ref="product_category_loan"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -253,7 +253,7 @@
             <field name="has_collateral" eval="True"/>
             <field name="payment_term" ref="payment_term_20"/>
             <field name="categ_id" ref="product_category_loan"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -261,7 +261,7 @@
             <field name="name">Insurance</field>
             <field name="type">service</field>
             <field name="categ_id" ref="product_category_insurance"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -269,7 +269,7 @@
             <field name="name">Processing Fee</field>
             <field name="type">service</field>
             <field name="categ_id" ref="product_category_fee"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -277,7 +277,7 @@
             <field name="name">Capital Build Up</field>
             <field name="type">service</field>
             <field name="categ_id" ref="product_category_save"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>
@@ -297,16 +297,16 @@
         <!--            <field name="product_tmpl_id" ref="template_3"/>-->
         <!--        </record>-->
 
-        <record id="list0" model="product.pricelist">
-            <field name="name">Public Pricelist</field>
-            <field name="sequence">1</field>
-        </record>
+<!--        <record id="list0" model="product.pricelist">-->
+<!--            <field name="name">Public Pricelist</field>-->
+<!--            <field name="sequence">1</field>-->
+<!--        </record>-->
 
         <record id="template_4" model="product.template">
             <field name="name">Capital Build Up</field>
             <field name="type">service</field>
             <field name="categ_id" ref="product_category_save"/>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
         </record>

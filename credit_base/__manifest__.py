@@ -27,7 +27,7 @@
         'security/security.xml',
         'security/ir.model.access.csv',
 
-        'data/config_data.xml',
+        # 'data/config_data.xml',
         'data/demo_data.xml',
         'data/event.xml',
         'data/loan_stages_data.xml',

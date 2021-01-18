@@ -40,20 +40,20 @@ class LoanApplication(models.Model):
     state = fields.Boolean(default=False)
     #RELATED FIELDS
     partner_id = fields.Many2one('res.partner', related='financing_id.member_id')
-    area_id = fields.Many2one('res.area', 'Area', related='financing_id.area_id')
-    branch_id = fields.Many2one('res.branch','Branch', related='financing_id.branch_id')
+    area_id = fields.Many2one('res.area', 'Area', index=True, store=True)
+    branch_id = fields.Many2one('res.branch','Branch', index=True, store=True)
     do = fields.Many2one('res.partner','Assigned DO')
+    company_id = fields.Many2one('res.company', string='Company', index=True, store=True)
 
     @api.onchange('financing_id')
     def set_account(self):
         try:
             if self.financing_id:
-                officer_ids = self.area_id.officer_id
-                self.partner_id = self.financing_id.member_id
-                self.branch_id = self.financing_id.branch_id
-                self.area_id = self.financing_id.area_id
-                self.do = officer_ids[len(officer_ids) - 1]
-                print(self.do)
+                self.partner_id = self.financing_id.member_id.id
+                self.company_id = self.env['res.users'].sudo().search([('partner_id.id','=',self.partner_id.id)], limit=1).company_id.id
+                self.branch_id = self.financing_id.branch_id.id
+                self.area_id = self.financing_id.area_id.id
+                self.do = self.area_id.officer_id.search([('type','=','do'),('area_id.id','=',self.area_id.id)], limit=1).id
 
         except Exception as e:
             raise UserError(_("ERROR: 'set_account' "+str(e)))
@@ -82,3 +82,7 @@ class LoanApplication(models.Model):
     #
     #     return application
 
+    @api.model
+    def create(self, values):
+        print(values)
+        return super(LoanApplication, self).create(values)

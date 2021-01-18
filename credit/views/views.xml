@@ -104,8 +104,8 @@
         <!--              <menuitem name="Cash Payment" id="credit.cash_payment" parent="credit.transactions"-->
         <!--                        action="credit_base.action_window_cash_payment"/>-->
 
-        <!--              <menuitem name="Journal Entry" id="credit.journal_entry" parent="credit.transactions"-->
-        <!--                        action="credit_base.action_window_journal_entry"/>-->
+<!--        <menuitem name="Journal Entry" id="credit.journal_entry" parent="credit.transactions"-->
+<!--                 action="credit_account.action_window_journal_entry"/>-->
 
         <!--              &lt;!&ndash;reports actions &ndash;&gt;-->
 

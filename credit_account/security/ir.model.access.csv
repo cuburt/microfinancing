@@ -1,14 +1,14 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
-payment_term_sysad,payment.term.sysad,model_account_payment_term,credit_base.group_credit_sysad,1,1,1,1
-payment_term_general,payment.term.general ,model_account_payment_term,credit_base.group_credit_general,1,1,1,1
-payment_term_branch,payment.term.branch,model_account_payment_term,credit_base.group_credit_branch,1,1,1,1
-payment_term_admin,payment.term.admin,model_account_payment_term,credit_base.group_credit_admin,1,1,1,1
-payment_term_accountsupervisor,payment.term.accountsupervisor,model_account_payment_term,credit_base.group_credit_accountsupervisor,1,1,1,1
-payment_term_accountofficer,payment.term.accountofficer,model_account_payment_term,credit_base.group_credit_accountofficer,1,1,1,1
-payment_term_devsupervisor,payment.term.devsupervisor,model_account_payment_term,credit_base.group_credit_devsupervisor,1,1,1,1
-payment_term_devofficer,payment.term.devofficer,model_account_payment_term,credit_base.group_credit_devofficer,1,1,1,1
-payment_term_member,payment.term.member,model_account_payment_term,credit_base.group_credit_member,1,1,1,0
+payment_term_sysad,payment.term.sysad,account.model_account_payment_term,credit_base.group_credit_sysad,1,1,1,1
+payment_term_general,payment.term.general ,account.model_account_payment_term,credit_base.group_credit_general,1,1,1,1
+payment_term_branch,payment.term.branch,account.model_account_payment_term,credit_base.group_credit_branch,1,1,1,1
+payment_term_admin,payment.term.admin,account.model_account_payment_term,credit_base.group_credit_admin,1,1,1,1
+payment_term_accountsupervisor,payment.term.accountsupervisor,account.model_account_payment_term,credit_base.group_credit_accountsupervisor,1,1,1,1
+payment_term_accountofficer,payment.term.accountofficer,account.model_account_payment_term,credit_base.group_credit_accountofficer,1,1,1,1
+payment_term_devsupervisor,payment.term.devsupervisor,account.model_account_payment_term,credit_base.group_credit_devsupervisor,1,1,1,1
+payment_term_devofficer,payment.term.devofficer,account.model_account_payment_term,credit_base.group_credit_devofficer,1,1,1,1
+payment_term_member,payment.term.member,account.model_account_payment_term,credit_base.group_credit_member,1,1,1,0
 
 surcharge_sysad,credit.loan.surcharge.sysad,model_credit_loan_surcharge,credit_base.group_credit_sysad,1,1,1,1
 surcharge_general,credit.loan.surcharge.general ,model_credit_loan_surcharge,credit_base.group_credit_general,1,1,1,1
@@ -59,3 +59,13 @@ fund_accountofficer,credit.loan.fund.accountofficer,model_credit_loan_fund,credi
 fund_devsupervisor,credit.loan.fund.devsupervisor,model_credit_loan_fund,credit_base.group_credit_devsupervisor,1,1,1,1
 fund_devofficer,credit.loan.fund.devofficer,model_credit_loan_fund,credit_base.group_credit_devofficer,1,1,1,1
 fund_member,credit.loan.fund.member,model_credit_loan_fund,credit_base.group_credit_member,1,1,1,0
+
+product_sysad,credit.product.sysad,model_product_template,credit_base.group_credit_sysad,1,1,1,1
+product_general,credit.product.general ,model_product_template,credit_base.group_credit_general,1,1,1,1
+product_branch,credit.product.branch,model_product_template,credit_base.group_credit_branch,1,1,1,1
+product_admin,credit.product.admin,model_product_template,credit_base.group_credit_admin,1,1,1,1
+product_accountsupervisor,credit.product.accountsupervisor,model_product_template,credit_base.group_credit_accountsupervisor,1,1,1,1
+product_accountofficer,credit.product.accountofficer,model_product_template,credit_base.group_credit_accountofficer,1,1,1,1
+product_devsupervisor,credit.product.devsupervisor,model_product_template,credit_base.group_credit_devsupervisor,1,1,1,1
+product_devofficer,credit.product.devofficer,model_product_template,credit_base.group_credit_devofficer,1,1,1,1
+product_member,credit.product.member,model_product_template,credit_base.group_credit_member,1,1,1,0

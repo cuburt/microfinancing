@@ -22,5 +22,5 @@ class EventRegistration(models.Model):
     @api.depends('partner_id')
     def set_group(self):
         for rec in self:
-            rec.group_id = self.env['credit.loan.group'].search([('partner_id.id','=',rec.partner_id.id),('status','=','draft')], limit=1, order='date_organized desc')
-
+            rec.group_id = self.env['credit.loan.group'].search([('partner_id.id','=',rec.partner_id.id)], limit=1, order='date_organized desc')
+            print('GROUP LEADER ADDED TO INFORMATION MEETING ATTENDANCE')

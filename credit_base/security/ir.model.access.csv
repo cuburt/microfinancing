@@ -1,14 +1,14 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
-credit_partner_sysad,credit.loan.partner.sysad,model_res_partner,group_credit_sysad,1,1,1,1
-credit_partner_general,credit.loan.partner.general,model_res_partner,group_credit_general,1,0,0,0
-credit_partner_branch,credit.loan.partner.branch,model_res_partner,group_credit_branch,1,0,0,0
-credit_partner_admin,credit.loan.partner.admin,model_res_partner,group_credit_admin,1,0,0,0
-credit_partner_accountsupervisor,credit.loan.partner.accountsupervisor,model_res_partner,group_credit_accountsupervisor,1,0,0,0
-credit_partner_accountofficer,credit.loan.partner.accountofficer,model_res_partner,group_credit_accountofficer,1,0,0,0
-credit_partner_devsupervisor,credit.loan.partner.devsupervisor,model_res_partner,group_credit_devsupervisor,1,0,0,0
-credit_partner_devofficer,credit.loan.partner.devofficer,model_res_partner,group_credit_devofficer,1,0,0,0
-credit_partner_member,credit.loan.partner.member,model_res_partner,group_credit_member,1,0,0,0
+credit_partner_sysad,credit.loan.partner.sysad,base.model_res_partner,group_credit_sysad,1,1,1,1
+credit_partner_general,credit.loan.partner.general,base.model_res_partner,group_credit_general,1,0,0,0
+credit_partner_branch,credit.loan.partner.branch,base.model_res_partner,group_credit_branch,1,0,0,0
+credit_partner_admin,credit.loan.partner.admin,base.model_res_partner,group_credit_admin,1,0,0,0
+credit_partner_accountsupervisor,credit.loan.partner.accountsupervisor,base.model_res_partner,group_credit_accountsupervisor,1,0,0,0
+credit_partner_accountofficer,credit.loan.partner.accountofficer,base.model_res_partner,group_credit_accountofficer,1,0,0,0
+credit_partner_devsupervisor,credit.loan.partner.devsupervisor,base.model_res_partner,group_credit_devsupervisor,1,0,0,0
+credit_partner_devofficer,credit.loan.partner.devofficer,base.model_res_partner,group_credit_devofficer,1,0,0,0
+credit_partner_member,credit.loan.partner.member,base.model_res_partner,group_credit_member,1,0,0,0
 
 credit_financing_sysad,credit.loan.financing.sysad,model_credit_loan_financing,group_credit_sysad,1,1,1,1
 credit_financing_general,credit.loan.financing.general,model_credit_loan_financing,group_credit_general,1,1,1,1
@@ -30,25 +30,25 @@ credit_group_devsupervisor,credit.loan.group.devsupervisor,model_credit_loan_gro
 credit_group_devofficer,credit.loan.group.devofficer,model_credit_loan_group,group_credit_devofficer,1,1,1,1
 credit_group_member,credit.loan.group.member,model_credit_loan_group,group_credit_member,1,0,1,0
 
-credit_event_sysad,event.event.sysad,model_event_event,group_credit_sysad,1,1,1,1
-credit_event_general,event.event.general,model_event_event,group_credit_general,1,1,1,1
-credit_event_branch,event.event.branch,model_event_event,group_credit_branch,1,1,1,1
-credit_event_admin,event.event.admin,model_event_event,group_credit_admin,1,1,1,1
-credit_event_accountsupervisor,event.event.accountsupervisor,model_event_event,group_credit_accountsupervisor,1,1,1,1
-credit_event_accountofficer,event.event.accountofficer,model_event_event,group_credit_accountofficer,1,1,1,1
-credit_event_devsupervisor,event.event.devsupervisor,model_event_event,group_credit_devsupervisor,1,1,1,1
-credit_event_devofficer,event.event.devofficer,model_event_event,group_credit_devofficer,1,1,1,1
-credit_event_member,event.event.member,model_event_event,group_credit_member,1,0,0,0
+credit_event_sysad,event.event.sysad,event.model_event_event,group_credit_sysad,1,1,1,1
+credit_event_general,event.event.general,event.model_event_event,group_credit_general,1,1,1,1
+credit_event_branch,event.event.branch,event.model_event_event,group_credit_branch,1,1,1,1
+credit_event_admin,event.event.admin,event.model_event_event,group_credit_admin,1,1,1,1
+credit_event_accountsupervisor,event.event.accountsupervisor,event.model_event_event,group_credit_accountsupervisor,1,1,1,1
+credit_event_accountofficer,event.event.accountofficer,event.model_event_event,group_credit_accountofficer,1,1,1,1
+credit_event_devsupervisor,event.event.devsupervisor,event.model_event_event,group_credit_devsupervisor,1,1,1,1
+credit_event_devofficer,event.event.devofficer,event.model_event_event,group_credit_devofficer,1,1,1,1
+credit_event_member,event.event.member,event.model_event_event,group_credit_member,1,0,0,0
 
-credit_registration_sysad,event.registration.sysad,model_event_registration,group_credit_sysad,1,1,1,1
-credit_registration_general,event.registration.general,model_event_registration,group_credit_general,1,1,1,1
-credit_registration_branch,event.registration.branch,model_event_registration,group_credit_branch,1,1,1,1
-credit_registration_admin,event.registration.admin,model_event_registration,group_credit_admin,1,1,1,1
-credit_registration_accountsupervisor,event.registration.accountsupervisor,model_event_registration,group_credit_accountsupervisor,1,1,1,1
-credit_registration_accountofficer,event.registration.accountofficer,model_event_registration,group_credit_accountofficer,1,1,1,1
-credit_registration_devsupervisor,event.registration.devsupervisor,model_event_registration,group_credit_devsupervisor,1,1,1,1
-credit_registration_devofficer,event.registration.devofficer,model_event_registration,group_credit_devofficer,1,1,1,1
-credit_registration_member,event.registration.member,model_event_registration,group_credit_member,1,1,0,0
+credit_registration_sysad,event.registration.sysad,event.model_event_registration,group_credit_sysad,1,1,1,1
+credit_registration_general,event.registration.general,event.model_event_registration,group_credit_general,1,1,1,1
+credit_registration_branch,event.registration.branch,event.model_event_registration,group_credit_branch,1,1,1,1
+credit_registration_admin,event.registration.admin,event.model_event_registration,group_credit_admin,1,1,1,1
+credit_registration_accountsupervisor,event.registration.accountsupervisor,event.model_event_registration,group_credit_accountsupervisor,1,1,1,1
+credit_registration_accountofficer,event.registration.accountofficer,event.model_event_registration,group_credit_accountofficer,1,1,1,1
+credit_registration_devsupervisor,event.registration.devsupervisor,event.model_event_registration,group_credit_devsupervisor,1,1,1,1
+credit_registration_devofficer,event.registration.devofficer,event.model_event_registration,group_credit_devofficer,1,1,1,1
+credit_registration_member,event.registration.member,event.model_event_registration,group_credit_member,1,1,0,0
 
 credit_branch_sysad,res.branch.sysad,model_res_branch,group_credit_sysad,1,1,1,1
 credit_branch_general,res.branch.general,model_res_branch,group_credit_general,1,0,0,0
@@ -70,25 +70,25 @@ credit_area_devsupervisor,res.area.devsupervisor,model_res_area,group_credit_dev
 credit_area_devofficer,res.area.devofficer,model_res_area,group_credit_devofficer,1,0,0,0
 credit_area_member,res.area.member,model_res_area,group_credit_member,1,0,0,0
 
-credit_application_sysad,credit.loan.application.sysad,model_crm_lead,group_credit_sysad,1,1,1,1
-credit_application_general,credit.loan.application.general ,model_crm_lead,group_credit_general,1,1,1,1
-credit_application_branch,credit.loan.application.branch,model_crm_lead,group_credit_branch,1,1,1,1
-credit_application_admin,credit.loan.application.admin,model_crm_lead,group_credit_admin,1,1,1,1
-credit_application_accountsupervisor,credit.loan.application.accountsupervisor,model_crm_lead,group_credit_accountsupervisor,1,1,1,1
-credit_application_accountofficer,credit.loan.application.accountofficer,model_crm_lead,group_credit_accountofficer,1,1,1,1
-credit_application_devsupervisor,credit.loan.application.devsupervisor,model_crm_lead,group_credit_devsupervisor,1,1,1,1
-credit_application_devofficer,credit.loan.application.devofficer,model_crm_lead,group_credit_devofficer,1,1,1,1
-credit_application_member,credit.loan.application.member,model_crm_lead,group_credit_member,1,1,1,0
+credit_application_sysad,credit.loan.application.sysad,crm.model_crm_lead,group_credit_sysad,1,1,1,1
+credit_application_general,credit.loan.application.general ,crm.model_crm_lead,group_credit_general,1,1,1,1
+credit_application_branch,credit.loan.application.branch,crm.model_crm_lead,group_credit_branch,1,1,1,1
+credit_application_admin,credit.loan.application.admin,crm.model_crm_lead,group_credit_admin,1,1,1,1
+credit_application_accountsupervisor,credit.loan.application.accountsupervisor,crm.model_crm_lead,group_credit_accountsupervisor,1,1,1,1
+credit_application_accountofficer,credit.loan.application.accountofficer,crm.model_crm_lead,group_credit_accountofficer,1,1,1,1
+credit_application_devsupervisor,credit.loan.application.devsupervisor,crm.model_crm_lead,group_credit_devsupervisor,1,1,1,1
+credit_application_devofficer,credit.loan.application.devofficer,crm.model_crm_lead,group_credit_devofficer,1,1,1,1
+credit_application_member,credit.loan.application.member,crm.model_crm_lead,group_credit_member,1,1,1,0
 
-credit_lead_sysad,crm.lead.sysad,model_crm_lead,group_credit_sysad,1,1,1,1
-credit_lead_general,crm.lead.general ,model_crm_lead,group_credit_general,1,1,1,1
-credit_lead_branch,crm.lead.branch,model_crm_lead,group_credit_branch,1,1,1,1
-credit_lead_admin,crm.lead.admin,model_crm_lead,group_credit_admin,1,1,1,1
-credit_lead_accountsupervisor,crm.lead.accountsupervisor,model_crm_lead,group_credit_accountsupervisor,1,1,1,1
-credit_lead_accountofficer,crm.lead.accountofficer,model_crm_lead,group_credit_accountofficer,1,1,1,1
-credit_lead_devsupervisor,crm.lead.devsupervisor,model_crm_lead,group_credit_devsupervisor,1,1,1,1
-credit_lead_devofficer,crm.lead.devofficer,model_crm_lead,group_credit_devofficer,1,1,1,1
-credit_lead_member,crm.lead.member,model_crm_lead,group_credit_member,1,1,1,0
+credit_lead_sysad,crm.lead.sysad,crm.model_crm_lead,group_credit_sysad,1,1,1,1
+credit_lead_general,crm.lead.general ,crm.model_crm_lead,group_credit_general,1,1,1,1
+credit_lead_branch,crm.lead.branch,crm.model_crm_lead,group_credit_branch,1,1,1,1
+credit_lead_admin,crm.lead.admin,crm.model_crm_lead,group_credit_admin,1,1,1,1
+credit_lead_accountsupervisor,crm.lead.accountsupervisor,crm.model_crm_lead,group_credit_accountsupervisor,1,1,1,1
+credit_lead_accountofficer,crm.lead.accountofficer,crm.model_crm_lead,group_credit_accountofficer,1,1,1,1
+credit_lead_devsupervisor,crm.lead.devsupervisor,crm.model_crm_lead,group_credit_devsupervisor,1,1,1,1
+credit_lead_devofficer,crm.lead.devofficer,crm.model_crm_lead,group_credit_devofficer,1,1,1,1
+credit_lead_member,crm.lead.member,crm.model_crm_lead,group_credit_member,1,1,1,0
 
 credit_savings_sysad,credit.loan.savings.sysad,model_credit_loan_savings,group_credit_sysad,1,1,1,1
 credit_savings_general,credit.loan.savings.general ,model_credit_loan_savings,group_credit_general,1,1,1,1

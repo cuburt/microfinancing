@@ -2,255 +2,259 @@
 <odoo>
     <data>
 
-        <record id="care_company" model="res.company">
+        <!--        <record id="care_company" model="res.company">-->
+        <!--            <field name="name">CARE Foundation Inc.</field>-->
+        <!--        </record>-->
+
+        <!--&lt;!&ndash;        ===============USER==================&ndash;&gt;-->
+        <!--        <record id="general_manager" model="res.partner">-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--            <field name="name">Jan Dave Ogatis</field>-->
+        <!--            <field name="company_id" ref="care_company"/>-->
+        <!--&lt;!&ndash;            <field name="parent_id" ref="care_partner"/>&ndash;&gt;-->
+        <!--            <field name="type">gm</field>-->
+        <!--            <field name="type_str">General Manager</field>-->
+        <!--            <field name="street">Pina</field>-->
+        <!--            <field name="street2">Hanabi</field>-->
+        <!--            <field name="city">Tupi</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">09123456789</field>-->
+        <!--            <field name="phone">228-4246</field>-->
+        <!--            <field name="email">jan.roots@gmail.com</field>-->
+
+        <!--        </record>-->
+
+        <!--        <record id="branch_manager1" model="res.partner">-->
+        <!--            <field name="name">Hubert Farnsworth</field>-->
+        <!--            <field name="type">bm</field>-->
+        <!--            <field name="type_str">Branch Manager</field>-->
+        <!--            <field name="street">IC Wiener</field>-->
+        <!--            <field name="street2">GPS</field>-->
+        <!--            <field name="city">Koronadal City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="supervisor_id" ref="general_manager"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch1"/>-->
+        <!--            <field name="mobile">0912345123</field>-->
+        <!--            <field name="phone">228-5636</field>-->
+        <!--            <field name="email">farnsworth.hubert@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_prof"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="branch_manager2" model="res.partner">-->
+        <!--            <field name="name">Rick Sanchez</field>-->
+        <!--            <field name="type">bm</field>-->
+        <!--            <field name="type_str">Branch Manager</field>-->
+        <!--            <field name="street">Woodrow</field>-->
+        <!--            <field name="street2">Allahuakbar</field>-->
+        <!--            <field name="city">Isulan City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="supervisor_id" ref="general_manager"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch2"/>-->
+        <!--            <field name="mobile">0912345890</field>-->
+        <!--            <field name="phone">228-6587</field>-->
+        <!--            <field name="email">pickle.rick@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_doctor"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="branch_manager3" model="res.partner">-->
+        <!--            <field name="name">Thomas Shelby</field>-->
+        <!--            <field name="type">bm</field>-->
+        <!--            <field name="type_str">Branch Manager</field>-->
+        <!--            <field name="street">Westminster</field>-->
+        <!--            <field name="street2">MacArthur</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="supervisor_id" ref="general_manager"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch3"/>-->
+        <!--            <field name="mobile">0912345666</field>-->
+        <!--            <field name="phone">228-5666</field>-->
+        <!--            <field name="email">peaky.tommy@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_mister"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--&lt;!&ndash;===================== DO ===========================&ndash;&gt;-->
+
+        <!--        <record id="dev_off1" model="res.partner">-->
+        <!--            <field name="name">Phillip Fry</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">IC Wiener</field>-->
+        <!--            <field name="street2">MacArthur</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912345234</field>-->
+        <!--            <field name="phone">228-6789</field>-->
+        <!--            <field name="email">fry.pexpress@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_mister"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch1"/>-->
+        <!--            <field name="area_id" ref="credit_base.area1"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager1"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off2" model="res.partner">-->
+        <!--            <field name="name">Bender Rodriguez</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">IC Wiener</field>-->
+        <!--            <field name="street2">MacArthur</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912345111</field>-->
+        <!--            <field name="phone">228-1101</field>-->
+        <!--            <field name="email">bitemyshinymetalass@yahoo.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_mister"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch1"/>-->
+        <!--            <field name="area_id" ref="credit_base.area2"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager1"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off3" model="res.partner">-->
+        <!--            <field name="name">Turanga Leela</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">IC Wiener</field>-->
+        <!--            <field name="street2">MacArthur</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912345333</field>-->
+        <!--            <field name="phone">228-3333</field>-->
+        <!--            <field name="email">leela.pexpress@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_miss"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch1"/>-->
+        <!--            <field name="area_id" ref="credit_base.area3"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager1"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off4" model="res.partner">-->
+        <!--            <field name="name">Morty Smith</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">Woodrow</field>-->
+        <!--            <field name="street2">Roosevelt</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">091234234</field>-->
+        <!--            <field name="phone">228-3566</field>-->
+        <!--            <field name="email">smith.morty@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_mister"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch2"/>-->
+        <!--            <field name="area_id" ref="credit_base.area4"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager2"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off5" model="res.partner">-->
+        <!--            <field name="name">Summer Smith</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">Woodrow</field>-->
+        <!--            <field name="street2">Roosevelt</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912341234</field>-->
+        <!--            <field name="phone">228-3566</field>-->
+        <!--            <field name="email">smith.winter@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_miss"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch2"/>-->
+        <!--            <field name="area_id" ref="credit_base.area5"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager2"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off6" model="res.partner">-->
+        <!--            <field name="name">Beth Smith</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">Woodrow</field>-->
+        <!--            <field name="street2">Roosevelt</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912345234</field>-->
+        <!--            <field name="phone">228-3456</field>-->
+        <!--            <field name="email">smith.beth@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_madam"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch2"/>-->
+        <!--            <field name="area_id" ref="credit_base.area6"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager2"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off7" model="res.partner">-->
+        <!--            <field name="name">Arthur Shelby</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">Downing</field>-->
+        <!--            <field name="street2">Warwickshire</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912345665</field>-->
+        <!--            <field name="phone">228-3665</field>-->
+        <!--            <field name="email">peaky.arthur@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_mister"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch3"/>-->
+        <!--            <field name="area_id" ref="credit_base.area7"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager3"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off8" model="res.partner">-->
+        <!--            <field name="name">John Shelby</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">Downing</field>-->
+        <!--            <field name="street2">Warwickshire</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912345664</field>-->
+        <!--            <field name="phone">228-3664</field>-->
+        <!--            <field name="email">peaky.john@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_mister"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch3"/>-->
+        <!--            <field name="area_id" ref="credit_base.area8"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager3"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+
+        <!--        <record id="dev_off9" model="res.partner">-->
+        <!--            <field name="name">Micheal Grey</field>-->
+        <!--            <field name="type">do</field>-->
+        <!--            <field name="type_str">Development Officer</field>-->
+        <!--            <field name="street">Wallstreet</field>-->
+        <!--            <field name="street2">Yorkshire</field>-->
+        <!--            <field name="city">General Santos City</field>-->
+        <!--            <field name="zip">9506</field>-->
+        <!--            <field name="country_id" ref="base.ph"/>-->
+        <!--            <field name="mobile">0912345626</field>-->
+        <!--            <field name="phone">228-3626</field>-->
+        <!--            <field name="email">grey.micheal@gmail.com</field>-->
+        <!--            <field name="title" ref="base.res_partner_title_mister"/>-->
+        <!--            <field name="branch_id" ref="credit_base.branch3"/>-->
+        <!--            <field name="area_id" ref="credit_base.area9"/>-->
+        <!--            <field name="supervisor_id" ref="branch_manager3"/>-->
+        <!--            <field name="is_company" eval="False"/>-->
+        <!--        </record>-->
+        <record id="base.main_company" model="res.company">
             <field name="name">CARE Foundation Inc.</field>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="currency_id" ref="base.EUR"/>
         </record>
-
-<!--        ===============USER==================-->
-        <record id="general_manager" model="res.partner">
-            <field name="is_company" eval="False"/>
-            <field name="name">Jan Dave Ogatis</field>
-            <field name="company_id" ref="care_company"/>
-<!--            <field name="parent_id" ref="care_partner"/>-->
-            <field name="type">gm</field>
-            <field name="type_str">General Manager</field>
-            <field name="street">Pina</field>
-            <field name="street2">Hanabi</field>
-            <field name="city">Tupi</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">09123456789</field>
-            <field name="phone">228-4246</field>
-            <field name="email">jan.roots@gmail.com</field>
-
-        </record>
-
-        <record id="branch_manager1" model="res.partner">
-            <field name="name">Hubert Farnsworth</field>
-            <field name="type">bm</field>
-            <field name="type_str">Branch Manager</field>
-            <field name="street">IC Wiener</field>
-            <field name="street2">GPS</field>
-            <field name="city">Koronadal City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="supervisor_id" ref="general_manager"/>
-            <field name="branch_id" ref="credit_base.branch1"/>
-            <field name="mobile">0912345123</field>
-            <field name="phone">228-5636</field>
-            <field name="email">farnsworth.hubert@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_prof"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="branch_manager2" model="res.partner">
-            <field name="name">Rick Sanchez</field>
-            <field name="type">bm</field>
-            <field name="type_str">Branch Manager</field>
-            <field name="street">Woodrow</field>
-            <field name="street2">Allahuakbar</field>
-            <field name="city">Isulan City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="supervisor_id" ref="general_manager"/>
-            <field name="branch_id" ref="credit_base.branch2"/>
-            <field name="mobile">0912345890</field>
-            <field name="phone">228-6587</field>
-            <field name="email">pickle.rick@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_doctor"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="branch_manager3" model="res.partner">
-            <field name="name">Thomas Shelby</field>
-            <field name="type">bm</field>
-            <field name="type_str">Branch Manager</field>
-            <field name="street">Westminster</field>
-            <field name="street2">MacArthur</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="supervisor_id" ref="general_manager"/>
-            <field name="branch_id" ref="credit_base.branch3"/>
-            <field name="mobile">0912345666</field>
-            <field name="phone">228-5666</field>
-            <field name="email">peaky.tommy@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-<!--===================== DO ===========================-->
-
-        <record id="dev_off1" model="res.partner">
-            <field name="name">Phillip Fry</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">IC Wiener</field>
-            <field name="street2">MacArthur</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912345234</field>
-            <field name="phone">228-6789</field>
-            <field name="email">fry.pexpress@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
-            <field name="branch_id" ref="credit_base.branch1"/>
-            <field name="area_id" ref="credit_base.area1"/>
-            <field name="supervisor_id" ref="branch_manager1"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off2" model="res.partner">
-            <field name="name">Bender Rodriguez</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">IC Wiener</field>
-            <field name="street2">MacArthur</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912345111</field>
-            <field name="phone">228-1101</field>
-            <field name="email">bitemyshinymetalass@yahoo.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
-            <field name="branch_id" ref="credit_base.branch1"/>
-            <field name="area_id" ref="credit_base.area2"/>
-            <field name="supervisor_id" ref="branch_manager1"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off3" model="res.partner">
-            <field name="name">Turanga Leela</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">IC Wiener</field>
-            <field name="street2">MacArthur</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912345333</field>
-            <field name="phone">228-3333</field>
-            <field name="email">leela.pexpress@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_miss"/>
-            <field name="branch_id" ref="credit_base.branch1"/>
-            <field name="area_id" ref="credit_base.area3"/>
-            <field name="supervisor_id" ref="branch_manager1"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off4" model="res.partner">
-            <field name="name">Morty Smith</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">Woodrow</field>
-            <field name="street2">Roosevelt</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">091234234</field>
-            <field name="phone">228-3566</field>
-            <field name="email">smith.morty@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
-            <field name="branch_id" ref="credit_base.branch2"/>
-            <field name="area_id" ref="credit_base.area4"/>
-            <field name="supervisor_id" ref="branch_manager2"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off5" model="res.partner">
-            <field name="name">Summer Smith</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">Woodrow</field>
-            <field name="street2">Roosevelt</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912341234</field>
-            <field name="phone">228-3566</field>
-            <field name="email">smith.winter@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_miss"/>
-            <field name="branch_id" ref="credit_base.branch2"/>
-            <field name="area_id" ref="credit_base.area5"/>
-            <field name="supervisor_id" ref="branch_manager2"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off6" model="res.partner">
-            <field name="name">Beth Smith</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">Woodrow</field>
-            <field name="street2">Roosevelt</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912345234</field>
-            <field name="phone">228-3456</field>
-            <field name="email">smith.beth@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_madam"/>
-            <field name="branch_id" ref="credit_base.branch2"/>
-            <field name="area_id" ref="credit_base.area6"/>
-            <field name="supervisor_id" ref="branch_manager2"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off7" model="res.partner">
-            <field name="name">Arthur Shelby</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">Downing</field>
-            <field name="street2">Warwickshire</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912345665</field>
-            <field name="phone">228-3665</field>
-            <field name="email">peaky.arthur@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
-            <field name="branch_id" ref="credit_base.branch3"/>
-            <field name="area_id" ref="credit_base.area7"/>
-            <field name="supervisor_id" ref="branch_manager3"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off8" model="res.partner">
-            <field name="name">John Shelby</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">Downing</field>
-            <field name="street2">Warwickshire</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912345664</field>
-            <field name="phone">228-3664</field>
-            <field name="email">peaky.john@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
-            <field name="branch_id" ref="credit_base.branch3"/>
-            <field name="area_id" ref="credit_base.area8"/>
-            <field name="supervisor_id" ref="branch_manager3"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
-        <record id="dev_off9" model="res.partner">
-            <field name="name">Micheal Grey</field>
-            <field name="type">do</field>
-            <field name="type_str">Development Officer</field>
-            <field name="street">Wallstreet</field>
-            <field name="street2">Yorkshire</field>
-            <field name="city">General Santos City</field>
-            <field name="zip">9506</field>
-            <field name="country_id" ref="base.ph"/>
-            <field name="mobile">0912345626</field>
-            <field name="phone">228-3626</field>
-            <field name="email">grey.micheal@gmail.com</field>
-            <field name="title" ref="base.res_partner_title_mister"/>
-            <field name="branch_id" ref="credit_base.branch3"/>
-            <field name="area_id" ref="credit_base.area9"/>
-            <field name="supervisor_id" ref="branch_manager3"/>
-            <field name="is_company" eval="False"/>
-        </record>
-
     </data>
 </odoo>

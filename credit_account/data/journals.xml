@@ -6,21 +6,21 @@
             <field name="name">Cash Receipt Journal</field>
             <field name="type">sale</field>
             <field name="code">CR</field>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
         </record>
 
         <record id="data_journal_2" model="account.journal">
             <field name="name">Cash Payment Journal</field>
             <field name="type">bank</field>
             <field name="code">CP</field>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
         </record>
 
         <record id="data_journal_3" model="account.journal">
             <field name="name">General Journal</field>
             <field name="type">general</field>
             <field name="code">GJ</field>
-            <field name="company_id" ref="credit_base.care_company"/>
+            <field name="company_id" ref="base.main_company"/>
         </record>
     </data>
 </odoo>
