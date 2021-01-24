@@ -24,8 +24,9 @@ class LoanFinancing(models.Model):
     date_created = fields.Datetime(default=fields.Datetime.now(), readonly=True, required=True)
     member_id = fields.Many2one('res.partner','Client', required=True)
     index = fields.Integer()
-    branch_id = fields.Many2one('res.branch', 'Branch', store=True)
-    area_id = fields.Many2one('res.area', 'Area', store=True)
+    branch_id = fields.Many2one('res.branch', 'Branch', readonly=True, store=True)
+    area_id = fields.Many2one('res.area', 'Area', readonly=True, store=True)
+    savings_ids = fields.One2many('credit.loan.savings','financing_id','Savings Account', required=True)
 
     # @api.depends('member_id')
     # def _compute_branch_area(self):
@@ -42,28 +43,37 @@ class LoanFinancing(models.Model):
         except Exception as e:
             raise UserError(_(str(e)))
 
-    @api.onchange('member_id')
-    def set_defaults(self):
-        try:
-            self.branch_id = self.member_id.branch_id
-            self.area_id = self.member_id.area_id
-        except Exception as e:
-            raise UserError(_("ERROR: 'set_defaults' "+str(e)))
+    # @api.onchange('member_id')
+    # def set_defaults(self):
+    #     try:
+    #         self.branch_id = self.member_id.branch_id
+    #         self.area_id = self.member_id.area_id
+    #     except Exception as e:
+    #         raise UserError(_("ERROR: 'set_defaults' "+str(e)))
 
     @api.model
     def create(self, values):
         try:
             member_id = self.env['res.partner'].search([('id','=', values.get('member_id'))], limit=1)
+            values['branch_id'] = member_id.branch_id.id
+            values['area_id'] = member_id.area_id.id
             values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
             print('LOAN ACCOUNT CREATED', values)
             values['code'] = '%s %s - %s' % ('[TEMP]' if not bool(values.get('state')) else None,
                                                self.env['res.branch'].search([('id', '=', member_id.branch_id.id)]).code,
                                                "{0:0=2d}".format(values.get('index')))
-            return super(LoanFinancing, self).create(values)
+            financing= super(LoanFinancing, self).create(values)
+            self.env['credit.loan.savings'].sudo().create({
+                'member_id':member_id.id,
+                'financing_id':financing.id,
+                'branch_id':member_id.branch_id.id,
+                'area_id':member_id.area_id.id
+            })
+            return financing
         except Exception as e:
             raise UserError(_('HERE'+ str(e)))
 
-#TODO: savings account
+#SAVINGS ACCOUNT
 class LoanSavings(models.Model):
     _name = 'credit.loan.savings'
     _description = 'Savings Microfinancing'
@@ -75,10 +85,10 @@ class LoanSavings(models.Model):
     status = fields.Selection([('active', 'Active'), ('archive', 'Archived')], default='archive')
     date_created = fields.Datetime(default=fields.Datetime.now(), readonly=True, required=True)
     financing_id = fields.Many2one('credit.loan.financing','Loan Account')
-    member_id = fields.Many2one('res.partner', 'Client', related='financing_id.member_id')
+    member_id = fields.Many2one('res.partner', 'Client')
     index = fields.Integer()
-    branch_id = fields.Many2one('res.branch', 'Branch', related='member_id.branch_id')
-    area_id = fields.Many2one('res.area', 'Area', related='member_id.area_id')
+    branch_id = fields.Many2one('res.branch', 'Branch', store=True)
+    area_id = fields.Many2one('res.area', 'Area', store=True)
 
     @api.depends('code', 'member_id')
     def get_name(self):
@@ -99,11 +109,10 @@ class LoanSavings(models.Model):
     @api.model
     def create(self, values):
         try:
-            member_id = self.env['res.partner'].search([('id', '=', values.get('member_id'))], limit=1)
             values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
             print('LOAN SAVINGS CREATED', values)
             values['code'] = '%s %s - %s' % ('[TEMP]' if not bool(values.get('state')) else None,
-                                             self.env['res.branch'].search([('id', '=', member_id.branch_id.id)]).code,
+                                             self.env['res.branch'].search([('id', '=', values['branch_id'])]).code,
                                              "{0:0=2d}".format(values.get('index')))
             return super(LoanSavings, self).create(values)
         except Exception as e:

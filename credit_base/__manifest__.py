@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','event','base_setup','crm','muk_web_theme', 'website','website_event','mail'],
+    'depends': ['base','event','base_setup','sale_crm','muk_web_theme', 'website','website_event','mail'],
 
     # always loaded
     'data': [

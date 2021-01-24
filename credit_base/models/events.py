@@ -16,7 +16,7 @@ class EventType(models.Model):
 class EventRegistration(models.Model):
     _inherit = 'event.registration'
 
-    financing_id = fields.Many2one()
+    financing_id = fields.Many2one('credit.loan.financing','Loan Account')
     group_id = fields.Many2one('credit.loan.group','Group', compute='set_group',store=True)
 
     @api.depends('partner_id')

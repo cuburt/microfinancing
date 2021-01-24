@@ -14,35 +14,84 @@ from odoo import models, fields, api
 #     application_id = fields.Many2one('crm.lead', 'Application Seq.')
 
 
-class CreditCollection(models.Model):
-    _name = 'credit.loan.collection'
+class CreditCollectionLine(models.Model):
+    _name = 'credit.loan.collection.line'
 
     name = fields.Char()
-    product_id = fields.Many2one('product.template', related='application_id.product_id', string='Applied Product')
-    term_id = fields.Many2one('account.payment.term',related='product_id.payment_term')
-    # collection_id = fields.Many2one('credit.loan.amortization', 'Amortization')
-    application_id = fields.Many2one('crm.lead', 'Application Seq.')
+    collection_id = fields.Many2one('credit.loan.collection', 'Collection')
+    currency_id = fields.Many2one('res.currency', related='collection_id.currency_id')
     status = fields.Selection([('draft', 'Draft'),
                                ('pending', 'Pending'),
                                ('paid', 'Paid')])
     date = fields.Date()
-    amount = fields.Float('Amount', compute='_compute_amount')
-    interest_id = fields.Many2one('credit.loan.interest', related='application_id.interest_id')
-    interest = fields.Float(related='interest_id.rate')
+    principal = fields.Monetary('Principal')
+    amortization = fields.Monetary('Amortization')
+    interest = fields.Monetary('Interest')
+    surcharge = fields.Monetary('Surcharge')
+    penalty = fields.Monetary('Penalty')
 
-    @api.depends('product_id', 'application_id', 'term_id', 'interest')
-    def _compute_amount(self):
+class CreditCollection(models.Model):
+    _name = 'credit.loan.collection'
+
+    name = fields.Char()
+    application_id = fields.Many2one('crm.lead', 'Application Seq.')
+    collection_line_ids = fields.One2many('credit.loan.collection.line','collection_id','Collection Line')
+    product_id = fields.Many2one('product.template', related='application_id.product_id', string='Applied Product')
+    currency_id = fields.Many2one('res.currency', related='product_id.currency_id')
+    term_id = fields.Many2one('account.payment.term', related='product_id.payment_term')
+    interest_id = fields.Many2one('credit.loan.interest', related='product_id.interest_id')
+    interest = fields.Monetary(compute='_compute_amortization')
+    surcharge_id = fields.Many2one('credit.loan.surcharge', related='product_id.surcharge_id')
+    surcharge = fields.Monetary(compute='_compute_amortization')
+    penalty_id = fields.Many2one('credit.loan.penalty', related='product_id.penalty_id')
+    penalty = fields.Monetary(compute='_compute_amortization')
+    collateral_id = fields.Many2one('credit.loan.collateral', related='product_id.collateral_id')
+    fund_id = fields.Many2one('credit.loan.fund', related='product_id.fund_id')
+    principal = fields.Monetary(compute='_compute_amortization')
+    amortization = fields.Monetary(compute='_compute_amortization')
+    status = fields.Selection([('draft', 'Draft'),
+                               ('active', 'Active'),
+                               ('complete', 'Complete')])
+
+    @api.depends('interest_id','surcharge_id','penalty_id', 'application_id', 'product_id')
+    def _compute_amortization(self):
         for rec in self:
-            if rec.product_id.loanclass == 'group':
-                #TODO: complete computations
-                rec.amount = (rec.application_id.group_id.loan_amount / rec.application_id.member_count)
+            term = rec.product_id.payment_term.duration
+            if rec.product_id.loanclass == 'individual':
+                loan_amount = rec.application_id.loan_amount
+                principal = loan_amount/term
+            elif rec.product_id.loanclass == 'group':
+                loan_amount = rec.application_id.group_id.loan_amount
+                principal = (loan_amount/term)/rec.application_id.member_count
+            rec.interest = (principal * rec.interest_id.rate) + rec.interest_id.amount
+            rec.surcharge = (principal * rec.surcharge_id.rate) + rec.surcharge_id.amount
+            rec.penalty = (principal * rec.penalty_id.rate) + rec.penalty_id.amount
+            rec.principal = principal
+            rec.amortization = (principal+rec.interest) - rec.surcharge
+
+    @api.model
+    def create(self, values):
+        application = self.env['crm.lead'].sudo().search([('id','=',values['application_id'])])
+        collection = super(CreditCollection, self).create(values)
+        for line in range(1,application.product_id.payment_term.duration):
+            print('CREATING COLLECTION LINES...', line)
+            self.env['credit.loan.collection.line'].sudo().create({
+                'collection_id':collection.id,
+                'status':'draft',
+                'principal':collection.principal,
+                'amortization':collection.amortization,
+                'interest':collection.interest,
+                'surcharge':collection.surcharge,
+                'penalty':collection.penalty
+            })
+        print('COLLECTION DONE!')
+        return collection
 
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
     collection_ids = fields.One2many('credit.loan.collection', 'application_id', 'Loan Collection')
-    interest_id = fields.Many2one('credit.loan.interest', related='product_id.interest_id')
-    interest = fields.Float(related='interest_id.rate')
+    collection_line_ids = fields.One2many('credit.loan.collection.line', related='collection_ids.collection_line_ids')
 
 class Holidays(models.Model):
     _name = 'credit.loan.collection.holiday'

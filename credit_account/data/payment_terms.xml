@@ -148,12 +148,14 @@
         <record id="payment_term_20" model="account.payment.term">
             <field name="name">20 Months</field>
             <field name="note">Payment terms: 20 Months</field>
+            <field name="duration">20</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
 
         <record id="payment_term_24" model="account.payment.term">
             <field name="name">24 Months</field>
             <field name="note">Payment terms: 24 Months</field>
+            <field name="duration">24</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
     </data>

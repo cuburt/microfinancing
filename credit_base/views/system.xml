@@ -280,7 +280,20 @@
                 </xpath>
             </field>
         </record>
-
+        <!-- Inherit Form View to Modify it -->
+        <record id="member_crm_form_view_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.member.form.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='404']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+<!--                <xpath expr="//header/button[@name='toggle_result']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+            </field>
+        </record>
         <record id="member_crm_form_view" model="ir.ui.view">
             <field name="name">crm.lead.member.form</field>
             <field name="model">crm.lead</field>
@@ -289,21 +302,30 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="code"/>
                 </xpath>
-                <xpath expr="//button[@name='action_schedule_meeting']" position="after">
-                    <button class="oe_stat_button" type="object"
-                            context="{'default_application_id': id}"
-                            name="action_manage_group" icon="fa-users">
-                        <div class="o_stat_info">
-                            <field name="member_count" class="o_stat_value"/>
-                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&lt;', 2)]}"> Members</span>
-                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&gt;', 1)]}"> Member</span>
-                        </div>
-                    </button>
-                </xpath>
+<!--                <xpath expr="//button[@name='action_schedule_meeting']" position="after">-->
+<!--                    <button class="oe_stat_button" type="object"-->
+<!--                            context="{'default_application_id': id}"-->
+<!--                            name="action_manage_group" icon="fa-users">-->
+<!--                        <div class="o_stat_info">-->
+<!--                            <field name="member_count" class="o_stat_value"/>-->
+<!--                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&lt;', 2)]}"> Members</span>-->
+<!--                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&gt;', 1)]}"> Member</span>-->
+<!--                        </div>-->
+<!--                    </button>-->
+<!--                </xpath>-->
                 <xpath expr="//header" position="after">
                     <header>
                         <field name="status" widget="statusbar"/>
                     </header>
+                </xpath>
+                <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//header/button[@name='280']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//header/button[@name='toggle_active']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="financing_id"/>

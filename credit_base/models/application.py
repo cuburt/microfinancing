@@ -33,16 +33,16 @@ class LoanApplication(models.Model):
     index = fields.Integer()
     code = fields.Char(readonly=True)
     application_date = fields.Datetime('Application Date', default=fields.Datetime.now(), required_if_state='confirm', readonly=True)
-    financing_id = fields.Many2one('credit.loan.financing', 'Loan Account')
+    financing_id = fields.Many2one('credit.loan.financing', 'Loan Account', required=True)
     cosigner_id = fields.Many2one(comodel_name='res.partner', string='Cosigner')
     status = fields.Selection(string="Status", selection=[('draft', 'Draft')], required=True,
                              default='draft', track_visibility='onchange')
     state = fields.Boolean(default=False)
     #RELATED FIELDS
     partner_id = fields.Many2one('res.partner', related='financing_id.member_id')
-    area_id = fields.Many2one('res.area', 'Area', index=True, store=True)
-    branch_id = fields.Many2one('res.branch','Branch', index=True, store=True)
-    do = fields.Many2one('res.partner','Assigned DO')
+    area_id = fields.Many2one('res.area', 'Area', index=True, readonly=True, required=True, store=True)
+    branch_id = fields.Many2one('res.branch','Branch', index=True, readonly=True, required=True, store=True)
+    do = fields.Many2one('res.partner','Assigned DO', readonly=True, required=True)
     company_id = fields.Many2one('res.company', string='Company', index=True, store=True)
 
     @api.onchange('financing_id')
@@ -84,5 +84,9 @@ class LoanApplication(models.Model):
 
     @api.model
     def create(self, values):
+        financing = self.env['credit.loan.financing'].sudo().search([('id','=', values['financing_id'])])
+        values['branch_id'] = financing.branch_id.id
+        values['area_id'] = financing.area_id.id
+        values['do'] = self.env['res.area'].sudo().search([('id','=',values['area_id'])]).officer_id.search([('type', '=', 'do'), ('area_id.id', '=', values['area_id'])],limit=1).id
         print(values)
         return super(LoanApplication, self).create(values)

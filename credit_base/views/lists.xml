@@ -446,7 +446,8 @@
             <field name="arch" type="xml">
                 <form string="CARE Group">
                     <header>
-                        <button string="Confirm" name="confirm_group" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','=','confirm')]}"/>
+                        <button string="Confirm" name="confirm_group" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','=','confirm'),('application_ids','=',None)]}"/>
+                        <button string="Add Members" name="populate_members" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','=','confirm')]}"/>
                         <button name="draft_group" string="Send to Draft" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','=','draft')]}"/>
                         <field name="status" widget="statusbar" statusbar_visible="draft,confirm"/>
                     </header>

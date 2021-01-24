@@ -119,10 +119,13 @@
                          &quot;hover_false&quot;:&quot;Set Complete&quot;}}"/>
                             </button>
                         </div>
+                        <div class="oe_title">
+                            <label for="group_id" class="oe_edit_only"/>
+                            <h1><field name="group_id"/></h1>
+                        </div>
                         <group>
-                            <field name="group_id"/>
-                            <field name="branch_id"/>
                             <field name="evaluation_date"/>
+                            <field name="branch_id"/>
                             <field name="product_id"/>
                             <field name="total_score"/>
                             <field name="decision"/>
@@ -166,6 +169,21 @@
                 </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
             </p>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="member_crm_form_view" model="ir.ui.view">
+            <field name="name">crm.lead.member.form.evaluation.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header" position="inside">
+                    <button name="approve_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'qualify')]}"/>
+<!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
+                </xpath>
+
             </field>
         </record>
     </data>

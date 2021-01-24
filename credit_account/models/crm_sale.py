@@ -10,18 +10,20 @@ from odoo.exceptions import UserError, ValidationError
 class Lead(models.Model):
     _inherit = 'crm.lead'
 
+
     @api.multi
     def action_manage_group(self, context=None):
         try:
-            print(context['default_application_id'])
-            return {
-                'type':'ir.actions.act_window',
-                'res_model':'credit.loan.group',
-                'view_type':'form',
-                'view_mode':'form',
-                'res_id':self.env['credit.loan.group'].search([('id','=',context['default_application_id'])]).id,
-                'target':'new'
-            }
+            # print(context['default_application_id'])
+            # return {
+            #     'type':'ir.actions.act_window',
+            #     'res_model':'credit.loan.group',
+            #     'view_type':'form',
+            #     'view_mode':'form',
+            #     'res_id':self.env['credit.loan.group'].search([('id','=',context['default_application_id'])]).id,
+            #     'target':'new'
+            # }
+            print('FUCK YOU')
         except Exception as e:
             raise(_("ERROR: 'action_manage_group' "+str(e)))
 
@@ -53,11 +55,8 @@ class Lead(models.Model):
             vals = onchange_values
             lead = super(Lead, self).create(vals)
             sale_order = self.env['sale.order'].search([('opportunity_id','=',lead.id)], limit=1)
-            print('SO', sale_order)
-            print('ID', lead.id)
-            print(partner_id.id)
             if not sale_order:
-                order = self.env['sale.order'].create({
+                order = self.env['sale.order'].sudo().create({
                     'opportunity_id': lead.id,
                     'partner_id': partner_id.id,
                     'partner_invoice_id': partner_id.id,
@@ -71,11 +70,14 @@ class Lead(models.Model):
                     print('class', product.package_id.loanclass)
                     # if not lead.group_id and product.package_id.loanclass == 'group':
                     product = self.env['product.product'].search([('product_tmpl_id','=',product.id)])
+
                     self.env['sale.order.line'].create({
                         'order_id': order.id,
                         'name': product.name,
-                        'product_id': product.id
+                        'product_id': product.id,
+                        'price_unit': lead.loan_amount if product.categ_id.name == 'Loan Products' else 1
                     })
+
             # context: no_log, because subtype already handle this
             return lead
         except Exception as e:

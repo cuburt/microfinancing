@@ -87,7 +87,6 @@ class ClientInvestigation(models.Model):
 
     @api.one
     def done_form(self):
-        #TODO: CALCULATE SCORE
         #TODO: ALLOW PRINT FUNCTION
         self.status = 'done'
         self.loan_application.status = 'confirm'

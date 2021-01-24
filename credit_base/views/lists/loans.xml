@@ -90,10 +90,14 @@
                             <field name="code"/>
                             <field name="date_created"/>
                             <field name="branch_id"/>
+                            <field name="area_id"/>
                         </group>
                         <notebook>
                             <page string="Loan Applications">
                                 <field name="loan_applications"/>
+                            </page>
+                            <page string="Savings Accounts">
+                                <field name="savings_ids"/>
                             </page>
                         </notebook>
                     </sheet>

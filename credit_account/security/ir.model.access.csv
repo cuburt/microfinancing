@@ -40,6 +40,16 @@ collateral_devsupervisor,credit.loan.collateral.devsupervisor,model_credit_loan_
 collateral_devofficer,credit.loan.collateral.devofficer,model_credit_loan_collateral,credit_base.group_credit_devofficer,1,1,1,1
 collateral_member,credit.loan.collateral.member,model_credit_loan_collateral,credit_base.group_credit_member,1,1,1,0
 
+collateral_line_sysad,credit.loan.collateral.line.sysad,model_credit_loan_collateral_line,credit_base.group_credit_sysad,1,1,1,1
+collateral_line_general,credit.loan.collateral.line.general ,model_credit_loan_collateral_line,credit_base.group_credit_general,1,1,1,1
+collateral_line_branch,credit.loan.collateral.line.branch,model_credit_loan_collateral_line,credit_base.group_credit_branch,1,1,1,1
+collateral_line_admin,credit.loan.collateral.line.admin,model_credit_loan_collateral_line,credit_base.group_credit_admin,1,1,1,1
+collateral_line_accountsupervisor,credit.loan.collateral.line.accountsupervisor,model_credit_loan_collateral_line,credit_base.group_credit_accountsupervisor,1,1,1,1
+collateral_line_accountofficer,credit.loan.collateral.line.accountofficer,model_credit_loan_collateral_line,credit_base.group_credit_accountofficer,1,1,1,1
+collateral_line_devsupervisor,credit.loan.collateral.line.devsupervisor,model_credit_loan_collateral_line,credit_base.group_credit_devsupervisor,1,1,1,1
+collateral_line_devofficer,credit.loan.collateral.line.devofficer,model_credit_loan_collateral_line,credit_base.group_credit_devofficer,1,1,1,1
+collateral_line_member,credit.loan.collateral.line.member,model_credit_loan_collateral_line,credit_base.group_credit_member,1,1,1,0
+
 interest_sysad,credit.loan.interest.sysad,model_credit_loan_interest,credit_base.group_credit_sysad,1,1,1,1
 interest_general,credit.loan.interest.general ,model_credit_loan_interest,credit_base.group_credit_general,1,1,1,1
 interest_branch,credit.loan.interest.branch,model_credit_loan_interest,credit_base.group_credit_branch,1,1,1,1

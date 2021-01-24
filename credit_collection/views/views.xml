@@ -20,23 +20,26 @@
                 <!--                         &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>-->
                 <!--                    </button>-->
                 <!--                </xpath>-->
-                <xpath expr="//notebook/page" position="after">
+                <xpath expr="//notebook/page[1]" position="before">
                     <page string="Loan Collection">
-                        <field name="collection_ids"/>
+                        <field name="collection_line_ids"/>
                     </page>
                 </xpath>
             </field>
         </record>
 
-        <!--        CI/BI-->
         <record id="investigation_tree_view" model="ir.ui.view">
             <field name="name">credit.loan.collection.list</field>
-            <field name="model">credit.loan.collection</field>
+            <field name="model">credit.loan.collection.line</field>
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
                     <field name="date"/>
-                    <field name="amount"/>
+                    <field name="principal"/>
+                    <field name="interest"/>
+                    <field name="surcharge"/>
+                    <field name="penalty"/>
+                    <field name="amortization"/>
                     <field name="status"/>
                 </tree>
             </field>
@@ -44,7 +47,7 @@
 
         <record id="collection_form_view" model="ir.ui.view">
             <field name="name">credit.loan.collection.form</field>
-            <field name="model">credit.loan.collection</field>
+            <field name="model">credit.loan.collection.line</field>
             <field name="arch" type="xml">
                 <form string="">
                     <!--                    <header>-->
@@ -57,10 +60,14 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="application_id"/>
-                            <field name="amount"/>
+                            <field name="collection_id"/>
                             <field name="date"/>
-                            <field name="term_id"/>
+                            <field name="principal"/>
+                            <field name="interest"/>
+                            <field name="surcharge"/>
+                            <field name="penalty"/>
+                            <field name="amortization"/>
+                            <field name="status"/>
                         </group>
                     </sheet>
                 </form>

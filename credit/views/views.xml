@@ -19,20 +19,30 @@
                   parent="credit.menu_root"
                   sequence="2"/>
 
+        <menuitem name="Loans"
+                  id="credit.loans"
+                  parent="credit.menu_root"
+                  sequence="3"/>
+
+        <menuitem name="Savings"
+                  id="credit.savings"
+                  parent="credit.menu_root"
+                  sequence="4"/>
+
         <menuitem name="Reports"
                   id="credit.reports"
                   parent="credit.menu_root"
-                  sequence="3"/>
+                  sequence="5"/>
 
         <menuitem name="Lists"
                   id="credit.lists"
                   parent="credit.menu_root"
-                  sequence="4"/>
+                  sequence="6"/>
 
         <menuitem name="BLCL"
                   id="credit.blcl"
                   parent="credit.menu_root"
-                  sequence="5"/>
+                  sequence="7"/>
 
         <!--        system actions -->
 
@@ -271,7 +281,7 @@
         <!--                  <menuitem name="Subsidiary Accounts" id="credit.subsidiary_accounts" parent="credit.lists_accounting_system"-->
         <!--                          action="credit_base.action_window_subsidiary_accounts"/>-->
 
-        <menuitem name="Loan System" id="credit.lists_loan_system" parent="credit.lists"/>
+        <menuitem name="Loan System" id="credit.lists_loan_system" parent="credit.loans"/>
 
             <menuitem name="Loan Accounts" id="credit.loan_accounts" parent="credit.lists_loan_system"
                       action="credit_base.action_window_loan_accounts"/>
@@ -314,7 +324,7 @@
             <menuitem name="No Collection Dates and Loan Accounts" id="credit.no_dates_accounts" parent="credit.lists_loan_system"
                   action="credit_collection.action_window_no_dates_accounts"/>
 
-        <menuitem name="Savings System" id="credit.lists_savings_system" parent="credit.lists"/>
+        <menuitem name="Savings System" id="credit.lists_savings_system" parent="credit.savings"/>
 
             <menuitem name="Savings Accounts" id="credit.savings_accounts" parent="credit.lists_savings_system"
                       action="credit_base.action_window_savings_accounts"/>
