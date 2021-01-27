@@ -9,13 +9,13 @@
         <field name="sequence">4</field>
     </record>
 
-    <record model="crm.stage" id="stage_lead6">
-        <field name="name">Disbursed</field>
-        <field name="fold" eval="False"/>
-        <field name="probability">100</field>
-        <field name="on_change">1</field>
-        <field name="sequence">5</field>
-    </record>
+<!--    <record model="crm.stage" id="stage_lead6">-->
+<!--        <field name="name">Disbursed</field>-->
+<!--        <field name="fold" eval="False"/>-->
+<!--        <field name="probability">100</field>-->
+<!--        <field name="on_change">1</field>-->
+<!--        <field name="sequence">5</field>-->
+<!--    </record>-->
 
     <record model="crm.stage" id="stage_lead7">
         <field name="name">Collection</field>

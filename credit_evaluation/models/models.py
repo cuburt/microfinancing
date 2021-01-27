@@ -16,7 +16,7 @@ class GroupEvaluation(models.Model):
     branch_id = fields.Many2one('res.branch', related='area_id.branch_id')
     application_ids = fields.One2many('crm.lead', related='group_id.application_ids')
     is_complete = fields.Boolean(default=False, compute='set_complete')
-    evaluation_date = fields.Datetime(default=fields.Datetime.now())
+    evaluation_date = fields.Datetime('Evaluation Date Started',default=fields.Datetime.now())
     product_id = fields.Many2one('product.template', related='group_id.product_id', string='Loan Type')
     attachments = fields.Many2many('ir.attachment', string='Prerequisites')
     total_score = fields.Integer('Total', compute='_get_mean_score')
@@ -67,15 +67,25 @@ class GroupEvaluation(models.Model):
     def set_done(self):
         if self.is_complete:
             self.status = 'done'
+            self.group_id.sudo().write({
+                'date_approved': fields.Datetime.now() if self.decision == 'approve' else False
+            })
             #TODO: create collection for individual loans
             if self.product_id.loanclass == 'group':
+
                 for application in self.application_ids:
+
                     print('CREATING COLLECTION FOR:', application.partner_id.name)
                     self.env['credit.loan.collection'].sudo().create({
                         'application_id':application.id,
-                        'status':'draft'
+                        'status':'draft',
                     })
-            print('COLLECTION FOR GROUP MEMBERS CREATED!')
+                    try:
+                        application.sudo().write({
+                            'date_evaluated': fields.Datetime.now()
+                        })
+                    except: pass
+                print('COLLECTION FOR GROUP MEMBERS CREATED!')
         else:
             raise UserError(_("Evaluation must be completed with a passing score first!"))
 
@@ -109,45 +119,16 @@ class LoanApplicationRemarks(models.Model):
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
-    status = fields.Selection(string='Status', selection_add=[('confirm','Confirmed'),('evaluate', 'Evaluation'),('qualify','Qualified'),('approve','Approved')], required=True, track_visibility='onchange')
+    status = fields.Selection(string='Status', selection_add=[('evaluate', 'Evaluation')], required=True, track_visibility='onchange')
     registration_ids = fields.One2many('event.registration','application_id')
     performance_id = fields.Many2one('credit.loan.application.remarks','Performance')
     stage = fields.Char(compute='_get_stage')
+    date_evaluated = fields.Datetime('Evaluation Date Ended')
 
     @api.depends('stage_id')
     def _get_stage(self):
         for rec in self:
             rec.stage = rec.stage_id.name
-
-    @api.multi
-    def approve_application(self):
-        #TODO: set collection to confirm
-        if self.product_id.loanclass == 'individual':
-            for line in self.collection_line_ids:
-                line.write({
-                    'status': 'pending',
-                })
-                print('UPDATING COLLECTION LINE...', line.id)
-            self.write({
-                'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
-                'status':'approve'
-            })
-            print('APPROVED APPLICATION:', self.partner_id.display_name)
-
-        elif self.product_id.loanclass == 'group':
-            for application in self.group_id.application_ids:
-                for line in application.collection_line_ids:
-                    line.write({
-                        'status': 'pending',
-                    })
-                    print('UPDATING COLLECTION LINE...', line.id)
-                application.write({
-                    'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
-                    'status': 'approve'
-                })
-                print('APPROVED APPLICATION:', application.partner_id.display_name)
-
-        return True
 
 class LoanGroup(models.Model):
     _inherit = 'credit.loan.group'
@@ -210,7 +191,7 @@ class LoanGroup(models.Model):
                     if rec.is_approved:
                         for application in rec.application_ids:
                             application.write({
-                                'status':'qualify',
+                                'status':'evaluate',
                                 'stage_id':self.env['crm.stage'].search([('name', '=', 'Proposition')]).id,
                             })
                             print(self.env['crm.stage'].search([('name', '=', 'Proposition')]).id)

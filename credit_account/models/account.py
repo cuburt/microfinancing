@@ -7,18 +7,19 @@ from odoo.modules.module import get_module_resource
 from odoo import tools, _
 from odoo.exceptions import UserError, ValidationError
 
-class LoanFinancing(models.Model):
-    _inherit = 'credit.loan.financing'
+class LoanApplication(models.Model):
+    _inherit = 'crm.lead'
 
-    account_id = fields.Many2one('account.move', 'Journal Entry')
+    journal_entry_ids = fields.One2many('account.move', 'application_id', 'Journal Entry')
 
-class LoanSavings(models.Model):
-    _inherit = 'credit.loan.savings'
-
-    account_id = fields.Many2one('account.move', 'Journal Entry')
+    @api.multi
+    def action_disburse(self):
+        #TODO: update account move
+        return True
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    financing_id = fields.One2many('credit.loan.financing', 'account_id', 'Loan Account')
-    savings_id = fields.One2many('credit.loan.savings', 'account_id', 'Savings Account')
+    application_id = fields.Many2one('crm.lead', 'Application')
+
+

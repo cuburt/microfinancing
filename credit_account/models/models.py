@@ -16,6 +16,23 @@ class AccountJournal(models.Model):
             print(journal)
             journal.write({'update_posted':1})
 
+class CheckingAccountTemplate(models.Model):
+    _name = 'credit.check.account.template'
+
+    name = fields.Char()
+
+class CheckingAccount(models.Model):
+    _name = 'credit.check.account'
+
+    partnerbank_id = fields.Many2one('res.partner.bank', 'Bank Account')
+    bank_id = fields.Many2one('res.bank', 'Bank', related='partnerbank_id.bank_id')
+    name = fields.Char(string='Bank Name', related='bank_id.name')
+    code = fields.Char(string='Checking Account', related='bank_id.bic')
+    status = fields.Selection([('active', 'Active'), ('inactive', 'Inactive')], default='active')
+    account_id = fields.Many2one('account.account', 'Asset Account', required=True)
+    account = fields.Char(related='account_id.code', string='Account Code')
+    account_title = fields.Char(related='account_id.name', string='Account Title')
+    template_id = fields.Many2one('credit.check.account.template', 'Check Template')
 
 class ProductSurcharge(models.Model):
     _name = 'credit.loan.surcharge'
@@ -29,6 +46,10 @@ class ProductSurcharge(models.Model):
     currency_id = fields.Many2one('res.currency', related='product_ids.currency_id')
     rate = fields.Float('Rate', help='Leave blank if using fixed amount.')
     amount = fields.Monetary('Amount', help='Leave blank if using rate.')
+    surcharge_account_payable_id = fields.Many2one('account.account', company_dependent=True,
+                                                 string="Payable Account",
+                                                 domain=[('deprecated', '=', False)],
+                                                 help="This account will be used when validating a customer invoice.")
 
 
 class ProductPenalty(models.Model):
@@ -43,6 +64,10 @@ class ProductPenalty(models.Model):
     currency_id = fields.Many2one('res.currency', related='product_ids.currency_id')
     rate = fields.Float('Rate', help='Leave blank if using fixed amount.')
     amount = fields.Monetary(string='Amount', help='Leave blank if using rate.')
+    penalty_account_income_id = fields.Many2one('account.account', company_dependent=True,
+                                                 string="Income Account",
+                                                 domain=[('deprecated', '=', False)],
+                                                 help="This account will be used when validating a customer invoice.")
 
 class LoanCollateral(models.Model):
     _name = 'credit.loan.collateral'
@@ -84,6 +109,15 @@ class LoanInterest(models.Model):
     amount = fields.Monetary(string='Amount', help='Leave blank if using rate.')
     product_ids = fields.One2many('product.template', 'interest_id', 'Applied Products')
     is_active = fields.Boolean(default=True)
+    interest_account_income_id = fields.Many2one('account.account', company_dependent=True,
+        string="Income Account",
+        domain=[('deprecated', '=', False)],
+        help="This account will be used when validating a customer invoice.")
+    # interest_account_expense_id = fields.Many2one('account.account', company_dependent=True,
+    #     string="Payable Account",
+    #     domain=[('deprecated', '=', False)],
+    #     help="The expense is accounted for when a vendor bill is validated, except in anglo-saxon accounting with perpetual inventory valuation in which case the expense (Cost of Goods Sold account) is recognized at the customer invoice validation.")
+
 
     @api.model
     def create(self, values):

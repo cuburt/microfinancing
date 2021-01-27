@@ -3,7 +3,7 @@
         <record id="loan_application_inherit_form_view" model="ir.ui.view">
             <field name="name">credit.loan.collection.form</field>
             <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
+            <field name="inherit_id" ref="credit_evaluation.loan_applications_inherit_form_view"/>
             <field name="arch" type="xml">
                 <!--                <xpath expr="//field[@name='status']" position="before">-->
                 <!--                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['investigate','confirm'])]}"/>-->
@@ -20,7 +20,17 @@
                 <!--                         &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>-->
                 <!--                    </button>-->
                 <!--                </xpath>-->
-                <xpath expr="//notebook/page[1]" position="before">
+                <xpath expr="//header" position="inside">
+                    <button name="approve_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'evaluate')]}"/>
+                    <!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
+                </xpath>
+                <xpath expr="//field[@name='status']" position="attributes">
+                    <attribute name="statusbar_visible">draft,investigate,evaluate,disburse</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_evaluated']" position="after">
+                    <field name="date_approved"/>
+                </xpath>
+                <xpath expr="//notebook/page[1]" position="after">
                     <page string="Loan Collection">
                         <field name="collection_line_ids"/>
                     </page>
@@ -32,14 +42,14 @@
             <field name="name">credit.loan.collection.list</field>
             <field name="model">credit.loan.collection.line</field>
             <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
+                <tree>
                     <field name="date"/>
-                    <field name="principal"/>
+                    <field name="principal" sum="Total Principal"/>
                     <field name="interest"/>
                     <field name="surcharge"/>
                     <field name="penalty"/>
-                    <field name="amortization"/>
+                    <field name="amortization" sum="Total Amortization"/>
+                    <field name="currency_id"/>
                     <field name="status"/>
                 </tree>
             </field>
@@ -130,5 +140,6 @@
             </p>
             </field>
         </record>
+
     </data>
 </odoo>

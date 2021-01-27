@@ -53,46 +53,6 @@
         <!--            </field>-->
         <!--        </record>-->
 
-        <!--===========================CHECKING ACCOUNTS================================-->
-
-        <!--        <record id="checking_accounts_tree_view" model="ir.ui.view">-->
-        <!--            <field name="name">credit.check.account.list</field>-->
-        <!--            <field name="model">credit.check.account</field>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <tree string="">-->
-        <!--                    <field name="name"/>-->
-        <!--                </tree>-->
-        <!--            </field>-->
-        <!--        </record>-->
-
-        <!--        <record id="checking_accounts_form_view" model="ir.ui.view">-->
-        <!--            <field name="name">credit.check.account.form</field>-->
-        <!--            <field name="model">credit.check.account</field>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <form string="Checking Accounts">-->
-        <!--                    <sheet>-->
-        <!--                        <group>-->
-        <!--                            <field name="name"/>-->
-        <!--                        </group>-->
-        <!--                    </sheet>-->
-        <!--                </form>-->
-        <!--            </field>-->
-        <!--        </record>-->
-
-        <!--        <record id="credit_base.action_window_checking_accounts" model="ir.actions.act_window">-->
-        <!--            <field name="name">Checking Acounts</field>-->
-        <!--            <field name="type">ir.actions.act_window</field>-->
-        <!--            <field name="res_model"></field>-->
-        <!--            <field name="view_mode">tree,form</field>-->
-        <!--            <field name="view_id" ref="checking_accounts_tree_view"/>-->
-        <!--            <field name="help" type="html">-->
-        <!--              <p class="oe_view_nocontent_create">-->
-        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-        <!--              </p><p>-->
-        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-        <!--              </p>-->
-        <!--            </field>-->
-        <!--        </record>-->
 
         <!--===========================CHECKS================================-->
 
@@ -467,6 +427,7 @@
                                 <field name="financing_id"/>
                                 <field name="partner_id"/>
                                 <field name="date_organized"/>
+                                <field name="date_confirmed"/>
                                 <field name="date_approved"/>
                                 <field name="do"/>
                                 <field name="area_id"/>

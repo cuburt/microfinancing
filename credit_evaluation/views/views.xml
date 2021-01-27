@@ -3,13 +3,16 @@
         <record id="loan_applications_inherit_form_view" model="ir.ui.view">
             <field name="name">credit.loan.application.form</field>
             <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
+            <field name="inherit_id" ref="credit_investigation.loan_applications_inherit_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='status']" position="before">
-                    <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate','evaluation','qualify'])]}"/>
+                    <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate','evaluate','disburse'])]}"/>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,investigate,qualify</attribute>
+                    <attribute name="statusbar_visible">draft,investigate,evaluate</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_investigated']" position="after">
+                    <field name="date_evaluated"/>
                 </xpath>
             </field>
         </record>
@@ -172,19 +175,5 @@
             </field>
         </record>
 
-        <!-- Inherit Form View to Modify it -->
-        <record id="member_crm_form_view" model="ir.ui.view">
-            <field name="name">crm.lead.member.form.evaluation.inherit</field>
-            <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
-            <field name="arch" type="xml">
-
-                <xpath expr="//header" position="inside">
-                    <button name="approve_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'qualify')]}"/>
-<!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
-                </xpath>
-
-            </field>
-        </record>
     </data>
 </odoo>

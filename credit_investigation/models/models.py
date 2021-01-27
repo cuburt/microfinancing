@@ -15,6 +15,7 @@ class LoanApplication(models.Model):
     client_investigations = fields.One2many('credit.client.investigation', 'loan_application', 'Client Investigation')
     investigation_status = fields.Boolean(default=False, compute='get_inv_status', readonly=True)
     attachments = fields.Many2many('ir.attachment', string='Attachment')
+    date_investigated = fields.Datetime('Investigation Date Ended')
 
     @api.one
     def get_inv_status(self):
@@ -46,7 +47,7 @@ class ClientInvestigation(models.Model):
     is_passed = fields.Boolean(default=False, compute='set_result')
     loan_application = fields.Many2one('crm.lead','Loan Application')
     partner_id = fields.Many2one('res.partner', related='loan_application.partner_id', string='Applicant')
-    investigation_date = fields.Datetime('Investigation Date', default=fields.Datetime.now())
+    investigation_date = fields.Datetime('Investigation Date Started', default=fields.Datetime.now())
     questions = fields.One2many('credit.client.investigation.questionnaire','ci_id','Questions')
     character = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
     capacity = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
@@ -89,7 +90,9 @@ class ClientInvestigation(models.Model):
     def done_form(self):
         #TODO: ALLOW PRINT FUNCTION
         self.status = 'done'
-        self.loan_application.status = 'confirm'
+        self.loan_application.date_investigated = fields.Datetime.now()
+        self.loan_application.status = 'evaluate'
+        self.loan_application.stage_id = self.env['crm.stage'].sudo().search([('name','=','Qualified')])
 
     @api.model
     def create(self, values):

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="bank_rcbc_1" model="res.bank">
+            <field name="name">RCBC Marbel</field>
+            <field name="bic">RCBC</field>
+        </record>
+        <record id="partner_bank_rcbc_1" model="res.partner.bank">
+            <field name="name">RCBC</field>
+            <field name="acc_number">9002557326</field>
+            <field name="acc_type">normal</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="bank_id" ref="bank_rcbc_1"/>
+        </record>
+        <record id="care_bank_template_1" model="credit.check.account.template">
+            <field name="name">CARE Foundation Inc.</field>
+        </record>
+        <record id="care_bank_rcbc_1" model="credit.check.account">
+            <field name="partnerbank_id" ref="partner_bank_rcbc_1"/>
+            <field name="account_id" ref="credit_account.account1"/>
+            <field name="template_id" ref="care_bank_template_1"/>
+        </record>
+    </data>
+</odoo>

@@ -30,3 +30,33 @@ collection_holiday_accountofficer,collection.holiday.accountofficer,model_credit
 collection_holiday_devsupervisor,collection.holiday.devsupervisor,model_credit_loan_collection_holiday,credit_base.group_credit_devsupervisor,1,1,1,1
 collection_holiday_devofficer,collection.holiday.devofficer,model_credit_loan_collection_holiday,credit_base.group_credit_devofficer,1,1,1,1
 collection_holiday_member,collection.holiday.member,model_credit_loan_collection_holiday,credit_base.group_credit_member,1,1,1,0
+
+account_move_sysad,account.move.sysad,account.model_account_move,credit_base.group_credit_sysad,1,1,1,1
+account_move_general,account.move.general ,account.model_account_move,credit_base.group_credit_general,1,1,1,1
+account_move_branch,account.move.branch,account.model_account_move,credit_base.group_credit_branch,1,1,1,1
+account_move_admin,account.move.admin,account.model_account_move,credit_base.group_credit_admin,1,1,1,1
+account_move_accountsupervisor,account.move.accountsupervisor,account.model_account_move,credit_base.group_credit_accountsupervisor,1,1,1,1
+account_move_accountofficer,account.move.accountofficer,account.model_account_move,credit_base.group_credit_accountofficer,1,1,1,1
+account_move_devsupervisor,account.move.devsupervisor,account.model_account_move,credit_base.group_credit_devsupervisor,1,1,1,1
+account_move_devofficer,account.move.devofficer,account.model_account_move,credit_base.group_credit_devofficer,1,1,1,1
+account_move_member,account.move.member,account.model_account_move,credit_base.group_credit_member,1,1,1,0
+
+account_move_line_sysad,account.move.line.sysad,account.model_account_move_line,credit_base.group_credit_sysad,1,1,1,1
+account_move_line_general,account.move.line.general ,account.model_account_move_line,credit_base.group_credit_general,1,1,1,1
+account_move_line_branch,account.move.line.branch,account.model_account_move_line,credit_base.group_credit_branch,1,1,1,1
+account_move_line_admin,account.move.line.admin,account.model_account_move_line,credit_base.group_credit_admin,1,1,1,1
+account_move_line_accountsupervisor,account.move.line.accountsupervisor,account.model_account_move_line,credit_base.group_credit_accountsupervisor,1,1,1,1
+account_move_line_accountofficer,account.move.line.accountofficer,account.model_account_move_line,credit_base.group_credit_accountofficer,1,1,1,1
+account_move_line_devsupervisor,account.move.line.devsupervisor,account.model_account_move_line,credit_base.group_credit_devsupervisor,1,1,1,1
+account_move_line_devofficer,account.move.line.devofficer,account.model_account_move_line,credit_base.group_credit_devofficer,1,1,1,1
+account_move_line_member,account.move.line.member,account.model_account_move_line,credit_base.group_credit_member,1,1,1,0
+
+account_account_sysad,account.account.sysad,account.model_account_account,credit_base.group_credit_sysad,1,1,1,1
+account_account_general,account.account.general ,account.model_account_account,credit_base.group_credit_general,1,1,1,1
+account_account_branch,account.account.branch,account.model_account_account,credit_base.group_credit_branch,1,1,1,1
+account_account_admin,account.account.admin,account.model_account_account,credit_base.group_credit_admin,1,1,1,1
+account_account_accountsupervisor,account.account.accountsupervisor,account.model_account_account,credit_base.group_credit_accountsupervisor,1,1,1,1
+account_account_accountofficer,account.account.accountofficer,account.model_account_account,credit_base.group_credit_accountofficer,1,1,1,1
+account_account_devsupervisor,account.account.devsupervisor,account.model_account_account,credit_base.group_credit_devsupervisor,1,1,1,1
+account_account_devofficer,account.account.devofficer,account.model_account_account,credit_base.group_credit_devofficer,1,1,1,1
+account_account_member,account.account.member,account.model_account_account,credit_base.group_credit_member,1,1,1,0

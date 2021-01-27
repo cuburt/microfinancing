@@ -65,6 +65,26 @@
             </field>
         </record>
 
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_category_property_inherit_form" model="ir.ui.view">
+            <field name="name">product.category.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="account.view_category_property_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='account_property']" position="replace">
+                    <group name="account_property" >
+                        <group string="Account Properties" groups="account.group_account_user">
+                            <field name="property_account_income_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
+                            <field name="property_account_expense_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
+                            <field name="property_account_receivable_categ_id" domain="[('internal_type','=','receivable'),('deprecated', '=', False)]"/>
+                            <field name="property_account_payable_categ_id" domain="[('internal_type','=','payable'),('deprecated', '=', False)]"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
         <!--==========savings product==============-->
 
         <record id="credit_account.action_window_savings_products" model="ir.actions.act_window">
@@ -152,6 +172,14 @@
                             <field name="product_ids" widget="many2many_tags"/>
                             <field name="description"/>
                         </group>
+                        <group name="account_property" >
+                            <group string="Account Properties" groups="account.group_account_user">
+                                <!--                                <field name="property_account_income_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
+                                <!--                                <field name="property_account_expense_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
+                                <!--                                <field name="property_account_receivable_categ_id" domain="[('internal_type','=','receivable'),('deprecated', '=', False)]"/>-->
+                                <field name="surcharge_account_payable_id" domain="[('internal_type','=','payable'),('deprecated', '=', False)]"/>
+                            </group>
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -205,6 +233,14 @@
                             <field name="product_ids" widget="many2many_tags"/>
                             <field name="description"/>
                         </group>
+                        <group name="account_property" >
+                            <group string="Account Properties" groups="account.group_account_user">
+                                <!--                                <field name="property_account_income_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
+                                <!--                                <field name="property_account_expense_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
+                                <field name="penalty_account_income_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
+                                <!--                                <field name="property_account_payable_categ_id" domain="[('internal_type','=','payable'),('deprecated', '=', False)]"/>-->
+                            </group>
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -257,6 +293,14 @@
                             <field name="amount"/>
                             <field name="product_ids" widget="many2many_tags"/>
                             <field name="description"/>
+                        </group>
+                        <group name="account_property" >
+                            <group string="Account Properties" groups="account.group_account_user">
+                                <!--                                <field name="property_account_income_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
+                                <!--                                <field name="property_account_expense_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
+                                <field name="interest_account_income_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
+                                <!--                                <field name="property_account_payable_categ_id" domain="[('internal_type','=','payable'),('deprecated', '=', False)]"/>-->
+                            </group>
                         </group>
                     </sheet>
                 </form>
@@ -383,6 +427,60 @@
             </field>
         </record>
 
+        <!--===========================CHECKING ACCOUNTS================================-->
+
+        <record id="checking_accounts_tree_view" model="ir.ui.view">
+            <field name="name">credit.check.account.list</field>
+            <field name="model">credit.check.account</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="partnerbank_id"/>
+                    <field name="status"/>
+                    <field name="account"/>
+                    <field name="account_title"/>
+                    <field name="template_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="checking_accounts_form_view" model="ir.ui.view">
+            <field name="name">credit.check.account.form</field>
+            <field name="model">credit.check.account</field>
+            <field name="arch" type="xml">
+                <form string="Checking Accounts">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="code" class="oe_edit_only"/>
+                            <h1><field name="code"/></h1>
+                        </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="partnerbank_id"/>
+                            <field name="status"/>
+                            <field name="account_id"/>
+                            <field name="template_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_checking_accounts" model="ir.actions.act_window">
+            <field name="name">Checking Acounts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.check.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="checking_accounts_tree_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
 
         <!--===============================JOURNAL ENTRIES=================================-->
 
@@ -410,6 +508,7 @@
             <field name="domain">['|',('company_id.id','=',[user.company_id.id]),('company_id.id','=',[user.company_id.parent_id.id])]</field>
             <field name="search_view_id" ref="account.view_payment_term_search"/>
         </record>
+
 
     </data>
 </odoo>

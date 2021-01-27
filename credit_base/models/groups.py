@@ -35,8 +35,8 @@ class LoanGroup(models.Model):
     status = fields.Selection([('draft','Draft'),('confirm','Confirmed')], default='draft', track_visibility='onchange')
     application_ids = fields.One2many('crm.lead','group_id','Members')
     date_organized = fields.Datetime(string='Date organized', default=fields.Datetime.now(),readonly=True)
+    date_confirmed = fields.Datetime('Date Confirmed', readonly=True)
     date_approved = fields.Datetime(string='Date approved', readonly=True)
-
     #RELATED
     application_id = fields.Many2one('crm.lead', 'Application Seq.')
     financing_id = fields.Many2one('credit.loan.financing', 'Loan Account', related='application_id.financing_id')
@@ -145,7 +145,7 @@ class LoanGroup(models.Model):
                     application_id.write({
                         'state': True
                     })
-
+                self.date_confirmed = fields.Datetime.now()
                 self.status = 'confirm'
 
             else:

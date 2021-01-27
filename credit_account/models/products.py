@@ -55,6 +55,17 @@ class productTemplate(models.Model):
     has_collateral = fields.Boolean('Collateral', default=False)
     payment_term = fields.Many2one('account.payment.term', 'Payment Term', required_if_payment_schedule_type='automatic', domain=term_domain)
 
+class ProductCategory(models.Model):
+    _inherit = 'product.category'
+
+    property_account_receivable_categ_id = fields.Many2one('account.account', company_dependent=True,
+        string="Receivable Account",
+        domain=[('deprecated', '=', False)],
+        help="This account will be used when validating a customer invoice.")
+    property_account_payable_categ_id = fields.Many2one('account.account', company_dependent=True,
+        string="Payable Account",
+        domain=[('deprecated', '=', False)],
+        help="The expense is accounted for when a vendor bill is validated, except in anglo-saxon accounting with perpetual inventory valuation in which case the expense (Cost of Goods Sold account) is recognized at the customer invoice validation.")
 
 
 class LoanGroup(models.Model):

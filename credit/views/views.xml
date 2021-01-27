@@ -239,8 +239,8 @@
         <!--                  <menuitem name="Journal Entry Transactions" id="credit.entry_transactions" parent="credit.references"-->
         <!--                          action="credit_base.action_window_journal_entry_transactions"/>-->
 
-        <!--              <menuitem name="Checking Accounts" id="credit.checking_acounts" parent="credit.lists"-->
-        <!--                          action="credit_base.action_window_checking_accounts"/>-->
+                      <menuitem name="Checking Accounts" id="credit.checking_acounts" parent="credit.lists"
+                                  action="credit_account.action_window_checking_accounts"/>
 
         <!--              <menuitem name="Checks" id="credit.checks" parent="credit.lists"-->
         <!--                          action="credit_base.action_window_checks"/>-->

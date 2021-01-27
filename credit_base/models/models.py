@@ -59,7 +59,7 @@ class LoanFinancing(models.Model):
             values['area_id'] = member_id.area_id.id
             values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
             print('LOAN ACCOUNT CREATED', values)
-            values['code'] = '%s %s - %s' % ('[TEMP]' if not bool(values.get('state')) else None,
+            values['code'] = '%s %s-%s' % ('[TEMP]' if not bool(values.get('state')) else None,
                                                self.env['res.branch'].search([('id', '=', member_id.branch_id.id)]).code,
                                                "{0:0=2d}".format(values.get('index')))
             financing= super(LoanFinancing, self).create(values)
@@ -111,7 +111,7 @@ class LoanSavings(models.Model):
         try:
             values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
             print('LOAN SAVINGS CREATED', values)
-            values['code'] = '%s %s - %s' % ('[TEMP]' if not bool(values.get('state')) else None,
+            values['code'] = '%s %s-%s' % ('[TEMP]' if not bool(values.get('state')) else None,
                                              self.env['res.branch'].search([('id', '=', values['branch_id'])]).code,
                                              "{0:0=2d}".format(values.get('index')))
             return super(LoanSavings, self).create(values)
@@ -451,7 +451,7 @@ class ResBranch(models.Model):
                 self.clear_caches()
                 return super(ResBranch, self).create(values)
             values['index'] = int(self.search([], order='index desc',limit=1).index)+1
-            values['name'] = '%s - %s' % (values.get('code'), "{0:0=2d}".format(values.get('index')))
+            values['name'] = '%s-%s' % (values.get('code'), "{0:0=2d}".format(values.get('index')))
             parent = self.env['res.company'].search([('name','=','CARE Foundation Inc.')])
             if not parent:
                 raise UserError(_("Please create a company named 'CARE Foundation Inc.' first."))
@@ -517,7 +517,7 @@ class ResArea(models.Model):
     def create(self, values):
         values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
         values['code'] = '%s' % ("{0:0=2d}".format(values['index']))
-        values['name'] = '%s - %s' % (values['code'], values['street2'])
+        values['name'] = '%s-%s' % (values['code'], values['street2'])
         return super(ResArea, self).create(values)
 
     #TODO: SET DO CODE

@@ -26,6 +26,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/accounts.xml',
+        'data/banks.xml',
         'data/payment_terms.xml',
         'data/journals.xml',
         'data/products.xml',

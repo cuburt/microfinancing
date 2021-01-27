@@ -6,10 +6,10 @@
         <record id="loan_applications_inherit_form_view" model="ir.ui.view">
             <field name="name">credit.loan.application.form</field>
             <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
+            <field name="inherit_id" ref="credit_account.member_crm_inherit_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='status']" position="before">
-                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['investigate','confirm','evaluate','qualify'])]}"/>
+                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','draft')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
                     <attribute name="statusbar_visible">draft,investigate</attribute>
@@ -22,6 +22,9 @@
                          &quot;string_false&quot;:&quot;Not passed&quot;,
                          &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>
                     </button>
+                </xpath>
+                <xpath expr="//field[@name='application_date']" position="after">
+                    <field name="date_investigated"/>
                 </xpath>
                 <xpath expr="//notebook/page[1]" position="before">
 
