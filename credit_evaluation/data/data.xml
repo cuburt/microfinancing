@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="csi_1" model="credit.group.evaluation.csi">
+        <record id="csi_1" model="credit.loan.evaluation.csi">
             <field name="name">Individual Business Inventory &amp; Cash Flow Management</field>
             <field name="weight">0.50</field>
         </record>
-        <record id="csi_2" model="credit.group.evaluation.csi">
+        <record id="csi_2" model="credit.loan.evaluation.csi">
             <field name="name">Strong CARE Group Leadership</field>
             <field name="weight">0.25</field>
         </record>
-        <record id="csi_3" model="credit.group.evaluation.csi">
+        <record id="csi_3" model="credit.loan.evaluation.csi">
             <field name="name">CMG is Implemented 100%</field>
             <field name="weight">0.15</field>
         </record>
-        <record id="csi_4" model="credit.group.evaluation.csi">
+        <record id="csi_4" model="credit.loan.evaluation.csi">
             <field name="name">DO's Leadership Meeting with Officers &amp; Members</field>
             <field name="weight">0.10</field>
         </record>
 
-        <record id="cssi_1" model="credit.group.evaluation.cssi">
+        <record id="cssi_1" model="credit.loan.evaluation.cssi">
             <field name="name">Positive Cash Flow</field>
             <field name="indicator_id" ref="csi_1"/>
         </record>
 
-        <record id="cssi_2" model="credit.group.evaluation.cssi">
+        <record id="cssi_2" model="credit.loan.evaluation.cssi">
             <field name="name">Business Management</field>
             <field name="indicator_id" ref="csi_1"/>
         </record>
 
-        <record id="cssi_3" model="credit.group.evaluation.cssi">
+        <record id="cssi_3" model="credit.loan.evaluation.cssi">
             <field name="name">Other Source of Income</field>
             <field name="indicator_id" ref="csi_1"/>
         </record>
 
-        <record id="cssi_4" model="credit.group.evaluation.cssi">
+        <record id="cssi_4" model="credit.loan.evaluation.cssi">
             <field name="name">Number &amp; Amount of Loans With Other MF</field>
             <field name="indicator_id" ref="csi_1"/>
         </record>
 
-        <record id="cssi_5" model="credit.group.evaluation.cssi">
+        <record id="cssi_5" model="credit.loan.evaluation.cssi">
             <field name="name">President: facilitate and receive weekly collections and conflicts</field>
             <field name="indicator_id" ref="csi_2"/>
         </record>
 
-        <record id="cssi_6" model="credit.group.evaluation.cssi">
+        <record id="cssi_6" model="credit.loan.evaluation.cssi">
             <field name="name">Secretary: updates minutes of the weekly meeting in the logbook</field>
             <field name="indicator_id" ref="csi_2"/>
         </record>
 
-        <record id="cssi_7" model="credit.group.evaluation.cssi">
+        <record id="cssi_7" model="credit.loan.evaluation.cssi">
             <field name="name">Treasurer: strictly collects weekly payments &amp; implement penalties agreed</field>
             <field name="indicator_id" ref="csi_2"/>
         </record>
 
-        <record id="cssi_8" model="credit.group.evaluation.cssi">
+        <record id="cssi_8" model="credit.loan.evaluation.cssi">
             <field name="name">100% attendance during CARE group meeting</field>
             <field name="indicator_id" ref="csi_2"/>
         </record>
 
-        <record id="cssi_9" model="credit.group.evaluation.cssi">
+        <record id="cssi_9" model="credit.loan.evaluation.cssi">
             <field name="name">Equal sharing of weekly defaults payment</field>
             <field name="indicator_id" ref="csi_3"/>
         </record>
 
-        <record id="cssi_10" model="credit.group.evaluation.cssi">
+        <record id="cssi_10" model="credit.loan.evaluation.cssi">
             <field name="name">DO conducts 10 weekly meetings with spiritual, economic, and social inputs</field>
             <field name="indicator_id" ref="csi_4"/>
         </record>

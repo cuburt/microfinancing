@@ -43,7 +43,7 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
-                    <field name="loan_application"/>
+                    <field name="application_id"/>
                     <field name="investigation_date"/>
                     <field name="status"/>
                 </tree>
@@ -73,8 +73,8 @@
                             </button>
                         </div>
                         <div class="oe_title">
-                            <label for="loan_application" class="oe_edit_only"/>
-                            <h1><field name="loan_application"/></h1>
+                            <label for="application_id" class="oe_edit_only"/>
+                            <h1><field name="application_id"/></h1>
                         </div>
                         <group>
                             <field name="partner_id"/>
@@ -200,6 +200,54 @@
                 </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
             </p>
+            </field>
+        </record>
+
+        <record id="questions_tree_view" model="ir.ui.view">
+            <field name="name">credit.client.investigation.question.category.list</field>
+            <field name="model">credit.client.investigation.question.category</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="questions_form_view" model="ir.ui.view">
+            <field name="name">credit.client.investigation.question.category.form</field>
+            <field name="model">credit.client.investigation.question.category</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <field name="product_id" widget="many2many_tags"/>
+                        </group>
+                        <notebook>
+                            <page string="Questions">
+                                <field name="questions"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_window_question" model="ir.actions.act_window">
+            <field name="name">Questions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.client.investigation.question.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
             </field>
         </record>
     </data>

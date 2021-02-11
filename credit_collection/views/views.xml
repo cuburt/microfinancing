@@ -21,17 +21,17 @@
                 <!--                    </button>-->
                 <!--                </xpath>-->
                 <xpath expr="//header" position="inside">
-                    <button name="approve_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'evaluate')]}"/>
+                    <button name="approve_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'approve')]}"/>
                     <!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,investigate,evaluate,disburse</attribute>
+                    <attribute name="statusbar_visible">draft,investigate,evaluate,approve,disburse</attribute>
                 </xpath>
                 <xpath expr="//field[@name='date_evaluated']" position="after">
                     <field name="date_approved"/>
                 </xpath>
                 <xpath expr="//notebook/page[1]" position="after">
-                    <page string="Loan Collection">
+                    <page string="Payment Schedule">
                         <field name="collection_line_ids"/>
                     </page>
                 </xpath>

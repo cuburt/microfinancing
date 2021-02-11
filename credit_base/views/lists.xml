@@ -176,49 +176,65 @@
                 <tree string="">
                     <field name="code"/>
                     <field name="name"/>
-                    <field name="area"/>
+                    <field name="area_ids"/>
                     <field name="branch_id"/>
                 </tree>
             </field>
         </record>
 
-        <!--        <record id="doas_dos_form_view" model="ir.ui.view">-->
-        <!--            <field name="name">credit.doas.dos.form</field>-->
-        <!--            <field name="model">res.partner</field>-->
-        <!--            <field name="inherit_id" ref="base.view_partner_form"/>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <xpath expr="//field[@name='function']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                <xpath expr="//field[@name='vat']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                <xpath expr="//field[@name='website']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                <xpath expr="//field[@name='lang']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                <xpath expr="//field[@name='category_id']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                <xpath expr="//page[@name='sales_purchases']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                <xpath expr="//field[@name='company_type']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                <xpath expr="//field[@name='parent_id']" position="attributes">-->
-        <!--                    <attribute name="invisible">1</attribute>-->
-        <!--                </xpath>-->
-        <!--                &lt;!&ndash;                <xpath expr="//field[@name='group_id']" position="attributes">&ndash;&gt;-->
-        <!--                &lt;!&ndash;                    <attribute name="invisible">1</attribute>&ndash;&gt;-->
-        <!--                &lt;!&ndash;                </xpath>&ndash;&gt;-->
-        <!--                &lt;!&ndash;                <xpath expr="//field[@name='title']" position="after">&ndash;&gt;-->
-        <!--                &lt;!&ndash;                    <field name="type"/>&ndash;&gt;-->
-        <!--                &lt;!&ndash;                </xpath>&ndash;&gt;-->
-        <!--            </field>-->
-        <!--        </record>-->
+        <record id="doas_dos_form_view" model="ir.ui.view">
+            <field name="name">credit.doas.dos.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lang']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_type']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='branch_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='area_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='meeting_count']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='contracts_count']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="after">
+                    <notebook invisible="not context.get('show_field', False)">
+                        <page string="Area">
+                            <field name="area_ids" widget="many2many"/>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
 
         <record id="credit_base.action_window_doas_dos" model="ir.actions.act_window">
             <field name="name">DOAs &amp; DOs</field>
@@ -226,6 +242,7 @@
             <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="doas_dos_tree_view"/>
+            <field name="context">{'hide_field': True, 'show_field': True}</field>
             <field name="domain">[('type','=','do')]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -314,7 +331,7 @@
                 <tree string="List of Area">
                     <field name="name"/>
                     <field name="branch_id"/>
-                    <field name="officer"/>
+                    <field name="officer_ids"/>
                 </tree>
             </field>
         </record>
@@ -338,7 +355,7 @@
                         </group>
                         <notebook>
                             <page string="Assigned DO">
-                                <field name="officer_id">
+                                <field name="officer_ids">
                                     <tree editable="bottom" string="Officers">
                                         <field name="name"/>
                                         <field name="phone"/>
@@ -389,6 +406,18 @@
 
         <!--            </field>-->
         <!--        </record>-->
+<!--        <record id="edit_on_draft_only" model="ir.rule">-->
+<!--            <field name="name">Edit on draft state only</field>-->
+<!--            <field name="model_id" ref="model_credit_loan_group"/>-->
+<!--            <field name="domain_force">[('status', '!=', 'draft')]</field>-->
+<!--            <field name="perm_write" eval="0"/>-->
+<!--            <field name="perm_create" eval="0"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="0"/>-->
+<!--            &lt;!&ndash; You can attach this rule to a specific group, Or make it Global &ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="groups" eval="[(4, ref('base.group_user'))]"/>&ndash;&gt;-->
+<!--            <field name="global" eval="1"/>-->
+<!--        </record>-->
 
         <record id="care_groups_tree_view" model="ir.ui.view">
             <field name="name">credit.loan.group.list</field>
@@ -429,7 +458,7 @@
                                 <field name="date_organized"/>
                                 <field name="date_confirmed"/>
                                 <field name="date_approved"/>
-                                <field name="do"/>
+                                <field name="officer_id"/>
                                 <field name="area_id"/>
                             </group>
                             <group>
@@ -443,7 +472,7 @@
                         </group>
                         <notebook>
                             <page string="Members">
-                                <field name="application_ids" editable="bottom"/>
+                                <field name="application_ids" widget="many2many"/>
                             </page>
                         </notebook>
                     </sheet>

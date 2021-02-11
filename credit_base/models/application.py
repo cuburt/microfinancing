@@ -40,9 +40,9 @@ class LoanApplication(models.Model):
     state = fields.Boolean(default=False)
     #RELATED FIELDS
     partner_id = fields.Many2one('res.partner', related='financing_id.member_id')
-    area_id = fields.Many2one('res.area', 'Area', index=True, readonly=True, required=True, store=True)
-    branch_id = fields.Many2one('res.branch','Branch', index=True, readonly=True, required=True, store=True)
-    do = fields.Many2one('res.partner','Assigned DO', readonly=True, required=True)
+    area_id = fields.Many2one('res.area', 'Area', index=True, required=True, store=True)
+    branch_id = fields.Many2one('res.branch','Branch', index=True, required=True, store=True)
+    officer_id = fields.Many2one('res.partner','Assigned Officer', required=True)
     company_id = fields.Many2one('res.company', string='Company', index=True, store=True)
 
     @api.onchange('financing_id')
@@ -53,10 +53,27 @@ class LoanApplication(models.Model):
                 self.company_id = self.env['res.users'].sudo().search([('partner_id.id','=',self.partner_id.id)], limit=1).company_id.id
                 self.branch_id = self.financing_id.branch_id.id
                 self.area_id = self.financing_id.area_id.id
-                self.do = self.area_id.officer_id.search([('type','=','do'),('area_id.id','=',self.area_id.id)], limit=1).id
-
+                if self.product_id.loanclass == 'individual':
+                    domain = [('type', '=', 'ao'), ('branch_id.id', '=', self.branch_id.id)]
+                else: domain = [('type', '=', 'do'), ('area_id.id', '=', self.area_id.id)]
+                self.officer_id = self.area_id.officer_ids.search(domain, limit=1).id
         except Exception as e:
             raise UserError(_("ERROR: 'set_account' "+str(e)))
+
+    @api.onchange('officer_id')
+    def officer_id_onchange(self):
+        return {'domain':{'officer_id':[('type', '=', 'ao'), ('branch_id.id', '=', self.branch_id.id)]}}
+
+    @api.onchange('branch_id')
+    def area_domain(self):
+        self.area_id = self.branch_id.area_ids.sudo().search([],limit=1).id or False
+        return {'domain': {'area_id': [('id', 'in', [rec.id for rec in self.branch_id.area_ids])]}}
+
+    @api.onchange('area_id')
+    def do_domain(self):
+        self.officer_id = self.area_id.officer_ids.sudo().search(['&',('type','=','do'),('area_ids.id','=',self.area_id.id)],limit=1).id or False
+        return {'domain': {'officer_id': [('id', 'in', [rec.id for rec in self.area_id.officer_ids])]}}
+
     # @api.multi
     # def default_branch(self):
     #     try:
@@ -84,9 +101,5 @@ class LoanApplication(models.Model):
 
     @api.model
     def create(self, values):
-        financing = self.env['credit.loan.financing'].sudo().search([('id','=', values['financing_id'])])
-        values['branch_id'] = financing.branch_id.id
-        values['area_id'] = financing.area_id.id
-        values['do'] = self.env['res.area'].sudo().search([('id','=',values['area_id'])]).officer_id.search([('type', '=', 'do'), ('area_id.id', '=', values['area_id'])],limit=1).id
         print(values)
         return super(LoanApplication, self).create(values)

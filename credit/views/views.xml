@@ -266,6 +266,10 @@
         <menuitem name="Area" id="credit.area" parent="credit.lists"
                   action="credit_base.action_window_area"/>
 
+        <menuitem name="Question" id="credit.question" parent="credit.lists"
+                  action="credit_investigation.action_window_question"/>
+
+
         <!--        <menuitem name="Roles" id="credit.role" parent="credit.lists"-->
         <!--                  action="credit_base.action_window_role"/>-->
 

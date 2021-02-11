@@ -4,27 +4,52 @@
 <!--        CATEGORY-->
         <record id="cat_character" model="credit.client.investigation.question.category">
             <field name="name">Character</field>
-            <field name="product_category" ref="credit_account.selda_template"/>
+            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="cat_capacity" model="credit.client.investigation.question.category">
             <field name="name">Capacity</field>
-            <field name="product_category" ref="credit_account.selda_template"/>
+            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="cat_capital" model="credit.client.investigation.question.category">
             <field name="name">Capital</field>
-            <field name="product_category" ref="credit_account.selda_template"/>
+            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="cat_condition" model="credit.client.investigation.question.category">
             <field name="name">Condition</field>
-            <field name="product_category" ref="credit_account.selda_template"/>
+            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="cat_collateral" model="credit.client.investigation.question.category">
             <field name="name">Collateral</field>
-            <field name="product_category" ref="credit_account.selda_template"/>
+            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
 <!--        QUESTION-->

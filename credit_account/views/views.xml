@@ -132,6 +132,9 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="release_loan" string="Release Loan" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'disburse')]}"/>
+                </xpath>
                 <xpath expr="//field[@name='phone']" position="after">
                     <field name="product_id"/>
                 </xpath>

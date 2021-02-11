@@ -25,8 +25,9 @@ class CreditCollectionLine(models.Model):
     date_created = fields.Datetime('Date Created', default=fields.Datetime.now())
     currency_id = fields.Many2one('res.currency', related='collection_id.currency_id')
     status = fields.Selection([('draft', 'Draft'),
-                               ('pending', 'Pending'),
-                               ('paid', 'Paid')])
+                               ('active', 'Active'),
+                               ('paid', 'Paid'),
+                               ('cancel','Cancelled')])
     date = fields.Date()
     principal = fields.Monetary('Principal')
     amortization = fields.Monetary('Amortization')
@@ -95,128 +96,48 @@ class CreditCollection(models.Model):
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
-    status = fields.Selection(string='Status', selection_add=[('disburse', 'Disbursement')], required=True, track_visibility='onchange')
+    status = fields.Selection(string='Status', selection_add=[('disburse', 'Disbursement'), ('collection', 'Collection')], required=True, track_visibility='onchange')
     collection_ids = fields.One2many('credit.loan.collection', 'application_id', 'Loan Collection')
     collection_line_ids = fields.One2many('credit.loan.collection.line', related='collection_ids.collection_line_ids')
     date_approved = fields.Datetime('Date Approved')
+    date_released = fields.Datetime('Date Released')
 
     @api.multi
     def approve_application(self):
-        date_approved = fields.Datetime.now()
-        print('DATE APPROVED:', date_approved)
-        # TODO: set collection to confirm
-        if self.stage_id.id != self.env['crm.stage'].sudo().search([('name','=','Proposition')]).id:
-            raise UserError(_("The application must be endorsed first!"))
-        if self.product_id.loanclass == 'individual':
-            for line in self.collection_line_ids:
-                # print('MONTH INDEX:', i)
-                line.write({
-                    # 'date': date_approved + relativedelta(months=+i),
-                    'status': 'pending',
-                })
-                print('UPDATING COLLECTION LINE...', line.id)
-            print('CREATING CHECK VOUCHER...')
-            # journal_entry = self.env['account.move'].sudo().create({
-            #     'application_id':self.id,
-            # })
-            journal = self.env['account.journal'].sudo().search([('code','=','CV')])
-            check_voucher = self.env['account.move'].sudo().create({
-                'application_id':self.id,
-                'journal_id':journal.id,
-                'ref':'CV-%s-%s'%('21',str(len(journal)+1)),
-
-            })
-
-            try:
-                cash_account = self.env['credit.check.account'].sudo().search([],limit=1).account_id
-                self.env['account.move.line'].sudo().create({
-                    'move_id': check_voucher.id,
-                    'credit': self.loan_amount,
-                    'account_id': cash_account.id,
-                    'name': cash_account.name,
-                })
-                print('CREDIT LINE CREATED!')
-            except Exception as e:
-                raise ValidationError(_("ERROR: 'approve_application'", str(e)))
-            try:
-                loan_account = self.product_id.property_account_expense_id
-                if not loan_account:
-                    loan_account = self.product_id.categ_id.property_account_receivable_categ_id.id
-
-                self.env['account.move.line'].sudo().create({
-                    'move_id': check_voucher.id,
-                    'credit': self.loan_amount,
-                    'account_id': loan_account.id,
-                    'name': loan_account.name,
-                })
-                print('DEBIT LINE CREATED!')
-            except Exception as e:
-                raise ValidationError(_("ERROR: 'approve_application'", str(e)))
-
-            self.write({
-                'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
-                'status': 'disburse'
-            })
-            print('APPROVED APPLICATION:', self.partner_id.display_name)
-
-        elif self.product_id.loanclass == 'group':
-
-            for application in self.group_id.application_ids:
-                index = 1
-                for line in application.collection_line_ids:
-                    print('MONTH INDEX:', index)
-                    line.write({
-                        # 'date': date_approved + relativedelta(months=+index),
-                        'status': 'pending',
+        try:
+            if self.stage_id.id != self.env['crm.stage'].sudo().search([('name', '=', 'Proposition')]).id:
+                raise UserError(_("The application must be endorsed first!"))
+                # TODO: create collection for individual loans
+            if self.product_id.loanclass == 'group':
+                for application in self.group_id.application_ids:
+                    print('CREATING COLLECTION FOR:', application.partner_id.name)
+                    self.env['credit.loan.collection'].sudo().create({
+                        'application_id': application.id,
+                        'status': 'draft',
                     })
-                    print('UPDATING COLLECTION LINE...', line.id)
-                    index+=1
+                    application.write({
+                        'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
+                        'status': 'disburse'
+                    })
+                print('COLLECTION FOR GROUP MEMBERS CREATED!')
+                return True
 
-                print('CREATING CHECK VOUCHER...')
-                # journal_entry = self.env['account.move'].sudo().create({
-                #     'application_id':self.id,
-                # })
-                journal = self.env['account.journal'].sudo().search([('code', '=', 'CP')])
-                print(journal.code)
-                check_voucher = self.env['account.move'].sudo().create({
-                    'application_id': application.id,
-                    'journal_id': journal.id,
-                    'ref': 'CV-%s-%s' % ('21', str(len(journal) + 1)),
+            elif self.product_id.loanclass == 'individual':
 
+                print('CREATING COLLECTION FOR:', self.partner_id.name)
+                self.env['credit.loan.collection'].sudo().create({
+                    'application_id': self.id,
+                    'status': 'draft',
                 })
-
-                try:
-                    cash_account = self.env['credit.check.account'].sudo().search([], limit=1).account_id
-                    self.env['account.move.line'].sudo().create({
-                        'move_id': check_voucher.id,
-                        'credit': application.loan_amount,
-                        'account_id': cash_account.id,
-                        'name': cash_account.name,
-                    })
-                    print('CREDIT LINE CREATED!')
-                except Exception as e:
-                    raise ValidationError(_("ERROR: 'approve_application'", str(e)))
-                try:
-                    loan_account = application.product_id.property_account_expense_id
-                    if not loan_account:
-                        loan_account = application.product_id.categ_id.property_account_receivable_categ_id.id
-
-                    self.env['account.move.line'].sudo().create({
-                        'move_id': check_voucher.id,
-                        'credit': application.loan_amount,
-                        'account_id': loan_account.id,
-                        'name': loan_account.name,
-                    })
-                    print('DEBIT LINE CREATED!')
-                except Exception as e:
-                    raise ValidationError(_("ERROR: 'approve_application'", str(e)))
-                application.write({
+                self.write({
                     'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
                     'status': 'disburse'
                 })
-                print('APPROVED APPLICATION:', application.partner_id.display_name)
-        self.date_approved = date_approved
-        return True
+                print('COLLECTION FOR APPLICANT CREATED!')
+                return True
+        except Exception as e:
+            raise UserError
+
 
 class Holidays(models.Model):
     _name = 'credit.loan.collection.holiday'

@@ -63,6 +63,56 @@
             </field>
         </record>
 
+        <record id="users_form_view" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lang']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_type']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='branch_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='area_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='meeting_count']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='contracts_count']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//notebook[2]" position="attributes">
+                    <attribute name="invisible">not context.get('show_field', False)</attribute>
+                </xpath>
+            </field>
+        </record>
+
         <record id="action_window_users" model="ir.actions.act_window">
             <field name="name">Users</field>
             <field name="type">ir.actions.act_window</field>
@@ -275,7 +325,7 @@
                     <field name="company_id"/>
                     <field name="branch_id"/>
                     <field name="area_id"/>
-                    <field name="do"/>
+                    <field name="officer_id"/>
                     <field name="cosigner_id"/>
                 </xpath>
             </field>
@@ -284,14 +334,11 @@
         <record id="member_crm_form_view_inherit" model="ir.ui.view">
             <field name="name">crm.lead.member.form.inherit</field>
             <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
             <field name="arch" type="xml">
                 <xpath expr="//header/button[@name='404']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-<!--                <xpath expr="//header/button[@name='toggle_result']" position="attributes">-->
-<!--                    <attribute name="invisible">1</attribute>-->
-<!--                </xpath>-->
             </field>
         </record>
         <record id="member_crm_form_view" model="ir.ui.view">
@@ -302,17 +349,17 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="code"/>
                 </xpath>
-<!--                <xpath expr="//button[@name='action_schedule_meeting']" position="after">-->
-<!--                    <button class="oe_stat_button" type="object"-->
-<!--                            context="{'default_application_id': id}"-->
-<!--                            name="action_manage_group" icon="fa-users">-->
-<!--                        <div class="o_stat_info">-->
-<!--                            <field name="member_count" class="o_stat_value"/>-->
-<!--                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&lt;', 2)]}"> Members</span>-->
-<!--                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&gt;', 1)]}"> Member</span>-->
-<!--                        </div>-->
-<!--                    </button>-->
-<!--                </xpath>-->
+                <!--                <xpath expr="//button[@name='action_schedule_meeting']" position="after">-->
+                <!--                    <button class="oe_stat_button" type="object"-->
+                <!--                            context="{'default_application_id': id}"-->
+                <!--                            name="action_manage_group" icon="fa-users">-->
+                <!--                        <div class="o_stat_info">-->
+                <!--                            <field name="member_count" class="o_stat_value"/>-->
+                <!--                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&lt;', 2)]}"> Members</span>-->
+                <!--                            <span class="o_stat_text" attrs="{'invisible': [('member_count', '&gt;', 1)]}"> Member</span>-->
+                <!--                        </div>-->
+                <!--                    </button>-->
+                <!--                </xpath>-->
                 <xpath expr="//header" position="after">
                     <header>
                         <field name="status" widget="statusbar"/>
@@ -335,7 +382,7 @@
                     <field name="cosigner_id"/>
                     <field name="branch_id"/>
                     <field name="area_id"/>
-                    <field name="do"/>
+                    <field name="officer_id"/>
                 </xpath>
             </field>
         </record>

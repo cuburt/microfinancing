@@ -12,7 +12,7 @@ class LoanApplication(models.Model):
 
     status = fields.Selection(string="Status", selection_add=[('investigate','Investigation')], required=True,
                              track_visibility='onchange')
-    client_investigations = fields.One2many('credit.client.investigation', 'loan_application', 'Client Investigation')
+    client_investigations = fields.One2many('credit.client.investigation', 'application_id', 'Client Investigation')
     investigation_status = fields.Boolean(default=False, compute='get_inv_status', readonly=True)
     attachments = fields.Many2many('ir.attachment', string='Attachment')
     date_investigated = fields.Datetime('Investigation Date Ended')
@@ -20,14 +20,14 @@ class LoanApplication(models.Model):
     @api.one
     def get_inv_status(self):
         for rec in self:
-            rec.investigation_status = self.env['credit.client.investigation'].search([('loan_application','=',self.id),('status','=','done')], order='investigation_date desc', limit=1).is_passed
+            rec.investigation_status = self.env['credit.client.investigation'].search([('application_id','=',self.id),('status','=','done')], order='investigation_date desc', limit=1).is_passed
 
     @api.one
     def investigate_form(self):
         try:
-            if not self.env['credit.client.investigation'].search([('loan_application','=',self.id)], limit=1):
+            if not self.env['credit.client.investigation'].search([('application_id','=',self.id)], limit=1):
                 self.env['credit.client.investigation'].create({
-                    'loan_application':self.id,
+                    'application_id':self.id,
                     'name':'CI/BI Group '+ self.name,
                     'status':'ongoing',
                     'investigation_date':fields.Datetime.now(),
@@ -43,10 +43,11 @@ class ClientInvestigation(models.Model):
     status = fields.Selection([('draft','Draft'),
                                ('ongoing','Ongoing'),
                                ('done','Done'),
-                               ('cancel','Cancelled')], default='draft')
+                               ('cancel','Cancelled')],
+                                default='draft')
     is_passed = fields.Boolean(default=False, compute='set_result')
-    loan_application = fields.Many2one('crm.lead','Loan Application')
-    partner_id = fields.Many2one('res.partner', related='loan_application.partner_id', string='Applicant')
+    application_id = fields.Many2one('crm.lead','Loan Application')
+    partner_id = fields.Many2one('res.partner', related='application_id.partner_id', string='Applicant')
     investigation_date = fields.Datetime('Investigation Date Started', default=fields.Datetime.now())
     questions = fields.One2many('credit.client.investigation.questionnaire','ci_id','Questions')
     character = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
@@ -55,7 +56,7 @@ class ClientInvestigation(models.Model):
     condition = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
     collateral = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
     ave_score = fields.Float(digits=(0,2), string='Average Score', compute='_get_mean_score')
-    product_id = fields.Many2one('product.template', related='loan_application.product_id')
+    product_id = fields.Many2one('product.template', related='application_id.product_id')
 
     @api.depends('questions')
     def sort_questions(self):
@@ -65,9 +66,11 @@ class ClientInvestigation(models.Model):
         self.condition = self.questions.search([('category','=','Condition'),('ci_id','=',self.id)])
         self.collateral = self.questions.search([('category','=','Collateral'),('ci_id','=',self.id)])
 
+    # @api.depends('ave_score')
     def set_result(self):
-        self.is_passed = bool(self.ave_score>=4)
+            self.is_passed = bool(self.ave_score>=4) #TODO: CHANGE FOR PASSING THRESHOLD
 
+    # @api.depends('questions')
     def _get_mean_score(self):
         for rec in self:
             try:
@@ -90,9 +93,9 @@ class ClientInvestigation(models.Model):
     def done_form(self):
         #TODO: ALLOW PRINT FUNCTION
         self.status = 'done'
-        self.loan_application.date_investigated = fields.Datetime.now()
-        self.loan_application.status = 'evaluate'
-        self.loan_application.stage_id = self.env['crm.stage'].sudo().search([('name','=','Qualified')])
+        self.application_id.date_investigated = fields.Datetime.now()
+        self.application_id.status = 'evaluate'
+        self.application_id.stage_id = self.env['crm.stage'].sudo().search([('name','=','Qualified')])
 
     @api.model
     def create(self, values):
@@ -100,12 +103,14 @@ class ClientInvestigation(models.Model):
         question = self.env['credit.client.investigation.questionnaire'].search([('ci_id','=',ci.id)], limit=1)
         if not question:
             try:
-                questions = self.env['credit.client.investigation.question'].search([('product_category.id', '=', ci.product_id.id)])
+                questions = self.env['credit.client.investigation.question'].search([('product_id.id', '=', ci.product_id.id)])
                 for q in questions:
                     self.env['credit.client.investigation.questionnaire'].create({
                         'ci_id':ci.id,
                         'question_id':q.id,
                     })
+                if not questions:
+                    raise ValidationError(_('There are no available questions. Please add questions.'))
             except Exception as e:
                 raise UserError(_("ERROR: 'create' "+str(e)))
         return ci
@@ -115,7 +120,7 @@ class CIQuestionCategory(models.Model):
 
     name = fields.Char('Category', required=True)
     questions = fields.One2many('credit.client.investigation.question', 'category_id', 'Questions')
-    product_category = fields.Many2one('product.template', 'Category')
+    product_id = fields.Many2many('product.template', 'product_category_rel', string='Category')
 
 class CIQuestion(models.Model):
     _name = 'credit.client.investigation.question'
@@ -124,8 +129,7 @@ class CIQuestion(models.Model):
     category_id = fields.Many2one('credit.client.investigation.question.category','Category')
     category = fields.Char(related='category_id.name')
     question = fields.Text('Question',required=True, index=True)
-    product_category = fields.Many2one('product.template', related='category_id.product_category')
-
+    product_id = fields.Many2many('product.template', related='category_id.product_id')
 
     @api.depends('category_id')
     def set_name(self):

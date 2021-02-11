@@ -162,8 +162,9 @@ class LoanClient(models.Model):
                              ('bm','Branch Manager'),
                              ('gm','General Manager')], default='member', string='User Type', readonly=True)
     type_str = fields.Char(default=lambda self:self.default_type())
-    branch_id = fields.Many2one('res.branch','Branch', required_if_type=['member','bm','aa','as','ao','ds','do'], compute='_compute_branch_area', store=True, readonly=True)
-    area_id = fields.Many2one('res.area','Area', compute='_compute_branch_area',store=True)
+    branch_id = fields.Many2one('res.branch','Default Branch', required_if_type=['member','bm','aa','as','ao','ds','do'], compute='_compute_branch_area', store=True, readonly=True)
+    area_ids = fields.Many2many('res.area','partner_area_rel', string='Area')
+    area_id = fields.Many2one('res.area','Default Area', compute='_compute_branch_area',store=True)
     area = fields.Char(related='area_id.name', string='Area')
     supervisor_id = fields.Many2one('res.partner','Supervisor', domain=[('type','in',['ds','as','aa','bm','gm'])], readonly=True)
     email = fields.Char(required=True)
@@ -495,8 +496,8 @@ class ResArea(models.Model):
     index = fields.Integer()
     branch_id = fields.Many2one('res.branch','Branch', store=True)
     group_ids = fields.One2many('credit.loan.group','area_id','Groups')
-    officer_id = fields.One2many('res.partner','area_id','Assigned DO', domain=[('type','=','do')], required=True)
-    officer = fields.Char(related='officer_id.name', string='Assigned DO')
+    officer_ids = fields.Many2many('res.partner','partner_area_rel', string='Assigned Officer', domain=[('type','=','do')], required=True)
+    officer = fields.Char(related='officer_ids.name', string='Assigned Officer')
     city = fields.Char(related='branch_id.city',string='City', store=True)
     street2 = fields.Char()
 

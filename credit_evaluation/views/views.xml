@@ -6,13 +6,19 @@
             <field name="inherit_id" ref="credit_investigation.loan_applications_inherit_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='status']" position="before">
+                    <button string="Evaluate" name="evaluate_applicant" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':['&amp;',('status','!=', 'investigate'),('loanclass','=','group')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='status']" position="before">
                     <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate','evaluate','disburse'])]}"/>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,investigate,evaluate</attribute>
+                    <attribute name="statusbar_visible">draft,investigate,evaluate,approve</attribute>
                 </xpath>
                 <xpath expr="//field[@name='date_investigated']" position="after">
                     <field name="date_evaluated"/>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="loanclass"/>
                 </xpath>
             </field>
         </record>
@@ -28,8 +34,11 @@
                 <xpath expr="//button[@name='confirm_group']" position="attributes">
                     <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate','qualify'])]}</attribute>
                 </xpath>
+                <xpath expr="//button[@name='populate_members']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate'])]}</attribute>
+                </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,confirm,evaluate</attribute>
+                    <attribute name="statusbar_visible">draft,confirm,evaluate,cancel</attribute>
                 </xpath>
                 <xpath expr="//button[@name='toggle_active']" position="after">
                     <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">
@@ -49,8 +58,8 @@
         </record>
 
         <record id="indicator_tree_view" model="ir.ui.view">
-            <field name="name">credit.group.evaluation.form.list</field>
-            <field name="model">credit.group.evaluation.form</field>
+            <field name="name">credit.loan.evaluation.form.list</field>
+            <field name="model">credit.loan.evaluation.form</field>
             <field name="arch" type="xml">
                 <tree string="Critical Success Indicators">
                     <field name="name"/>
@@ -63,8 +72,8 @@
         </record>
 
         <record id="indicator_form_view" model="ir.ui.view">
-            <field name="name">credit.group.evaluation.form.form</field>
-            <field name="model">credit.group.evaluation.form</field>
+            <field name="name">credit.loan.evaluation.form.form</field>
+            <field name="model">credit.loan.evaluation.form</field>
             <field name="arch" type="xml">
                 <form string="">
                     <sheet>
@@ -86,11 +95,11 @@
         </record>
 
         <record id="evaluation_tree_view" model="ir.ui.view">
-            <field name="name">credit.group.evaluation.list</field>
-            <field name="model">credit.group.evaluation</field>
+            <field name="name">credit.loan.evaluation.list</field>
+            <field name="model">credit.loan.evaluation</field>
             <field name="arch" type="xml">
                 <tree string="">
-                    <field name="group_id"/>
+                    <field name="name"/>
                     <field name="branch_id"/>
                     <field name="evaluation_date"/>
                     <field name="product_id"/>
@@ -101,8 +110,8 @@
         </record>
 
         <record id="evaluation_form_view" model="ir.ui.view">
-            <field name="name">credit.group.evaluation.form</field>
-            <field name="model">credit.group.evaluation</field>
+            <field name="name">credit.loan.evaluation.form</field>
+            <field name="model">credit.loan.evaluation</field>
             <field name="arch" type="xml">
                 <form string="">
                     <header>
@@ -123,13 +132,16 @@
                             </button>
                         </div>
                         <div class="oe_title">
-                            <label for="group_id" class="oe_edit_only"/>
-                            <h1><field name="group_id"/></h1>
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
                         </div>
                         <group>
+                            <field name="group_id" invisible="[('product_id.loanclass','=', 'individual')]"/>
+                            <field name="application_id" invisible="[('group_product_id.loanclass','=', 'group')]"/>
                             <field name="evaluation_date"/>
                             <field name="branch_id"/>
-                            <field name="product_id"/>
+                            <field name="group_product_id" invisible="[('product_id.loanclass','=','individual')]"/>
+                            <field name="product_id" invisible="[('group_product_id.loanclass','=','group')]"/>
                             <field name="total_score"/>
                             <field name="decision"/>
                         </group>
@@ -146,7 +158,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Applications">
+                            <page string="Applications" invisible="[('product_id.loanclass','=','individual')]">
                                 <field name="application_ids"/>
                             </page>
                             <page string="Registration">
@@ -164,7 +176,7 @@
         <record id="action_window_evaluation" model="ir.actions.act_window">
             <field name="name">Evaluations</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.group.evaluation</field>
+            <field name="res_model">credit.loan.evaluation</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
