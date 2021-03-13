@@ -1,125 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-<!--        <function model="account.journal" name="allow_update"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_0')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_1')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_2')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_3')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_followup')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_extract')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_equipment_purchase')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_cancel" eval="[[ref('l10n_generic_coa.demo_invoice_january_wages')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_0')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_1')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_2')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_3')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_followup')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_extract')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_equipment_purchase')]]"/>-->
-<!--        <function model="account.invoice" name="action_invoice_draft" eval="[[ref('l10n_generic_coa.demo_invoice_january_wages')]]"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_0_line_1"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_0_line_2"/>-->
-<!--        <delete model="account.invoice" id="l10n_generic_coa.demo_invoice_0"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_1_line_1"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_1_line_2"/>-->
-<!--        <delete model="account.invoice" id="l10n_generic_coa.demo_invoice_1"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_2_line_1"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_2_line_2"/>-->
-<!--        <delete model="account.invoice" id="dl10n_generic_coa.demo_invoice_2"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_3_line_1"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_3_line_2"/>-->
-<!--        <delete model="account.invoice" id="l10n_generic_coa.demo_invoice_3"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_followup_line_1"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.demo_invoice_followup_line_2"/>-->
-<!--        <delete model="account.invoice" id="l10n_generic_coa.demo_invoice_followup"/>-->
-<!--        <delete model="account.invoice" id="l10n_generic_coa.demo_invoice_extract"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.coffee_machine_line"/>-->
-<!--        <delete model="account.invoice" id="l10n_generic_coa.demo_invoice_equipment_purchase"/>-->
-<!--        <delete model="account.invoice.line" id="l10n_generic_coa.ceo_wages_line"/>-->
-<!--        <delete model="account.invoice" id="l10n_generic_coa.demo_invoice_january_wages"/>-->
-<!--        <delete model="product.product" id="product.expense_product"/>-->
-<!--        <delete model="product.product" id="product.expense_hotel"/>-->
-<!--        <delete model="product.product" id="product.consu_delivery_03"/>-->
-<!--        <delete model="product.product" id="product.consu_delivery_02"/>-->
-<!--        <delete model="product.product" id="product.consu_delivery_01"/>-->
-<!--        <delete model="product.product" id="product.product_product_1"/>-->
-<!--        <delete model="product.product" id="product.product_product_2"/>-->
-<!--        <delete model="product.product" id="product.product_product_3"/>-->
-<!--        <delete model="product.product" id="product.product_product_4"/>-->
-<!--        <delete model="product.product" id="product.product_product_4b"/>-->
-<!--        <delete model="product.product" id="product.product_product_4c"/>-->
-<!--        <delete model="product.product" id="product.product_product_4d"/>-->
-<!--        <delete model="product.product" id="product.product_product_5"/>-->
-<!--        <delete model="product.product" id="product.product_product_6"/>-->
-<!--        <delete model="product.product" id="product.product_product_7"/>-->
-<!--        <delete model="product.product" id="product.product_product_8"/>-->
-<!--        <delete model="product.product" id="product.product_product_9"/>-->
-<!--        <delete model="product.product" id="product.product_product_10"/>-->
-<!--        <delete model="product.product" id="product.product_product_11"/>-->
-<!--        <delete model="product.product" id="product.product_product_11b"/>-->
-<!--        <delete model="product.product" id="product.product_product_12"/>-->
-<!--        <delete model="product.product" id="product.product_product_13"/>-->
-<!--        <delete model="product.product" id="product.product_product_16"/>-->
-<!--        <delete model="product.product" id="product.product_product_20"/>-->
-<!--        <delete model="product.product" id="product.product_product_22"/>-->
-<!--        <delete model="product.product" id="product.product_product_24"/>-->
-<!--        <delete model="product.product" id="product.product_product_25"/>-->
-<!--        <delete model="product.product" id="product.product_product_27"/>-->
-<!--        <delete model="product.product" id="product.product_delivery_01"/>-->
-<!--        <delete model="product.product" id="product.product_delivery_02"/>-->
-<!--        <delete model="product.product" id="product.product_order_01"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_1"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_2"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_2bis"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_3"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_4"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_5"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_6"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_7"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_8"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_9"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_10"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_12"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_13"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_14"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_15"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_16"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_17"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_18"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_19"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_20"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_21"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_22"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_23"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_24"/>-->
-<!--        <delete model="product.supplierinfo" id="product.product_supplierinfo_25"/>-->
-<!--        <delete model="product.attribute" id="product.product_attribute_1"/>-->
-<!--        <delete model="product.attribute" id="product.product_attribute_2"/>-->
-<!--        <delete model="product.attribute" id="product.product_attribute_3"/>-->
-<!--        <delete model="product.attribute.value" id="product.product_attribute_value_1"/>-->
-<!--        <delete model="product.attribute.value" id="product.product_attribute_value_2"/>-->
-<!--        <delete model="product.attribute.value" id="product.product_attribute_value_3"/>-->
-<!--        <delete model="product.attribute.value" id="product.product_attribute_value_4"/>-->
-<!--        <delete model="product.attribute.value" id="product.product_attribute_value_5"/>-->
-<!--        <delete model="product.attribute.value" id="product.product_attribute_value_6"/>-->
-<!--        <delete model="product.template" id="product.product_product_4_product_template"/>-->
-<!--        <delete model="product.template" id="product.product_product_11_product_template"/>-->
-<!--        <delete model="product.template.attribute.line" id="product.product_template_attribute_line_1"/>-->
-<!--        <delete model="product.template.attribute.line" id="product.product_template_attribute_line_2"/>-->
-<!--        <delete model="product.template.attribute.line" id="product.product_template_attribute_line_4"/>-->
-<!--        <delete model="product.category" id="product.product_category_2"/>-->
-<!--        <delete model="product.category" id="product.product_category_6"/>-->
-<!--        <delete model="product.category" id="product.product_category_4"/>-->
-<!--        <delete model="product.category" id="product.product_category_5"/>-->
-<!--        <delete model="product.category" id="product.product_category_consumable"/>-->
-
 
         <!--                    CATEGORY-->
         <record id="product_category_fee" model="product.category">
             <field name="parent_id" ref="product.product_category_1"/>
             <field name="name">Fee</field>
         </record>
+
         <record id="product_category_insurance" model="product.category">
             <field name="parent_id" ref="product.product_category_1"/>
             <field name="name">Insurance</field>
@@ -127,6 +15,8 @@
 
         <record id="product_category_loan" model="product.category">
             <field name="parent_id" ref="product.product_category_all"/>
+            <field name="property_account_receivable_categ_id" ref="account4"/>
+            <field name="property_account_payable_categ_id" ref="account42"/>
             <field name="name">Loan Products</field>
         </record>
 
@@ -268,6 +158,7 @@
         <record id="template_3" model="product.template">
             <field name="name">Processing Fee</field>
             <field name="type">service</field>
+            <field name="standard_price">200</field>
             <field name="categ_id" ref="product_category_fee"/>
             <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
@@ -309,6 +200,22 @@
             <field name="company_id" ref="base.main_company"/>
             <field name="uom_id" ref="uom.product_uom_unit"/>
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        </record>
+
+<!--        INTEREST-->
+        <record id="credit_loan_interest" model="credit.loan.interest">
+            <field name="name">Regular Interest</field>
+            <field name="code">INT</field>
+            <field name="index">1</field>
+            <field name="rate">0.06</field>
+            <field name="product_ids" eval="[(6, 0, [ ref('al1_template'),
+                                                     ref('cgl1_template'),
+                                                     ref('gml1_template'),
+                                                     ref('ilp1_template'),
+                                                     ref('selda_template'),
+                                                     ref('sl1_template')])]"/>
+            <field name="is_active" eval="True"/>
+            <field name="interest_account_income_id" ref="account6"/>
         </record>
 
     </data>

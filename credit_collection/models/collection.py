@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 from odoo import tools, _
 from odoo.exceptions import ValidationError, UserError
-from datetime import datetime
+from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 # class CreditPayment(models.Model):
 #     _name = 'credit.loan.payment'
@@ -16,12 +16,94 @@ from dateutil.relativedelta import relativedelta
 #     collection_line = fields.One2many('credit.loan.collection', 'amortization_id', 'Collections')
 #     application_id = fields.Many2one('crm.lead', 'Application Seq.')
 
+class SalesOrder(models.Model):
+    _inherit = 'sale.order'
+
+    @api.multi
+    def _create_invoice(self, context):
+        date_invoice = context['date_invoice']
+        date_invoice = date_invoice
+        date_due = context['date_due']
+        date_due = date_due
+        amount = context['amount']
+        inv_obj = self.env['account.invoice']
+        ir_property_obj = self.env['ir.property']
+
+        account_id = False
+        if self.opportunity_id.product_id.id:
+            account_id = self.fiscal_position_id.map_account(
+                self.opportunity_id.product_id.property_account_income_id or self.opportunity_id.product_id.categ_id.property_account_income_categ_id).id
+        if not account_id:
+            inc_acc = ir_property_obj.get('property_account_income_categ_id', 'product.category')
+            account_id = self.fiscal_position_id.map_account(inc_acc).id if inc_acc else False
+        if not account_id:
+            raise UserError(
+                _(
+                    'There is no income account defined for this product: "%s". You may have to install a chart of account from Accounting app, settings menu.') %
+                (self.opportunity_id.product_id.name,))
+
+        # if self.amount <= 0.00:
+        #     raise UserError(_('The value of the down payment amount must be positive.'))
+        context = {'lang': self.partner_id.lang}
+        # if self.advance_payment_method == 'percentage':
+        #     amount = order.amount_untaxed * self.amount / 100
+        #     name = _("Down payment of %s%%") % (self.amount,)
+        # else:
+        #     amount = self.amount
+        name = _('Down Payment')
+        del context
+        taxes = self.opportunity_id.product_id.taxes_id.filtered(lambda r: not self.company_id or r.company_id == self.company_id)
+        if self.fiscal_position_id and taxes:
+            tax_ids = self.fiscal_position_id.map_tax(taxes, self.opportunity_id.product_id, self.partner_shipping_id).ids
+        else:
+            tax_ids = taxes.ids
+
+        invoice = inv_obj.create({
+            'name': self.client_order_ref or self.name,
+            'origin': self.name,
+            'type': 'out_invoice',
+            'reference': False,
+            'account_id': self.partner_id.property_account_receivable_id.id,
+            'partner_id': self.partner_invoice_id.id,
+            'partner_shipping_id': self.partner_shipping_id.id,
+            'invoice_line_ids': [(0, 0, {
+                'name': name,
+                'origin': self.name,
+                'account_id': account_id,
+                'price_unit': amount,
+                'quantity': 1.0,
+                'discount': 0.0,
+                'uom_id': self.opportunity_id.product_id.uom_id.id,
+                'product_id': self.opportunity_id.product_id.id,
+                # 'sale_line_ids': [(6, 0, [so_line.id])],
+                'invoice_line_tax_ids': [(6, 0, tax_ids)],
+                # 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
+                'account_analytic_id': self.analytic_account_id.id or False,
+            })],
+            'currency_id': self.pricelist_id.currency_id.id,
+            'payment_term_id': self.payment_term_id.id,
+            'fiscal_position_id': self.fiscal_position_id.id or self.partner_id.property_account_position_id.id,
+            'team_id': self.team_id.id,
+            'user_id': self.user_id.id,
+            'company_id': self.company_id.id,
+            'comment': self.note,
+            'date_invoice':date_invoice,
+            'date_due':date_due
+        })
+        invoice.compute_taxes()
+        invoice.message_post_with_view('mail.message_origin_link',
+                                       values={'self': invoice, 'origin': self},
+                                       subtype_id=self.env.ref('mail.mt_note').id)
+        return invoice
 
 class CreditCollectionLine(models.Model):
     _name = 'credit.loan.collection.line'
 
     name = fields.Char()
     collection_id = fields.Many2one('credit.loan.collection', 'Collection')
+    order_id = fields.Many2one('sale.order', 'Sales Order', related='collection_id.order_id')
+    # order_line_id = fields.Many2one('sale.order.line', 'Related Document')
+    invoice_id = fields.Many2one('account.invoice', 'Related Document')
     date_created = fields.Datetime('Date Created', default=fields.Datetime.now())
     currency_id = fields.Many2one('res.currency', related='collection_id.currency_id')
     status = fields.Selection([('draft', 'Draft'),
@@ -40,6 +122,7 @@ class CreditCollection(models.Model):
 
     name = fields.Char()
     application_id = fields.Many2one('crm.lead', 'Application Seq.')
+    order_id = fields.Many2one('sale.order', 'Sales Order')
     date_created = fields.Datetime('Date Created', default=fields.Datetime.now())
     collection_line_ids = fields.One2many('credit.loan.collection.line','collection_id','Collection Line')
     product_id = fields.Many2one('product.template', related='application_id.product_id', string='Applied Product')
@@ -62,7 +145,9 @@ class CreditCollection(models.Model):
     @api.depends('interest_id','surcharge_id','penalty_id', 'application_id', 'product_id')
     def _compute_amortization(self):
         for rec in self:
-            term = rec.product_id.payment_term.duration
+
+            term = int(sum([line.days/30 for line in rec.product_id.payment_term.line_ids if line.value == 'balance']))
+            print(term)
             if rec.product_id.loanclass == 'individual':
                 loan_amount = rec.application_id.loan_amount
                 principal = loan_amount/term
@@ -79,18 +164,53 @@ class CreditCollection(models.Model):
     def create(self, values):
         application = self.env['crm.lead'].sudo().search([('id','=',values['application_id'])])
         collection = super(CreditCollection, self).create(values)
-        for line in range(1,application.product_id.payment_term.duration):
-            print('CREATING COLLECTION LINES...', line)
-            self.env['credit.loan.collection.line'].sudo().create({
-                'collection_id':collection.id,
-                'status':'draft',
-                'principal':collection.principal,
-                'amortization':collection.amortization,
-                'interest':collection.interest,
-                'surcharge':collection.surcharge,
-                'penalty':collection.penalty
+        print(collection)
+        order = application.order_ids.search([('opportunity_id','=',application.id)], limit=1)
+        if not order:
+            # if first SO: add processing fee
+            order = self.env['sale.order'].sudo().create({
+                'opportunity_id': application.id,
+                'partner_id': application.partner_id.id,
+                'partner_invoice_id': application.partner_id.id,
+                'partner_shipping_id': application.partner_id.id,
+                'pricelist_id': self.env['product.pricelist'].search([], limit=1).id,
+                'company_id':application.branch_id.company_id.id,
             })
-        print('COLLECTION DONE!')
+
+            self.env['sale.order.line'].sudo().create({
+                'order_id':order.id,
+                'name':self.env['product.template'].sudo().search([('name','=','Processing Fee')]).name,
+                'product_id': self.env['product.template'].sudo().search([('name', '=', 'Processing Fee')]).id,
+                'price_unit': self.env['product.template'].sudo().search([('name', '=', 'Processing Fee')]).standard_price
+            })
+
+        for line in range(0,int(sum([line.days/30 for line in application.product_id.payment_term.line_ids if line.value == 'balance']))):
+            try:
+                self.env['sale.order.line'].sudo().create({
+                    'order_id': order.id,
+                    'name': order.opportunity_id.product_id.name,
+                    'product_id': order.opportunity_id.product_id.id,
+                    'price_unit': collection.amortization
+                })
+
+                print('CREATING COLLECTION LINES...', line)
+
+                self.env['credit.loan.collection.line'].sudo().create({
+                    'collection_id':collection.id,
+                    'status':'draft',
+                    'principal':collection.principal,
+                    'amortization':collection.amortization,
+                    'interest':collection.interest,
+                    'surcharge':collection.surcharge,
+                    'penalty':collection.penalty
+                })
+
+                print('COLLECTION DONE!')
+            except Exception as e:
+                raise UserError(_(str(e)))
+
+        collection.order_id = order
+        order.action_confirm()
         return collection
 
 class LoanApplication(models.Model):
@@ -136,7 +256,7 @@ class LoanApplication(models.Model):
                 print('COLLECTION FOR APPLICANT CREATED!')
                 return True
         except Exception as e:
-            raise UserError
+            raise UserError(_(str(e)))
 
 
 class Holidays(models.Model):

@@ -4,7 +4,7 @@ from odoo import models, fields, api
 from odoo import tools, _
 
 from odoo.exceptions import ValidationError, UserError
-
+import random
 # #FOR GROUPS
 # class LoanGroup(models.Model):
 #     _inherit = 'credit.loan.group'
@@ -44,14 +44,17 @@ class LoanApplication(models.Model):
     branch_id = fields.Many2one('res.branch','Branch', index=True, required=True, store=True)
     officer_id = fields.Many2one('res.partner','Assigned Officer', required=True)
     company_id = fields.Many2one('res.company', string='Company', index=True, store=True)
+    attachment_ids = fields.Many2many('ir.attachment', 'crm_lead_ir_attachment_relation', string='Attachments')
+
 
     @api.onchange('financing_id')
     def set_account(self):
         try:
             if self.financing_id:
                 self.partner_id = self.financing_id.member_id.id
-                self.company_id = self.env['res.users'].sudo().search([('partner_id.id','=',self.partner_id.id)], limit=1).company_id.id
                 self.branch_id = self.financing_id.branch_id.id
+                # self.company_id = self.env['res.users'].sudo().search([('partner_id.id','=',self.partner_id.id)], limit=1).company_id.id
+                self.company_id = self.branch_id.company_id.id
                 self.area_id = self.financing_id.area_id.id
                 if self.product_id.loanclass == 'individual':
                     domain = [('type', '=', 'ao'), ('branch_id.id', '=', self.branch_id.id)]

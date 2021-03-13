@@ -7,6 +7,8 @@
             <field name="type">sale</field>
             <field name="code">CR</field>
             <field name="company_id" ref="base.main_company"/>
+<!--            <field name="default_debit_account_id" ref=""/>-->
+<!--            <field name="default_credit_account_id" ref=""/>-->
         </record>
 
         <record id="data_journal_2" model="account.journal">
@@ -14,6 +16,8 @@
             <field name="type">bank</field>
             <field name="code">CP</field>
             <field name="company_id" ref="base.main_company"/>
+<!--            <field name="default_debit_account_id" ref=""/>-->
+<!--            <field name="default_credit_account_id" ref=""/>-->
         </record>
 
         <record id="data_journal_3" model="account.journal">
@@ -21,6 +25,8 @@
             <field name="type">general</field>
             <field name="code">GJ</field>
             <field name="company_id" ref="base.main_company"/>
+<!--            <field name="default_debit_account_id" ref=""/>-->
+<!--            <field name="default_credit_account_id" ref=""/>-->
         </record>
     </data>
 </odoo>

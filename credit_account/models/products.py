@@ -5,6 +5,7 @@ from odoo import tools, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
 import logging
+import random
 
 _logger = logging.getLogger(__name__)
 
@@ -31,6 +32,19 @@ class LoanApplication(models.Model):
     loanclass = fields.Selection(related='product_id.loanclass', default='individual')
     loan_amount = fields.Monetary('Loan Amount', required_if_loanclass='individual')
 
+    kanbancolor = fields.Integer('Color Index', compute='set_kanban_color', store=True)
+
+    @api.depends('group_id', 'loanclass')
+    def set_kanban_color(self):
+        for rec in self:
+            _int = random.randint(1,9)
+            if not rec.kanbancolor:
+                if rec.group_id and rec.loanclass == 'group':
+                    for application_id in rec.group_id.application_ids:
+                        application_id.kanbancolor = _int
+                elif not rec.group_id and rec.loanclass == 'individual':
+                    rec.kanbancolor = _int
+
 class productTemplate(models.Model):
     _inherit = 'product.template'
 
@@ -42,9 +56,10 @@ class productTemplate(models.Model):
             raise UserError(_("ERROR: 'term_domain' "+str(e)))
 
     sale_line_warn = fields.Selection(WARNING_MESSAGE, 'Sales Order Line', help=WARNING_HELP, required=False, default="no-message")
-    package_id = fields.Many2one('product.template', 'Package')
-    loanclass = fields.Selection([('group','Group Loan'),('individual','Individual Loan')], default=lambda self:self.package_id.loanclass)
-    child_ids = fields.One2many('product.template','package_id', 'Products')
+    # package_id = fields.Many2one('product.template', 'Package')
+    loanclass = fields.Selection([('group','Group Loan'),('individual','Individual Loan')])
+    # child_ids = fields.Many2many('product.template', 'parent_product_rel', 'parent_product_id', 'child_product_id', string='Products')
+    # child_ids = fields.One2many('product.template', 'package_id', string='Products')
     _class = fields.Char('Classification')
     payment_schedule_type = fields.Selection([('manual','Manual'),('automatic','Automatic')], string='Payment Schedule Type')
     min = fields.Monetary('Minimum Amount')

@@ -44,7 +44,6 @@ class Lead(models.Model):
                 vals['date_open'] = fields.Datetime.now()
 
 
-
             partner_id = self.env['credit.loan.financing'].search([('id','=',vals.get('financing_id'))]).member_id
             vals['index'] = int(self.search([], order='index desc', limit=1).index) + 1
             vals['code'] = '%s - %s' % (self.env['credit.loan.financing'].search([('id','=',vals.get('financing_id'))]).code,
@@ -54,34 +53,39 @@ class Lead(models.Model):
             onchange_values.update(vals)  # we don't want to overwrite any existing key
             vals = onchange_values
             lead = super(Lead, self).create(vals)
-            sale_order = self.env['sale.order'].search([('opportunity_id','=',lead.id)], limit=1)
-            if not sale_order:
-                order = self.env['sale.order'].sudo().create({
-                    'opportunity_id': lead.id,
-                    'partner_id': partner_id.id,
-                    'partner_invoice_id': partner_id.id,
-                    'partner_shipping_id': partner_id.id,
-                    'pricelist_id': self.env['product.pricelist'].search([],limit=1).id
-                })
-                for product in lead.product_id.child_ids:
-                    print('Lead Product ID', lead.product_id.id)
-                    print('Parent ID', product.package_id.id)
-                    print('Product ID', product.id)
-                    print('class', product.package_id.loanclass)
-                    # if not lead.group_id and product.package_id.loanclass == 'group':
-                    product = self.env['product.product'].search([('product_tmpl_id','=',product.id)])
 
-                    self.env['sale.order.line'].create({
-                        'order_id': order.id,
-                        'name': product.name,
-                        'product_id': product.id,
-                        'price_unit': lead.loan_amount if product.categ_id.name == 'Loan Products' else 1
-                    })
+            #TODO: transfer to collection; create per payment term
+
+            # sale_order = self.env['sale.order'].search([('opportunity_id','=',lead.id)], limit=1)
+            # if not sale_order:
+            #     order = self.env['sale.order'].sudo().create({
+            #         'opportunity_id': lead.id,
+            #         'partner_id': partner_id.id,
+            #         'partner_invoice_id': partner_id.id,
+            #         'partner_shipping_id': partner_id.id,
+            #         'pricelist_id': self.env['product.pricelist'].search([],limit=1).id
+            #     })
+            #     #add applied products to the automatically generated SO
+            #     for product in lead.product_id.child_ids:
+            #         print('Lead Product ID', lead.product_id.id)
+            #         print('Parent ID', product.package_id.id)
+            #         print('Product ID', product.id)
+            #         print('class', product.package_id.loanclass)
+            #         # if not lead.group_id and product.package_id.loanclass == 'group':
+            #         product = self.env['product.product'].search([('product_tmpl_id','=',product.id)])
+            #
+            #         self.env['sale.order.line'].create({
+            #             'order_id': order.id,
+            #             'name': product.name,
+            #             'product_id': product.id,
+            #             'price_unit': lead.loan_amount if product.categ_id.name == 'Loan Products' else 1
+            #         })
 
             # context: no_log, because subtype already handle this
             return lead
         except Exception as e:
             raise UserError(_(str(e)))
+
 
 # class SaleOrder(models.Model):
 #     _inherit = 'sale.order'

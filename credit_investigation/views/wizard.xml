@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--        <record id="wizard_investigation_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">wizard.client.investigation.form</field>-->
+<!--            <field name="model">wizard.client.investigation</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="">-->
+<!--                    <field name="name"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="wizard_investigation_form_view" model="ir.ui.view">-->
+<!--            <field name="name">wizard.client.investigation.form</field>-->
+<!--            <field name="model">wizard.client.investigation</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="">-->
+<!--                    <header>-->
+<!--&lt;!&ndash;                        <button string="Confirm" name="confirm_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','cancel','done'])]}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button string="Send to Draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','draft',])]}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button string="Done" name="done_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button name="cancel_form" string="Cancel" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['cancel','draft','done'])]}"/>&ndash;&gt;-->
+<!--                        <field name="stage" widget="statusbar" statusbar_visible="begin,character,capacity,capital,condition,collateral,end"/>-->
+<!--                    </header>-->
+<!--                    <sheet>-->
+<!--&lt;!&ndash;                        <div class="oe_button_box" name="button_box">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <field name="is_passed" widget="boolean_button" options="{&quot;terminology&quot;:&ndash;&gt;-->
+<!--&lt;!&ndash;                        {&quot;string_true&quot;:&quot;Passed&quot;,&ndash;&gt;-->
+<!--&lt;!&ndash;                         &quot;hover_true&quot;:&quot;Fail Investigation&quot;,&ndash;&gt;-->
+<!--&lt;!&ndash;                         &quot;string_false&quot;:&quot;Not passed&quot;,&ndash;&gt;-->
+<!--&lt;!&ndash;                         &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                        <div class="oe_title">-->
+<!--                            <label for="application_id" class="oe_edit_only"/>-->
+<!--                            <h1><field name="application_id"/></h1>-->
+<!--                        </div>-->
+<!--                        <group>-->
+<!--                            <field name="partner_id"/>-->
+<!--&lt;!&ndash;                            <field name="investigation_date"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="ave_score"/>&ndash;&gt;-->
+<!--                        </group>-->
+<!--                        <notebook>-->
+<!--                            <page string="Character">-->
+<!--                                <field name="character" widget="one2many"/>-->
+<!--                                <label for="character_remarks" string="Remarks"/>-->
+<!--                                <field name="character_remarks" invisible="0" placeholder="Remarks"/>-->
+<!--                            </page>-->
+<!--                            <page string="Capacity">-->
+<!--                                <field name="capacity" widget="one2many"/>-->
+<!--                                <label for="capacity_remarks" string="Remarks"/>-->
+<!--                                <field name="capacity_remarks" invisible="0" placeholder="Remarks"/>-->
+<!--                            </page>-->
+<!--                            <page string="Capital">-->
+<!--                                <field name="capital" widget="one2many"/>-->
+<!--                                <label for="capital_remarks" string="Remarks"/>-->
+<!--                                <field name="capital_remarks" invisible="0" placeholder="Remarks"/>-->
+<!--                            </page>-->
+<!--                            <page string="Condition">-->
+<!--                                <field name="condition" widget="one2many"/>-->
+<!--                                <label for="condition_remarks" string="Remarks"/>-->
+<!--                                <field name="condition_remarks" invisible="0" placeholder="Remarks"/>-->
+<!--                            </page>-->
+<!--                            <page string="Collateral">-->
+<!--                                <field name="collateral" widget="one2many"/>-->
+<!--                                <label for="collateral_remarks" string="Remarks"/>-->
+<!--                                <field name="collateral_remarks" invisible="0" placeholder="Remarks"/>-->
+<!--                            </page>-->
+<!--                        </notebook>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

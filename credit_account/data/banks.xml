@@ -13,13 +13,21 @@
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_id" ref="bank_rcbc_1"/>
         </record>
+        <record id="care_bank_journal_1" model="account.journal">
+            <field name="name">RCBC Marbel</field>
+            <field name="code">BNK</field>
+            <field name="type">bank</field>
+            <field name="bank_account_id" ref="partner_bank_rcbc_1"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
         <record id="care_bank_template_1" model="credit.check.account.template">
             <field name="name">CARE Foundation Inc.</field>
         </record>
         <record id="care_bank_rcbc_1" model="credit.check.account">
             <field name="partnerbank_id" ref="partner_bank_rcbc_1"/>
-            <field name="account_id" ref="credit_account.account1"/>
+            <field name="account_id" ref="account1"/>
             <field name="template_id" ref="care_bank_template_1"/>
         </record>
+
     </data>
 </odoo>

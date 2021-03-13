@@ -66,7 +66,7 @@
         <record id="users_form_view" model="ir.ui.view">
             <field name="name">res.partner.form</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="inherit_id" ref="credit_base.members_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='function']" position="attributes">
                     <attribute name="invisible">context.get('hide_field', False)</attribute>
@@ -98,9 +98,9 @@
                 <xpath expr="//field[@name='area_id']" position="attributes">
                     <attribute name="invisible">context.get('hide_field', False)</attribute>
                 </xpath>
-                <xpath expr="//field[@name='meeting_count']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
+<!--                <xpath expr="//field[@name='meeting_count']" position="attributes">-->
+<!--                    <attribute name="invisible">context.get('hide_field', False)</attribute>-->
+<!--                </xpath>-->
                 <xpath expr="//field[@name='contracts_count']" position="attributes">
                     <attribute name="invisible">context.get('hide_field', False)</attribute>
                 </xpath>
@@ -331,16 +331,16 @@
             </field>
         </record>
         <!-- Inherit Form View to Modify it -->
-        <record id="member_crm_form_view_inherit" model="ir.ui.view">
-            <field name="name">crm.lead.member.form.inherit</field>
-            <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
-            <field name="arch" type="xml">
-                <xpath expr="//header/button[@name='404']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-            </field>
-        </record>
+<!--        <record id="member_crm_form_view_inherit" model="ir.ui.view">-->
+<!--            <field name="name">crm.lead.member.form.inherit</field>-->
+<!--            <field name="model">crm.lead</field>-->
+<!--            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//header/button[@name='404']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
         <record id="member_crm_form_view" model="ir.ui.view">
             <field name="name">crm.lead.member.form</field>
             <field name="model">crm.lead</field>
@@ -383,6 +383,11 @@
                     <field name="branch_id"/>
                     <field name="area_id"/>
                     <field name="officer_id"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Attachments">
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
+                    </page>
                 </xpath>
             </field>
         </record>

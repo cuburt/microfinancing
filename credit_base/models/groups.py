@@ -30,6 +30,15 @@ class MembersTransient(models.TransientModel):
     partner_id = fields.Many2one('res.partner', related='financing_id.partner_id')
     group_id = fields.Many2one('credit.loan.group',related='application_id.group_id')
 
+class LoanGroupBatch(models.Model):
+    _name = 'credit.loan.group.batch'
+
+    name = fields.Char('Batch')
+    # code = fields.Char('Code')
+    status = fields.Selection([('active','Active'),('archive','Archived'),('potential','Potential')], string='Status')
+    group_ids = fields.One2many('credit.loan.group','batch_id','Batch')
+    comment = fields.Text()
+
 class LoanGroup(models.Model):
     _name = 'credit.loan.group'
     _inherit = 'mail.thread'
@@ -44,7 +53,8 @@ class LoanGroup(models.Model):
     date_organized = fields.Datetime(string='Date organized', default=fields.Datetime.now(),readonly=True)
     date_confirmed = fields.Datetime('Date Confirmed', readonly=True)
     date_approved = fields.Datetime(string='Date approved', readonly=True)
-    application_id = fields.Many2one('crm.lead', 'Application Seq.', domain="[('group_id','=', None)]")
+    batch_id = fields.Many2one('credit.loan.group.batch', 'Batch')
+    application_id = fields.Many2one('crm.lead', 'Application Seq.', domain="['&',('group_id','=', None),('loanclass','=','group')]")
     financing_id = fields.Many2one('credit.loan.financing', 'Loan Account', related='application_id.financing_id')
     partner_id = fields.Many2one('res.partner', related='application_id.partner_id')
     street = fields.Char(related='partner_id.street')
@@ -96,6 +106,7 @@ class LoanGroup(models.Model):
         try:
             application = self.env['crm.lead'].sudo().search([('id','=',values['application_id'])])
             officer = application.officer_id
+            area = application.area_id
             values['financing_id'] = application.financing_id.id
             values['partner_id'] = application.partner_id.id
             values['street'] = application.partner_id.street
@@ -109,7 +120,7 @@ class LoanGroup(models.Model):
             values['officer_id'] = officer.id
 
             values['index'] = int(self.search([], order='index desc', limit=1).index) + 1
-            values['code'] = '%s-%s%s' % (officer.code, str(officer.index), "{0:0=2d}".format(values['index']))
+            values['code'] = '%s-%s-%s' % ("{0:0=2d}".format(area.index), "{0:0=2d}".format(officer.index), "{0:0=2d}".format(values['index']))
             values['name'] = values['code']
             group = super(LoanGroup, self).create(values)
             application.write({

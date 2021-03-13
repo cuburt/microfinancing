@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="invoice_scheduler" model="ir.cron">
+            <field name="function" eval="open_invoice"/>
+            <field name="interval_type">days</field>
+            <field name="name">Invoice Scheduler</field>
+            <field name="doall" eval="True"/>
+            <field name="model" eval="account.invoice"/>
+        </record>
+    </data>
+</odoo>

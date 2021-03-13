@@ -35,14 +35,14 @@
                     <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate','qualify'])]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='populate_members']" position="attributes">
-                    <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate'])]}</attribute>
+                    <attribute name="attrs">{'invisible':[('status','in',['confirm','evaluate','qualify'])]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,confirm,evaluate,cancel</attribute>
+                    <attribute name="statusbar_visible">draft,confirm,evaluate,qualify,cancel</attribute>
                 </xpath>
                 <xpath expr="//button[@name='toggle_active']" position="after">
                     <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">
-                        <field name="is_approved" widget="boolean_button" options="{&quot;terminology&quot;:
+                        <field name="is_investigated" widget="boolean_button" options="{&quot;terminology&quot;:
                             {&quot;string_true&quot;:&quot;Approved&quot;,
                              &quot;hover_true&quot;:&quot;Disapprove&quot;,
                              &quot;string_false&quot;:&quot;For Approval&quot;,

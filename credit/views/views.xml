@@ -108,11 +108,11 @@
 
         <!--transactions actions -->
 
-        <!--              <menuitem name="Cash Receipt" id="credit.cash_receipt" parent="credit.transactions"-->
-        <!--                        action="credit_base.action_window_cash_receipt"/>-->
+                      <menuitem name="Cash Receipt" id="credit.cash_receipt" parent="credit.transactions"
+                                action="credit_collection.action_window_cash_receipt"/>
 
-        <!--              <menuitem name="Cash Payment" id="credit.cash_payment" parent="credit.transactions"-->
-        <!--                        action="credit_base.action_window_cash_payment"/>-->
+                      <menuitem name="Cash Payment" id="credit.cash_payment" parent="credit.transactions"
+                                action="credit_collection.action_window_cash_payment"/>
 
 <!--        <menuitem name="Journal Entry" id="credit.journal_entry" parent="credit.transactions"-->
 <!--                 action="credit_account.action_window_journal_entry"/>-->
@@ -254,8 +254,8 @@
         <menuitem name="CARE Groups" id="credit.care_groups" parent="credit.lists"
                   action="credit_base.action_window_care_groups"/>
 
-        <!--              <menuitem name="CARE Group Batches" id="credit.care_group_batches" parent="credit.lists"-->
-        <!--                          action="credit_base.action_window_care_group_batches"/>-->
+        <menuitem name="CARE Group Batches" id="credit.care_group_batches" parent="credit.lists"
+                  action="credit_base.action_window_care_group_batches"/>
 
         <menuitem name="Members" id="credit.members" parent="credit.lists"
                   action="credit_base.action_window_members"/>
@@ -346,8 +346,8 @@
 
         <!--              &lt;!&ndash;blcl actions &ndash;&gt;-->
 
-        <!--              <menuitem name="Batch Loan and CBU Ledger" id="credit.batch_loan_cbu_ledger" parent="credit.blcl"-->
-        <!--                          action="credit_base.action_window_batch_loan_cbu_ledger"/>-->
+<!--                      <menuitem name="Batch Loan and CBU Ledger" id="credit.batch_loan_cbu_ledger" parent="credit.blcl"-->
+<!--                                  action="credit_base.action_window_batch_loan_cbu_ledger"/>-->
 
     </data>
 </odoo>

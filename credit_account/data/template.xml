@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        CHART TEMPLATE-->
+        <record id="credit_account_chart_template" model="account.chart.template">
+            <field name="name">CARE account chart template</field>
+            <field name="currency_id" ref="base.PHP"/>
+            <field name="bank_account_code_prefix">income</field>
+            <field name="cash_account_code_prefix">income</field>
+            <field name="parent_id" ref="base.PHP"/>
+            <field name="transfer_account_id" ref="base.PHP"/>
+        </record>
+<!--ACCOUNT TEMPLATE-->
+        <record id="credit_account_liquidity_template" model="account.account.template">
+            <field name="name">Liquidity</field>
+            <field name="code">liquidity</field>
+            <field name="user_type_id" ref="data_account_type_liquidity2"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_receivable_template" model="account.account.template">
+            <field name="name">Loans and Receivable</field>
+            <field name="code">receivable</field>
+            <field name="user_type_id" ref="data_account_type_loans_receivable"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_other_current_assets_template" model="account.account.template">
+            <field name="name">Other Current Assets</field>
+            <field name="code">other current assets</field>
+            <field name="user_type_id" ref="data_account_type_other_current_assets"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_property_equipment_template" model="account.account.template">
+            <field name="name">Property and Equipment</field>
+            <field name="code">property and equipment</field>
+            <field name="user_type_id" ref="data_account_type_property_equipment"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_other_non_current_assets_template" model="account.account.template">
+            <field name="name">Other Non-Current Assets</field>
+            <field name="code">other non-current assets</field>
+            <field name="user_type_id" ref="data_account_type_other_non_current_assets"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_members_equity_template" model="account.account.template">
+            <field name="name">Member's Equity</field>
+            <field name="code">members equity</field>
+            <field name="user_type_id" ref="data_account_type_members_equity"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_income_template" model="account.account.template">
+            <field name="name">Income from Credit Operations</field>
+            <field name="code">income</field>
+            <field name="user_type_id" ref="data_account_type_income"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_financing_cost_template" model="account.account.template">
+            <field name="name">Financing Cost</field>
+            <field name="code">financing cost</field>
+            <field name="user_type_id" ref="data_account_type_financing_cost"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+
+        <record id="credit_account_admin_cost_template" model="account.account.template">
+            <field name="name">Administrative Cost</field>
+            <field name="code">administrative cost</field>
+            <field name="user_type_id" ref="data_account_type_admin_cost"/>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+<!--TAX TEMPLATE-->
+        <record id="credit_tax_template" model="account.tax.template">
+            <field name="name">CARE Tax</field>
+            <field name="amount">12.00</field>
+            <field name="amount_type">percent</field>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+<!--FISCAL POSITION TEMPLATE-->
+        <record id="credit_tax_template" model="account.tax.template">
+            <field name="name">CARE Tax</field>
+            <field name="amount">12.00</field>
+            <field name="amount_type">percent</field>
+            <field name="chart_template_id" ref="credit_account_chart_template"/>
+        </record>
+    </data>
+</odoo>

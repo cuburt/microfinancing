@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from odoo import tools, _
-
+from lxml import etree
 from odoo.exceptions import ValidationError, UserError
 
 
@@ -22,11 +22,11 @@ class LoanApplication(models.Model):
         for rec in self:
             rec.investigation_status = self.env['credit.client.investigation'].search([('application_id','=',self.id),('status','=','done')], order='investigation_date desc', limit=1).is_passed
 
-    @api.one
+    @api.multi
     def investigate_form(self):
         try:
             if not self.env['credit.client.investigation'].search([('application_id','=',self.id)], limit=1):
-                self.env['credit.client.investigation'].create({
+                ci = self.env['credit.client.investigation'].create({
                     'application_id':self.id,
                     'name':'CI/BI Group '+ self.name,
                     'status':'ongoing',
@@ -35,6 +35,16 @@ class LoanApplication(models.Model):
             self.status = 'investigate'
         except Exception as e:
             raise UserError(_("ERROR: 'investigate_form' "+str(e)))
+        # name = 'Credit Investigation'
+        # context = {'default_application_id': self.id,
+        #            'default_investigation_id': ci.id}
+        # return {'type': 'ir.actions.act_window',
+        #         'name': name,
+        #         'view_type': 'tree',
+        #         'view_mode': 'tree',
+        #         'res_model': 'wizard.client.investigation',
+        #         'target': 'new',
+        #         'context': context}
 
 class ClientInvestigation(models.Model):
     _name = 'credit.client.investigation'
@@ -49,34 +59,47 @@ class ClientInvestigation(models.Model):
     application_id = fields.Many2one('crm.lead','Loan Application')
     partner_id = fields.Many2one('res.partner', related='application_id.partner_id', string='Applicant')
     investigation_date = fields.Datetime('Investigation Date Started', default=fields.Datetime.now())
-    questions = fields.One2many('credit.client.investigation.questionnaire','ci_id','Questions')
-    character = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
-    capacity = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
-    capital = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
-    condition = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
-    collateral = fields.One2many('credit.client.investigation.questionnaire', compute='sort_questions')
+    character = fields.One2many('credit.client.investigation.questionnaire', 'character', string='Character')
+    capacity = fields.One2many('credit.client.investigation.questionnaire', 'capacity', string='Capacity')
+    capital = fields.One2many('credit.client.investigation.questionnaire', 'capital', string='Capital')
+    condition = fields.One2many('credit.client.investigation.questionnaire', 'condition', string='Condition')
+    collateral = fields.One2many('credit.client.investigation.questionnaire', 'collateral', string='Collateral')
+    character_remarks = fields.Text('Character')
+    capacity_remarks = fields.Text('Character')
+    capital_remarks = fields.Text('Character')
+    condition_remarks = fields.Text('Character')
+    collateral_remarks = fields.Text('Character')
     ave_score = fields.Float(digits=(0,2), string='Average Score', compute='_get_mean_score')
     product_id = fields.Many2one('product.template', related='application_id.product_id')
 
-    @api.depends('questions')
-    def sort_questions(self):
-        self.character = self.questions.search([('category','=','Character'),('ci_id','=',self.id)])
-        self.capacity = self.questions.search([('category','=','Capacity'),('ci_id','=',self.id)])
-        self.capital = self.questions.search([('category','=','Capital'),('ci_id','=',self.id)])
-        self.condition = self.questions.search([('category','=','Condition'),('ci_id','=',self.id)])
-        self.collateral = self.questions.search([('category','=','Collateral'),('ci_id','=',self.id)])
+    # def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+    #     view = super(ClientInvestigation, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+    #     if view_type == 'form':
+    #         doc = etree.XML(view['arch'])
+    #         notebook = doc.xpath("//notebook")
+    #         page = notebook.addnext(etree.Element('page'))
+    #         page.addnext(etree.Element())
+    #
+    #         print(doc)
+    #     return view
 
-    # @api.depends('ave_score')
     def set_result(self):
             self.is_passed = bool(self.ave_score>=4) #TODO: CHANGE FOR PASSING THRESHOLD
 
-    # @api.depends('questions')
     def _get_mean_score(self):
         for rec in self:
             try:
-                rec.ave_score = (sum([question.score_value for question in rec.questions]))/len([question.score_value for question in rec.questions])
+                print(rec.character)
+                print(rec.capacity)
+                print(rec.capital)
+                print(rec.condition)
+                print(rec.collateral)
+                sum_question_score = (sum([question.score_value for question in rec.character]))+(sum([question.score_value for question in rec.capacity]))+(sum([question.score_value for question in rec.capital]))+(sum([question.score_value for question in rec.condition]))+(sum(question.score_value for question in rec.collateral))
+                len_question_score = (len(rec.character))+(len(rec.capacity))+(len(rec.capital))+(len(rec.condition))+(len(rec.collateral))
+                rec.ave_score = sum_question_score/len_question_score
             except ZeroDivisionError as zde:
                 raise ValidationError(_('There are no available questions. Please add questions.'))
+
     @api.one
     def draft_form(self):
         self.status = 'draft'
@@ -92,35 +115,94 @@ class ClientInvestigation(models.Model):
     @api.one
     def done_form(self):
         #TODO: ALLOW PRINT FUNCTION
+        category_id = self.env['credit.client.investigation.question.category'].search([])
+        category_ids = [category.id for category in category_id]
+        categories = category_id.search([('id', 'in', category_ids)])
+        for category in categories:
+            try:
+                for x in eval('self.'+category.name.lower()):
+                    if ((x.score_1 if x else x) +
+                        (x.score_2 if x else x) +
+                        (x.score_3 if x else x) +
+                        (x.score_4 if x else x) +
+                        (x.score_5 if x else x)) > 1:
+                        raise UserError(_('You cannot have multiple ratings per criterion. Kindly review your ratings. Otherwise, contact the administrator.'))
+                    if ((x.score_1 if x else x) +
+                        (x.score_2 if x else x) +
+                        (x.score_3 if x else x) +
+                        (x.score_4 if x else x) +
+                        (x.score_5 if x else x)) < 1:
+                        raise UserError(_('You may have left a criterion unrated, kindly fill the form out completely. Otherwise, contact the administrator.'))
+            except KeyError: pass
+            except Exception as e:
+                raise ValidationError(_("ERROR: 'done_form' Contact the administrator immediately. "+ str(e)))
         self.status = 'done'
         self.application_id.date_investigated = fields.Datetime.now()
+        self.application_id.is_investigated = True
         self.application_id.status = 'evaluate'
         self.application_id.stage_id = self.env['crm.stage'].sudo().search([('name','=','Qualified')])
 
     @api.model
     def create(self, values):
-        ci = super(ClientInvestigation, self).create(values)
-        question = self.env['credit.client.investigation.questionnaire'].search([('ci_id','=',ci.id)], limit=1)
-        if not question:
-            try:
-                questions = self.env['credit.client.investigation.question'].search([('product_id.id', '=', ci.product_id.id)])
-                for q in questions:
-                    self.env['credit.client.investigation.questionnaire'].create({
-                        'ci_id':ci.id,
-                        'question_id':q.id,
-                    })
-                if not questions:
-                    raise ValidationError(_('There are no available questions. Please add questions.'))
-            except Exception as e:
-                raise UserError(_("ERROR: 'create' "+str(e)))
-        return ci
+        # investigation = super(ClientInvestigation, self).create(values)
+        application = self.env['crm.lead'].search([('id','=',values['application_id'])])
+        # question = self.env['credit.client.investigation.questionnaire'].search([('investigation_id.id','=',investigation.id)], limit=1)
+        # if not question:
+        try:
+            category_id = self.env['credit.client.investigation.question.category'].search([])
+            category_ids = [category.id for category in category_id if application.product_id.id in [product.id for product in category.allowed_products]]
+            categories = category_id.search([('id','in',category_ids)])
+            question_id = self.env['credit.client.investigation.question'].search([])
+            question_ids = [question.id for question in question_id if application.product_id.id in [product.id for product in question.allowed_products]]
+
+            for category in categories:
+                values[str(category.name).lower()] = [(0, 0, {
+                        'question_id': question.id
+                    }) for question in category.questions if question.id in question_ids or (not question.id in question_ids and question.allow_based_on_category)]
+
+                print(values)
+        except Exception as e:
+            raise UserError(_("ERROR: 'create' "+str(e)))
+        return super(ClientInvestigation, self).create(values)
+
+    @api.multi
+    def write(self, values):
+
+        return super(ClientInvestigation, self).write(values)
+
+# class InvestigationQuestionnaire(models.Model):
+#     _name = 'credit.client.investigation.questionnaire.pivot'
+#
+#     name = fields.Char()
+#     character = fields.Many2one('credit.client.investigation')
+#     capacity = fields.Many2one('credit.client.investigation')
+#     capital = fields.Many2one('credit.client.investigation')
+#     condition = fields.Many2one('credit.client.investigation')
+#     collateral = fields.Many2one('credit.client.investigation')
+#     category_id = fields.Many2one('credit.client.investigation.questionnaire.category')
+
+    # credit_investigation_questionnaire_pivot_sysad, credit.client.investigation.questionnaire.pivot.sysad, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_sysad, 1, 1, 1, 1
+    # credit_investigation_questionnaire_pivot_general, credit.client.investigation.questionnaire.pivot.general, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_general, 1, 0, 0, 0
+    # credit_investigation_questionnaire_pivot_branch, credit.client.investigation.questionnaire.pivot.branch, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_branch, 1, 0, 0, 0
+    # credit_investigation_questionnaire_pivot_admin, credit.client.investigation.questionnaire.pivot.admin, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_admin, 1, 0, 0, 0
+    # credit_investigation_questionnaire_pivot_accountsupervisor, credit.client.investigation.questionnaire.pivot.accountsupervisor, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_accountsupervisor, 1, 0, 0, 0
+    # credit_investigation_questionnaire_pivot_accountofficer, credit.client.investigation.questionnaire.pivot.accountofficer, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_accountofficer, 1, 0, 0, 0
+    # credit_investigation_questionnaire_pivot_devsupervisor, credit.client.investigation.questionnaire.pivot.devsupervisor, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_devsupervisor, 1, 0, 0, 0
+    # credit_investigation_questionnaire_pivot_devofficer, credit.client.investigation.questionnaire.pivot.devofficer, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_devofficer, 1, 0, 0, 0
+    # credit_investigation_questionnaire_pivot_member, credit.client.investigation.questionnaire.pivot.member, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_member, 1, 0, 0, 0
+
+class Product(models.Model):
+    _inherit = 'product.template'
+
+    category_id = fields.Many2many('credit.client.investigation.question.category','category_product_rel')
+    question_id = fields.Many2many('credit.client.investigation.question','question_product_rel')
 
 class CIQuestionCategory(models.Model):
     _name = 'credit.client.investigation.question.category'
 
     name = fields.Char('Category', required=True)
     questions = fields.One2many('credit.client.investigation.question', 'category_id', 'Questions')
-    product_id = fields.Many2many('product.template', 'product_category_rel', string='Category')
+    allowed_products = fields.Many2many(comodel_name='product.template', relation='category_product_rel')
 
 class CIQuestion(models.Model):
     _name = 'credit.client.investigation.question'
@@ -129,7 +211,8 @@ class CIQuestion(models.Model):
     category_id = fields.Many2one('credit.client.investigation.question.category','Category')
     category = fields.Char(related='category_id.name')
     question = fields.Text('Question',required=True, index=True)
-    product_id = fields.Many2many('product.template', related='category_id.product_id')
+    allowed_products = fields.Many2many(comodel_name='product.template', relation='question_product_rel')
+    allow_based_on_category = fields.Boolean('Allow products from category?', default=True)
 
     @api.depends('category_id')
     def set_name(self):
@@ -138,33 +221,42 @@ class CIQuestion(models.Model):
                 i = 0
             rec.name = rec.category_id.name+' Question '+str(i+1)
 
+# class CIQestionnairePerCategory(models.Model):
+#     _name = 'credit.client.investigation.questionnaire.category'
+#
+#     name = fields.Char()
+#     category_id = fields.Many2one('credit.client.investigation.question.category')
+#     # category_investigation_id = fields.One2many('credit.client.investigation.questionnaire.pivot', 'category_id')
+#     character = fields.Many2one('credit.client.investigation')
+#     capacity = fields.Many2one('credit.client.investigation')
+#     capital = fields.Many2one('credit.client.investigation')
+#     condition = fields.Many2one('credit.client.investigation')
+#     collateral = fields.Many2one('credit.client.investigation')
+#     # investigation_id = fields.Many2one('credit.client.investigation')
+#     questions = fields.One2many('credit.client.investigation.questionnaire', 'investigation_category_id', 'Questions')
+#     remarks = fields.Text(string='Remarks',placeholder='Remarks...')
+
 class CIQuestionnaire(models.Model):
     _name = 'credit.client.investigation.questionnaire'
 
     name = fields.Char(related='question_id.name')
-    ci_id = fields.Many2one('credit.client.investigation', 'CI/BI Form')
-    question_id = fields.Many2one('credit.client.investigation.question', 'Question')
-    category = fields.Char(related='question_id.category', store=True)
+    character = fields.Many2one('credit.client.investigation')
+    capacity = fields.Many2one('credit.client.investigation')
+    capital = fields.Many2one('credit.client.investigation')
+    condition = fields.Many2one('credit.client.investigation')
+    collateral = fields.Many2one('credit.client.investigation')
+    question_id = fields.Many2one('credit.client.investigation.question', 'Question', domain="[('category_id.id','=',"+str(lambda self:self.category_id.id)+")]")
     question = fields.Text(related='question_id.question')
-    score = fields.Selection([('0','Bad'),
-                              ('1','Not Bad'),
-                              ('2','Fair'),
-                              ('3','Good'),
-                              ('4','Very Good'),
-                              ('5','Excellent')], default='0', string='Score')
+    category_id = fields.Many2one(related='question_id.category_id')
+    category = fields.Char(related='category_id.name')
+    score_1 = fields.Boolean('1')
+    score_2 = fields.Boolean('2')
+    score_3 = fields.Boolean('3')
+    score_4 = fields.Boolean('4')
+    score_5 = fields.Boolean('5')
     score_value = fields.Float(digits=(0,2), compute='_get_score')
-    remarks = fields.Text('Remarks')
 
-    @api.depends('score')
+    @api.depends('score_1','score_2','score_3','score_4','score_5')
     def _get_score(self):
         for rec in self:
-            rec.score_value = int(rec.score)
-
-
-    # @api.depends('score')
-    # def _change_state(self):
-    #     for rec in self:
-    #         if rec.score == 0:
-    #             rec.status = 'unanswered'
-    #         else:
-    #             rec.status = 'answered'
+            rec.score_value = int((int(rec.score_1)*1)+(int(rec.score_2)*2)+(int(rec.score_3)*3)+(int(rec.score_4)*4)+(int(rec.score_5)*5))

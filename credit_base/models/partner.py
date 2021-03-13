@@ -11,12 +11,7 @@ _logger = logging.getLogger(__name__)
 #     _inherit = 'res.partner'
 #
 #     @api.model
-#     def create(self, values):
-#         partner = super(ResPartner, self).create(values)
-#         self.env['res.users'].create({
-#             'name':values['name'],
-#             'login':values['email'],
-#             'sel_groups_1_9_10':9,
-#             'company_id':self.env['res.branch'].search(['id','=',values['branch_id']],limit=1).company_id.id
-#         })
-#         return partner
+#     def partner_account(self):
+#         return {'domain':{
+#             'property_account_receivable_id':[('internal_type', '=', 'receivable'), ('deprecated', '=', False), ('company_id.id','=',self.company_id.id)],
+#             'property_account_payable_id':[('internal_type', '=', 'payable'), ('deprecated', '=', False), ('company_id.id','=',self.company_id.id)]}}

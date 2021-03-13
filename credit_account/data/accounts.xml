@@ -100,6 +100,7 @@
             <field name="name">Cash in Bank</field>
             <field name="user_type_id" ref="data_account_type_liquidity2"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account2" model="account.account">
@@ -107,6 +108,7 @@
             <field name="name">Petty Cash Fund</field>
             <field name="user_type_id" ref="data_account_type_liquidity2"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account3" model="account.account">
@@ -114,6 +116,7 @@
             <field name="name">Revolving Fund</field>
             <field name="user_type_id" ref="data_account_type_liquidity2"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account4" model="account.account">
@@ -193,6 +196,7 @@
             <field name="name">Unused Office Supplies</field>
             <field name="user_type_id" ref="data_account_type_other_current_assets"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account14" model="account.account">
@@ -200,6 +204,7 @@
             <field name="name">Prepaid Expenses</field>
             <field name="user_type_id" ref="data_account_type_other_current_assets"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account15" model="account.account">
@@ -207,6 +212,7 @@
             <field name="name">Building Improvements</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account16" model="account.account">
@@ -214,6 +220,7 @@
             <field name="name">Accumulated Depreciation - Building/Improvement</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account17" model="account.account">
@@ -221,6 +228,7 @@
             <field name="name">Office Equipments</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account18" model="account.account">
@@ -228,6 +236,7 @@
             <field name="name">Accumulated Depreciation - OE</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account19" model="account.account">
@@ -235,6 +244,7 @@
             <field name="name">Furnitures and Fixtures</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account20" model="account.account">
@@ -242,6 +252,7 @@
             <field name="name">Accumulated Depreciation - FF</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account21" model="account.account">
@@ -249,6 +260,7 @@
             <field name="name">Transportation Equipment</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account22" model="account.account">
@@ -256,6 +268,7 @@
             <field name="name">Accumulated Depreciation - Transportation Equipment</field>
             <field name="user_type_id" ref="data_account_type_property_equipment"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account23" model="account.account">
@@ -263,6 +276,7 @@
             <field name="name">Other Non-Current Assets</field>
             <field name="user_type_id" ref="data_account_type_other_non_current_assets"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account24" model="account.account">
@@ -430,6 +444,7 @@
             <field name="name">Donated Capital</field>
             <field name="user_type_id" ref="data_account_type_members_equity"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account45" model="account.account">
@@ -437,6 +452,7 @@
             <field name="name">Fund Balance</field>
             <field name="user_type_id" ref="data_account_type_members_equity"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account46" model="account.account">
@@ -444,6 +460,7 @@
             <field name="name">Interest Income from Loans</field>
             <field name="user_type_id" ref="data_account_type_income"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account47" model="account.account">
@@ -459,6 +476,7 @@
             <field name="name">Processing/Service Fee Income</field>
             <field name="user_type_id" ref="data_account_type_income"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account49" model="account.account">
@@ -466,6 +484,7 @@
             <field name="name">Income from Micro-insurance</field>
             <field name="user_type_id" ref="data_account_type_income"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account50" model="account.account">
@@ -473,6 +492,7 @@
             <field name="name">Income from Loan Insurance</field>
             <field name="user_type_id" ref="data_account_type_income"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account51" model="account.account">
@@ -480,6 +500,7 @@
             <field name="name">Income from Burial Insurance</field>
             <field name="user_type_id" ref="data_account_type_income"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account52" model="account.account">
@@ -487,6 +508,7 @@
             <field name="name">Other Income</field>
             <field name="user_type_id" ref="account.data_account_type_other_income"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account53" model="account.account">
@@ -494,6 +516,7 @@
             <field name="name">Gain on Sale</field>
             <field name="user_type_id" ref="account.data_account_type_other_income"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account54" model="account.account">
@@ -501,6 +524,7 @@
             <field name="name">Interest Expense on Borrowings</field>
             <field name="user_type_id" ref="data_account_type_financing_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account55" model="account.account">
@@ -508,6 +532,7 @@
             <field name="name">Interest Expense on CBU</field>
             <field name="user_type_id" ref="data_account_type_financing_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account56" model="account.account">
@@ -515,6 +540,7 @@
             <field name="name">Bank Charges</field>
             <field name="user_type_id" ref="data_account_type_financing_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account57" model="account.account">
@@ -522,6 +548,7 @@
             <field name="name">Salaries and Wages</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account58" model="account.account">
@@ -529,6 +556,7 @@
             <field name="name">13th Month Pay</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account59" model="account.account">
@@ -536,6 +564,7 @@
             <field name="name">Employees Benefits</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account60" model="account.account">
@@ -543,6 +572,7 @@
             <field name="name">Employee Recruitment Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account61" model="account.account">
@@ -550,6 +580,7 @@
             <field name="name">Philhealth Premiums</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account62" model="account.account">
@@ -557,6 +588,7 @@
             <field name="name">SSS Contributions</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account63" model="account.account">
@@ -564,6 +596,7 @@
             <field name="name">HDMF Contributions</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account64" model="account.account">
@@ -571,6 +604,7 @@
             <field name="name">Trainees, OJTs and Contractual Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account65" model="account.account">
@@ -578,6 +612,7 @@
             <field name="name">Professional Fee</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account66" model="account.account">
@@ -585,6 +620,7 @@
             <field name="name">Office Supplies Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account67" model="account.account">
@@ -592,6 +628,7 @@
             <field name="name">Photograph, Reproduction and Printing</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account68" model="account.account">
@@ -599,6 +636,7 @@
             <field name="name">Meeting and Other Related Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account69" model="account.account">
@@ -606,6 +644,7 @@
             <field name="name">Training, Seminars, and Conferences</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account70" model="account.account">
@@ -613,6 +652,7 @@
             <field name="name">Light and Water</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account71" model="account.account">
@@ -620,6 +660,7 @@
             <field name="name">Transportation and Travel</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account72" model="account.account">
@@ -627,6 +668,7 @@
             <field name="name">Insurance Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account73" model="account.account">
@@ -634,6 +676,7 @@
             <field name="name">Repairs and Maintenance</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account74" model="account.account">
@@ -641,6 +684,7 @@
             <field name="name">Rental Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account75" model="account.account">
@@ -648,6 +692,7 @@
             <field name="name">Taxes and Licenses</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account76" model="account.account">
@@ -655,6 +700,7 @@
             <field name="name">Postage and Communication Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account77" model="account.account">
@@ -662,6 +708,7 @@
             <field name="name">Representation</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account78" model="account.account">
@@ -669,6 +716,7 @@
             <field name="name">Gas, Fuel and Oil</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account79" model="account.account">
@@ -676,6 +724,7 @@
             <field name="name">Miscellaneous Expense</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account80" model="account.account">
@@ -683,6 +732,7 @@
             <field name="name">Depreciation</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account81" model="account.account">
@@ -690,6 +740,7 @@
             <field name="name">Amortization</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account82" model="account.account">
@@ -697,6 +748,7 @@
             <field name="name">Provision for Probable Losses on Loans</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account83" model="account.account">
@@ -704,6 +756,7 @@
             <field name="name">Provision for Probable Losses on Interest</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account84" model="account.account">
@@ -711,6 +764,7 @@
             <field name="name">Impairment Losses</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account85" model="account.account">
@@ -718,6 +772,7 @@
             <field name="name">Transformation Cost</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account86" model="account.account">
@@ -725,6 +780,7 @@
             <field name="name">Donations and Other Contributions</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account87" model="account.account">
@@ -732,6 +788,7 @@
             <field name="name">Membership and Affiliation Fee</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account88" model="account.account">
@@ -739,6 +796,7 @@
             <field name="name">Fines and Penalties</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
         <record id="account89" model="account.account">
@@ -746,8 +804,11 @@
             <field name="name">Software Development Cost</field>
             <field name="user_type_id" ref="data_account_type_admin_cost"/>
             <field name="company_id" ref="base.main_company"/>
+            <field name="reconcile" eval="True"/>
         </record>
 
-
+<!--        <record id="credit_account_chart_template" model="account.chart.template">-->
+<!--            <field name="transfer_account_id" ref="account1"/>-->
+<!--        </record>-->
     </data>
 </odoo>

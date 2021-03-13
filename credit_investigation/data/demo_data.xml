@@ -4,7 +4,7 @@
 <!--        CATEGORY-->
         <record id="cat_character" model="credit.client.investigation.question.category">
             <field name="name">Character</field>
-            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
                                                      ref('credit_account.cgl1_template'),
                                                      ref('credit_account.gml1_template'),
                                                      ref('credit_account.ilp1_template'),
@@ -14,7 +14,7 @@
 
         <record id="cat_capacity" model="credit.client.investigation.question.category">
             <field name="name">Capacity</field>
-            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
                                                      ref('credit_account.cgl1_template'),
                                                      ref('credit_account.gml1_template'),
                                                      ref('credit_account.ilp1_template'),
@@ -24,7 +24,7 @@
 
         <record id="cat_capital" model="credit.client.investigation.question.category">
             <field name="name">Capital</field>
-            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
                                                      ref('credit_account.cgl1_template'),
                                                      ref('credit_account.gml1_template'),
                                                      ref('credit_account.ilp1_template'),
@@ -34,7 +34,7 @@
 
         <record id="cat_condition" model="credit.client.investigation.question.category">
             <field name="name">Condition</field>
-            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
                                                      ref('credit_account.cgl1_template'),
                                                      ref('credit_account.gml1_template'),
                                                      ref('credit_account.ilp1_template'),
@@ -44,7 +44,7 @@
 
         <record id="cat_collateral" model="credit.client.investigation.question.category">
             <field name="name">Collateral</field>
-            <field name="product_id" eval="[(6, 0, [ ref('credit_account.al1_template'),
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
                                                      ref('credit_account.cgl1_template'),
                                                      ref('credit_account.gml1_template'),
                                                      ref('credit_account.ilp1_template'),
@@ -56,76 +56,181 @@
         <record id="question1" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_character"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question2" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_character"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question3" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_character"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question4" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_capacity"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question5" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_capacity"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question6" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_capacity"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question7" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_capital"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question8" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_capital"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question9" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_capital"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question10" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_condition"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question11" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_condition"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question12" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_condition"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question13" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_collateral"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question14" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_collateral"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
 
         <record id="question15" model="credit.client.investigation.question">
             <field name="question">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor lacus luctus accumsan tortor posuere ac ut consequat semper. Nisl suscipit adipiscing bibendum est ultricies integer quis.</field>
             <field name="category_id" ref="cat_collateral"/>
+            <field name="allow_based_on_category" eval="True"/>
+            <field name="allowed_products" eval="[(6, 0, [ ref('credit_account.al1_template'),
+                                                     ref('credit_account.cgl1_template'),
+                                                     ref('credit_account.gml1_template'),
+                                                     ref('credit_account.ilp1_template'),
+                                                     ref('credit_account.selda_template'),
+                                                     ref('credit_account.sl1_template')])]"/>
         </record>
     </data>
 </odoo>

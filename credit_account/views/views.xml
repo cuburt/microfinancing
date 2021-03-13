@@ -34,7 +34,7 @@
                 <xpath expr="//field[@name='categ_id']" position="after">
                     <field name="loanclass"/>
                     <field name="_class"/>
-                    <field name="child_ids" widget="many2many_tags"/>
+<!--                    <field name="child_ids" widget="many2many_tags"/>-->
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="before">
                     <field name="payment_schedule_type"/>
@@ -513,5 +513,37 @@
         </record>
 
 
+<!--        ===============================KANBAN===========================================-->
+        <!-- Inherit Form View to Modify it -->
+        <record id="credit_account.member_crm_kanban_view" model="ir.ui.view">
+            <field name="name">crm.lead.kanban.accountinherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="credit_base.member_crm_kanban_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="kanbancolor"/>
+                </xpath>
+                <xpath expr="//div" position="attributes">
+                    <attribute name="t-attf-class">oe_kanban_color_#{kanban_getcolor(record.kanbancolor.raw_value)} oe_kanban_global_click</attribute>
+                </xpath>
+            </field>
+        </record>
+
+<!--        &lt;!&ndash; Inherit Form View to Modify it &ndash;&gt;-->
+<!--        <record id="view_partner_property_credit_form" model="ir.ui.view">-->
+<!--            <field name="name">res.partner.property.credit.form.inherit</field>-->
+<!--            <field name="model">res.partner</field>-->
+<!--            <field name="inherit_id" ref=""/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                -->
+<!--                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">-->
+<!--                    <field name="domain">[('internal_type','receivable')]</field>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">-->
+<!--                    &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
     </data>
 </odoo>

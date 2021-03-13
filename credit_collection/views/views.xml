@@ -44,11 +44,11 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="date"/>
-                    <field name="principal" sum="Total Principal"/>
+                    <field name="principal" sum="Total Principal" widget="monetary"/>
                     <field name="interest"/>
                     <field name="surcharge"/>
                     <field name="penalty"/>
-                    <field name="amortization" sum="Total Amortization"/>
+                    <field name="amortization" sum="Total Amortization" widget="monetary"/>
                     <field name="currency_id"/>
                     <field name="status"/>
                 </tree>
@@ -141,5 +141,32 @@
             </field>
         </record>
 
+        <record id="action_window_cash_receipt" model="ir.actions.act_window">
+            <field name="name">Cash Receipt</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="action_window_cash_payment" model="ir.actions.act_window">
+            <field name="name">Cash Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
     </data>
 </odoo>

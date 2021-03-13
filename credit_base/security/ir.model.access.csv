@@ -20,6 +20,16 @@ credit_financing_devsupervisor,credit.loan.financing.devsupervisor,model_credit_
 credit_financing_devofficer,credit.loan.financing.devofficer,model_credit_loan_financing,group_credit_devofficer,1,0,1,0
 credit_financing_member,credit.loan.financing.member,model_credit_loan_financing,group_credit_member,1,0,0,0
 
+credit_group_batch_sysad,credit.loan.group.batch.sysad,model_credit_loan_group_batch,group_credit_sysad,1,1,1,1
+credit_group_batch_general,credit.loan.group.batch.general,model_credit_loan_group_batch,group_credit_general,1,1,1,1
+credit_group_batch_branch,credit.loan.group.batch.branch,model_credit_loan_group_batch,group_credit_branch,1,1,1,1
+credit_group_batch_admin,credit.loan.group.batch.admin,model_credit_loan_group_batch,group_credit_admin,1,1,1,1
+credit_group_batch_accountsupervisor,credit.loan.group.batch.accountsupervisor,model_credit_loan_group_batch,group_credit_accountsupervisor,1,1,1,1
+credit_group_batch_accountofficer,credit.loan.group.batch.accountofficer,model_credit_loan_group_batch,group_credit_accountofficer,1,1,1,1
+credit_group_batch_devsupervisor,credit.loan.group.batch.devsupervisor,model_credit_loan_group_batch,group_credit_devsupervisor,1,1,1,1
+credit_group_batch_devofficer,credit.loan.group.batch.devofficer,model_credit_loan_group_batch,group_credit_devofficer,1,1,1,1
+credit_group_batch_member,credit.loan.group.batch.member,model_credit_loan_group_batch,group_credit_member,1,0,1,0
+
 credit_group_sysad,credit.loan.group.sysad,model_credit_loan_group,group_credit_sysad,1,1,1,1
 credit_group_general,credit.loan.group.general,model_credit_loan_group,group_credit_general,1,1,1,1
 credit_group_branch,credit.loan.group.branch,model_credit_loan_group,group_credit_branch,1,1,1,1

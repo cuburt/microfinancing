@@ -157,101 +157,7 @@
         <!--        </record>-->
 
 
-        <!--===========================DOAS/DOS================================-->
 
-        <!--        <record id="doas_dos_filter" model="ir.ui.view">-->
-        <!--           <field name="name">credit.doas.dos.filter</field>-->
-        <!--           <field name="model">credit.doas.dos</field>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <search string="">-->
-        <!--              <field name="name" string="string" domain="[()]"/>-->
-        <!--            </search>-->
-        <!--           </field>-->
-        <!--        </record>-->
-
-        <record id="doas_dos_tree_view" model="ir.ui.view">
-            <field name="name">credit.doas.dos.list</field>
-            <field name="model">res.partner</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="area_ids"/>
-                    <field name="branch_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="doas_dos_form_view" model="ir.ui.view">
-            <field name="name">credit.doas.dos.form</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='function']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='vat']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='website']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='lang']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='category_id']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//page[@name='sales_purchases']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='company_type']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='parent_id']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='branch_id']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='area_id']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='meeting_count']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//field[@name='contracts_count']" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//notebook" position="attributes">
-                    <attribute name="invisible">context.get('hide_field', False)</attribute>
-                </xpath>
-                <xpath expr="//notebook" position="after">
-                    <notebook invisible="not context.get('show_field', False)">
-                        <page string="Area">
-                            <field name="area_ids" widget="many2many"/>
-                        </page>
-                    </notebook>
-                </xpath>
-            </field>
-        </record>
-
-        <record id="credit_base.action_window_doas_dos" model="ir.actions.act_window">
-            <field name="name">DOAs &amp; DOs</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.partner</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="doas_dos_tree_view"/>
-            <field name="context">{'hide_field': True, 'show_field': True}</field>
-            <field name="domain">[('type','=','do')]</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    <!-- Add Text Here -->
-                </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-            </p>
-            </field>
-        </record>
         <!--===========================BRANCH/AREA================================-->
 
         <record id="branch_tree_view" model="ir.ui.view">
@@ -468,6 +374,7 @@
                                 <field name="city"/>
                                 <field name="state_id"/>
                                 <field name="country_id"/>
+                                <field name="batch_id"/>
                             </group>
                         </group>
                         <notebook>
@@ -501,54 +408,54 @@
 
         <!--===========================CARE GROUP BATCHES================================-->
 
-        <!--        <record id="care_group_batches_filter" model="ir.ui.view">-->
-        <!--           <field name="name">credit.group.batch.filter</field>-->
-        <!--           <field name="model">credit.group.batch</field>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <search string="">-->
-        <!--              <field name="name" string="string" domain="[()]"/>-->
-        <!--            </search>-->
-        <!--           </field>-->
-        <!--        </record>-->
+<!--                <record id="care_group_batches_filter" model="ir.ui.view">-->
+<!--                   <field name="name">credit.group.batch.filter</field>-->
+<!--                   <field name="model">credit.group.batch</field>-->
+<!--                    <field name="arch" type="xml">-->
+<!--                        <search string="">-->
+<!--                      <field name="name" string="string" domain="[()]"/>-->
+<!--                    </search>-->
+<!--                   </field>-->
+<!--                </record>-->
 
-        <!--        <record id="care_group_batches_tree_view" model="ir.ui.view">-->
-        <!--            <field name="name">credit.group.batch.list</field>-->
-        <!--            <field name="model">credit.group.batch</field>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <tree string="">-->
-        <!--                    <field name="name"/>-->
-        <!--                </tree>-->
-        <!--            </field>-->
-        <!--        </record>-->
+                <record id="care_group_batches_tree_view" model="ir.ui.view">
+                    <field name="name">credit.loan.group.batch.list</field>
+                    <field name="model">credit.loan.group.batch</field>
+                    <field name="arch" type="xml">
+                        <tree string="">
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </record>
 
-        <!--        <record id="care_group_batches_form_view" model="ir.ui.view">-->
-        <!--            <field name="name">credit.group.batch.form</field>-->
-        <!--            <field name="model">credit.group.batch</field>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <form string="CARE Group Batches">-->
-        <!--                    <sheet>-->
-        <!--                        <group>-->
-        <!--                            <field name="name"/>-->
-        <!--                        </group>-->
-        <!--                    </sheet>-->
-        <!--                </form>-->
-        <!--            </field>-->
-        <!--        </record>-->
+                <record id="care_group_batches_form_view" model="ir.ui.view">
+                    <field name="name">credit.loan.group.batch.form</field>
+                    <field name="model">credit.loan.group.batch</field>
+                    <field name="arch" type="xml">
+                        <form string="CARE Group Batches">
+                            <sheet>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
 
-        <!--        <record id="credit_base.action_window_care_group_batches" model="ir.actions.act_window">-->
-        <!--            <field name="name">CARE Group Batches</field>-->
-        <!--            <field name="type">ir.actions.act_window</field>-->
-        <!--            <field name="res_model"></field>-->
-        <!--            <field name="view_mode">tree,form</field>-->
-        <!--            <field name="view_id" ref="care_group_batches_filter"/>-->
-        <!--            <field name="help" type="html">-->
-        <!--              <p class="oe_view_nocontent_create">-->
-        <!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
-        <!--              </p><p>-->
-        <!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-        <!--              </p>-->
-        <!--            </field>-->
-        <!--        </record>-->
+                <record id="action_window_care_group_batches" model="ir.actions.act_window">
+                    <field name="name">CARE Group Batches</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">credit.loan.group.batch</field>
+                    <field name="view_mode">tree,form</field>
+<!--                    <field name="view_id" ref="care_group_batches_filter"/>-->
+                    <field name="help" type="html">
+                      <p class="oe_view_nocontent_create">
+                        <!-- Add Text Here -->
+                      </p><p>
+                        <!-- More details about what a user can do with this object will be OK -->
+                      </p>
+                    </field>
+                </record>
 
         <!--===========================MEMBERS================================-->
 
@@ -858,7 +765,7 @@
                     <field name="area_id" domain="[('branch_id','=',branch_id)]"/>
                 </xpath>
                 <xpath expr="//field[@name='title']" position="after">
-                    <field name="type" domain="[('type','in',['gm','bm','aa','as','ao','ds','do'])]"/>
+                    <field name="type" domain="[('type','in',['gm','bm','aa','as','ao','ds','do'])]" attrs="{'readonly': False, 'invisible': True}"/>
                 </xpath>
                 <xpath expr="//field[@name='type']" position="after">
                     <field name="supervisor_id" />
@@ -898,7 +805,101 @@
         <!--            </field>-->
         <!--        </record>-->
 
+<!--===========================DOAS/DOS================================-->
 
+        <!--        <record id="doas_dos_filter" model="ir.ui.view">-->
+        <!--           <field name="name">credit.doas.dos.filter</field>-->
+        <!--           <field name="model">credit.doas.dos</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--              <field name="name" string="string" domain="[()]"/>-->
+        <!--            </search>-->
+        <!--           </field>-->
+        <!--        </record>-->
+
+        <record id="doas_dos_tree_view" model="ir.ui.view">
+            <field name="name">credit.doas.dos.list</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="area_ids"/>
+                    <field name="branch_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="doas_dos_form_view" model="ir.ui.view">
+            <field name="name">credit.doas.dos.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="credit_base.members_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lang']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_type']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+<!--                <xpath expr="//field[@name='parent_id']" position="attributes">-->
+<!--                    <attribute name="invisible">context.get('hide_field', False)</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='branch_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='area_id']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+<!--                <xpath expr="//field[@name='meeting_count']" position="attributes">-->
+<!--                    <attribute name="invisible">context.get('hide_field', False)</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='contracts_count']" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name="invisible">context.get('hide_field', False)</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="after">
+                    <notebook invisible="not context.get('show_field', False)">
+                        <page string="Area">
+                            <field name="area_ids" widget="many2many"/>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_doas_dos" model="ir.actions.act_window">
+            <field name="name">DOAs &amp; DOs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="doas_dos_tree_view"/>
+            <field name="context">{'hide_field': True, 'show_field': True}</field>
+            <field name="domain">[('type','=','do')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
 
     </data>
 </odoo>

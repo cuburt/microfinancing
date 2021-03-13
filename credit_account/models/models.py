@@ -2,10 +2,18 @@
 
 from odoo import models, fields, api
 
-class PaymentTerm(models.Model):
-    _inherit = 'account.payment.term'
+# class PaymentTerm(models.Model):
+#     _inherit = 'account.payment.term'
+#
+#     duration = fields.Integer(default=20)
+class LoanProduct(models.Model):
+    _inherit = 'product.template'
 
-    duration = fields.Integer(default=20)
+    surcharge_id = fields.Many2one('credit.loan.surcharge')
+    penalty_id = fields.Many2one('credit.loan.penalty')
+    collateral_id = fields.Many2one('credit.loan.collateral', 'Collateral')
+    interest_id = fields.Many2one('credit.loan.interest', 'Interest Rate')
+    fund_id = fields.Many2one('credit.loan.fund')
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
@@ -139,11 +147,3 @@ class LoanFund(models.Model):
     rate = fields.Float('Rate', help='Leave blank if using fixed amount.')
     amount = fields.Monetary(string='Amount', help='Leave blank if using rate.')
 
-class LoanProduct(models.Model):
-    _inherit = 'product.template'
-
-    surcharge_id = fields.Many2one('credit.loan.surcharge')
-    penalty_id = fields.Many2one('credit.loan.penalty')
-    collateral_id = fields.Many2one('credit.loan.collateral', 'Collateral')
-    interest_id = fields.Many2one('credit.loan.interest', 'Interest Rate', default=lambda self: self.env['credit.loan.interest'].search([], limit=1, order='date_created desc'))
-    fund_id = fields.Many2one('credit.loan.fund')
