@@ -24,7 +24,7 @@ html2text==2016.9.19
 idna==2.7
 jaraco.functools==3.0.1
 libsass==0.20.0
-lxml==4.5.0
+lxml==4.6.3
 mock==2.0.0
 more-itertools==8.4.0
 num2words==0.5.6
