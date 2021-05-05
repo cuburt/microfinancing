@@ -10,12 +10,43 @@ from odoo.exceptions import ValidationError, UserError
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
-    status = fields.Selection(string="Status", selection_add=[('investigate','Investigation')], required=True,
+    status = fields.Selection(string="Status", selection_add=[('investigate','Investigation'),("approve_bm","BM's Approval"),("approve_gm","GM's Approval"),("approve_crecom","CRECOM's Approval"),("approve_execom","EXECOM's Approval"),("approve_bod","BOD's Approval"),('passed','Passed'),('failed','Failed')], required=True,
                              track_visibility='onchange')
     client_investigations = fields.One2many('credit.client.investigation', 'application_id', 'Client Investigation')
     investigation_status = fields.Boolean(default=False, compute='get_inv_status', readonly=True)
     attachments = fields.Many2many('ir.attachment', string='Attachment')
-    date_investigated = fields.Datetime('Investigation Date Ended')
+    date_investigated = fields.Datetime('Investigation Date Ended', readonly=True)
+
+    @api.multi
+    def approve_bm(self):
+        if self.status == 'approve_bm':
+            self.status = 'approve_gm'
+        return True
+
+    @api.multi
+    def approve_gm(self):
+        if self.status == 'approve_gm':
+            self.status = 'approve_crecom'
+        return True
+
+    @api.multi
+    def approve_crecom(self):
+        if self.status == 'approve_crecom':
+            self.status = 'approve_execom'
+        return True
+
+    @api.multi
+    def approve_execom(self):
+        if self.status == 'approve_execom':
+            self.status = 'approve_bod'
+        return True
+
+    @api.multi
+    def approve_bod(self):
+        if self.status == 'approve_bod':
+            self.status = 'passed'
+            self.stage_id = self.env['crm.stage'].sudo().search([('name','=','Approved')])
+        return True
 
     @api.one
     def get_inv_status(self):
@@ -26,15 +57,18 @@ class LoanApplication(models.Model):
     def investigate_form(self):
         try:
             if not self.env['credit.client.investigation'].search([('application_id','=',self.id)], limit=1):
-                ci = self.env['credit.client.investigation'].create({
+                # CREATION OF INDIVIDUAL CI FORM BASED FROM THE QUESTIONS SELECTED FOR THE APPLIED PRODUCT. SEE CREATE FUNCTION FOR THIS MODEL.
+                self.env['credit.client.investigation'].create({
                     'application_id':self.id,
                     'name':'CI/BI Group '+ self.name,
                     'status':'ongoing',
                     'investigation_date':fields.Datetime.now(),
                 })
             self.status = 'investigate'
+            self.stage_id = self.env['crm.stage'].sudo().search([('name','=','Credit Investigation')])
         except Exception as e:
             raise UserError(_("ERROR: 'investigate_form' "+str(e)))
+
         # name = 'Credit Investigation'
         # context = {'default_application_id': self.id,
         #            'default_investigation_id': ci.id}
@@ -58,7 +92,7 @@ class ClientInvestigation(models.Model):
     is_passed = fields.Boolean(default=False, compute='set_result')
     application_id = fields.Many2one('crm.lead','Loan Application')
     partner_id = fields.Many2one('res.partner', related='application_id.partner_id', string='Applicant')
-    investigation_date = fields.Datetime('Investigation Date Started', default=fields.Datetime.now())
+    investigation_date = fields.Datetime('Investigation Date Started', default=fields.Datetime.now(), readonly=True)
     character = fields.One2many('credit.client.investigation.questionnaire', 'character', string='Character')
     capacity = fields.One2many('credit.client.investigation.questionnaire', 'capacity', string='Capacity')
     capital = fields.One2many('credit.client.investigation.questionnaire', 'capital', string='Capital')
@@ -114,7 +148,7 @@ class ClientInvestigation(models.Model):
 
     @api.one
     def done_form(self):
-        #TODO: ALLOW PRINT FUNCTION
+        #TODO: ALLOW PRINT FUNCTION IF INVESTIGATION STATUS IS 'DONE'
         category_id = self.env['credit.client.investigation.question.category'].search([])
         category_ids = [category.id for category in category_id]
         categories = category_id.search([('id', 'in', category_ids)])
@@ -139,15 +173,18 @@ class ClientInvestigation(models.Model):
         self.status = 'done'
         self.application_id.date_investigated = fields.Datetime.now()
         self.application_id.is_investigated = True
-        self.application_id.status = 'evaluate'
-        self.application_id.stage_id = self.env['crm.stage'].sudo().search([('name','=','Qualified')])
+        if self.is_passed:
+            self.application_id.status = 'approve_bm'
+            self.application_id.stage_id = self.env['crm.stage'].sudo().search([('name', '=', 'Approval')])
+        else:
+            self.application_id.status = 'failed'
+            self.application_id.stage_id = self.env['crm.stage'].sudo().search([('name', '=', 'Failed Application')])
+
 
     @api.model
     def create(self, values):
-        # investigation = super(ClientInvestigation, self).create(values)
         application = self.env['crm.lead'].search([('id','=',values['application_id'])])
-        # question = self.env['credit.client.investigation.questionnaire'].search([('investigation_id.id','=',investigation.id)], limit=1)
-        # if not question:
+
         try:
             category_id = self.env['credit.client.investigation.question.category'].search([])
             category_ids = [category.id for category in category_id if application.product_id.id in [product.id for product in category.allowed_products]]
@@ -169,27 +206,6 @@ class ClientInvestigation(models.Model):
     def write(self, values):
 
         return super(ClientInvestigation, self).write(values)
-
-# class InvestigationQuestionnaire(models.Model):
-#     _name = 'credit.client.investigation.questionnaire.pivot'
-#
-#     name = fields.Char()
-#     character = fields.Many2one('credit.client.investigation')
-#     capacity = fields.Many2one('credit.client.investigation')
-#     capital = fields.Many2one('credit.client.investigation')
-#     condition = fields.Many2one('credit.client.investigation')
-#     collateral = fields.Many2one('credit.client.investigation')
-#     category_id = fields.Many2one('credit.client.investigation.questionnaire.category')
-
-    # credit_investigation_questionnaire_pivot_sysad, credit.client.investigation.questionnaire.pivot.sysad, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_sysad, 1, 1, 1, 1
-    # credit_investigation_questionnaire_pivot_general, credit.client.investigation.questionnaire.pivot.general, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_general, 1, 0, 0, 0
-    # credit_investigation_questionnaire_pivot_branch, credit.client.investigation.questionnaire.pivot.branch, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_branch, 1, 0, 0, 0
-    # credit_investigation_questionnaire_pivot_admin, credit.client.investigation.questionnaire.pivot.admin, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_admin, 1, 0, 0, 0
-    # credit_investigation_questionnaire_pivot_accountsupervisor, credit.client.investigation.questionnaire.pivot.accountsupervisor, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_accountsupervisor, 1, 0, 0, 0
-    # credit_investigation_questionnaire_pivot_accountofficer, credit.client.investigation.questionnaire.pivot.accountofficer, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_accountofficer, 1, 0, 0, 0
-    # credit_investigation_questionnaire_pivot_devsupervisor, credit.client.investigation.questionnaire.pivot.devsupervisor, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_devsupervisor, 1, 0, 0, 0
-    # credit_investigation_questionnaire_pivot_devofficer, credit.client.investigation.questionnaire.pivot.devofficer, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_devofficer, 1, 0, 0, 0
-    # credit_investigation_questionnaire_pivot_member, credit.client.investigation.questionnaire.pivot.member, model_credit_client_investigation_questionnaire_pivot, credit_base.group_credit_member, 1, 0, 0, 0
 
 class Product(models.Model):
     _inherit = 'product.template'
@@ -216,25 +232,14 @@ class CIQuestion(models.Model):
 
     @api.depends('category_id')
     def set_name(self):
-        for i,rec in enumerate(self):
+        print(self.env['credit.client.investigation.question'].sudo().search([]))
+        for i,rec in enumerate(self.env['credit.client.investigation.question'].sudo().search([])):
             if not i != 0 and rec[i].id != rec[-i].id:
                 i = 0
+            print('QUESTION NO.', i)
+            print('QUESTION:', rec.question)
+            print('CATEGORY:', rec.category_id.name)
             rec.name = rec.category_id.name+' Question '+str(i+1)
-
-# class CIQestionnairePerCategory(models.Model):
-#     _name = 'credit.client.investigation.questionnaire.category'
-#
-#     name = fields.Char()
-#     category_id = fields.Many2one('credit.client.investigation.question.category')
-#     # category_investigation_id = fields.One2many('credit.client.investigation.questionnaire.pivot', 'category_id')
-#     character = fields.Many2one('credit.client.investigation')
-#     capacity = fields.Many2one('credit.client.investigation')
-#     capital = fields.Many2one('credit.client.investigation')
-#     condition = fields.Many2one('credit.client.investigation')
-#     collateral = fields.Many2one('credit.client.investigation')
-#     # investigation_id = fields.Many2one('credit.client.investigation')
-#     questions = fields.One2many('credit.client.investigation.questionnaire', 'investigation_category_id', 'Questions')
-#     remarks = fields.Text(string='Remarks',placeholder='Remarks...')
 
 class CIQuestionnaire(models.Model):
     _name = 'credit.client.investigation.questionnaire'

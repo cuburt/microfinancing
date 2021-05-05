@@ -5,20 +5,23 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="credit_investigation.loan_applications_inherit_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='status']" position="before">
-                    <button string="Evaluate" name="evaluate_applicant" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':['&amp;',('status','!=', 'investigate'),('loanclass','=','group')]}"/>
+                <xpath expr="//header" position="inside">
+                    <button name="process_application" string="Process Application" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'confirm')]}"/>
+                    <button string="Add to Blacklist" name="blacklist_applicant" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':['&amp;',('status','!=', 'failed')]}"/>
+                    <button string="Request for Re-Application" name="request_reapplication" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':['&amp;',('status','!=', 'failed')]}"/>
                 </xpath>
-                <xpath expr="//field[@name='status']" position="before">
-                    <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate','evaluate','disburse'])]}"/>
-                </xpath>
-                <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,investigate,evaluate,approve</attribute>
-                </xpath>
-                <xpath expr="//field[@name='date_investigated']" position="after">
-                    <field name="date_evaluated"/>
-                </xpath>
+<!--                <xpath expr="//button[@name='evaluate_applicant']" position="before">-->
+<!--                    <button string="Send to draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['draft','investigate','evaluate','disburse'])]}"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='status']" position="attributes">-->
+<!--                    <attribute name="statusbar_visible">draft,investigate,evaluate,approve</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='date_investigated']" position="after">-->
+<!--                    <field name="date_evaluated"/>-->
+<!--                </xpath>-->
                 <xpath expr="//field[@name='product_id']" position="after">
                     <field name="loanclass"/>
+                    <field name="status" invisible="1"/>
                 </xpath>
             </field>
         </record>

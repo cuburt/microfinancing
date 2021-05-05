@@ -8,12 +8,22 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="credit_account.member_crm_inherit_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='status']" position="before">
-                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','draft')]}"/>
+                <xpath expr="//header" position="inside">
+                    <button string="Investigate" name="investigate_form" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','evaluate')]}"/>
                 </xpath>
-                <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,investigate</attribute>
+                <xpath expr="//header[1]" position="after">
+                    <header>
+                        <button string="BM's Approval" name="approve_bm" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','approve_bm')]}"/>
+                        <button string="GM's Approval" name="approve_gm" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','approve_gm')]}"/>
+                        <button string="CRECOM's Approval" name="approve_crecom" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','approve_crecom')]}"/>
+                        <button string="EXECOM's Approval" name="approve_execom" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','approve_execom')]}"/>
+                        <button string="BOD's Approval" name="approve_bod" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=','approve_bod')]}"/>
+<!--                        <field name="status" widget="statusbar" statusbar_visible="approve_bm, approve_gm, approve_crecom, approve_execom, approve_bod" />-->
+                    </header>
                 </xpath>
+                <!--                <xpath expr="//field[@name='status']" position="attributes">-->
+                <!--                    <attribute name="statusbar_visible">draft,investigate</attribute>-->
+                <!--                </xpath>-->
                 <xpath expr="//button[@name='toggle_active']" position="after">
                     <button name="toggle_result" type="object" class="oe_stat_button" icon="fa-archive">
                         <field name="investigation_status" widget="boolean_button" options="{&quot;terminology&quot;:
@@ -24,9 +34,10 @@
                     </button>
                 </xpath>
                 <xpath expr="//field[@name='application_date']" position="after">
+                    <field name="status" invisible="1"/>
                     <field name="date_investigated"/>
                 </xpath>
-                <xpath expr="//notebook/page[1]" position="before">
+                <xpath expr="//notebook/page[1]" position="after">
 
                     <page string="CI/BI">
                         <field name="client_investigations"/>
@@ -100,33 +111,33 @@
                             <field name="investigation_date"/>
                             <field name="ave_score"/>
                         </group>
-                            <notebook>
-                                <page string="Character">
-                                    <field name="character"/>
-                                    <label for="character_remarks" string="Remarks"/>
-                                    <field name="character_remarks" invisible="0" placeholder="Remarks"/>
-                                </page>
-                                <page string="Capacity">
-                                    <field name="capacity"/>
-                                    <label for="capacity_remarks" string="Remarks"/>
-                                    <field name="capacity_remarks" invisible="0" placeholder="Remarks"/>
-                                </page>
-                                <page string="Capital">
-                                    <field name="capital"/>
-                                    <label for="capital_remarks" string="Remarks"/>
-                                    <field name="capital_remarks" invisible="0" placeholder="Remarks"/>
-                                </page>
-                                <page string="Condition">
-                                    <field name="condition"/>
-                                    <label for="condition_remarks" string="Remarks"/>
-                                    <field name="condition_remarks" invisible="0" placeholder="Remarks"/>
-                                </page>
-                                <page string="Collateral">
-                                    <field name="collateral"/>
-                                    <label for="collateral_remarks" string="Remarks"/>
-                                    <field name="collateral_remarks" invisible="0" placeholder="Remarks"/>
-                                </page>
-                            </notebook>
+                        <notebook>
+                            <page string="Character">
+                                <field name="character"/>
+                                <label for="character_remarks" string="Remarks"/>
+                                <field name="character_remarks" invisible="0" placeholder="Remarks"/>
+                            </page>
+                            <page string="Capacity">
+                                <field name="capacity"/>
+                                <label for="capacity_remarks" string="Remarks"/>
+                                <field name="capacity_remarks" invisible="0" placeholder="Remarks"/>
+                            </page>
+                            <page string="Capital">
+                                <field name="capital"/>
+                                <label for="capital_remarks" string="Remarks"/>
+                                <field name="capital_remarks" invisible="0" placeholder="Remarks"/>
+                            </page>
+                            <page string="Condition">
+                                <field name="condition"/>
+                                <label for="condition_remarks" string="Remarks"/>
+                                <field name="condition_remarks" invisible="0" placeholder="Remarks"/>
+                            </page>
+                            <page string="Collateral">
+                                <field name="collateral"/>
+                                <label for="collateral_remarks" string="Remarks"/>
+                                <field name="collateral_remarks" invisible="0" placeholder="Remarks"/>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>

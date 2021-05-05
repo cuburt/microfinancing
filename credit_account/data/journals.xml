@@ -3,30 +3,57 @@
     <data>
 
         <record id="data_journal_1" model="account.journal">
-            <field name="name">Cash Receipt Journal</field>
-            <field name="type">sale</field>
-            <field name="code">CR</field>
+            <field name="name">Purchase Credit Journal</field>
+            <field name="type">purchase</field>
+            <field name="code">LBT</field>
             <field name="company_id" ref="base.main_company"/>
-<!--            <field name="default_debit_account_id" ref=""/>-->
-<!--            <field name="default_credit_account_id" ref=""/>-->
+            <!--            <field name="default_debit_account_id" ref=""/>-->
+            <!--            <field name="default_credit_account_id" ref=""/>-->
         </record>
 
         <record id="data_journal_2" model="account.journal">
             <field name="name">Cash Payment Journal</field>
-            <field name="type">bank</field>
-            <field name="code">CP</field>
+            <field name="type">purchase</field>
+            <field name="code">EXP</field>
             <field name="company_id" ref="base.main_company"/>
-<!--            <field name="default_debit_account_id" ref=""/>-->
-<!--            <field name="default_credit_account_id" ref=""/>-->
+            <!--            <field name="default_debit_account_id" ref=""/>-->
+            <!--            <field name="default_credit_account_id" ref=""/>-->
         </record>
 
         <record id="data_journal_3" model="account.journal">
+            <field name="name">Receivable Journal</field>
+            <field name="type">sale</field>
+            <field name="code">RCV</field>
+            <field name="company_id" ref="base.main_company"/>
+            <!--            <field name="default_debit_account_id" ref=""/>-->
+            <!--            <field name="default_credit_account_id" ref=""/>-->
+        </record>
+
+        <record id="data_journal_4" model="account.journal">
+            <field name="name">Cash Receipt Journal</field>
+            <field name="type">cash</field>
+            <field name="code">CSH</field>
+            <field name="company_id" ref="base.main_company"/>
+            <!--            <field name="default_debit_account_id" ref=""/>-->
+            <!--            <field name="default_credit_account_id" ref=""/>-->
+        </record>
+
+        <record id="data_journal_5" model="account.journal">
+            <field name="name">Cheque Receipt Journal</field>
+            <field name="type">bank</field>
+            <field name="code">BNK</field>
+            <field name="company_id" ref="base.main_company"/>
+            <!--            <field name="default_debit_account_id" ref=""/>-->
+            <!--            <field name="default_credit_account_id" ref=""/>-->
+        </record>
+
+        <record id="data_journal_6" model="account.journal">
             <field name="name">General Journal</field>
             <field name="type">general</field>
-            <field name="code">GJ</field>
+            <field name="code">INV</field>
             <field name="company_id" ref="base.main_company"/>
-<!--            <field name="default_debit_account_id" ref=""/>-->
-<!--            <field name="default_credit_account_id" ref=""/>-->
+            <!--            <field name="default_debit_account_id" ref=""/>-->
+            <!--            <field name="default_credit_account_id" ref=""/>-->
         </record>
     </data>
 </odoo>

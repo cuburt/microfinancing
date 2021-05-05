@@ -67,6 +67,7 @@
 
         <record id="data_account_type_income" model="account.account.type">
             <field name="name">Income from Credit Operations</field>
+<!--            REVENUE-->
             <field name="type">other</field>
             <field name="internal_group">income</field>
         </record>

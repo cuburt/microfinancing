@@ -1,35 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="0">
+    <delete id="ref('crm.stage_lead1')" model="crm.stage"/>
+    <delete id="ref('crm.stage_lead2')" model="crm.stage"/>
+    <delete id="ref('crm.stage_lead3')" model="crm.stage"/>
+    <delete id="ref('crm.stage_lead4')" model="crm.stage"/>
 
-    <record model="crm.stage" id="stage_lead5">
-        <field name="name">Approved</field>
-        <field name="fold" eval="False"/>
-        <field name="probability">100</field>
+    <record model="crm.stage" id="stage_lead1">
+        <field name="name">Leads</field>
+        <field name="probability">0</field>
+        <field name="on_change">1</field>
+        <field name="sequence">1</field>
+    </record>
+    <record model="crm.stage" id="stage_lead2">
+        <field name="name">Pending Application</field>
+        <field name="probability">0</field>
+        <field name="on_change">1</field>
+        <field name="sequence">2</field>
+    </record>
+    <record model="crm.stage" id="stage_lead3">
+        <field name="name">Loan Processing</field>
+        <field name="probability">0</field>
+        <field name="on_change">1</field>
+        <field name="sequence">3</field>
+    </record>
+    <record model="crm.stage" id="stage_lead4">
+        <field name="name">Credit Investigation</field>
+        <field name="probability">0</field>
         <field name="on_change">1</field>
         <field name="sequence">4</field>
     </record>
-
-<!--    <record model="crm.stage" id="stage_lead6">-->
-<!--        <field name="name">Disbursed</field>-->
-<!--        <field name="fold" eval="False"/>-->
-<!--        <field name="probability">100</field>-->
-<!--        <field name="on_change">1</field>-->
-<!--        <field name="sequence">5</field>-->
-<!--    </record>-->
-
-    <record model="crm.stage" id="stage_lead7">
-        <field name="name">Collection</field>
+    <record model="crm.stage" id="stage_lead5">
+        <field name="name">Approval</field>
         <field name="fold" eval="False"/>
-        <field name="probability">100</field>
+        <field name="probability">0</field>
+        <field name="on_change">1</field>
+        <field name="sequence">5</field>
+    </record>
+    <record model="crm.stage" id="stage_lead6">
+        <field name="name">Approved</field>
+        <field name="fold" eval="False"/>
+        <field name="probability">0</field>
         <field name="on_change">1</field>
         <field name="sequence">6</field>
     </record>
-
-    <record model="crm.stage" id="stage_lead8">
-        <field name="name">Delinquent</field>
+    <record model="crm.stage" id="stage_lead7">
+        <field name="name">Failed Application</field>
         <field name="fold" eval="True"/>
         <field name="probability">0</field>
         <field name="on_change">1</field>
-        <field name="sequence">71</field>
+        <field name="sequence">7</field>
+    </record>
+    <record model="crm.stage" id="stage_lead8">
+        <field name="name">Loan Collection</field>
+        <field name="fold" eval="True"/>
+        <field name="probability">0</field>
+        <field name="on_change">1</field>
+        <field name="sequence">8</field>
     </record>
 </odoo>

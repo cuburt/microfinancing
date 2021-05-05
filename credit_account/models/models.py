@@ -2,10 +2,6 @@
 
 from odoo import models, fields, api
 
-# class PaymentTerm(models.Model):
-#     _inherit = 'account.payment.term'
-#
-#     duration = fields.Integer(default=20)
 class LoanProduct(models.Model):
     _inherit = 'product.template'
 
@@ -58,7 +54,6 @@ class ProductSurcharge(models.Model):
                                                  string="Payable Account",
                                                  domain=[('deprecated', '=', False)],
                                                  help="This account will be used when validating a customer invoice.")
-
 
 class ProductPenalty(models.Model):
     _name = 'credit.loan.penalty'
@@ -125,7 +120,6 @@ class LoanInterest(models.Model):
     #     string="Payable Account",
     #     domain=[('deprecated', '=', False)],
     #     help="The expense is accounted for when a vendor bill is validated, except in anglo-saxon accounting with perpetual inventory valuation in which case the expense (Cost of Goods Sold account) is recognized at the customer invoice validation.")
-
 
     @api.model
     def create(self, values):

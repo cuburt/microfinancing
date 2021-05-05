@@ -65,7 +65,6 @@ class GroupEvaluation(models.Model):
     #         for rec in self:
     #             rec.is_complete =
     #             print('VALIDATION COMPLETE?', bool((((len(rec.application_ids) == len(rec.registration_ids))*(bool(rec.group_id)))+(bool(rec.application_id))) * (rec.total_score>=4)))
-    #             #TODO:NEW CODE HERE>>
     #             if rec.group_id:
     #                 print('This is a group evaluation.')
     #                 for application in rec.application_ids:
@@ -131,15 +130,32 @@ class LoanApplicationRemarks(models.Model):
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
-    status = fields.Selection(string='Status', selection_add=[('evaluate','Evaluation'),('approve', "GM/BM Approval")], required=True, track_visibility='onchange')
+    #NOTE: the status 'Evaluation' is 'Loan Processing' in kanban
+    status = fields.Selection(string='Status', selection_add=[('evaluate','Evaluation')], required=True, track_visibility='onchange')
     registration_ids = fields.One2many('event.registration','application_id')
     performance_id = fields.Many2one('credit.loan.application.remarks','Performance')
     stage = fields.Char(compute='_get_stage')
-    date_evaluated = fields.Datetime('Evaluation Date Ended')
-    date_approved = fields.Datetime('Date Approved')
+    date_evaluated = fields.Datetime('Evaluation Date Ended', readonly=True)
+    date_approved = fields.Datetime('Date Approved', readonly=True)
     evaluation_ids = fields.One2many('credit.loan.evaluation', 'application_id', 'Evaluations')
     is_investigated = fields.Boolean(default=False, string='State')
     loanclass = fields.Selection(related='product_id.loanclass')
+
+    @api.multi
+    def process_application(self):
+        if self.checklist_ids:
+            #all requirements encoded in the system for this application
+            documents = sum([int(rec.is_complied) for rec in self.checklist_ids if rec.document_id.stage == 'application'])
+            #all non-optional requirements for loan processing
+            template_docs = sum([1-(rec.is_optional) for rec in self.product_id.checklist_id.document_ids if rec.stage == 'application'])
+            print('DOCUMENTS:', documents, template_docs)
+            if documents == template_docs:
+                self.status = 'evaluate'
+                self.stage_id = self.env['crm.stage'].sudo().search([('name','=','Loan Processing')], limit=1)
+                # self.generate_loan_details()
+            else:
+                raise ValidationError(_('Requirements for loan processing must be complied.'))
+        return True
 
     @api.depends('stage_id')
     def _get_stage(self):
@@ -168,6 +184,22 @@ class LoanApplication(models.Model):
             raise ValidationError(_('Application must be approved'))
 
         return True
+
+    @api.multi
+    def blacklist_applicant(self):
+        self.env['credit.loan.blacklist'].sudo().create({
+            'name':self.partner_id.name,
+            'application_id':self.id
+        })
+        self.financing_id.status = 'blacklist'
+
+    @api.multi
+    def request_reapplication(self):
+        self.env['credit.loan.reapplication'].sudo().create({
+            'name': self.partner_id.name,
+            'application_id': self.id
+        })
+        self.financing_id.status = 'archive'
 
     # @api.depends('investigation_status')
     # def set_approved(self):

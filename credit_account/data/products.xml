@@ -5,11 +5,19 @@
         <!--                    CATEGORY-->
         <record id="product_category_fee" model="product.category">
             <field name="parent_id" ref="product.product_category_1"/>
-            <field name="name">Fee</field>
+            <field name="property_account_receivable_categ_id" ref="account4"/>
+            <field name="property_account_payable_categ_id" ref="account42"/>
+            <field name="property_account_income_categ_id" ref="account42"/>
+            <field name="property_account_expense_categ_id" ref="account42"/>
+            <field name="name">Fees</field>
         </record>
 
         <record id="product_category_insurance" model="product.category">
             <field name="parent_id" ref="product.product_category_1"/>
+            <field name="property_account_receivable_categ_id" ref="account4"/>
+            <field name="property_account_payable_categ_id" ref="account42"/>
+            <field name="property_account_income_categ_id" ref="account42"/>
+            <field name="property_account_expense_categ_id" ref="account42"/>
             <field name="name">Insurance</field>
         </record>
 
@@ -17,11 +25,17 @@
             <field name="parent_id" ref="product.product_category_all"/>
             <field name="property_account_receivable_categ_id" ref="account4"/>
             <field name="property_account_payable_categ_id" ref="account42"/>
+            <field name="property_account_income_categ_id" ref="account46"/>
+<!--            <field name="property_account_expense_categ_id" ref="account42"/>-->
             <field name="name">Loan Products</field>
         </record>
 
         <record id="product_category_save" model="product.category">
             <field name="parent_id" ref="product.product_category_all"/>
+            <field name="property_account_receivable_categ_id" ref="account4"/>
+            <field name="property_account_payable_categ_id" ref="account42"/>
+            <field name="property_account_income_categ_id" ref="account42"/>
+            <field name="property_account_expense_categ_id" ref="account42"/>
             <field name="name">Savings Products</field>
         </record>
         <!--                    TEMPLATE-->
@@ -193,14 +207,14 @@
 <!--            <field name="sequence">1</field>-->
 <!--        </record>-->
 
-        <record id="template_4" model="product.template">
-            <field name="name">Capital Build Up</field>
-            <field name="type">service</field>
-            <field name="categ_id" ref="product_category_save"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="uom_id" ref="uom.product_uom_unit"/>
-            <field name="uom_po_id" ref="uom.product_uom_unit"/>
-        </record>
+<!--        <record id="template_4" model="product.template">-->
+<!--            <field name="name">Capital Build Up</field>-->
+<!--            <field name="type">service</field>-->
+<!--            <field name="categ_id" ref="product_category_save"/>-->
+<!--            <field name="company_id" ref="base.main_company"/>-->
+<!--            <field name="uom_id" ref="uom.product_uom_unit"/>-->
+<!--            <field name="uom_po_id" ref="uom.product_uom_unit"/>-->
+<!--        </record>-->
 
 <!--        INTEREST-->
         <record id="credit_loan_interest" model="credit.loan.interest">

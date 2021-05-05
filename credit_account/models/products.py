@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 #
 # [product.template]>O---<HAS>---|-[product.template]-|----<HAS>----|<[crm.lead]
 #
+
 class AccountPaymentTerm(models.Model):
     _inherit = 'account.payment.term'
 
@@ -33,6 +34,22 @@ class LoanApplication(models.Model):
     loan_amount = fields.Monetary('Loan Amount', required_if_loanclass='individual')
 
     kanbancolor = fields.Integer('Color Index', compute='set_kanban_color', store=True)
+    checklist_ids = fields.One2many('credit.loan.checklist.document','application_id')
+
+    @api.multi
+    def confirm_application(self):
+        if self.checklist_ids:
+            #all requirements encoded in the system for this application
+            documents = sum([int(rec.is_complied) for rec in self.checklist_ids if rec.document_id.stage == 'leads'])
+            #all non-optional requirements for application
+            template_docs = sum([ 1-int(rec.is_optional) for rec in self.product_id.checklist_id.document_ids if rec.stage == 'leads'])
+            print('DOCUMENTS:', documents, template_docs)
+            if documents == template_docs:
+                self.status = 'confirm'
+                self.stage_id = self.env['crm.stage'].sudo().search([('name','=','Pending Application')], limit=1)
+            else:
+                raise ValidationError(_('Requirements for application must be complied.'))
+        return True
 
     @api.depends('group_id', 'loanclass')
     def set_kanban_color(self):
@@ -45,6 +62,18 @@ class LoanApplication(models.Model):
                 elif not rec.group_id and rec.loanclass == 'individual':
                     rec.kanbancolor = _int
 
+    @api.model
+    def create(self, values):
+        product = self.env['product.template'].sudo().search([('id','=',values.get('product_id'))])
+        # CREATION OF INDIVIDUAL CHECKLIST BASED FROM THE CHECKLIST_TEMPLATE
+        values['checklist_ids'] = [(0, 0, {
+            'application_id':self.id,
+            'document_id':document.id
+        }) for document in self.env['credit.loan.checklist.template'].sudo().search([('id','=',product.checklist_id.id)]).document_ids]
+        print('TEMPLATE ID:', product.checklist_id.id)
+        print('REQUIRED DOCUMENTS:', values['checklist_ids'])
+        return super(LoanApplication, self).create(values)
+
 class productTemplate(models.Model):
     _inherit = 'product.template'
 
@@ -56,10 +85,7 @@ class productTemplate(models.Model):
             raise UserError(_("ERROR: 'term_domain' "+str(e)))
 
     sale_line_warn = fields.Selection(WARNING_MESSAGE, 'Sales Order Line', help=WARNING_HELP, required=False, default="no-message")
-    # package_id = fields.Many2one('product.template', 'Package')
     loanclass = fields.Selection([('group','Group Loan'),('individual','Individual Loan')])
-    # child_ids = fields.Many2many('product.template', 'parent_product_rel', 'parent_product_id', 'child_product_id', string='Products')
-    # child_ids = fields.One2many('product.template', 'package_id', string='Products')
     _class = fields.Char('Classification')
     payment_schedule_type = fields.Selection([('manual','Manual'),('automatic','Automatic')], string='Payment Schedule Type')
     min = fields.Monetary('Minimum Amount')
@@ -69,6 +95,7 @@ class productTemplate(models.Model):
     aging_method = fields.Selection([('microfinance','Microfinance')], 'Aging Method')
     has_collateral = fields.Boolean('Collateral', default=False)
     payment_term = fields.Many2one('account.payment.term', 'Payment Term', required_if_payment_schedule_type='automatic', domain=term_domain)
+    checklist_id = fields.Many2one('credit.loan.checklist.template')
 
 class ProductCategory(models.Model):
     _inherit = 'product.category'
@@ -89,7 +116,7 @@ class LoanGroup(models.Model):
     product_id = fields.Many2one('product.template', related='application_id.product_id')
     currency_id = fields.Many2one('res.currency', related='product_id.currency_id')
     loanclass = fields.Selection(related='product_id.loanclass')
-    loan_amount = fields.Monetary('Loan Amount', required_if_loanclass='group')
+    loan_amount = fields.Monetary('Loan Amount', required_if_loanclass='group', required=True)
 
     @api.model
     def create(self, values):
@@ -101,12 +128,33 @@ class LoanGroup(models.Model):
         print('GROUP CREATE IN PRODUCT:', values)
         return super(LoanGroup, self).create(values)
 
+class ChecklistTemplate(models.Model):
+    _name = 'credit.loan.checklist.template'
 
-# class ProductPrice(models.Model):
-#     _name = 'credit.product.price'
-#
-#     name = fields.Char(compute='get_name')
-#     product_product_id = fields.Many2one('product.product', 'Variant')
-#     product_id = fields.Many2one('product.template', 'Product', related='product_product_id.product_tmpl_id')
-#     currency_id = fields.Many2one('res.currency', related='product_id.currency_id')
-#     amount = fields.Monetary('Loan Amount')
+    name = fields.Char()
+    product_ids = fields.One2many('product.template','checklist_id')
+    document_ids = fields.Many2many('credit.loan.document','document_template_rel', string='Required Documents')
+
+class Document(models.Model):
+    _name = 'credit.loan.document'
+
+    name = fields.Char()
+    template_ids = fields.Many2many('credit.loan.checklist.template','document_template_rel',string='Present in')
+    is_optional = fields.Boolean(string='Optional', default=False)
+    stage = fields.Selection([('leads','Leads'), ('application','Pending Application')], string='Required for')
+    date_added = fields.Datetime('Date Added', default=fields.Datetime.now())
+    application_document_ids = fields.One2many('credit.loan.checklist.document','document_id')
+
+class ChecklistDocument(models.Model):
+    _name = 'credit.loan.checklist.document'
+
+    application_id = fields.Many2one('crm.lead')
+    product_id = fields.Many2one(related='application_id.product_id')
+    template_id = fields.Many2one(related='product_id.checklist_id')
+    document_id = fields.Many2one('credit.loan.document')
+    name = fields.Char(related='document_id.name')
+    is_complied = fields.Boolean(string='Complied', default=False)
+    is_generated = fields.Boolean(default=False)
+    is_imported = fields.Boolean(default=False)
+    attachments = fields.Many2many('ir.attachment', 'checklist_ir_attachment_relation', string='Attachment')
+

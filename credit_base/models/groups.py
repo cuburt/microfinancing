@@ -22,13 +22,13 @@ class LoanApplication(models.Model):
         for rec in self:
             rec.member_count = len(rec.group_id.application_ids)
 
-class MembersTransient(models.TransientModel):
-    _name = 'crm.lead.transient'
-
-    application_id = fields.Many2one('crm.lead')
-    financing_id = fields.Many2one('crm.lead', related='application_id.financing_id')
-    partner_id = fields.Many2one('res.partner', related='financing_id.partner_id')
-    group_id = fields.Many2one('credit.loan.group',related='application_id.group_id')
+# class MembersTransient(models.TransientModel):
+#     _name = 'crm.lead.transient'
+#
+#     application_id = fields.Many2one('crm.lead')
+#     financing_id = fields.Many2one('crm.lead', related='application_id.financing_id')
+#     partner_id = fields.Many2one('res.partner', related='financing_id.partner_id')
+#     group_id = fields.Many2one('credit.loan.group',related='application_id.group_id')
 
 class LoanGroupBatch(models.Model):
     _name = 'credit.loan.group.batch'
@@ -48,7 +48,7 @@ class LoanGroup(models.Model):
     code = fields.Char(readonly=True)
     state = fields.Selection([('active', 'Active'),('inactive','Inactive')], default='active', track_visibility='onchange')
     status = fields.Selection([('draft','Draft'),('confirm','Confirmed'),('cancel','Cancelled')], default='draft', track_visibility='onchange')
-    transient_application_ids = fields.One2many('crm.lead.transient','group_id','Members')
+    # transient_application_ids = fields.One2many('crm.lead.transient','group_id','Members')
     application_ids = fields.One2many('crm.lead','group_id','Members')
     date_organized = fields.Datetime(string='Date organized', default=fields.Datetime.now(),readonly=True)
     date_confirmed = fields.Datetime('Date Confirmed', readonly=True)

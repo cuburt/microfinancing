@@ -2,33 +2,6 @@
 <odoo>
     <data>
 
-        <record id="credit_base.action_window_cash_receipt" model="ir.actions.act_window">
-            <field name="name">Cash Receipt</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
-
-        <record id="credit_base.action_window_cash_payment" model="ir.actions.act_window">
-            <field name="name">Cash Payment</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model"></field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
 
         <record id="credit_base.action_window_journal_entry" model="ir.actions.act_window">
             <field name="name">Journal Entry</field>

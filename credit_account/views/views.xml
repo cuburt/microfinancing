@@ -34,7 +34,7 @@
                 <xpath expr="//field[@name='categ_id']" position="after">
                     <field name="loanclass"/>
                     <field name="_class"/>
-<!--                    <field name="child_ids" widget="many2many_tags"/>-->
+                    <!--                    <field name="child_ids" widget="many2many_tags"/>-->
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="before">
                     <field name="payment_schedule_type"/>
@@ -45,6 +45,7 @@
                     <field name="aging_method"/>
                     <field name="has_collateral"/>
                     <field name="payment_term"/>
+                    <field name="checklist_id"/>
                 </xpath>
             </field>
         </record>
@@ -133,11 +134,21 @@
             <field name="inherit_id" ref="credit_base.member_crm_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button name="release_loan" string="Release Loan" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'disburse')]}"/>
+                    <button name="confirm_application" string="Confirm Application" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'draft')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='financing_id']" position="before">
+                    <field name="loan_amount"/>
                 </xpath>
                 <xpath expr="//field[@name='phone']" position="after">
                     <field name="product_id"/>
+                    <field name="status" invisible="1"/>
                 </xpath>
+                <xpath expr="//page[1]" position="before">
+                    <page string="Checklist">
+                        <field name="checklist_ids"/>
+                    </page>
+                </xpath>
+
             </field>
         </record>
 
@@ -513,7 +524,7 @@
         </record>
 
 
-<!--        ===============================KANBAN===========================================-->
+        <!--        ===============================KANBAN===========================================-->
         <!-- Inherit Form View to Modify it -->
         <record id="credit_account.member_crm_kanban_view" model="ir.ui.view">
             <field name="name">crm.lead.kanban.accountinherit</field>
@@ -530,20 +541,145 @@
             </field>
         </record>
 
-<!--        &lt;!&ndash; Inherit Form View to Modify it &ndash;&gt;-->
-<!--        <record id="view_partner_property_credit_form" model="ir.ui.view">-->
-<!--            <field name="name">res.partner.property.credit.form.inherit</field>-->
-<!--            <field name="model">res.partner</field>-->
-<!--            <field name="inherit_id" ref=""/>-->
-<!--            <field name="arch" type="xml">-->
-<!--                -->
-<!--                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">-->
-<!--                    <field name="domain">[('internal_type','receivable')]</field>-->
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">-->
-<!--                    &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
-<!--                </xpath>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        &lt;!&ndash; Inherit Form View to Modify it &ndash;&gt;-->
+        <!--        <record id="view_partner_property_credit_form" model="ir.ui.view">-->
+        <!--            <field name="name">res.partner.property.credit.form.inherit</field>-->
+        <!--            <field name="model">res.partner</field>-->
+        <!--            <field name="inherit_id" ref=""/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                -->
+        <!--                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">-->
+        <!--                    <field name="domain">[('internal_type','receivable')]</field>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">-->
+        <!--                    &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <record id="checklist_template_tree" model="ir.ui.view">
+            <field name="name">credit.loan.checklist.template.list</field>
+            <field name="model">credit.loan.checklist.template</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="checklist_template_form" model="ir.ui.view">
+            <field name="name">credit.loan.checklist.template.form</field>
+            <field name="model">credit.loan.checklist.template</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <notebook>
+                                <page string="Products">
+                                    <field name="product_ids"  widget="many2many"/>
+                                </page>
+                            </notebook>
+                            <notebook>
+                                <page string="Required Documents">
+                                    <field name="document_ids"  widget="many2many"/>
+                                </page>
+                            </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_checklist_template" model="ir.actions.act_window">
+            <field name="name">Checklist Template</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.checklist.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <record id="checklist_document_tree" model="ir.ui.view">
+            <field name="name">credit.loan.checklist.document.list</field>
+            <field name="model">credit.loan.checklist.document</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                    <field name="is_complied"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_checklist_document" model="ir.actions.act_window">
+            <field name="name">Applicant's Checklist</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.checklist.document</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <record id="document_tree" model="ir.ui.view">
+            <field name="name">credit.loan.document.list</field>
+            <field name="model">credit.loan.document</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="is_optional"/>
+                    <field name="stage"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="document_form" model="ir.ui.view">
+            <field name="name">credit.loan.document.form</field>
+            <field name="model">credit.loan.document</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="is_optional"/>
+                            <field name="template_ids" widget="many2many_tags"/>
+                            <field name="stage"/>
+                        </group>
+                        <notebook>
+                            <page string="Applications with this requirement">
+                                <field name="application_document_ids" widget="many2many">
+                                    <tree>
+                                        <field name="application_id"/>
+                                        <field name="is_complied"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_account.action_window_checklist" model="ir.actions.act_window">
+            <field name="name">Required Documents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.document</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
     </data>
 </odoo>

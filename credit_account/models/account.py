@@ -8,36 +8,22 @@ from odoo.modules.module import get_module_resource
 from odoo import tools, _
 from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationError, Warning
 
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
-
-    @api.multi
-    def open_invoice(self):
-        date_now = fields.Datetime.now()
-        if self.date_invoice == date_now.date():
-            self.sudo().write({
-                'status':'open'
-            })
-        return True
 
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
 
     journal_entry_ids = fields.One2many('account.move', 'application_id', 'Journal Entry')
 
+    #NO BUTTON
     @api.multi
-    def release_loan(self):
-        if self.stage_id.id != self.env['crm.stage'].sudo().search([('name', '=', 'Approved')]).id:
-            raise UserError(_("The application must be approved first!"))
-        self.generate_collection_line()
+    def approve_application(self):
+        if self.stage_id.id != self.env['crm.stage'].sudo().search([('name', '=', 'Endorsement')]).id:
+            raise UserError(_("The application must be endorsed first!"))
         try:
-            #branchless group: current application is skipped when group loan
-            print('GROUP:', [application.partner_id.display_name for application in self.group_id.application_ids])
-            for application in self.group_id.application_ids:
-                if application.id != self.id:
-                    application.generate_collection_line()
-        except:pass
-        return True
+            self.stage_id = self.env['crm.stage'].sudo().search([('name', '=', 'Approved')])
+            self.status = 'disburse'
+        except Exception as e:
+            print(str(e))
 
     @api.multi
     def create_journal(self):
@@ -67,7 +53,7 @@ class LoanApplication(models.Model):
 
         try:
             self.write({
-                'stage_id': self.env['crm.stage'].search([('name', '=', 'Collection')]).id,
+                'stage_id': self.env['crm.stage'].search([('name', '=', 'Loan Collection')]).id,
                 'status': 'collection'
             })
             print('DISBURSED APPLICATION:', self.partner_id.display_name)
@@ -75,46 +61,6 @@ class LoanApplication(models.Model):
             raise UserError(_("ERROR: 'release_loan' state update", str(e)))
         return True
 
-
-
-    @api.multi
-    def generate_collection_line(self):
-        print('CREATING JOURNAL ENTRIES FOR:', self.partner_id.display_name)
-        date_released = fields.Datetime.now()
-        self.date_released = date_released
-        order = self.env['sale.order'].sudo().search([('opportunity_id.id', '=', self.id)])
-        print('DATE RELEASED:', date_released)
-        for i, line in enumerate(self.collection_line_ids):
-            print('UPDATING COLLECTION LINE...', line.id)
-            print('MONTH INDEX:', i)
-            try:
-                date_invoice = date_released + relativedelta(months=i)
-                date_due = date_released + relativedelta(months=i + 1)
-                context = {
-                    "date_invoice": date_invoice.date(),
-                    "date_due": date_due.date(),
-                    "amount": line.amortization,
-                }
-
-                print('CREATING INVOICE...')
-                invoice = line.order_id._create_invoice(context)
-
-                print('UPDATING COLLECTION LINES...')
-                line.write({
-                    'invoice_id': invoice.id,
-                    'date': date_released + relativedelta(months=i+1),
-                    'status': 'active',
-                })
-
-                # print('UPDATING INVOICE...')
-                # invoice.action_invoice_open()
-            except Exception as e:
-                print(str(e))
-                raise UserError(_('ERROR: Please contact your administrator immediately. '+str(e)))
-        order.sudo().write({
-            'invoice_status':'invoiced'
-        })
-        return self.create_journal()
 
 class AccountMove(models.Model):
     _inherit = 'account.move'

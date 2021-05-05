@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['credit_base', 'account', 'sale', 'sale_crm', 'om_account_accountant', 'product'],
+    'depends': ['credit_base','auth_signup','account', 'sale', 'sale_crm', 'om_account_accountant', 'product'],
 
     # always loaded
     'data': [

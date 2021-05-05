@@ -13,49 +13,49 @@
         <!--            </search>-->
         <!--           </field>-->
         <!--        </record>-->
-<!--        <record id="loan_applications_tree_view" model="ir.ui.view">-->
-<!--            <field name="name">credit.loan.application.list</field>-->
-<!--            <field name="model">crm.lead</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <tree string="">-->
-<!--                    <field name="code"/>-->
-<!--                    <field name="partner_id"/>-->
-<!--                    <field name="group_id"/>-->
-<!--                    <field name="financing_id"/>-->
-<!--                    <field name="application_date"/>-->
-<!--                    <field name="branch_id"/>-->
-<!--                </tree>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="loan_applications_tree_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.loan.application.list</field>-->
+        <!--            <field name="model">crm.lead</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="">-->
+        <!--                    <field name="code"/>-->
+        <!--                    <field name="partner_id"/>-->
+        <!--                    <field name="group_id"/>-->
+        <!--                    <field name="financing_id"/>-->
+        <!--                    <field name="application_date"/>-->
+        <!--                    <field name="branch_id"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
-<!--        <record id="loan_applications_form_view" model="ir.ui.view">-->
-<!--            <field name="name">credit.loan.application.form</field>-->
-<!--            <field name="model">crm.lead</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <form string="">-->
-<!--                    <header>-->
-<!--                        <field name="status" widget="statusbar" statusbar_visible="draft"/>-->
-<!--                    </header>-->
-<!--                    <sheet>-->
-<!--                        <div class="oe_button_box" name="button_box">-->
-<!--                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">-->
-<!--                                <field name="state" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                        <div class="oe_title">-->
-<!--                            <label for="financing_id" class="oe_edit_only"/>-->
-<!--                            <h1><field name="financing_id"/></h1>-->
-<!--                        </div>-->
-<!--                        <group>-->
-<!--                            <field name="code"/>-->
-<!--                            <field name="branch_id"/>-->
-<!--                            <field name="application_date"/>-->
-<!--                            <field name="product_id"/>-->
-<!--                        </group>-->
-<!--                    </sheet>-->
-<!--                </form>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="loan_applications_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">credit.loan.application.form</field>-->
+        <!--            <field name="model">crm.lead</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="">-->
+        <!--                    <header>-->
+        <!--                        <field name="status" widget="statusbar" statusbar_visible="draft"/>-->
+        <!--                    </header>-->
+        <!--                    <sheet>-->
+        <!--                        <div class="oe_button_box" name="button_box">-->
+        <!--                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">-->
+        <!--                                <field name="state" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>-->
+        <!--                            </button>-->
+        <!--                        </div>-->
+        <!--                        <div class="oe_title">-->
+        <!--                            <label for="financing_id" class="oe_edit_only"/>-->
+        <!--                            <h1><field name="financing_id"/></h1>-->
+        <!--                        </div>-->
+        <!--                        <group>-->
+        <!--                            <field name="code"/>-->
+        <!--                            <field name="branch_id"/>-->
+        <!--                            <field name="application_date"/>-->
+        <!--                            <field name="product_id"/>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
         <record id="loan_accounts_tree_view" model="ir.ui.view">
             <field name="name">credit.loan.financing.list</field>
@@ -76,12 +76,11 @@
             <field name="model">credit.loan.financing</field>
             <field name="arch" type="xml">
                 <form string="Loan Account">
+                    <header>
+                        <button string="Activate Loan Account" name="activate_account" class="oe_highlight" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','!=', 'archive')]}"/>
+                        <field name="status" widget="statusbar" statusbar_visible="archive,active,blacklist"/>
+                    </header>
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
-                                <field name="status" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
-                            </button>
-                        </div>
                         <div class="oe_title">
                             <label for="member_id" class="oe_edit_only"/>
                             <h1><field name="member_id"/></h1>

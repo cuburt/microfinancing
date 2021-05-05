@@ -34,11 +34,11 @@
             <field name="arch" type="xml">
                 <form string="Savings Account">
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
-                                <field name="status" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
-                            </button>
-                        </div>
+                        <header>
+                            <button name="action_active" string="Activate Account" type="object" class="oe_highlight" attrs="{'invisible': [('status', '=', 'active')]}"/>
+                            <button name="action_archive" string="Archive Account" type="object" attrs="{'invisible':[('status','=', 'archive')]}"/>
+                            <field name="status" widget="statusbar" statusbar_visible="archive,active,blacklist"/>
+                        </header>
                         <div class="oe_title">
                             <label for="member_id" class="oe_edit_only"/>
                             <h1><field name="member_id"/></h1>

@@ -33,9 +33,10 @@ class LoanApplication(models.Model):
     index = fields.Integer()
     code = fields.Char(readonly=True)
     application_date = fields.Datetime('Application Date', default=fields.Datetime.now(), required_if_state='confirm', readonly=True)
-    financing_id = fields.Many2one('credit.loan.financing', 'Loan Account', required=True)
+    financing_id = fields.Many2one('credit.loan.financing', 'Loan Account', required=True, domain="[('status','not in',['archive','blacklist'])]")
+    savings_id = fields.Many2one('credit.loan.savings', 'Savings Account', required=True)
     cosigner_id = fields.Many2one(comodel_name='res.partner', string='Cosigner')
-    status = fields.Selection(string="Status", selection=[('draft', 'Draft')], required=True,
+    status = fields.Selection(string="Status", selection=[('draft', 'Draft'),('confirm', 'Confirmed')], required=True,
                              default='draft', track_visibility='onchange')
     state = fields.Boolean(default=False)
     #RELATED FIELDS
@@ -45,7 +46,6 @@ class LoanApplication(models.Model):
     officer_id = fields.Many2one('res.partner','Assigned Officer', required=True)
     company_id = fields.Many2one('res.company', string='Company', index=True, store=True)
     attachment_ids = fields.Many2many('ir.attachment', 'crm_lead_ir_attachment_relation', string='Attachments')
-
 
     @api.onchange('financing_id')
     def set_account(self):
@@ -62,6 +62,7 @@ class LoanApplication(models.Model):
                 self.officer_id = self.area_id.officer_ids.search(domain, limit=1).id
         except Exception as e:
             raise UserError(_("ERROR: 'set_account' "+str(e)))
+        return {'domain':{'savings_id':[('status','not in',['archive','blacklist']), ('financing_id.id','=',self.financing_id.id)]}}
 
     @api.onchange('officer_id')
     def officer_id_onchange(self):
@@ -104,5 +105,27 @@ class LoanApplication(models.Model):
 
     @api.model
     def create(self, values):
-        print(values)
+
+        blacklist_item = self.env['credit.loan.blacklist'].sudo().search([('financing_id.id','=',values.get('financing_id'))], limit=1)
+        print(blacklist_item)
+        if blacklist_item:
+            print("Cannot create blacklisted applicant.")
+
         return super(LoanApplication, self).create(values)
+
+
+class Blacklist(models.Model):
+    _name = 'credit.loan.blacklist'
+
+    name = fields.Char()
+    application_id = fields.Many2one('crm.lead')
+    financing_id = fields.Many2one('credit.loan.financing', related='application_id.financing_id')
+    remarks = fields.Text()
+
+class Reapplication (models.Model):
+    _name = 'credit.loan.reapplication'
+
+    name = fields.Char()
+    application_id = fields.Many2one('crm.lead')
+    financing_id = fields.Many2one('credit.loan.financing', related='application_id.financing_id')
+    remarks = fields.Text()

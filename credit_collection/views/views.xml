@@ -1,7 +1,68 @@
 <odoo>
     <data>
+<!--        <record id="collection_tree" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.collection.list</field>-->
+<!--            <field name="model">credit.loan.collection</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="">-->
+<!--                    <field name="date_created"/>-->
+<!--                    <field name="application_id"/>-->
+<!--                    <field name="financing_id"/>-->
+<!--                    <field name="savings_id"/>-->
+<!--                    <field name="principal"/>-->
+<!--                    <field name="interest"/>-->
+<!--                    <field name="amortization"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="collection_form" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.collection.form</field>-->
+<!--            <field name="model">credit.loan.collection</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="">-->
+<!--                    <sheet>-->
+<!--                        <header>-->
+<!--                            <button name="action_active" string="Activate Collection" type="object" class="oe_highlight" attrs="{'invisible': [('status', '=', 'active')]}"/>-->
+<!--                            <button name="action_draft" string="Send to draft" type="object" attrs="{'invisible':[('status','in', ['draft','complete'])]}"/>-->
+<!--                            <button name="action_complete" string="Complete Collection" class="oe_highlight" type="object" attrs="{'invisible':[('status','in', ['draft','complete'])]}"/>-->
+<!--                            <field name="status" widget="statusbar" statusbar_visible="draft,active,complete"/>-->
+<!--                        </header>-->
+<!--                        <field name="collection_line_ids"/>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="credit_collection.action_window_blcl_collection" model="ir.actions.act_window">-->
+<!--            <field name="name">Collections</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">credit.loan.collection</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="oe_view_nocontent_create">-->
+<!--                    &lt;!&ndash; Add Text Here &ndash;&gt;-->
+<!--                </p><p>-->
+<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+<!--            </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="credit_collection.action_window_blcl_blcl" model="ir.actions.act_window">-->
+<!--            <field name="name">Batch Loan and CBU Ledger</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">credit.loan.collection</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--              <p class="oe_view_nocontent_create">-->
+<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+<!--              </p><p>-->
+<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+<!--              </p>-->
+<!--            </field>-->
+<!--        </record>-->
         <record id="loan_application_inherit_form_view" model="ir.ui.view">
-            <field name="name">credit.loan.collection.form</field>
+            <field name="name">crm.lead.credit.loan.collection.form</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="credit_evaluation.loan_applications_inherit_form_view"/>
             <field name="arch" type="xml">
@@ -20,69 +81,148 @@
                 <!--                         &quot;hover_false&quot;:&quot;Pass Investigation&quot;}}"/>-->
                 <!--                    </button>-->
                 <!--                </xpath>-->
+                <!--                TODO: THIS IS WHERE YOU LEFT OFF-->
                 <xpath expr="//header" position="inside">
-                    <button name="approve_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'approve')]}"/>
+                    <button name="generate_loan_details" string="Generate Loan Details" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'evaluate')]}"/>
+<!--                    <button name="generate_loan_proceed" string="Generate Loan Proceeds" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'passed')]}"/>-->
                     <!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
                 </xpath>
-                <xpath expr="//field[@name='status']" position="attributes">
-                    <attribute name="statusbar_visible">draft,investigate,evaluate,approve,disburse</attribute>
+                <!--                <xpath expr="//field[@name='status']" position="attributes">-->
+                <!--                    <attribute name="statusbar_visible">draft,investigate,evaluate,approve,disburse</attribute>-->
+                <!--                </xpath>-->
+                <xpath expr="//field[@name='loan_amount']" position="before">
+                    <field name="status" invisible="1"/>
                 </xpath>
-                <xpath expr="//field[@name='date_evaluated']" position="after">
+                <xpath expr="//field[@name='loan_amount']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='financing_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='savings_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='branch_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='area_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='officer_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='team_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='cosigner_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='priority']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('status','in',['investigate','approve_bm','approve_gm','approve_crecom','approve_execom','approve_bod','passed','failed','disburse','collection'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_investigated']" position="after">
                     <field name="date_approved"/>
+                    <field name="status" invisible="1"/>
                 </xpath>
-                <xpath expr="//notebook/page[1]" position="after">
-                    <page string="Payment Schedule">
-                        <field name="collection_line_ids"/>
+                <xpath expr="//notebook/page[5]" position="after">
+                    <page string="Collection">
+<!--                        <field name="collection_ids"/>-->
+                    </page>
+                </xpath>
+                <xpath expr="//notebook/page[5]" position="after">
+                    <page string="Loan Details">
+                        <div class="oe_title">
+                            <h3>
+                                Proposed Payment Schedule
+                            </h3>
+                        </div>
+<!--                        <field name="collection_line_ids"/>-->
+                        <group>
+                            <group >
+                                <div class="oe_title">
+                                    <label for="product_id" class="oe_edit_only"/>
+                                    <h3><field name="product_id"/></h3>
+                                </div>
+                                <field name="loan_amount"/>
+                                <field name="loanclass"/>
+                                <field name="min"/>
+                                <field name="max"/>
+                                <field name="grace_period_principal"/>
+                                <field name="grace_period_interest"/>
+                            </group>
+<!--                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">-->
+<!--                                <field name="principal" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+<!--                                <field name="penalty" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+<!--                                <field name="surcharge" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+<!--                                <field name="interest" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+<!--                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">-->
+<!--                                    <label for="amortization"/>-->
+<!--                                </div>-->
+<!--                                <field name="amortization" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+<!--                            </group>-->
+                        </group>
                     </page>
                 </xpath>
             </field>
         </record>
 
-        <record id="investigation_tree_view" model="ir.ui.view">
-            <field name="name">credit.loan.collection.list</field>
-            <field name="model">credit.loan.collection.line</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="date"/>
-                    <field name="principal" sum="Total Principal" widget="monetary"/>
-                    <field name="interest"/>
-                    <field name="surcharge"/>
-                    <field name="penalty"/>
-                    <field name="amortization" sum="Total Amortization" widget="monetary"/>
-                    <field name="currency_id"/>
-                    <field name="status"/>
-                </tree>
-            </field>
-        </record>
+<!--        <record id="investigation_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.collection.line.list</field>-->
+<!--            <field name="model">credit.loan.collection.line</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree>-->
+<!--                    <field name="date"/>-->
+<!--                    <field name="principal" sum="Total Principal" widget="monetary"/>-->
+<!--                    <field name="interest"/>-->
+<!--                    <field name="surcharge"/>-->
+<!--                    <field name="penalty"/>-->
+<!--                    <field name="amortization" sum="Total Amortization" widget="monetary"/>-->
+<!--                    <field name="currency_id"/>-->
+<!--                    <field name="status"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
 
-        <record id="collection_form_view" model="ir.ui.view">
-            <field name="name">credit.loan.collection.form</field>
-            <field name="model">credit.loan.collection.line</field>
-            <field name="arch" type="xml">
-                <form string="">
-                    <!--                    <header>-->
-                    <!--                        <button string="Confirm" name="confirm_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','cancel','done'])]}"/>-->
-                    <!--                        <button string="Send to Draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','draft',])]}"/>-->
-                    <!--                        <button string="Done" name="done_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>-->
-                    <!--                        <button name="cancel_form" string="Cancel" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['cancel','draft','done'])]}"/>-->
-                    <!--                        <field name="status" widget="statusbar" statusbar_visible="draft,ongoing,cancel,done"/>-->
-                    <!--                    </header>-->
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="collection_id"/>
-                            <field name="date"/>
-                            <field name="principal"/>
-                            <field name="interest"/>
-                            <field name="surcharge"/>
-                            <field name="penalty"/>
-                            <field name="amortization"/>
-                            <field name="status"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+<!--        <record id="collection_form_view" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.collection.line.form</field>-->
+<!--            <field name="model">credit.loan.collection.line</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="">-->
+<!--                    &lt;!&ndash;                    <header>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <button string="Confirm" name="confirm_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','cancel','done'])]}"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <button string="Send to Draft" name="draft_form" type="object" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['ongoing','draft',])]}"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <button string="Done" name="done_form" type="object" class="oe_highlight" groups="credit_base.group_credit_devsupervisor, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['done','draft','cancel'])]}"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <button name="cancel_form" string="Cancel" type="object" groups="credit_base.group_credit_branch, credit_base.group_credit_sysad" attrs="{'invisible':[('status','in',['cancel','draft','done'])]}"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <field name="status" widget="statusbar" statusbar_visible="draft,ongoing,cancel,done"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </header>&ndash;&gt;-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                            <field name="collection_id"/>-->
+<!--                            <field name="date"/>-->
+<!--                            <field name="principal"/>-->
+<!--                            <field name="interest"/>-->
+<!--                            <field name="surcharge"/>-->
+<!--                            <field name="penalty"/>-->
+<!--                            <field name="amortization"/>-->
+<!--                            <field name="status"/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <!--================NO COLLECTION DATES AND LOAN ACCOUNTS===========================================-->
 
@@ -141,10 +281,133 @@
             </field>
         </record>
 
-        <record id="action_window_cash_receipt" model="ir.actions.act_window">
-            <field name="name">Cash Receipt</field>
+        <record id="action_window_cash_payment" model="ir.actions.act_window">
+            <field name="name">Cash Payment</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <record id="action_window_cash_payment" model="ir.actions.act_window">
+            <field name="name">Cash Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <record id="disbursement_tree_view" model="ir.ui.view">
+            <field name="name">crm.lead.disburse.list.view</field>
+            <field name="model">crm.lead</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="financing_id"/>
+                    <field name="product_id"/>
+                    <field name="loan_amount"/>
+                    <field name="status" invisible="1"/>
+                    <button name="release_loan" string="Disburse" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'disburse')]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="disbursement_form_view" model="ir.ui.view">
+            <field name="name">crm.lead.disburse.form.view</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="credit_evaluation.loan_applications_inherit_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header" position="inside">
+                    <button name="release_loan" string="Release Loan" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'disburse')]}"/>
+                    <!--                    <button name="generate_loan_proceed" string="Generate Loan Proceeds" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'passed')]}"/>-->
+                    <!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="credit_collection.action_window_loan_disbursement" model="ir.actions.act_window">
+            <field name="name">Loan Disbursement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('status','=','disburse')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <record id="view_loan_collection_filter" model="ir.ui.view">
+            <field name="name">account.invoice.loan.collection.filter</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Today">
+                    <field name="name" string="string" domain="[()]"/>
+                    <filter name="today" string="Today" domain="[('date_invoice', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('date_invoice', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="credit_collection.action_window_loan_collection" model="ir.actions.act_window">
+            <field name="name">Loan Collection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_mode">search,tree,form</field>
+            <field name="context">{'search_default_today': 'today'}</field>
+            <field name="view_id" ref="view_loan_collection_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+        <record id="account_tree" model="ir.ui.view">
+            <field name="name">credit.loan.account.detail.list</field>
+            <field name="model">credit.loan.financing</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="account_form" model="ir.ui.view">
+            <field name="name">credit.loan.account.detail.form</field>
+            <field name="model">credit.loan.financing</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_window_account" model="ir.actions.act_window">
+            <field name="name">Account Masterlist</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.financing</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -155,10 +418,34 @@
             </field>
         </record>
 
-        <record id="action_window_cash_payment" model="ir.actions.act_window">
-            <field name="name">Cash Payment</field>
+        <record id="cheque_tree" model="ir.ui.view">
+            <field name="name">credit.loan.cheque.detail.list</field>
+            <field name="model">credit.loan.financing</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cheque_form" model="ir.ui.view">
+            <field name="name">credit.loan.cheque.detail.form</field>
+            <field name="model">credit.loan.financing</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_window_cheque" model="ir.actions.act_window">
+            <field name="name">Cheque Masterlist</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.payment</field>
+            <field name="res_model">credit.loan.financing</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">

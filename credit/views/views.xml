@@ -70,6 +70,12 @@
         <menuitem name="Evaluations" id="credit.evaluation" parent="credit.system"
                   action="credit_evaluation.action_window_evaluation"/>
 
+        <menuitem name="Account Details" id="credit.account" parent="credit.system"
+                  action="credit_collection.action_window_account"/>
+
+        <menuitem name="Cheque Details" id="credit.cheque" parent="credit.system"
+                  action="credit_collection.action_window_cheque"/>
+
         <!--        <menuitem name="Groups" id="credit.group_crm" parent="credit.system"-->
         <!--                  action="credit_base.action_window_group_crm"/>-->
 
@@ -108,11 +114,17 @@
 
         <!--transactions actions -->
 
-                      <menuitem name="Cash Receipt" id="credit.cash_receipt" parent="credit.transactions"
-                                action="credit_collection.action_window_cash_receipt"/>
+<!--                      <menuitem name="Cash Receipt" id="credit.cash_receipt" parent="credit.transactions"-->
+<!--                                action="credit_collection.action_window_cash_receipt"/>-->
 
                       <menuitem name="Cash Payment" id="credit.cash_payment" parent="credit.transactions"
                                 action="credit_collection.action_window_cash_payment"/>
+
+                      <menuitem name="Loan Disbursement" id="credit.loan_disbursement" parent="credit.transactions"
+                                action="credit_collection.action_window_loan_disbursement"/>
+
+                      <menuitem name="Loan Collection" id="credit.loan_collection" parent="credit.transactions"
+                                action="credit_collection.action_window_loan_collection"/>
 
 <!--        <menuitem name="Journal Entry" id="credit.journal_entry" parent="credit.transactions"-->
 <!--                 action="credit_account.action_window_journal_entry"/>-->
@@ -269,10 +281,20 @@
         <menuitem name="Question" id="credit.question" parent="credit.lists"
                   action="credit_investigation.action_window_question"/>
 
+        <menuitem name="Re-Application Requests" id="credit.reapplication" parent="credit.lists"
+                  action="credit_base.action_window_reapplication"/>
+
+        <menuitem name="Checklist Template" id="credit.checklist_template" parent="credit.lists"
+                  action="credit_account.action_window_checklist_template"/>
+
+        <menuitem name="Required Documents" id="credit.checklist" parent="credit.lists"
+                  action="credit_account.action_window_checklist"/>
+
+        <menuitem name="Blacklist" id="credit.blacklist" parent="credit.lists"
+                  action="credit_base.action_window_blacklist"/>
 
         <!--        <menuitem name="Roles" id="credit.role" parent="credit.lists"-->
         <!--                  action="credit_base.action_window_role"/>-->
-
 
         <!--              <menuitem name="Members - Other Information" id="credit.members_oi" parent="credit.lists"-->
         <!--                          action="credit_base.action_window_members_oi"/>-->
@@ -346,8 +368,14 @@
 
         <!--              &lt;!&ndash;blcl actions &ndash;&gt;-->
 
-<!--                      <menuitem name="Batch Loan and CBU Ledger" id="credit.batch_loan_cbu_ledger" parent="credit.blcl"-->
-<!--                                  action="credit_base.action_window_batch_loan_cbu_ledger"/>-->
+<!--        <menuitem name="Batch Loan and CBU Ledger" id="credit.batch_loan_cbu_ledger" parent="credit.blcl"/>-->
+
+<!--        &lt;!&ndash; This Menu Item must have a parent and an action &ndash;&gt;-->
+<!--        <menuitem name="Batch Loan and CBU Ledger" id="credit.blcl_blcl" parent="credit.batch_loan_cbu_ledger"-->
+<!--                    action="credit_collection.action_window_blcl_collection"/>-->
+
+<!--        <menuitem name="Collections" id="credit.blcl_collection" parent="credit.batch_loan_cbu_ledger"-->
+<!--                    action="credit_collection.action_window_blcl_blcl"/>-->
 
     </data>
 </odoo>

@@ -901,6 +901,82 @@
             </field>
         </record>
 
+        <record id="blacklist_list_view" model="ir.ui.view">
+            <field name="name">credit.loan.blacklist.tree</field>
+            <field name="model">credit.loan.blacklist</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="blacklist_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.blacklist.form</field>
+            <field name="model">credit.loan.blacklist</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_blacklist" model="ir.actions.act_window">
+            <field name="name">Blacklist</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.blacklist</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="reapplication_list_view" model="ir.ui.view">
+            <field name="name">credit.loan.reapplication.tree</field>
+            <field name="model">credit.loan.reapplication</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="reapplication_form_view" model="ir.ui.view">
+            <field name="name">credit.loan.reapplication.form</field>
+            <field name="model">credit.loan.reapplication</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_base.action_window_reapplication" model="ir.actions.act_window">
+            <field name="name">Requests for Re-application</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.loan.reapplication</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
     </data>
 </odoo>
 
