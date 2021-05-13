@@ -83,7 +83,7 @@
                 <!--                </xpath>-->
                 <!--                TODO: THIS IS WHERE YOU LEFT OFF-->
                 <xpath expr="//header" position="inside">
-                    <button name="generate_loan_details" string="Generate Loan Details" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'evaluate')]}"/>
+<!--                    <button name="generate_loan_details" string="Generate Loan Details" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'evaluate')]}"/>-->
 <!--                    <button name="generate_loan_proceed" string="Generate Loan Proceeds" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'passed')]}"/>-->
                     <!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
                 </xpath>
@@ -148,7 +148,17 @@
                                 Proposed Payment Schedule
                             </h3>
                         </div>
-<!--                        <field name="collection_line_ids"/>-->
+                        <field name="collection_line_ids">
+                            <tree>
+                                <field name="date"/>
+                                <field name="principal"/>
+                                <field name="amortization"/>
+                                <field name="interest"/>
+                                <field name="surcharge"/>
+                                <field name="penalty"/>
+                                <field name="status"/>
+                            </tree>
+                        </field>
                         <group>
                             <group >
                                 <div class="oe_title">
@@ -162,16 +172,16 @@
                                 <field name="grace_period_principal"/>
                                 <field name="grace_period_interest"/>
                             </group>
-<!--                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">-->
-<!--                                <field name="principal" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
-<!--                                <field name="penalty" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
-<!--                                <field name="surcharge" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
-<!--                                <field name="interest" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
-<!--                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">-->
-<!--                                    <label for="amortization"/>-->
-<!--                                </div>-->
-<!--                                <field name="amortization" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
-<!--                            </group>-->
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                <field name="principal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="penalty" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="surcharge" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="interest" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="amortization"/>
+                                </div>
+                                <field name="amortization" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
                         </group>
                     </page>
                 </xpath>
@@ -332,7 +342,7 @@
 
                 <xpath expr="//header" position="inside">
                     <button name="release_loan" string="Release Loan" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'disburse')]}"/>
-                    <!--                    <button name="generate_loan_proceed" string="Generate Loan Proceeds" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'passed')]}"/>-->
+                    <button name="generate_loan_proceed" string="Generate Loan Proceeds" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('status', '!=', 'passed')]}"/>
                     <!--                    <button name="cancel_application" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
                 </xpath>
             </field>
@@ -380,67 +390,69 @@
             </field>
         </record>
 
-        <record id="account_tree" model="ir.ui.view">
-            <field name="name">credit.loan.account.detail.list</field>
-            <field name="model">credit.loan.financing</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+<!--TODO: ACCOUNT AND CHEQUE HERE-->
 
-        <record id="account_form" model="ir.ui.view">
-            <field name="name">credit.loan.account.detail.form</field>
-            <field name="model">credit.loan.financing</field>
-            <field name="arch" type="xml">
-                <form string="">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+<!--        <record id="account_tree" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.account.detail.list</field>-->
+<!--            <field name="model">credit.loan.financing</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="">-->
+<!--                    <field name="name"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
 
-        <record id="action_window_account" model="ir.actions.act_window">
-            <field name="name">Account Masterlist</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">credit.loan.financing</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+<!--        <record id="account_form" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.account.detail.form</field>-->
+<!--            <field name="model">credit.loan.financing</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
 
-        <record id="cheque_tree" model="ir.ui.view">
-            <field name="name">credit.loan.cheque.detail.list</field>
-            <field name="model">credit.loan.financing</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
+<!--        <record id="action_window_account" model="ir.actions.act_window">-->
+<!--            <field name="name">Account Masterlist</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">credit.loan.financing</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--              <p class="oe_view_nocontent_create">-->
+<!--                &lt;!&ndash; Add Text Here &ndash;&gt;-->
+<!--              </p><p>-->
+<!--                &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+<!--              </p>-->
+<!--            </field>-->
+<!--        </record>-->
 
-        <record id="cheque_form" model="ir.ui.view">
-            <field name="name">credit.loan.cheque.detail.form</field>
-            <field name="model">credit.loan.financing</field>
-            <field name="arch" type="xml">
-                <form string="">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+<!--        <record id="cheque_tree" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.cheque.detail.list</field>-->
+<!--            <field name="model">credit.loan.financing</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="">-->
+<!--                    <field name="name"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="cheque_form" model="ir.ui.view">-->
+<!--            <field name="name">credit.loan.cheque.detail.form</field>-->
+<!--            <field name="model">credit.loan.financing</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <record id="action_window_cheque" model="ir.actions.act_window">
             <field name="name">Cheque Masterlist</field>

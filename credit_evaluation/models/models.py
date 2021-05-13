@@ -4,7 +4,7 @@ from odoo import tools, _
 
 from odoo.exceptions import ValidationError, UserError
 
-#TODO: VALIDATION ON DRAFT
+# TODO: VALIDATION ON DRAFT
 class GroupEvaluation(models.Model):
     _name = 'credit.loan.evaluation'
 
@@ -54,10 +54,10 @@ class GroupEvaluation(models.Model):
     def cancel_form(self):
         self.status = 'cancel'
 
-    # @api.onchange('is_complete')
-    # def set_done(self):
-    #     if self.is_complete:
-    #         self.status = 'done'
+    @api.onchange('is_complete')
+    def set_done(self):
+        if self.is_complete:
+            self.status = 'done'
 
     # @api.depends('application_ids','registration_ids','total_score','group_product_id','application_id','group_id')
     # def set_complete(self):
@@ -118,14 +118,14 @@ class GroupEvaluation(models.Model):
                     ev['name'] = self.env['crm.lead'].sudo().search([('id','=',values['application_id'])]).name
             except Exception as e:
                 raise UserError(_('ERROR 3 '+str(e)))
-        return ev
+    #     return ev
 
-#TODO: No idea what this is for. LMAO
-class LoanApplicationRemarks(models.Model):
-    _name = 'credit.loan.application.remarks'
-
-    name = fields.Char()
-    content = fields.Text()
+# No idea what this is for. LMAO
+# class LoanApplicationRemarks(models.Model):
+#     _name = 'credit.loan.application.remarks'
+#
+#     name = fields.Char()
+#     content = fields.Text()
 
 class LoanApplication(models.Model):
     _inherit = 'crm.lead'
@@ -141,6 +141,11 @@ class LoanApplication(models.Model):
     is_investigated = fields.Boolean(default=False, string='State')
     loanclass = fields.Selection(related='product_id.loanclass')
 
+    @api.depends('stage_id')
+    def _get_stage(self):
+        for rec in self:
+            rec.stage = rec.stage_id.name
+
     @api.multi
     def process_application(self):
         if self.checklist_ids:
@@ -150,17 +155,54 @@ class LoanApplication(models.Model):
             template_docs = sum([1-(rec.is_optional) for rec in self.product_id.checklist_id.document_ids if rec.stage == 'application'])
             print('DOCUMENTS:', documents, template_docs)
             if documents == template_docs:
+                self.generate_loan_details()
                 self.status = 'evaluate'
                 self.stage_id = self.env['crm.stage'].sudo().search([('name','=','Loan Processing')], limit=1)
-                # self.generate_loan_details()
             else:
                 raise ValidationError(_('Requirements for loan processing must be complied.'))
         return True
 
-    @api.depends('stage_id')
-    def _get_stage(self):
-        for rec in self:
-            rec.stage = rec.stage_id.name
+    @api.multi
+    def generate_loan_details(self):
+        # THIS FUNCTION CREATES COLLECTION (IE, MONTHLY AMORT.) FOR THIS APPLICATION AND EACH APPLICATION IN A GROUP
+        # GENERATE LOAN DETAILS: EDITABLE
+        try:
+            # if self.stage_id.id != self.env['crm.stage'].sudo().search([('name', '=', 'Approved')]).id and self.status != 'passed':
+            #     raise UserError(_("The application must be approved first!"))
+            if self.product_id.loanclass == 'group':
+                for application in self.group_id.application_ids:
+                    print('CREATING COLLECTION FOR:', application.partner_id.name)
+                    self.env['credit.loan.collection'].sudo().create({
+                        'application_id': application.id,
+                        'status': 'draft',
+                    })
+                    application.write({
+                        # 'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
+                        'status': 'disburse'
+                    })
+                print('COLLECTION FOR GROUP MEMBERS CREATED!')
+                return True
+
+            elif self.product_id.loanclass == 'individual':
+
+                print('CREATING COLLECTION FOR:', self.partner_id.name)
+
+                # THIS LINE CALLS THE CREATE FUNCTION IN COLLECTION MODEL/TABLE
+                self.env['credit.loan.collection'].sudo().create({'application_id': self.id,'status': 'draft'})
+
+                # self.write({
+                #     # 'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
+                #     'status': 'confirm'
+                # })
+                try:
+                    self.planned_revenue = sum([rec.amortization for rec in self.collection_line_ids]) - self.loan_amount
+                except Exception as e:
+                    print(str(e))
+                    pass
+                print('COLLECTION FOR APPLICANT CREATED!')
+                return True
+        except Exception as e:
+            raise UserError(_(str(e)))
 
     @api.multi
     def evaluate_applicant(self):
@@ -211,6 +253,42 @@ class LoanApplication(models.Model):
     #                     rec.status = 'evaluate'
     #     except Exception as e:
     #         raise ValidationError(_("ERROR: 'set_approved' "+str(e)))
+
+#TODO: replace this with SO
+class Collection(models.Model):
+    _name = 'credit.loan.collection'
+
+    name = fields.Char()
+    application_id = fields.Many2one('crm.lead', 'Application Seq.')
+    date_created = fields.Datetime('Date Created', default=fields.Datetime.now())
+    partner_id = fields.Many2one('res.partner', related='application_id.partner_id')
+    financing_id = fields.Many2one('credit.loan.financing', related='application_id.financing_id')
+    savings_id = fields.Many2one('credit.loan.savings', related='application_id.savings_id')
+    product_id = fields.Many2one('product.template', related='application_id.product_id', string='Applied Product')
+    currency_id = fields.Many2one('res.currency', related='product_id.currency_id')
+    term_id = fields.Many2one('account.payment.term', related='product_id.payment_term')
+    interest_id = fields.Many2one('credit.loan.interest', related='product_id.interest_id')
+    surcharge_id = fields.Many2one('credit.loan.surcharge', related='product_id.surcharge_id')
+    penalty_id = fields.Many2one('credit.loan.penalty', related='product_id.penalty_id')
+    collateral_id = fields.Many2one('credit.loan.collateral', related='product_id.collateral_id')
+    fund_id = fields.Many2one('credit.loan.fund', related='product_id.fund_id')
+    status = fields.Selection([('draft', 'Draft'),
+                               ('active', 'Active'),
+                               ('complete', 'Complete')])
+    @api.multi
+    def action_active(self):
+        if self.status == 'draft':
+            self.status = 'active'
+
+    @api.multi
+    def action_draft(self):
+        if self.status == 'active':
+            self.status = 'draft'
+
+    @api.multi
+    def action_complete(self):
+        if self.status == 'active':
+            self.status = 'complete'
 
 class LoanGroup(models.Model):
     _inherit = 'credit.loan.group'
@@ -286,22 +364,22 @@ class LoanGroup(models.Model):
         except Exception as e:
             raise ValidationError(_("ERROR: 'set_approved' "+str(e)))
 
-#     @api.onchange('application_ids')
-#     def set_approved(self):
-#         try:
-#             self.is_approved = (
-#                         len(self.application_ids) == sum([_bool.investigation_status for _bool in self.application_ids]))
-#             if self.is_approved:
-#                 for application in self.application_ids:
-#                     application.write({
-#                         'status': 'qualify',
-#                         'stage_id': self.env['crm.stage'].search([('name', '=', 'Proposition')]).id,
-#                     })
-#                     print( self.env['crm.stage'].search([('name', '=', 'Proposition')]).id)
-#                 self.status = 'qualify'
-#                 # self.is_complete = (len(rec.members) == sum([((int(self.env['credit.loan.application'].search([('partner_id','=',member.id),('group_id','=',rec.id),('state','=',True)], order='application_date desc', limit=1).partner_id.id) for member in members) for members in evaluation)for evaluation in self.evaluation_ids]))
-#         except Exception as e:
-#             raise ValidationError(_("ERROR: 'set_approved' "+str(e)))
+    @api.onchange('application_ids')
+    def set_approved(self):
+        try:
+            self.is_approved = (
+                        len(self.application_ids) == sum([_bool.investigation_status for _bool in self.application_ids]))
+            if self.is_approved:
+                for application in self.application_ids:
+                    application.write({
+                        'status': 'qualify',
+                        'stage_id': self.env['crm.stage'].search([('name', '=', 'Proposition')]).id,
+                    })
+                    print( self.env['crm.stage'].search([('name', '=', 'Proposition')]).id)
+                self.status = 'qualify'
+                # self.is_complete = (len(rec.members) == sum([((int(self.env['credit.loan.application'].search([('partner_id','=',member.id),('group_id','=',rec.id),('state','=',True)], order='application_date desc', limit=1).partner_id.id) for member in members) for members in evaluation)for evaluation in self.evaluation_ids]))
+        except Exception as e:
+            raise ValidationError(_("ERROR: 'set_approved' "+str(e)))
 
 class CrecomEvaluation(models.Model):
     _name = 'credit.loan.evaluation.crecom'

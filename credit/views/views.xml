@@ -70,8 +70,8 @@
         <menuitem name="Evaluations" id="credit.evaluation" parent="credit.system"
                   action="credit_evaluation.action_window_evaluation"/>
 
-        <menuitem name="Account Details" id="credit.account" parent="credit.system"
-                  action="credit_collection.action_window_account"/>
+<!--        <menuitem name="Account Details" id="credit.account" parent="credit.system"-->
+<!--                  action="credit_collection.action_window_account"/>-->
 
         <menuitem name="Cheque Details" id="credit.cheque" parent="credit.system"
                   action="credit_collection.action_window_cheque"/>
