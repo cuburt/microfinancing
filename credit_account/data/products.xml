@@ -5,10 +5,10 @@
         <!--                    CATEGORY-->
         <record id="product_category_fee" model="product.category">
             <field name="parent_id" ref="product.product_category_1"/>
-            <field name="property_account_receivable_categ_id" ref="account4"/>
-            <field name="property_account_payable_categ_id" ref="account42"/>
-            <field name="property_account_income_categ_id" ref="account42"/>
-            <field name="property_account_expense_categ_id" ref="account42"/>
+            <field name="property_account_receivable_categ_id" ref="account12"/>
+            <field name="property_account_payable_categ_id" ref="account47"/>
+            <field name="property_account_income_categ_id" ref="account48"/>
+            <field name="property_account_expense_categ_id" ref="account57"/>
             <field name="name">Fees</field>
         </record>
 
@@ -25,17 +25,13 @@
             <field name="parent_id" ref="product.product_category_all"/>
             <field name="property_account_receivable_categ_id" ref="account4"/>
             <field name="property_account_payable_categ_id" ref="account42"/>
-            <field name="property_account_income_categ_id" ref="account46"/>
-<!--            <field name="property_account_expense_categ_id" ref="account42"/>-->
+            <field name="property_account_income_categ_id" ref="account52"/>
+            <field name="property_account_expense_categ_id" ref="account57"/>
             <field name="name">Loan Products</field>
         </record>
 
         <record id="product_category_save" model="product.category">
             <field name="parent_id" ref="product.product_category_all"/>
-            <field name="property_account_receivable_categ_id" ref="account4"/>
-            <field name="property_account_payable_categ_id" ref="account42"/>
-            <field name="property_account_income_categ_id" ref="account42"/>
-            <field name="property_account_expense_categ_id" ref="account42"/>
             <field name="name">Savings Products</field>
         </record>
         <!--                    TEMPLATE-->
@@ -221,7 +217,7 @@
             <field name="name">Regular Interest</field>
             <field name="code">INT</field>
             <field name="index">1</field>
-            <field name="rate">0.06</field>
+            <field name="rate">3.5</field>
             <field name="product_ids" eval="[(6, 0, [ ref('al1_template'),
                                                      ref('cgl1_template'),
                                                      ref('gml1_template'),
@@ -229,7 +225,11 @@
                                                      ref('selda_template'),
                                                      ref('sl1_template')])]"/>
             <field name="is_active" eval="True"/>
-            <field name="interest_account_income_id" ref="account6"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="property_account_receivable_id" ref="account6"/>
+            <field name="property_account_payable_id" ref="account47"/>
+            <field name="property_account_income_id" ref="account46"/>
+            <field name="property_account_expense_id" ref="account54"/>
         </record>
 
     </data>

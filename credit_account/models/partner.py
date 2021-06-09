@@ -17,3 +17,14 @@ class Partner(models.Model):
                     'property_account_payable_id': self.env['account.account'].search([('company_id.id','=',company.id),('internal_type','=','payable')],limit=1),
                     'property_account_receivable_id': self.env['account.account'].search([('company_id.id','=',company.id),('internal_type','=','receivable')],limit=1)
                 }}
+
+    # @api.model
+    # def config_company_accounting(self,partner):
+    #     partner = self.sudo().search([('id','=',partner)])
+    #     print(partner)
+    #     print(self.env['account.account'].sudo().search([('company_id.id','=',partner.company_id.id),('internal_type','=','receivable'),('deprecated','=',False),('code','=','11710')],limit=1).id)
+    #     partner.sudo().write({
+    #         'property_account_receivable_id':self.env['account.account'].sudo().search([('company_id.id','=',partner.company_id.id),('internal_type','=','receivable'),('deprecated','=',False),('code','=','11710')],limit=1).id,
+    #         'property_account_payable_id':self.env['account.account'].sudo().search([('company_id.id','=',partner.company_id.id),('internal_type','=','payable'),('deprecated','=',False),('code','=','00000')],limit=1).id
+    #     })
+    #     return True

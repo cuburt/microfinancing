@@ -49,6 +49,9 @@ class LoanApplication(models.Model):
                 self.stage_id = self.env['crm.stage'].sudo().search([('name','=','Pending Application')], limit=1)
             else:
                 raise ValidationError(_('Requirements for application must be complied.'))
+        else:
+            self.status = 'confirm'
+            self.stage_id = self.env['crm.stage'].sudo().search([('name', '=', 'Pending Application')], limit=1)
         return True
 
     @api.depends('group_id', 'loanclass')
@@ -96,6 +99,7 @@ class productTemplate(models.Model):
     has_collateral = fields.Boolean('Collateral', default=False)
     payment_term = fields.Many2one('account.payment.term', 'Payment Term', required_if_payment_schedule_type='automatic', domain=term_domain)
     checklist_id = fields.Many2one('credit.loan.checklist.template')
+    payment_term_company = fields.Many2one('res.company', related='payment_term.company_id')
 
 class ProductCategory(models.Model):
     _inherit = 'product.category'
@@ -108,7 +112,6 @@ class ProductCategory(models.Model):
         string="Payable Account",
         domain=[('deprecated', '=', False)],
         help="The expense is accounted for when a vendor bill is validated, except in anglo-saxon accounting with perpetual inventory valuation in which case the expense (Cost of Goods Sold account) is recognized at the customer invoice validation.")
-
 
 class LoanGroup(models.Model):
     _inherit = 'credit.loan.group'
@@ -131,17 +134,26 @@ class LoanGroup(models.Model):
 class ChecklistTemplate(models.Model):
     _name = 'credit.loan.checklist.template'
 
-    name = fields.Char()
-    product_ids = fields.One2many('product.template','checklist_id')
+    name = fields.Char(required=True)
+    product_ids = fields.One2many('product.template','checklist_id', domain=[('categ_id.name','=','Loan Products')])
     document_ids = fields.Many2many('credit.loan.document','document_template_rel', string='Required Documents')
+
+    # @api.model
+    # def create(self, values):
+    #     try:
+    #         return super(ChecklistTemplate, self).create(values)
+    #     except TypeError as te:
+    #         pass
+    #     except AttributeError as ae:
+    #         pass
 
 class Document(models.Model):
     _name = 'credit.loan.document'
 
-    name = fields.Char()
+    name = fields.Char(required=True)
     template_ids = fields.Many2many('credit.loan.checklist.template','document_template_rel',string='Present in')
     is_optional = fields.Boolean(string='Optional', default=False)
-    stage = fields.Selection([('leads','Leads'), ('application','Pending Application')], string='Required for')
+    stage = fields.Selection([('leads','Leads'), ('application','Pending Application')], string='Required for', required=True)
     date_added = fields.Datetime('Date Added', default=fields.Datetime.now())
     application_document_ids = fields.One2many('credit.loan.checklist.document','document_id')
 

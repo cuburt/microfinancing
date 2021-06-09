@@ -133,7 +133,7 @@ class LoanApplication(models.Model):
     #NOTE: the status 'Evaluation' is 'Loan Processing' in kanban
     status = fields.Selection(string='Status', selection_add=[('evaluate','Evaluation')], required=True, track_visibility='onchange')
     registration_ids = fields.One2many('event.registration','application_id')
-    performance_id = fields.Many2one('credit.loan.application.remarks','Performance')
+    # performance_id = fields.Many2one('credit.loan.application.remarks','Performance')
     stage = fields.Char(compute='_get_stage')
     date_evaluated = fields.Datetime('Evaluation Date Ended', readonly=True)
     date_approved = fields.Datetime('Date Approved', readonly=True)
@@ -160,6 +160,10 @@ class LoanApplication(models.Model):
                 self.stage_id = self.env['crm.stage'].sudo().search([('name','=','Loan Processing')], limit=1)
             else:
                 raise ValidationError(_('Requirements for loan processing must be complied.'))
+        else:
+            self.generate_loan_details()
+            self.status = 'evaluate'
+            self.stage_id = self.env['crm.stage'].sudo().search([('name', '=', 'Loan Processing')], limit=1)
         return True
 
     @api.multi
@@ -174,12 +178,12 @@ class LoanApplication(models.Model):
                     print('CREATING COLLECTION FOR:', application.partner_id.name)
                     self.env['credit.loan.collection'].sudo().create({
                         'application_id': application.id,
-                        'status': 'draft',
+                        'status': 'active',
                     })
-                    application.write({
+                    # application.write({
                         # 'stage_id': self.env['crm.stage'].search([('name', '=', 'Approved')]).id,
-                        'status': 'disburse'
-                    })
+                    #     'status': 'disburse'
+                    # })
                 print('COLLECTION FOR GROUP MEMBERS CREATED!')
                 return True
 

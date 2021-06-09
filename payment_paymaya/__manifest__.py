@@ -24,9 +24,9 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'data/payment_acquirer_data.xml',
         'views/payment_paymaya_templates.xml',
         'views/payment_views.xml',
+        'data/payment_acquirer_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

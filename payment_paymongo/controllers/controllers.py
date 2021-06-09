@@ -7,7 +7,7 @@ import werkzeug
 from odoo import http
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 from odoo.http import request
-import web
+# import web
 
 _logger = logging.getLogger(__name__)
 

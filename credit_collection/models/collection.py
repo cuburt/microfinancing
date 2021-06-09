@@ -26,19 +26,86 @@ class AccountPayment(models.Model):
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    date_validate = fields.Date()
+    # date_validate = fields.Date()
     collection_id = fields.Many2one('credit.loan.collection', 'Collection')
 
-    @api.multi
-    def open_invoice(self):
-        date_now = fields.Datetime.now()
-        invoices = self.sudo().search([('date_validate','=',date_now), ('state','=','draft')])
-        for invoice in invoices:
-            print(invoice)
-            invoice.action_invoice_open()
-        print(invoices)
-        print("checking invoice validity...")
-        return True
+    @api.onchange('partner_id', 'company_id')
+    def _onchange_partner_id(self):
+        account_id = False
+        payment_term_id = False
+        fiscal_position = False
+        bank_id = False
+        warning = {}
+        domain = {}
+        company_id = self.company_id.id
+        p = self.partner_id if not company_id else self.company_id.partner_id.with_context(force_company=company_id)
+        type = self.type or self.env.context.get('type', 'out_invoice')
+        print('P: ',p.name, p.id, p.property_account_receivable_id, p.property_account_payable_id)
+        if p:
+            rec_account = p.property_account_receivable_id
+            pay_account = p.property_account_payable_id
+            if not rec_account and not pay_account:
+                action = self.env.ref('account.action_account_config')
+                msg = _(
+                    'Cannot find a chart of accounts for this company, You should configure it. \nPlease go to Account Configuration.')
+                raise RedirectWarning(msg, action.id, _('Go to the configuration panel'))
+
+            if type in ('in_invoice', 'in_refund'):
+                account_id = pay_account.id
+                payment_term_id = p.property_supplier_payment_term_id.id
+            else:
+                account_id = rec_account.id
+                payment_term_id = p.property_payment_term_id.id
+
+            delivery_partner_id = self.get_delivery_partner_id()
+            fiscal_position = p.env['account.fiscal.position'].get_fiscal_position(self.partner_id.id,
+                                                                                   delivery_id=delivery_partner_id)
+
+            # If partner has no warning, check its company
+            if p.invoice_warn == 'no-message' and p.parent_id:
+                p = p.parent_id
+            if p.invoice_warn and p.invoice_warn != 'no-message':
+                # Block if partner only has warning but parent company is blocked
+                if p.invoice_warn != 'block' and p.parent_id and p.parent_id.invoice_warn == 'block':
+                    p = p.parent_id
+                warning = {
+                    'title': _("Warning for %s") % p.name,
+                    'message': p.invoice_warn_msg
+                }
+                if p.invoice_warn == 'block':
+                    self.partner_id = False
+
+        self.account_id = account_id
+        if payment_term_id:
+            self.payment_term_id = payment_term_id
+        self.date_due = False
+        self.fiscal_position_id = fiscal_position
+
+        if type in ('in_invoice', 'out_refund'):
+            bank_ids = p.commercial_partner_id.bank_ids
+            bank_id = bank_ids[0].id if bank_ids else False
+            self.partner_bank_id = bank_id
+            domain = {'partner_bank_id': [('id', 'in', bank_ids.ids)]}
+        elif type == 'out_invoice':
+            domain = {'partner_bank_id': [('partner_id.ref_company_ids', 'in', [self.company_id.id])]}
+
+        res = {}
+        if warning:
+            res['warning'] = warning
+        if domain:
+            res['domain'] = domain
+        return res
+#
+#     @api.multi
+#     def open_invoice(self):
+#         date_now = fields.Datetime.now()
+#         invoices = self.sudo().search([('date_validate','=',date_now), ('state','=','draft')])
+#         for invoice in invoices:
+#             print(invoice)
+#             invoice.action_invoice_open()
+#         print(invoices)
+#         print("checking invoice validity...")
+#         return True
 
     # @api.onchange('partner_id', 'company_id')
     # def _onchange_partner_id(self):
@@ -120,6 +187,8 @@ class SalesOrder(models.Model):
         # date_due = context['date_due']
         # date_due = date_due
         collection = self.env['credit.loan.collection'].sudo().search([('id','=',context.get('collection'))])
+        company = collection.partner_id.company_id
+        print(company.name)
         type = context['type'] #in_invoice | out_invoice | in_refund | out_refund
         # amount = context['amount']
         inv_obj = self.env['account.invoice']
@@ -160,7 +229,8 @@ class SalesOrder(models.Model):
             'origin': self.name,
             'type': type,
             'reference': False,
-            'account_id': collection.application_id.company_id.partner_id.property_account_receivable_id.id,
+            # 'account_id': company.partner_id.property_account_payable_id.with_context(force_company=company.id).id,
+            'account_id': account_id,
             'partner_id': collection.partner_id.id,
             'partner_shipping_id': self.partner_shipping_id.id,
             'invoice_line_ids': context['invoice_line_ids'],
@@ -169,12 +239,13 @@ class SalesOrder(models.Model):
             # 'fiscal_position_id': self.fiscal_position_id.id or self.partner_id.property_account_position_id.id,
             'team_id': self.team_id.id,
             'user_id': self.user_id.id,
-            'company_id': collection.partner_id.company_id.id,
+            'company_id': company.id,
             'comment': self.note,
             'collection_id':collection.id,
-            'currency_id': collection.partner_id.company_id.currency_id.id,
+            'currency_id': company.currency_id.id,
             # 'date_validate':date_invoice
         })
+        print(invoice.account_id.id)
         print('INVOICE CREATED')
         invoice.compute_taxes()
         print('TAXES COMPUTED')
@@ -184,23 +255,23 @@ class SalesOrder(models.Model):
         print('INVOICE MESSAGE POST')
         return invoice
 
-    name = fields.Char()
-    collection_id = fields.Many2one('credit.loan.collection', 'Collection')
-    order_id = fields.Many2one('sale.order', 'Sales Order', related='collection_id.order_id')
-    # order_line_id = fields.Many2one('sale.order.line', 'Related Document')
-    invoice_id = fields.Many2one('account.invoice', 'Related Document')
-    date_created = fields.Datetime('Date Created', default=fields.Datetime.now())
-    currency_id = fields.Many2one('res.currency', related='collection_id.currency_id')
-    status = fields.Selection([('draft', 'Draft'),
-                               ('active', 'Active'),
-                               ('paid', 'Paid'),
-                               ('cancel','Cancelled')])
-    date = fields.Date()
-    principal = fields.Monetary('Principal')
-    amortization = fields.Monetary('Amortization')
-    interest = fields.Monetary('Interest')
-    surcharge = fields.Monetary('Surcharge')
-    penalty = fields.Monetary('Penalty')
+    # name = fields.Char()
+    # collection_id = fields.Many2one('credit.loan.collection', 'Collection')
+    # order_id = fields.Many2one('sale.order', 'Sales Order', related='collection_id.order_id')
+    # # order_line_id = fields.Many2one('sale.order.line', 'Related Document')
+    # invoice_id = fields.Many2one('account.invoice', 'Related Document')
+    # date_created = fields.Datetime('Date Created', default=fields.Datetime.now())
+    # currency_id = fields.Many2one('res.currency', related='collection_id.currency_id')
+    # status = fields.Selection([('draft', 'Draft'),
+    #                            ('active', 'Active'),
+    #                            ('paid', 'Paid'),
+    #                            ('cancel','Cancelled')])
+    # date = fields.Date()
+    # principal = fields.Monetary('Principal')
+    # amortization = fields.Monetary('Amortization')
+    # interest = fields.Monetary('Interest')
+    # surcharge = fields.Monetary('Surcharge')
+    # penalty = fields.Monetary('Penalty')
 
 class CollectionLine(models.Model):
     _name = 'credit.loan.collection.line'
@@ -256,7 +327,7 @@ class Collection(models.Model):
             elif rec.product_id.loanclass == 'group':
                 loan_amount = rec.application_id.group_id.loan_amount
                 principal = (loan_amount / term) / rec.application_id.member_count
-            rec.interest = (principal * rec.interest_id.rate) + rec.interest_id.amount
+            rec.interest = (principal * (rec.interest_id.rate/100 if rec.interest_id.rate > 0.99 else rec.interest_id.rate)) + rec.interest_id.amount
             rec.surcharge = (principal * rec.surcharge_id.rate) + rec.surcharge_id.amount
             rec.penalty = (principal * rec.penalty_id.rate) + rec.penalty_id.amount
             rec.principal = principal
@@ -268,7 +339,7 @@ class Collection(models.Model):
         if not application.product_id.payment_term:
             raise UserError(_('Configure Payment Term for ' + application.product_id.name))
         collection = super(Collection, self).create(values)
-        existing_collection = self.env['credit.loan.collection'].sudo().search([('status','=','active'),('id','=',collection.id)])
+        existing_collection = self.env['credit.loan.collection'].sudo().search([('status','=','active'),('application_id','=',application.id)])
         if existing_collection:
             existing_collection.write(values)
             return True
@@ -354,30 +425,46 @@ class LoanApplication(models.Model):
 
     @api.multi
     def release_loan(self):
-        if self.stage_id.id != self.env['crm.stage'].sudo().search([('name', '=', 'Approved')]).id:
-            raise UserError(_("The application must be approved first!"))
-        self.generate_collection_line()
         try:
-            # branchless group: current application is skipped when group loan
-            print('GROUP:', [application.partner_id.display_name for application in self.group_id.application_ids])
-            for application in self.group_id.application_ids:
-                if application.id != self.id:
-                    application.generate_collection_line()
-        except:
-            pass
+            if self.stage_id.id != self.env['crm.stage'].sudo().search([('name', '=', 'Approved')]).id and self.status != 'disburse':
+                raise UserError(_("The application must be approved first!"))
+            self.date_released = fields.Datetime.now()
+            order = self.order_ids.search([('opportunity_id', '=', self.id)], limit=1)
+            collection = self.env['credit.loan.collection'].sudo().search([('application_id.id', '=', self.id)])
+            self.update_collection_line(self.partner_id.display_name, self.date_released, order, collection)
+            order.sudo().write({
+                'invoice_status': 'invoiced'
+            })
+            self.status = 'collection'
+            self.stage_id = self.env['crm.stage'].sudo().search([('name', '=', 'Loan Collection')])
+            try:
+                # branchless group: current application is skipped when group loan
+                print('GROUP:', [application.partner_id.display_name for application in self.group_id.application_ids])
+                for application in self.group_id.application_ids:
+                    if application.id != self.id:
+                        application.date_released = fields.Datetime.now()
+                        order = self.order_ids.search([('opportunity_id', '=', application.id)], limit=1)
+                        collection = self.env['credit.loan.collection'].sudo().search([('application_id.id', '=', application.id)])
+                        application.update_collection_line(application.partner_id.display_name, application.date_released, order, collection)
+                        order.sudo().write({
+                            'invoice_status': 'invoiced'
+                        })
+                        application.status = 'collection'
+                        application.stage_id = self.env['crm.stage'].sudo().search([('name', '=', 'Loan Collection')])
+            except:
+                pass
+        except Exception as e:
+            raise ValidationError(_("ERROR: 'release_loan' ",str(e)))
         return True
 
     @api.multi
-    def generate_collection_line(self):
-        print('GENERATING COLLECTION DETAILS FOR:', self.partner_id.display_name)
-        date_released = fields.Datetime.now()
-        self.date_released = date_released
-        order = self.env['sale.order'].sudo().search([('opportunity_id.id', '=', self.id)])
+    def update_collection_line(self, name, date_released, order, collection):
+        print('UPDATING COLLECTION DETAILS FOR:', name)
         print('DATE RELEASED:', date_released)
-        for i, line in enumerate(self.collection_line_ids):
+        for i, line in enumerate(self.collection_line_ids.sudo().search([('id', 'in', [col.id for col in collection.collection_line_ids])])):
             print('UPDATING COLLECTION LINE...', line.id)
             print('MONTH INDEX:', i)
-            # try:
+            try:
                 # date_invoice = date_released + relativedelta(months=i)
                 # date_due = date_released + relativedelta(months=i + 1)
                 # context = {
@@ -386,27 +473,27 @@ class LoanApplication(models.Model):
                 #     "date_due": date_due.date(),
                 #     "amount": line.amortization,
                 # }
-
+                #
                 # print('CREATING INVOICE...')
                 # invoice = line.order_id._create_invoice(context)
-                #
-                # print('UPDATING COLLECTION LINES...')
-                # line.write({
-                #     'invoice_id': invoice.id,
-                #     'date': date_released + relativedelta(months=i + 1),
-                #     'status': 'active',
-                # })
 
-                # TODO: CHRON THIS
+                print('UPDATING COLLECTION LINES...')
+                line.write({
+                    # 'invoice_id': invoice.id,
+                    'date': date_released + relativedelta(months=i + 1),
+                    'status': 'active',
+                })
+
+                # TODO: CHRON THISS
                 # print('UPDATING INVOICE...')
                 # invoice.action_invoice_open()
-            # except Exception as e:
-            #     print(str(e))
-            #     raise UserError(_('ERROR: Please contact your administrator immediately. ' + str(e)))
-        order.sudo().write({
-            'invoice_status': 'invoiced'
-        })
-        return self.create_journal()
+
+            except Exception as e:
+                print(str(e))
+                raise UserError(_('ERROR: Please contact your administrator immediately. ' + str(e)))
+        for invoice in collection.invoice_ids:
+            invoice.action_invoice_open()
+        return True
 
     @api.multi
     def generate_loan_proceed(self):
@@ -426,6 +513,7 @@ class LoanApplication(models.Model):
                     'partner_shipping_id': self.partner_id.id,
                     'pricelist_id': self.env['product.pricelist'].search([], limit=1).id,
                     'company_id': self.branch_id.company_id.id,
+                    'currency_id': self.branch_id.company_id.currency_id.id,
                     'payment_term_id': self.product_id.payment_term.id
                 })
                 # SALE.ORDER.LINE
@@ -443,16 +531,39 @@ class LoanApplication(models.Model):
                         [('name', '=', 'Processing Fee')]).standard_price) * (
                                           len(self.product_id.payment_term.line_ids) - 1)
                 })
-                interest_line = self.env['sale.order.line'].sudo().create({
-                    'order_id': order.id,
-                    'name': self.env['product.template'].sudo().search([('name', '=', 'Processing Fee')]).name,
-                    'product_id': self.env['product.template'].sudo().search([('name', '=', 'Processing Fee')]).id,
-                    'price_unit': (self.product_id.interest_id.rate * 100) * (
-                            len(self.product_id.payment_term.line_ids) - 1)
-                })
+                # interest_line = self.env['sale.order.line'].sudo().create({
+                #     'order_id': order.id,
+                #     'name': self.env['product.template'].sudo().search([('name', '=', 'Interest Fee')]).name,
+                #     'product_id': self.env['credit.loan.interest'].sudo().search([('name', '=', 'Interest Fee')]).id,
+                #     'price_unit': (self.product_id.interest_id.rate * 100) * (
+                #             len(self.product_id.payment_term.line_ids) - 1)
+                # })
                 # date_invoice = date_released + relativedelta(months=i)
                 # date_due = date_released + relativedelta(months=i + 1)
                 cash_payment_context = {
+                    # "payment_term_id": order.payment_term_id.id,
+                    # "date_invoice": date_invoice.date(),
+                    # "date_due": date_due.date(),
+                    # "amount": line.amortization,
+                    'invoice_line_ids': [(0, 0, {
+                        'name': _('Loan Disbursement'),
+                        'origin': order.name,
+                        'account_id': loan_line.product_id.categ_id.property_account_expense_categ_id.id,
+                        'price_unit': loan_line.price_unit,
+                        'quantity': 1.0,
+                        'discount': 0.0,
+                        'uom_id': loan_line.product_id.uom_id.id,
+                        'product_id': loan_line.product_id.id,
+                        # 'sale_line_ids': [(6, 0, [so_line.id])],
+                        # 'invoice_line_tax_ids': [(6, 0, tax_ids)],
+                        # 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
+                        # 'account_analytic_id': self.analytic_account_id.id or False,
+                    })],
+                    'type': 'in_invoice',
+                    'collection': collection.id,
+                    'company_id': order.company_id.id,
+                }
+                receivable_context = {
                     # "payment_term_id": order.payment_term_id.id,
                     # "date_invoice": date_invoice.date(),
                     # "date_due": date_due.date(),
@@ -470,32 +581,25 @@ class LoanApplication(models.Model):
                         # 'invoice_line_tax_ids': [(6, 0, tax_ids)],
                         # 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
                         # 'account_analytic_id': self.analytic_account_id.id or False,
-                    })],
-                    'type': 'in_invoice',
-                    'collection': collection.id
-                }
-                receivable_context = {
-                    # "payment_term_id": order.payment_term_id.id,
-                    # "date_invoice": date_invoice.date(),
-                    # "date_due": date_due.date(),
-                    # "amount": line.amortization,
-                    'invoice_line_ids': [(0, 0, {
-                        'name': _('Interest'),
-                        'origin': order.name,
-                        'account_id': loan_line.product_id.categ_id.property_account_income_categ_id.id,
-                        'price_unit': interest_line.price_unit,
-                        'quantity': 1.0,
-                        'discount': 0.0,
-                        'uom_id': interest_line.product_id.uom_id.id,
-                        'product_id': interest_line.product_id.id,
-                        # 'sale_line_ids': [(6, 0, [so_line.id])],
-                        # 'invoice_line_tax_ids': [(6, 0, tax_ids)],
-                        # 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
-                        # 'account_analytic_id': self.analytic_account_id.id or False,
-                    }), (0, 0, {
+                    }),
+                    # (0, 0, {
+                    #     'name': _('Interest'),
+                    #     'origin': order.name,
+                    #     'account_id': interest_line.product_id.property_account_receivable_id.id,
+                    #     'price_unit': interest_line.price_unit,
+                    #     'quantity': 1.0,
+                    #     'discount': 0.0,
+                    #     'uom_id': interest_line.product_id.uom_id.id,
+                    #     'product_id': interest_line.product_id.id,
+                    #     # 'sale_line_ids': [(6, 0, [so_line.id])],
+                    #     # 'invoice_line_tax_ids': [(6, 0, tax_ids)],
+                    #     # 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
+                    #     # 'account_analytic_id': self.analytic_account_id.id or False,
+                    # }),
+                    (0, 0, {
                         'name': _('Processing Fee'),
                         'origin': order.name,
-                        'account_id': loan_line.product_id.categ_id.property_account_receivable_categ_id.id,
+                        'account_id': fee_line.product_id.categ_id.property_account_receivable_categ_id.id,
                         'price_unit': fee_line.price_unit,
                         'quantity': 1.0,
                         'discount': 0.0,
@@ -508,24 +612,27 @@ class LoanApplication(models.Model):
                     })],
                     'type': 'out_invoice',
                     # 'journal_id': self.env['account.journal'].sudo().search([('company_id','=',self.company_id.id),('type','=','sale')]).id,
-                    'collection': collection.id
+                    'collection': collection.id,
+                    'company_id': order.company_id.id,
                 }
 
                 order._create_invoice(cash_payment_context)
                 order._create_invoice(receivable_context)
+                order.action_confirm()
 
-                self.sudo().write({
-                    'stage_id': self.env['crm.stage'].sudo().search([('name', '=', 'Loan Collection')], limit=1).id
-                })
+            # self.sudo().write({
+            #     'stage_id': self.env['crm.stage'].sudo().search([('name', '=', 'Loan Collection')], limit=1).id
+            # })
 
-                if self.status == 'passed':
-                    self.status = 'disburse'
+            if self.status == 'passed':
+                self.status = 'disburse'
 
+            return True
         except Exception as e:
-            print('LOAN DETAILS UNSUCCESSFULLY APPROVED', str(e))
-            pass
+            raise ValidationError(_('LOAN DETAILS UNSUCCESSFULLY APPROVED', str(e)))
 
-        return True
+
+
 
 class Holidays(models.Model):
     _name = 'credit.loan.collection.holiday'

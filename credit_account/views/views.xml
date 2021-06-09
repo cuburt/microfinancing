@@ -44,7 +44,9 @@
                     <field name="grace_period_interest"/>
                     <field name="aging_method"/>
                     <field name="has_collateral"/>
+                    <field name="interest_id"/>
                     <field name="payment_term"/>
+                    <field name="payment_term_company"/>
                     <field name="checklist_id"/>
                 </xpath>
             </field>
@@ -310,10 +312,10 @@
                         </group>
                         <group name="account_property" >
                             <group string="Account Properties" groups="account.group_account_user">
-                                <!--                                <field name="property_account_income_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
-                                <!--                                <field name="property_account_expense_categ_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>-->
-                                <field name="interest_account_income_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
-                                <!--                                <field name="property_account_payable_categ_id" domain="[('internal_type','=','payable'),('deprecated', '=', False)]"/>-->
+                                <field name="property_account_income_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
+                                <field name="property_account_expense_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
+                                <field name="property_account_receivable_id" domain="[('internal_type','=','other'),('deprecated', '=', False)]"/>
+                                <field name="property_account_payable_id" domain="[('internal_type','=','payable'),('deprecated', '=', False)]"/>
                             </group>
                         </group>
                     </sheet>
@@ -576,15 +578,15 @@
                             <field name="name"/>
                         </group>
                         <notebook>
-                                <page string="Products">
-                                    <field name="product_ids"  widget="many2many"/>
-                                </page>
-                            </notebook>
-                            <notebook>
-                                <page string="Required Documents">
-                                    <field name="document_ids"  widget="many2many"/>
-                                </page>
-                            </notebook>
+                            <page string="Products">
+                                <field name="product_ids"  widget="many2many"/>
+                            </page>
+                        </notebook>
+                        <notebook>
+                            <page string="Required Documents">
+                                <field name="document_ids"  widget="many2many"/>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -674,11 +676,11 @@
             <field name="res_model">credit.loan.document</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
-              </p>
+            </p>
             </field>
         </record>
     </data>

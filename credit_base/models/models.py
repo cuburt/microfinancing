@@ -51,8 +51,7 @@ class LoanFinancing(models.Model):
             values['area_id'] = values.get('area_id', member_id.area_id.id)
             values['index'] = int(self.search([('branch_id.id','=',values['branch_id'])], order='index desc', limit=1).index) + 1
             print('LOAN ACCOUNT CREATED', values)
-            values['code'] = '%s %s-%s' % ('[TEMP]' if not bool(values.get('state')) else None,
-                                               self.env['res.branch'].search([('id', '=', values['branch_id'])]).code,
+            values['code'] = '%s-%s' % (self.env['res.branch'].search([('id', '=', values['branch_id'])]).code,
                                                "{0:0=2d}".format(values.get('index')))
             financing= super(LoanFinancing, self).create(values)
             self.env['credit.loan.savings'].sudo().create({
@@ -120,8 +119,7 @@ class LoanSavings(models.Model):
             member_id = self.env['res.partner'].search([('id','=', values.get('member_id'))], limit=1)
             values['index'] = int(self.search([('branch_id.id','=',member_id.branch_id.id)], order='index desc', limit=1).index) + 1
             print('LOAN SAVINGS CREATED', values)
-            values['code'] = '%s %s-%s' % ('[TEMP]' if not bool(values.get('state')) else None,
-                                             self.env['res.branch'].search([('id', '=', values['branch_id'])]).code,
+            values['code'] = '%s-%s' % (self.env['res.branch'].search([('id', '=', values['branch_id'])]).code,
                                              "{0:0=2d}".format(values.get('index')))
             return super(LoanSavings, self).create(values)
         except Exception as e:
@@ -157,7 +155,6 @@ class ResPartnerSuffix(models.Model):
 class LoanClient(models.Model):
     _inherit = 'res.partner'
 
-
     display_name = fields.Char(compute='_compute_display_name', store=True, index=True)
     code = fields.Char(readonly=True)
     short_code = fields.Char(readonly=True)
@@ -182,7 +179,23 @@ class LoanClient(models.Model):
     employees = fields.One2many('res.partner', 'parent_id', 'Employees',default=lambda self:self.child_ids, domain=[('type','!=','member')])
     members = fields.One2many('res.partner', 'parent_id', 'Members', default=lambda self:self.child_ids, domain=[('type','=','member')])
     employee = fields.Boolean(default=bool(lambda r:r.type != 'member'), help="Check this box if this contact is an Employee.")
+    # property_account_payable_id = fields.Many2one('account.account', company_dependent=True,
+    #                                               string="Account Payable", oldname="property_account_payable",
+    #                                               domain="[('internal_type', '=', 'payable'), ('deprecated', '=', False)]",
+    #                                               help="This account will be used instead of the default one as the payable account for the current partner",
+    #                                               required=True, store=True)
+    # property_account_receivable_id = fields.Many2one('account.account', company_dependent=True,
+    #                                                  string="Account Receivable", oldname="property_account_receivable",
+    #                                                  domain="[('internal_type', '=', 'receivable'), ('deprecated', '=', False)]",
+    #                                                  help="This account will be used instead of the default one as the receivable account for the current partner",
+    #                                                  required=True, store=True)
     # token = fields.Char(required=True)
+    # @api.onchange('phone')
+    # def set_default_accounts(self):
+    #     print(self.env.user.company_id.partner_id.property_account_payable_id)
+    #     print(self.env.user.company_id.partner_id.property_account_receivable_id)
+    #     return {'default':{'property_account_payable_id': self.env.user.company_id.partner_id.property_account_payable_id,
+    #                        'property_account_receivable_id': self.env.user.company_id.partner_id.property_account_receivable_id}}
 
     @api.depends('name')
     def _compute_display_name(self):
@@ -216,11 +229,15 @@ class LoanClient(models.Model):
     def write(self, values):
         print('UPDATE:', values)
         try:
+            # if 'property_account_receivable_id' in values and values['property_account_receivable_id'] or 'property_account_payable_id' in values and values['property_account_payable_id']:
+            #     print('COMPANY ACCOUNT UPDATE')
+            #     print('WRITTEN! ', values)
+            #     return super(LoanClient, self).write(values)
             if 'is_company' in values and not values['is_company']:
                 print('STEP 1')
                 print(values)
                 try:
-                    company = self.env['res.company'].search([('id','=',values['company_id'])], limit=1)
+                    company = self.env['res.company'].sudo().search([('id','=',values['company_id'])], limit=1)
                 except:
                     print('NO COMPANY_ID')
                     pass
@@ -311,21 +328,20 @@ class LoanClient(models.Model):
                             values['parent_id'] = company.partner_id.id
                             values['index'] = self.index
 
-                    elif not area_id or 'area_ids' not in values:
-                        print('DO WRITE NO AREA')
-                        y = self.index
-                        z = self.env['res.partner'].sudo().search([('type', '=', 'do'), ('id', '!=', self.id)],
-                                                                  order='index desc', limit=1).index
-                        print(y)
-                        print(z)
-                        index = ((z + 1) * (1 - (bool(y)))) + y
-                        values['code'] = '[NO AREA ASSIGNED]-%s' % ("{0:0=2d}".format(index))
-                        values['short_code'] = '%s' % ("{0:0=2d}".format(index))
-                        values['parent_id'] = company.partner_id.id
-                        values['index'] = index
+                    print('WRITTEN! ', values)
+                    return super(LoanClient, self).write(values)
+            # elif self.type == 'do':
+            #     print('STEP 2.5')
+            #     print(values)
+            #     self.property_account_reveivable_id = self.env['account.account'].sudo().searhc([('id','=',values.get('property_account_reveivable_id'))])
+            #     self.property_account_payable_id = self.env['account.account'].sudo().searhc([('id','=',values.get('property_account_payable_id'))])
+            #     print('WRITTEN! ', values)
+            #     return super(LoanClient, self).write(values)
+
             else:
                 try:
                     print('MEMBER WRITE')
+                    company = self.env['res.company'].search([('partner_id.id', '=', self.parent_id.id)], limit=1)
                     type = values.get('type', self.type)
                     index = int(
                         self.env['res.partner'].sudo().search([('type', '=', type)], order='index desc',
@@ -352,8 +368,8 @@ class LoanClient(models.Model):
                                 'member_id': self.id,
                                 'branch_id':branch.id
                             })
-
                     values.update({'index': index})
+
                 except Exception as e:
                     print(str(e))
                     pass
@@ -361,9 +377,91 @@ class LoanClient(models.Model):
         except Exception as e:
             print(str(e))
             pass
-        print(values)
-        return super(LoanClient, self).write(values)
 
+        if ('company_id' in values and 'is_company' in values):
+            print('SETTING PROPERTY...')
+            try:
+                try:
+                    company = self.env['res.company'].sudo().search([('id','=',values.get['company_id'])])
+                except: pass
+                if 'is_company' in values and values['is_company']:
+                    partner = company.partner_id
+                elif 'is_company' in values and not values['is_company']:
+                    partner = self.env['res.partner'].sudo().search([('id', '=', values['id'])], limit=1)
+                property_account_receivable = self.env['account.account'].sudo().search(
+                    [('company_id.id', '=', company.id), ('deprecated', '=', False), ('internal_type', '=', 'receivable'),
+                     ('code', '=', '11710')])
+                property_account_payable = self.env['account.account'].sudo().search(
+                    [('company_id.id', '=', company.id), ('deprecated', '=', False), ('internal_type', '=', 'payable'),
+                     ('code', '=', '00000')])
+
+                property_account_receivable_id = self.env['ir.model.fields'].search(
+                    [('model', '=', 'res.partner'), ('name', '=', 'property_account_receivable_id')])
+                main_property_account_receivable_id = self.env['ir.property'].sudo().search(
+                    [('name', '=', 'property_account_receivable_id'),
+                     ('value_reference', '=', 'account.account,%s' % property_account_receivable.id),
+                     ('fields_id', '=', property_account_receivable_id.id),
+                     ('company_id.id', '!=', company.id)])
+                if main_property_account_receivable_id:
+                    main_property_account_receivable_id.sudo().write({
+                        'name': 'property_account_receivable_id',
+                        'company_id': company.id,
+                        'res_id': 'res.partner,%s' % partner.id,
+                        'value_reference': 'account.account,%s' % property_account_receivable.id,
+                        'fields_id': property_account_receivable_id.id,
+                        'type': 'many2one'
+                    })
+                else:
+                    self.env['ir.property'].create({
+                        'name': 'property_account_receivable_id',
+                        'company_id': company.id,
+                        'res_id': 'res.partner,%s' % partner.id,
+                        'value_reference': 'account.account,%s' % property_account_receivable.id,
+                        'fields_id': property_account_receivable_id.id,
+                        'type': 'many2one'
+                    })
+
+                property_account_payable_id = self.env['ir.model.fields'].search(
+                    [('model', '=', 'res.partner'), ('name', '=', 'property_account_payable_id')])
+                main_property_account_payable_id = self.env['ir.property'].sudo().search(
+                    [('name', '=', 'property_account_payable_id'),
+                     ('value_reference', '=', 'account.account,%s' % property_account_payable.id),
+                     ('fields_id', '=', property_account_payable_id.id),
+                     ('company_id.id', '!=', company.id)])
+                if main_property_account_payable_id:
+                    main_property_account_payable_id.sudo().write({
+                        'name': 'property_account_payable_id',
+                        'company_id': company.id,
+                        'res_id':'res.partner,%s' % partner.id,
+                        'value_reference': 'account.account,%s' % property_account_payable.id,
+                        'fields_id': property_account_payable_id.id,
+                        'type': 'many2one'
+                    })
+                else:
+                    self.env['ir.property'].create({
+                        'name': 'property_account_payable_id',
+                        'company_id': company.id,
+                        'res_id': 'res.partner,%s' % partner.id,
+                        'value_reference': 'account.account,%s' % property_account_payable.id,
+                        'fields_id': property_account_payable_id.id,
+                        'type': 'many2one'
+                    })
+
+                print(property_account_receivable.id)
+                print(property_account_payable.id)
+
+                values['property_account_receivable_id'] = property_account_receivable.id
+                values['property_account_payable_id'] = property_account_payable.id
+
+            except Exception as e:
+                raise ValidationError(_(str(e)))
+        elif ('property_account_payable_id' in values and not values['property_account_payable_id']) and ('property_account_receivable_id' in values and not values['property_account_receivable_id']):
+            values.clear()
+        print('WRITTEN! ', values)
+        try:
+            return super(LoanClient, self).write(values)
+        except KeyError as ke:
+            pass
 class ResUser(models.Model):
     _inherit = 'res.users'
 
@@ -432,6 +530,7 @@ class ResUser(models.Model):
                     raise UserError(_('Please assign a development supervisor first.'))
 
                 updates = {
+                'id':partner.id,
                 'name':values.get('name'),
                 'email':values.get('email'),
                 'mobile':values.get('mobile'),
@@ -451,6 +550,8 @@ class ResUser(models.Model):
             except:
                 print('User is member')
                 updates = {
+                    'id': partner.id,
+                    'company_id':company.id,
                     'name': values.get('name'),
                     'email': values.get('email'),
                     'mobile':values.get('mobile'),
@@ -535,149 +636,23 @@ class ResBranch(models.Model):
     company_id = fields.Many2one('res.company', 'Related Company', readonly=True)
     related_partner = fields.Many2one(related='company_id.partner_id', readonly=True, store=True)
     index = fields.Integer()
-    code = fields.Char('Code')
+    code = fields.Char('Code', required=True)
     financing_ids = fields.One2many('credit.loan.financing','branch_id','Loan Accounts')
     area_ids = fields.One2many('res.area','branch_id','Area')
     manager_id = fields.One2many('res.partner','branch_id','Branch Manager',domain=[('type','=','bm')])
     manager = fields.Char(related='manager_id.name', string='Branch Manager')
-    street = fields.Char()
-    street2 = fields.Char()
+    street = fields.Char(required=True)
+    street2 = fields.Char(string='Barangay', required=True)
     zip = fields.Char()
-    city = fields.Char()
+    city = fields.Char(required=True)
     state_id = fields.Many2one("res.country.state", string='State', ondelete='restrict',
                                domain="[('country_id', '=?', country_id)]")
-    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict')
+    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict', required=True)
     email = fields.Char(related='manager_id.email', store=True, readonly=False)
     phone = fields.Char(related='manager_id.phone', store=True, readonly=False)
     website = fields.Char()
     vat = fields.Char(string="Tax ID", readonly=False)
 
-    @api.model
-    def create(self, values):
-        try:
-            if values.get('partner_id'):
-                self.clear_caches()
-                return super(ResBranch, self).create(values)
-            values['index'] = int(self.search([], order='index desc',limit=1).index)+1
-            values['name'] = '%s-%s' % (values.get('code'), "{0:0=2d}".format(values.get('index')))
-            parent = self.env['res.company'].search([('name','=','CARE Foundation Inc.')])
-            if not parent:
-                raise UserError(_("Please create a company named 'CARE Foundation Inc.' first."))
-            company = self.env['res.company'].create({
-                'parent_id':parent.id,
-                'name': values.get('name'),
-                'email': values.get('email'),
-                'phone': values.get('phone'),
-                'website': values.get('website'),
-                'vat': values.get('vat'),
-            })
-
-            try:
-                for account in self.env['account.account'].sudo().search([('company_id.id','=',parent.id)]):
-                    self.env['account.account'].sudo().create({
-                        'code':account.code,
-                        'name':account.name,
-                        'user_type_id':account.user_type_id.id,
-                        'company_id':company.id,
-                        'reconcile':True
-                    })
-
-                try:
-                    company.partner_id.property_account_receivable_id = self.env['account.account'].sudo().search(
-                        [('internal_type', '=', 'receivable'), ('deprecated', '=', False),
-                         ('company_id.id', '=', company.id), ('code', '=', '11710')])
-                    company.partner_id.property_account_payable_id = self.env['account.account'].sudo().search(
-                        [('internal_type', '=', 'payable'), ('deprecated', '=', False),
-                         ('company_id.id', '=', company.id), ('code', '=', '00000')])
-                except:
-                    raise UserError(_('Set accounting entries for main company first.'))
-
-            except Exception as e:
-                raise ValidationError(_("A problem was encountered while migrating chart of accounts. Please contact site administrator immediately. ERROR: 'create' : "+str(e)))
-
-            try:
-                for term in self.env['account.payment.term'].sudo().search([('company_id.id','=',parent.id)]):
-                    self.env['account.payment.term'].sudo().create({
-                        'name':term.name,
-                        'note':term.note,
-                        'line_ids':term.line_ids,
-                        'company_id':company.id
-                    })
-            except Exception as e:
-                raise ValidationError(_("A problem was encountered while migrating payment terms. Please contact site administrator immediately. ERROR: 'create' : "+str(e)))
-
-            try:
-                # UNPAID PURCHASE | PAYMENT ON CREDIT | DEBIT:OTHER ASSETS(EQUIPMENT), CREDIT:LIABILITIES(PAYABLE)
-                purchase_credit = self.env['account.journal'].sudo().create({
-                    'name': company.name + ' Purchase Credit Journal',
-                    'type': 'purchase',
-                    'code': 'LBT',
-                    'company_id': company.id,
-                    # 'default_debit_account_id':
-                    # 'default_credit_account_id':
-                })
-                print(purchase_credit.name + ' created for company ' + company.name)
-
-                # PAID PURCHASE | PAYMENT ON CASH | LOAN DISBURSEMENT | CASH OUTFLOW | DEBIT:EXPENSE|ASSETS(EQUIPMENT/RECEIVABLES)|LIABILITIES(PAYABLE), CREDIT: ASSET(CASH/BANK)
-                cash_payment = self.env['account.journal'].sudo().create({
-                    'name': company.name + ' Cash Payment Journal',
-                    'type': 'purchase',
-                    'code': 'EXP',
-                    'company_id': company.id,
-                    # 'default_debit_account_id':
-                    # 'default_credit_account_id':
-                })
-                print(cash_payment.name + ' created for company ' + company.name)
-
-                # FOR UNPAID LOANS | RECEIPT ON CREDIT | LOAN COLLECTION | CASH INFLOW | DEBIT:ASSET(RECEIVABLE), CREDIT:REVENUE
-                receipt_credit = self.env['account.journal'].sudo().create({
-                    'name': company.name + ' Receivable Journal',
-                    'type': 'sale',
-                    'code': 'RCV',
-                    'company_id': company.id,
-                    # 'default_debit_account_id':
-                    # 'default_credit_account_id':
-                })
-                print(receipt_credit.name + ' created for company ' + company.name)
-
-                # FOR PAID LOANS | RECEIPT ON CASH | LOAN COLLECTION | CASH INFLOW | DEBIT:ASSET(CASH/BANK), CREDIT:ASSET(RECEIVABLE)
-                bank_loan_collection = self.env['account.journal'].sudo().create({
-                    'name': company.name + ' Cheque Receipt Journal',
-                    'type': 'bank',
-                    'code': 'BNK',
-                    'company_id': company.id
-                    # 'default_debit_account_id':
-                    # 'default_credit_account_id':
-                })
-                print(bank_loan_collection.name + ' created for company ' + company.name)
-                cash_loan_collection = self.env['account.journal'].sudo().create({
-                    'name': company.name + ' Cash Receipt Journal',
-                    'type': 'cash',
-                    'code': 'CSH',
-                    'company_id': company.id
-                    # 'default_debit_account_id':
-                    # 'default_credit_account_id':
-                })
-                print(cash_loan_collection.name+' created for company '+company.name)
-
-                general_journal = self.env['account.journal'].sudo().create({
-                    'name': 'General Journal',
-                    'type': 'general',
-                    'code': 'GJ',
-                    'company_id': company.id
-                    # 'default_debit_account_id':
-                    # 'default_credit_account_id':
-                })
-                print(general_journal.name + ' created for company ' + company.name)
-            except Exception as e:
-                raise ValidationError(_("A problem was encountered while migrating account journals. Please contact site administrator immediately. ERROR: 'create' : "+str(e)))
-
-            values['company_id'] = company.id
-            print(values['index'], values['name'], values['company_id'])
-            print('PUTANGINA 5')
-            return super(ResBranch, self).create(values)
-        except Exception as e:
-            raise UserError(_(str(e)))
 
     @api.multi
     def unlink(self):
