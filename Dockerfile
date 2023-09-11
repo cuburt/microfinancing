@@ -1,7 +1,9 @@
 FROM odoo:12
-COPY odoo12 ./var/CARE/odoo
-COPY CARE ./var/CARE/CARE
-WORKDIR ./var/CARE/odoo
+USER root
+RUN chown -R odoo:odoo /var/lib/odoo
+RUN mkdir var/lib/odoo/sessions
+RUN chmod +w /var/lib/odoo/sessions
+COPY . mnt/extra-addons
+
 RUN alias python=python3
-RUN pip3 install -r ./var/CARE/CARE/requirements.txt
-CMD ["odoo-bin","-c","odoo-care.conf","-d","CARE","-i","base","--without-demo=WITHOUT_DEMO"]
+RUN pip3 install -r mnt/extra-addons/requirements.txt

@@ -9,7 +9,6 @@ from odoo.addons.auth_signup.models.res_partner import SignupError, now
 from ast import literal_eval
 
 import logging
-import secrets
 
 _logger = logging.getLogger(__name__)
 

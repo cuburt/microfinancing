@@ -1,0 +1,5 @@
+FROM odoo:12
+USER root
+RUN chown -R odoo:odoo /var/lib/odoo
+RUN mkdir var/lib/odoo/sessions
+RUN chmod +w /var/lib/odoo/sessions

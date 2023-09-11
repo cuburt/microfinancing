@@ -369,12 +369,12 @@
                 <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//header/button[@name='280']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//header/button[@name='395']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
+<!--                <xpath expr="//header/button[@name='280']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//header/button[@name='395']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
                 <xpath expr="//header/button[@name='toggle_active']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
